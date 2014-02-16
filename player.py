@@ -5,6 +5,10 @@ import random
 #Player class definition
 class player:
   'Player instance'
+  #Main characteristics
+  Name="subject name here"; #Name
+  pocket=0; #Money
+  
 
   #Attribute variables
   INT=1
@@ -19,6 +23,17 @@ class player:
   MP=0
   END=0
   SPD=0
+  
+  #Position
+  xPos=0
+  yPos=0
+  zPos=0
+  
+  #Temp status check 
+  poison=0
+  fire=0
+  frozen=0
+  
 
 #Initialization  
   def __init__(self):
