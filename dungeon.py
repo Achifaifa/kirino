@@ -1,34 +1,227 @@
 #usr/bin/env python
-
 import os
 import random
 
 class dungeon:
-  "Dungeon generator"
+  "Dungeon class"
   xsize=0
   ysize=0
   dungarray=[]
   
+  #Main dungeon generator, terrain only. Absolute minimum 40x20
   def __init__(self,x,y):
-    xsize=x
-    ysize=y
-    dungarray=[]
-    for i in range (0,xsize):
-      secondary=[]
-      for j in range (0,ysize):
-	secondary.append("0")
-      self.dungarray.append(secondary)
-  
-  def dumpdung(self):
-    for i in range (0,10):
-      for j in range (0,10):
-	print "Tile:",(i,j),"Terrain:",self.dungarray[i][j]
-  def show(self):
-    for i in range (0,10):
+    self.xsize=x
+    self.ysize=y
+    self.dungarray=[]
+    while self.debug()!=0: 
+      #This fills the dungeon with # (Rock)
+      for i in range (0,self.ysize):
+	secondary=[]
+	for j in range (0,self.xsize):
+	  secondary.append("#")
+	self.dungarray.append(secondary)
+      
+      #Adds one big room  (minimum 4*4) per 40*40 space
+      for v in range(self.xsize*self.ysize/1600):
+	roomy=random.randrange(self.ysize/3)+4
+	roomx=random.randrange(self.xsize/3)+4
+	roomstarty=random.randrange(self.ysize-roomy)
+	roomstartx=random.randrange(self.xsize-roomx)
+	for a in range(roomstarty,roomstarty+roomy):
+	  for b in range(roomstartx,roomstartx+roomx):
+	    self.dungarray[a][b]="."
+	#Mark each room with a D on a random spot inside it
+	self.dungarray[random.randrange(roomstarty,roomstarty+roomy)][random.randrange(roomstartx,roomstartx+roomx)]="D"
+	    
+      #Adds three small rooms (minimum 2*2) per 20x20 space
+      for v in range(self.xsize*self.ysize/400):
+	roomy=random.randrange(self.ysize/5)+2
+	roomx=random.randrange(self.xsize/5)+2
+	roomstarty=random.randrange(self.ysize-roomy)
+	roomstartx=random.randrange(self.xsize-roomx)
+	for a in range(roomstarty,roomstarty+roomy):
+	  for b in range(roomstartx,roomstartx+roomx):
+	    self.dungarray[a][b]="."
+	#Mark each room with a D on a random spot inside it
+	self.dungarray[random.randrange(roomstarty,roomstarty+roomy)][random.randrange(roomstartx,roomstartx+roomx)]="D"
+	    
+      #Connect rooms: create halls between positions with "D" (Rooms)
+      #Skip this part, reading it gives cancer.
+      #
+      #OK, you are on your own. This looks for Ds in the dungeon array
+      var=0
+      for i in range(self.ysize):
+	for j in range(self.xsize):
+	  if self.dungarray[i][j]=="D":
+	    for k in range(self.ysize):
+	      for l in range(self.xsize):
+		if self.dungarray[k][l]=="D":
+		#Generate hall connecting (i,j) and (k,l), the positions of the last 2 Ds found.
+		  if i>k:
+		    for m in range(i-k):
+		      var=i-m
+		      self.dungarray[i-m][j]="."
+		    if j>l:
+		      for n in range(j-l):
+			self.dungarray[k][j-n]="."
+		    else:
+		      for n in range(l-j):
+			self.dungarray[k][l-var]="."
+		  else:
+		    for m in range(k-i):
+		      var=k-m
+		      self.dungarray[k-m][j]="."
+		    if j>l:
+		      for n in range(j-l):
+			self.dungarray[var][j-n]="."
+		    else:
+		      for n in range(l-j):
+			self.dungarray[var][l-n]="."
+		  break    
+		else:pass
+	  else:pass
+	  #I still don't know how the fuck I made this work
+	  
+      #Random halls: add some random halls.
+      for t in range (self.ysize/10): #<- I need to figure out how to balance this.
+	randomy=random.randrange(self.ysize)
+	randomx=random.randrange(self.xsize)
+	for a in range (random.randrange(self.ysize/3),random.randrange(self.ysize)):
+	  self.dungarray[a][randomx]="."
+	for b in range (random.randrange(self.xsize/3),random.randrange(self.xsize)):
+	  self.dungarray[randomy][b]="."
+	  #Halls can be unconnected to the actual rooms and previous halls
+	  #Entrances an exits can be placed in isolated halls (Pending to fix)
+	  #Possible fix: return error condition with debug() if all the dots generated until now are not connected between them.
+	  #Generate rooms and halls -> debug -> add entrance, exit and random spaces -> debug
+	  #Possible fix 2: add Ds on randomly generated halls and use the previous cthulhu algorithm
+	  
+      #This generates random coordinates for the entrance tile (A)
+      entrancey=random.randrange(self.ysize)
+      entrancex=random.randrange(self.xsize)
+      while self.dungarray[entrancey][entrancex]!=".":
+	entrancey=random.randrange(self.ysize)
+	entrancex=random.randrange(self.xsize)
+      self.dungarray[entrancey][entrancex]="A"
+      
+      #This generates random coordinates for the exit tile (X)
+      #The conditions are
+      #	1)being more than half of the total vertical or horizontal distance apart to avoid making it too easy
+      #	2)not being in a tile that has nothing on it (.)
+      #The second condition has priority. If after 100 cycles it hasn't found a position that satisifies both, it will be placed on a random empty tile.
+      #The loop limit can be adjusted, but it makes no difference (Tried with limits up to a billion)
+      exity=entrancey
+      exitx=entrancex
+      counter=0
+      while abs(entrancex-exitx)<self.xsize/2 or abs(entrancey-exity)<self.ysize/2:
+	counter += 1
+	if counter>100:
+	  break
+	while self.dungarray[exity][exitx]!=".":
+	  exity=random.randrange(self.ysize)
+	  exitx=random.randrange(self.xsize)
+      self.dungarray[exity][exitx]="X"
+      
+      #Removes any D from the rooms previously created
+      for i in range (len(self.dungarray)):
+	for j in range (len(self.dungarray[i])):
+	  if self.dungarray[i][j]=="D":
+	    self.dungarray[i][j]="."
+	  
+	
+      #-->Uncomment this in final version and leave it as the last step
+      #Adds spaces in random positions with rocks, one for every 4x4 zone.
+      #for i in range(0,self.xsize*self.ysize/16):
+      #	randx=random.randrange(self.xsize)
+      #	randy=random.randrange(self.ysize)
+      #	if self.dungarray[randy][randx]=="#":
+      #   self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
+      #	else: pass
+      
+      #Dungeon should be done
+      
+      
+  #Dump the dung. Generates a list of coordinates and tile type 
+  #place indicates where. 0 is return to console, anything else dumps it to a file
+  #Avoid dumping to console with big dungeons, output turns out unreadable
+  def dumpdung(self,place):
+    if place==0:
+      #Dump to file mode. Pending.
+      with open("kirino.dump","r+") as dump:
+	for i in range (0,len(self.dungarray)):
+	  for j in range (0,len(self.dungarray[i])):
+	    if self.dungarray[i][j]=="#":
+	      dump.append (i+1,j+1),"Rock"
+	    elif self.dungarray[i][j]=="A":
+	      dump.append (i+1,j+1),"Entrance"
+	    elif self.dungarray[i][j]=="X":
+	      dump.append (i+1,j+1),"Exit"
+	    elif self.dungarray[i][j]==".":
+	      dump.append (i+1,j+1), "Hallway"
+	    elif self.dungarray[i][j]=="D":
+	      dump.append (i+1,j+1), "Undeleted room marker"
+	    else:
+	      dump.append (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+    else:
+      #Dump to console
+      for i in range (0,len(self.dungarray)):
+	  for j in range (0,len(self.dungarray[i])):
+	    if self.dungarray[i][j]=="#":
+	      print (i+1,j+1),"Rock"
+	    elif self.dungarray[i][j]=="A":
+	      print (i+1,j+1),"Entrance"
+	    elif self.dungarray[i][j]=="X":
+	      print (i+1,j+1),"Exit"
+	    elif self.dungarray[i][j]==".":
+	      print (i+1,j+1), "Hallway"
+	    elif self.dungarray[i][j]=="D":
+	      print (i+1,j+1), "Undeleted room marker"
+	    else:
+	      print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+      
+	      
+	  
+  #Map generator. Creates a map of the dungeon on screen.
+  def map(self):
+    x=self.xsize
+    for i in range (0,len(self.dungarray)):
       print ''.join(map(str,self.dungarray[i]))
-      
-      
+      #TO-DO: Use colours in the console to print this, so the map on the console looks better (zero priority)
     
-new=dungeon(10,10)
-new.dumpdung()
-new.show()
+  #Debug dungeon 
+  #Returns an integer as error condition code:
+  #	EC0: (This is not actually an error, everything is fine)
+  #	EC1: There is no entrance or exit
+  #	EC2: It's below the minimum size
+  #	EC3: Can't reach the exit from the entrance (pending)
+  #	EC4: There are halls unconnected or unreachable (pending)
+  #Used in the constructor, although it can be invoked anytime.
+  def debug(self):
+    #Making sure the dungeon is over the minimum size
+    if self.xsize<40 or self.ysize<20:
+      return(2,"minimum size 40x20")
+    else:
+    #Checks if the entrance and exit are still there
+      entrance=0
+      exit=0
+      for i in range(len(self.dungarray)):
+	for j in range(len(self.dungarray[i])):
+	  if self.dungarray[i][j]=="A":
+	    entrance += 1
+	  if self.dungarray[i][j]=="X":
+	    exit += 1
+      if entrance!=1 or exit!=1:
+	return(1,"no entrance or exit found, or more than one entrances or exists ")
+      else:
+	  #Checks if X is reachable from A
+	  pass
+    return(0)
+      
+      
+#Testing stuff  
+while 1==0:
+  new=dungeon(70,20)
+  new.map()
+  print ""
+  
+  

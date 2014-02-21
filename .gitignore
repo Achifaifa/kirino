@@ -1,0 +1,22 @@
+#Obnoxious files in general
+*.~
+*.sh~
+*~
+*.kate-swp
+
+Thumbs.db
+
+#Backups, packages, etc
+
+*.iso
+*.rar
+*.zip
+
+#logs
+
+*.log
+*.dump
+
+#Others
+.pyc
+

@@ -1,3 +1,10 @@
-
-  Kirino text adventure engine
+Kirino text test stuff thingy
   
+  making shit work first, writing readme later.
+  
+  dungeon.py: 	Generates random dungeon
+  mob.py: 	Generates a dude with a position. It moves!
+  player.py: 	Does nothing because it's broken
+  launch.py: 	Does nothing because it has nothing on it
+  readme: 	This file
+  todo: 	Stuff I want to get done

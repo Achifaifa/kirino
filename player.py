@@ -35,7 +35,7 @@ class player:
   frozen=0
   
 
-#Initialization  
+  #Initialization  
   def __init__(self):
     for i in range(8):
 	rnd=random.randint(1,6)
