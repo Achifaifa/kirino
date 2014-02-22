@@ -148,24 +148,57 @@ class dungeon:
   #Dump the dung. Generates a list of coordinates and tile type 
   #place indicates where. 0 is return to console, anything else dumps it to a file
   #Avoid dumping to console with big dungeons, output turns out unreadable
-  def dumpdung(self,place):
+  def dumpdung(self,place): 
     if place==0:
-      #Dump to file mode. Pending.
-      with open("kirino.dump","r+") as dump:
+      #Dump to file mode. Pending, don't use
+      with open("kirino.dump","a") as dump:
+        dump.write ("\n ###################### \n")
 	for i in range (0,len(self.dungarray)):
 	  for j in range (0,len(self.dungarray[i])):
 	    if self.dungarray[i][j]=="#":
-	      dump.append (i+1,j+1),"Rock"
+              dump.write ("(")
+              dump.write (str(i+1))
+              dump.write (", ")
+              dump.write (str(j+1))
+              dump.write (")")
+              dump.write (" Rock \n")
 	    elif self.dungarray[i][j]=="A":
-	      dump.append (i+1,j+1),"Entrance"
+              dump.write ("(")
+              dump.write (str(i+1))
+              dump.write (", ")
+              dump.write (str(j+1))
+              dump.write (")")
+              dump.write (" Entrance \n")
 	    elif self.dungarray[i][j]=="X":
-	      dump.append (i+1,j+1),"Exit"
+              dump.write ("(")
+              dump.write (str(i+1))
+              dump.write (", ")
+              dump.write (str(j+1))
+              dump.write (")")
+              dump.write (" Exit \n")
 	    elif self.dungarray[i][j]==".":
-	      dump.append (i+1,j+1), "Hallway"
+              dump.write ("(")
+              dump.write (str(i+1))
+              dump.write (", ")
+              dump.write (str(j+1))
+              dump.write (")")
+              dump.write (" Hallway \n")
 	    elif self.dungarray[i][j]=="D":
-	      dump.append (i+1,j+1), "Undeleted room marker"
+              dump.write ("(")
+              dump.write (str(i+1))
+              dump.write (", ")
+              dump.write (str(j+1))
+              dump.write (")")
+              dump.write (" Undeleted room marker \n")
 	    else:
-	      dump.append (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+              dump.write ("(")
+              dump.write (str(i+1))
+              dump.write (", ")
+              dump.write (str(j+1))
+              dump.write (")")
+              dump.write (" Unrecognised value (")
+              dump.write (self.dungarray[i][j])
+              dump.write (")")
     else:
       #Dump to console
       for i in range (0,len(self.dungarray)):
@@ -193,9 +226,15 @@ class dungeon:
       #TO-DO: Use colours in the console to print this, so the map on the console looks better (zero priority)
       
   #Advanced map. Displays an area of the map to be moved and scrolled    
-  def advmap(self,xsize,ysize):
-    markx=len(self.dungarray[])
-    marky=len(self.dungarray)
+  def advmap(self,xmapsize,ymapsize):
+    #assigns the marker (Top left of the minimap) to sort-of-the-center
+    temp=len(self.dungarray[1])
+    markx=(temp/2)-(xmapsize/2)
+    temp=len(self.dungarray)
+    marky=(temp/2)-(ymapsize/2)
+    for i in range(marky,ymapsize):
+      for j in range(markx,xmapsize):
+	print (self.dungarray[i][j])
     
     pass
     
@@ -230,9 +269,8 @@ class dungeon:
       
       
 #Testing stuff  
-while 1==1:
-  new=dungeon(70,20)
-  new.map()
-  print ""
+new=dungeon(70,20)
+new.dumpdung(0)
+print ""
   
   
