@@ -52,6 +52,7 @@ class dungeon:
 	randleny=random.randrange(self.ysize*2/3)
 	randlenx=random.randrange(self.xsize*2/3)
 	for a in range (randleny):
+          #I'm not sure what this does
 	  self.dungarray[a][randomx]="."
 	  if a==randleny-1:
 	    self.dungarray[a][randomx]="D"
@@ -97,9 +98,6 @@ class dungeon:
 	  else:pass
 	  #I still don't know how the fuck I made this work
 	  
-
-	
-	  
       #This generates random coordinates for the entrance tile (A)
       entrancey=random.randrange(self.ysize)
       entrancex=random.randrange(self.xsize)
@@ -132,15 +130,13 @@ class dungeon:
 	  if self.dungarray[i][j]=="D":
 	    self.dungarray[i][j]="."
 	  
-	
-      #-->Uncomment this in final version and leave it as the last step
       #Adds spaces in random positions with rocks, one for every 4x4 zone.
-      #for i in range(0,self.xsize*self.ysize/16):
-      #	randx=random.randrange(self.xsize)
-      #	randy=random.randrange(self.ysize)
-      #	if self.dungarray[randy][randx]=="#":
-      #   self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
-      #	else: pass
+      for i in range(0,self.xsize*self.ysize/16):
+      	randx=random.randrange(self.xsize)
+      	randy=random.randrange(self.ysize)
+      	if self.dungarray[randy][randx]=="#":
+         self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
+      	else: pass
       
       #Dungeon should be done
       
@@ -150,7 +146,7 @@ class dungeon:
   #Avoid dumping to console with big dungeons, output turns out unreadable
   def dumpdung(self,place): 
     if place==0:
-      #Dump to file mode. Pending, don't use
+      #Dump to file mode.
       with open("kirino.dump","a") as dump:
         dump.write ("\n ###################### \n")
 	for i in range (0,len(self.dungarray)):
@@ -215,9 +211,7 @@ class dungeon:
 	      print (i+1,j+1), "Undeleted room marker"
 	    else:
 	      print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
-      
-	      
-	  
+	   
   #Map generator. Creates a map of the dungeon on screen.
   def map(self):
     x=self.xsize
@@ -227,6 +221,7 @@ class dungeon:
       
   #Advanced map. Displays an area of the map to be moved and scrolled    
   def advmap(self,xmapsize,ymapsize):
+    mapstring=[]
     #assigns the marker (Top left of the minimap) to sort-of-the-center
     temp=len(self.dungarray[1])
     markx=(temp/2)-(xmapsize/2)
@@ -234,9 +229,10 @@ class dungeon:
     marky=(temp/2)-(ymapsize/2)
     for i in range(marky,ymapsize):
       for j in range(markx,xmapsize):
-	print (self.dungarray[i][j])
-    
-    pass
+	mapstring.append(self.dungarray[i][j])
+    mapstring= ''.join(map(str,(line.lstrip() for line in mapstring)))
+    mapstring= '\n'.join(mapstring[i:i+xmapsize] for i in xrange(0, len(mapstring), xmapsize))
+    print mapstring
     
   #Debug dungeon 
   #Returns an integer as error condition code:
@@ -269,8 +265,8 @@ class dungeon:
       
       
 #Testing stuff  
-new=dungeon(70,20)
-new.dumpdung(0)
+new=dungeon(70,30)
+new.advmap(40,30)
 print ""
   
   
