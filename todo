@@ -2,7 +2,6 @@ TO-DO
 
 Dungeon.py:
 	Complete debugger (Make sure the exit is reachable from the entrance)
-	Complete debugger (Make sure all the empty spaces are connected and reachable)
 	Fix dumping to file
 	add colour to map()
 	advanced map: Display a 40x20 area that can be moved and scrolled

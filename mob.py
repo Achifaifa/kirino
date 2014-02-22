@@ -41,7 +41,7 @@ class mob:
   #Twitch plays kirino
   def trandmove(self):
     rand=0
-    rand=random.randrange(5)#Will depend on the mob in the future
+    rand=random.randrange(2)+1#Will depend on the mob in the future
     self.randmove(rand)
   
   #Store the copypastes here
@@ -55,13 +55,21 @@ class mob:
 
 #Test stuff
 goblin=mob()
-print goblin.xpos,goblin.ypos
 step=0
+ite=0
+medi=0
+totstep=0
 while 1==1:
+  print "Current steps:",step,"Iterations:",ite,"Median:",medi
+  os.system('clear')
   goblin.trandmove()
-  print goblin.xpos,goblin.ypos,step
+  print goblin.xpos,goblin.ypos
   step+=1
   if goblin.xpos==0 and goblin.ypos==0:
-    break
+    ite += 1
+    totstep += step
+    medi = totstep/ite
+    step=0
+    
 print step
 

@@ -45,10 +45,25 @@ class dungeon:
 	#Mark each room with a D on a random spot inside it
 	self.dungarray[random.randrange(roomstarty,roomstarty+roomy)][random.randrange(roomstartx,roomstartx+roomx)]="D"
 	    
+      #Random halls: add some random halls.
+      for t in range (self.ysize/10): #<- I need to figure out how to balance this.
+	randomy=random.randrange(self.ysize)
+	randomx=random.randrange(self.xsize)
+	randleny=random.randrange(self.ysize*2/3)
+	randlenx=random.randrange(self.xsize*2/3)
+	for a in range (randleny):
+	  self.dungarray[a][randomx]="."
+	  if a==randleny-1:
+	    self.dungarray[a][randomx]="D"
+	for b in range (randlenx):
+	  self.dungarray[randomy][b]="."
+	  if b==randlenx-1:
+	    self.dungarray[randomy][b]="D"
+	  
       #Connect rooms: create halls between positions with "D" (Rooms)
       #Skip this part, reading it gives cancer.
       #
-      #OK, you are on your own. This looks for Ds in the dungeon array
+      #Looks for Ds in the dungeon array
       var=0
       for i in range(self.ysize):
 	for j in range(self.xsize):
@@ -82,19 +97,8 @@ class dungeon:
 	  else:pass
 	  #I still don't know how the fuck I made this work
 	  
-      #Random halls: add some random halls.
-      for t in range (self.ysize/10): #<- I need to figure out how to balance this.
-	randomy=random.randrange(self.ysize)
-	randomx=random.randrange(self.xsize)
-	for a in range (random.randrange(self.ysize/3),random.randrange(self.ysize)):
-	  self.dungarray[a][randomx]="."
-	for b in range (random.randrange(self.xsize/3),random.randrange(self.xsize)):
-	  self.dungarray[randomy][b]="."
-	  #Halls can be unconnected to the actual rooms and previous halls
-	  #Entrances an exits can be placed in isolated halls (Pending to fix)
-	  #Possible fix: return error condition with debug() if all the dots generated until now are not connected between them.
-	  #Generate rooms and halls -> debug -> add entrance, exit and random spaces -> debug
-	  #Possible fix 2: add Ds on randomly generated halls and use the previous cthulhu algorithm
+
+	
 	  
       #This generates random coordinates for the entrance tile (A)
       entrancey=random.randrange(self.ysize)
@@ -187,6 +191,13 @@ class dungeon:
     for i in range (0,len(self.dungarray)):
       print ''.join(map(str,self.dungarray[i]))
       #TO-DO: Use colours in the console to print this, so the map on the console looks better (zero priority)
+      
+  #Advanced map. Displays an area of the map to be moved and scrolled    
+  def advmap(self,xsize,ysize):
+    markx=len(self.dungarray[])
+    marky=len(self.dungarray)
+    
+    pass
     
   #Debug dungeon 
   #Returns an integer as error condition code:
@@ -219,7 +230,7 @@ class dungeon:
       
       
 #Testing stuff  
-while 1==0:
+while 1==1:
   new=dungeon(70,20)
   new.map()
   print ""
