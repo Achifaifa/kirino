@@ -10,7 +10,7 @@ class player:
   pocket=0; #Money
   
 
-  #Attribute variables
+  #Attribute variables 
   INT=1
   DEX=1
   PER=1

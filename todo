@@ -3,12 +3,10 @@ TO-DO
 Dungeon.py:
 	Complete debugger (Make sure the exit is reachable from the entrance)
 	add colour to map()
+	fix advanced mapping (It does really weird stuff)
 
 Mob.py:
-	Access the dungeon object from the mob generator to limit placement
-	Collision detection (Stop movement when banging against walls)
 	Add stats
-	Make it move through a dungeon
 
 Launch.py:
 	Code the main stuff (Test and debug mode)

@@ -47,6 +47,8 @@ class dungeon:
 	    
       #Random halls: add some random halls.
       for t in range (self.ysize/10): #<- I need to figure out how to balance this.
+      #This causes the dungeon to be essentially empty is big dungeons are generated
+      #Pending to be fixed
 	randomy=random.randrange(self.ysize)
 	randomx=random.randrange(self.xsize)
 	randleny=random.randrange(self.ysize*2/3)
@@ -131,12 +133,12 @@ class dungeon:
 	    self.dungarray[i][j]="."
 	  
       #Adds spaces in random positions with rocks, one for every 4x4 zone.
-      for i in range(0,self.xsize*self.ysize/16):
-      	randx=random.randrange(self.xsize)
-      	randy=random.randrange(self.ysize)
-      	if self.dungarray[randy][randx]=="#":
-         self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
-      	else: pass
+      #for i in range(0,self.xsize*self.ysize/16):
+      #	randx=random.randrange(self.xsize)
+      #	randy=random.randrange(self.ysize)
+      #	if self.dungarray[randy][randx]=="#":
+      #   self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
+      #	else: pass
       
       #Dungeon should be done
       
@@ -222,17 +224,22 @@ class dungeon:
   #Advanced map. Displays an area of the map to be moved and scrolled    
   def advmap(self,xmapsize,ymapsize):
     mapstring=[]
+    for i in range (xmapsize+1):
+      mapstring.append ([])
     #assigns the marker (Top left of the minimap) to sort-of-the-center
     temp=len(self.dungarray[1])
-    markx=(temp/2)-(xmapsize/2)
+    markx=(temp/4)
     temp=len(self.dungarray)
-    marky=(temp/2)-(ymapsize/2)
+    marky=(temp/4)
+    countery=0
     for i in range(marky,ymapsize):
+      countery+=1
       for j in range(markx,xmapsize):
-	mapstring.append(self.dungarray[i][j])
-    mapstring= ''.join(map(str,(line.lstrip() for line in mapstring)))
-    mapstring= '\n'.join(mapstring[i:i+xmapsize] for i in xrange(0, len(mapstring), xmapsize))
-    print mapstring
+	mapstring[countery].append(self.dungarray[i][j])
+    #mapstring= ''.join(map(str,(line.lstrip() for line in mapstring)))
+    #mapstring= '\n'.join(mapstring[i:i+xmapsize] for i in xrange(0, len(mapstring), xmapsize))
+    for i in range (len(mapstring)):
+      print ''.join(map(str,mapstring[i]))
     
   #Debug dungeon 
   #Returns an integer as error condition code:
@@ -259,14 +266,14 @@ class dungeon:
       if entrance!=1 or exit!=1:
 	return(1,"no entrance or exit found, or more than one entrances or exists ")
       else:
-	  #Checks if X is reachable from A
+	  #Checks if X is reachable from A (Unnecessary, but pending. Low priority)
 	  pass
     return(0)
       
       
 #Testing stuff  
-new=dungeon(70,30)
-new.advmap(40,30)
-print ""
+#new=dungeon(70,40)
+#new.map()
+#print ""
   
   
