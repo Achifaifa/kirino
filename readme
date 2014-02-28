@@ -1,10 +1,18 @@
-Kirino text test stuff thingy
+"Ultimate list index out of range simulator 2014"
   
-  god hates faqs
+  I have no idea where this is going.
+
+How to use: run launch.py
+
+List of files:
   
-  dungeon.py: 	Generates random dungeon
-  mob.py: 	Generates a dude with a position. It moves!
-  player.py: 	Does nothing because it's broken
-  launch.py: 	Does nothing because it has nothing on it
-  readme: 	This file
-  todo: 	Stuff I want to get done
+  dungeon.py:   Generates random dungeons, maps, minimaps, etc.
+  launch.py:    main menus, procedures and test stuff.
+  mob.py:       Generates a dude with a position. Has random movement options.
+  parser.py:    Future word parser (Now empty)
+  player.py:    Basic player functionality.
+
+  bugs:         List of bugs, weird behaviours and goto fails
+  readme:       This file
+  todo:         Stuff I want to get done, projects, ideas
+  

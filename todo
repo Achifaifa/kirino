@@ -2,16 +2,29 @@ TO-DO
 
 Dungeon.py:
 	Complete debugger (Make sure the exit is reachable from the entrance)
-	add colour to map()
-	fix advanced mapping (It does really weird stuff)
+	add colour to map(), probably with curses (Optional)
+	Add items to dungeon (loot) via an item array
+  created another array with the explorer dungeon
+  close all the dungeon borders to avoid black holes
 
 Mob.py:
-	Add stats
+	Add stats (Movement, damage, flying)
+	Add random name generator from word files
 
 Launch.py:
-	Code the main stuff (Test and debug mode)
-	Draw function(Takes data from the dungeon, mob and player objects and draws the stuff
-	Decide if it would be better to put the drawing function in launch.py or dungeon.py
-	Menu (BORIIIING)
-	Options, help, loading and saving, etc etc
-	
+	Options, help, etc etc
+	Add music! (Maybe. Later)
+	Keyboard events (curses!)
+  Function that shows the explored map as a ""popup""
+
+Player.py
+  Add inventory (lists?)
+  load and save character (to/from file)
+  Cemetery file (Dump all the dead characters)
+  Level depending on exp gained, not dungeon level
+  player field of view based on perception and environment
+  player editing, exp assigning and such go in separate functions
+
+Parser.py
+  Create basic word parser
+  Support basic commands

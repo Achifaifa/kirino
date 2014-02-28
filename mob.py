@@ -15,7 +15,6 @@ class mob:
     while dungeon.dungarray[self.ypos][self.xpos]=="#":
       self.xpos=random.randrange(dungeon.xsize)
       self.ypos=random.randrange(dungeon.ysize)
-    pass
   
   #Move function. Accepts strings with direction and distance
   def move(self,dungeon,direction,distance):
@@ -59,39 +58,29 @@ class mob:
     rand=0
     rand=random.randrange(2)+1#Will depend on the mob in the future
     self.randmove(dungeon,rand)
-  
-  #Store the copypastes here
-  def copypaste(self):
-    pass
-    ###
-  
-    ###
+
+# Test stuff
+# new=dungeon.dungeon(70,40)
+# goblin=mob(new)
+# while 1==1:
+#   print "Current tile:",new.dungarray[goblin.ypos][goblin.xpos]
+#   print "Current position:",(goblin.xpos,goblin.ypos)
+#   goblin.move(new,(raw_input("Direction? ")),1)
+# Moar test stuff
+# step=0
+# ite=0
+# medi=0
+# totstep=0
+# #while 1==1:
+#   print "Current steps:",step,"Iterations:",ite,"Median:",medi
+#   os.system('clear')
+#   goblin.trandmove()
+#   print goblin.xpos,goblin.ypos
+#   step+=1
+#   if goblin.xpos==0 and goblin.ypos==0:
+#     ite += 1
+#     totstep += step
+#     medi = totstep/ite
+#     step=0
     
-
-
-#Test stuff
-new=dungeon.dungeon(70,40)
-goblin=mob(new)
-while 1==1:
-  print "Current tile:",new.dungarray[goblin.ypos][goblin.xpos]
-  print "Current position:",(goblin.xpos,goblin.ypos)
-  goblin.move(new,(raw_input("Direction? ")),1)
-  
-#step=0
-#ite=0
-#medi=0
-#totstep=0
-##while 1==1:
-  #print "Current steps:",step,"Iterations:",ite,"Median:",medi
-  #os.system('clear')
-  #goblin.trandmove()
-  #print goblin.xpos,goblin.ypos
-  #step+=1
-  #if goblin.xpos==0 and goblin.ypos==0:
-    #ite += 1
-    #totstep += step
-    #medi = totstep/ite
-    #step=0
-    
-#print step
-
+# print step

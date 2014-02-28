@@ -1,0 +1,26 @@
+
+This file contains bugs and/or weird behaviours spotted and pending to be fixed.
+
+Dungeon.py
+
+  Map generation:   
+    Leaves one D in one of the rooms (Pending fix that and remove code that removes Ds)
+    Generator is predictable (Multiple south rooms connected to a north one)
+    Cthulhu algorithm needs more randomness. Missing tentacles and wings.
+    Entrance and exit tiles are too close together
+
+  Minimap/advmap: 
+    Doesn't have minimum size (Sanitize input pending)
+    Stupid out of range errors (Fucking lists, how do they work?)
+
+mob.py
+
+player.py
+  Movement:         
+    When moving more than 1 tile, a position out of the map can be hit (Out of range) 
+    When moving one tile, an out of range error can happen if the last position is empty (.)
+    If SPD is over 10 and the player moves more than 1 tile, it may be impossible to place the player marker in the exit tile (Solved (?) by making everything turn-based or turn-dependant)
+
+launch.py 
+  crawl:
+    'int' object not callable when assigning global variables, generator size input depending on integer input not to crash
