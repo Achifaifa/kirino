@@ -28,8 +28,8 @@ class dungeon:
       for v in range(self.xsize*self.ysize/1600):
         roomy=random.randrange(self.ysize/3)+4
         roomx=random.randrange(self.xsize/3)+4
-        roomstarty=random.randrange(self.ysize-roomy)
-        roomstartx=random.randrange(self.xsize-roomx)
+        roomstarty=random.randrange(1,self.ysize-roomy)
+        roomstartx=random.randrange(1,self.xsize-roomx)
         for a in range(roomstarty,roomstarty+roomy):
           for b in range(roomstartx,roomstartx+roomx):
             self.dungarray[a][b]="."
@@ -40,8 +40,8 @@ class dungeon:
       for v in range(self.xsize*self.ysize/400):
         roomy=random.randrange(self.ysize/5)+2
         roomx=random.randrange(self.xsize/5)+2
-        roomstarty=random.randrange(self.ysize-roomy)
-        roomstartx=random.randrange(self.xsize-roomx)
+        roomstarty=random.randrange(1,self.ysize-roomy)
+        roomstartx=random.randrange(1,self.xsize-roomx)
         for a in range(roomstarty,roomstarty+roomy):
           for b in range(roomstartx,roomstartx+roomx):
             self.dungarray[a][b]="."
@@ -50,8 +50,8 @@ class dungeon:
             
       #Random halls: add some random halls.
       for t in range (self.ysize*self.xsize/800):      #Pending to be fixed
-        randomy=random.randrange(self.ysize)
-        randomx=random.randrange(self.xsize)
+        randomy=random.randrange(1,self.ysize-1)
+        randomx=random.randrange(1,self.xsize-1)
         randleny=random.randrange(self.ysize*2/3)
         randlenx=random.randrange(self.xsize*2/3)
         #I'm not sure what this does
@@ -262,7 +262,6 @@ class dungeon:
   #Generates a minimap (advmap centered on the player)
   def minimap(self,player):
     self.advmapcoords(player.xpos,player.ypos)
-
     
   #Debug dungeon 
   #Returns an integer as error condition code:
@@ -292,6 +291,7 @@ class dungeon:
       #Checks if X is reachable from A (Unnecessary, but pending. Low priority)
         pass
         return(0)
+
   #Fills the dungeon temporarily with PC, NPC, object and mob markers. 
   #Needs a player, the object array (Pending) and the mob array (pending)
   #Does not return anything, but modifies the filled array

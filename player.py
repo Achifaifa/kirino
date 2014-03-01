@@ -73,7 +73,7 @@ class player:
   def move(self,dungeon,direction):
     #This gives 1 base move and 1 extra move for every 10 SPD
     moves=1
-    moves+=self.SPD/10
+    # moves+=self.SPD/10 #disabled for causing bugs
 
     #Checks de direction and moves
     if direction=="n":
@@ -113,6 +113,7 @@ class player:
       print ""
       self.getatr()
       print "____________________"
+      print ""
       print "1.- Spend experience"
       print "2.- Inventory"
       print "3.- Modify character"
@@ -129,6 +130,7 @@ class player:
           print "Spend experience"
           if self.exp==0:
             print "No XP left!"
+            print ""
           else:
             print self.exp,"points left"
             print ""
@@ -226,15 +228,52 @@ class player:
       
       #Character options menu
       elif menu=="3":
-        os.system('clear')
-        print "Kirino test"
-        print self.name,"- Character sheet"
-        print ""
-        print "X.- Change name"
-        print "---"
-        print "0.- Back"
-        raw_input("go back")
+        coptmen=-1
+        while coptmen!="0":
+          os.system('clear')
+          print "Kirino test"
+          print self.name,"- Character sheet"
+          print ""
+          print "1.- Change name"
+          print "2.- Save"
+          print "3.- Load"
+          print "---"
+          print "0.- Back"
+          coptmen=raw_input("->")
+          if coptmen=="1":
+            self.name=raw_input("New name? ")
+          if coptmen=="2":
+            self.save()
+          if coptmen=="3":
+            self.load()
+            raw_input("")
+          if coptmen=="0":
+            break
       elif menu=="0":
         break
       pass
+
+  #Save player stats into a text file
+  def save(self):
+    with open("save","w") as savefile:
+      savefile.write(str(self.name)+" #Name \n")
+      savefile.write(str(self.lv)+" #Level\n")
+      savefile.write(str(self.exp)+" #Exp \n")
+      savefile.write(str(self.pocket)+" #Money \n")
+      savefile.write(str(self.INT)+" #INT \n")
+      savefile.write(str(self.DEX)+" #DEX \n")
+      savefile.write(str(self.PER)+" #PER \n")
+      savefile.write(str(self.WIL)+" #WIL \n")
+      savefile.write(str(self.STR)+" #STR \n")
+      savefile.write(str(self.CON)+" #CON \n")
+
+    pass
+
+  #Load player stats from a text file
+  def load(self):
+    with open("save") as savefile:
+      for line in savefile:
+        line=line.partition('#')[0]
+        #line=line.rstrip
+        print str(line)
 pass

@@ -62,7 +62,7 @@ def crawl():
     tempx=input("Horizontal size: ")
     tempy=input("Vertical size: ")
     if tempx<40 or tempy<20:
-      print "Minimum size 40x2y"
+      print "Minimum size 40x20"
     elif tempx>=40 and tempy>=20:
       ok=1
   dung=dungeon.dungeon(tempx,tempy)

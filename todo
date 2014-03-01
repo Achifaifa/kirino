@@ -1,21 +1,22 @@
 TO-DO
 
 Dungeon.py:
-	Complete debugger (Make sure the exit is reachable from the entrance)
-	add colour to map(), probably with curses (Optional)
-	Add items to dungeon (loot) via an item array
+  Complete debugger (Make sure the exit is reachable from the entrance)
+  add colour to map(), probably with curses (Optional)
+  Add items to dungeon (loot) via an item array
   created another array with the explorer dungeon
   close all the dungeon borders to avoid black holes
 
 Mob.py:
-	Add stats (Movement, damage, flying)
-	Add random name generator from word files
+  Add stats (Movement, damage, flying)
+  Add random name generator from word files
 
 Launch.py:
-	Options, help, etc etc
-	Add music! (Maybe. Later)
-	Keyboard events (curses!)
+  Options, help, etc etc
+  Add music! (Maybe. Later)
+  Keyboard events (curses!)
   Function that shows the explored map as a ""popup""
+  autosaving functions
 
 Player.py
   Add inventory (lists?)
@@ -24,7 +25,11 @@ Player.py
   Level depending on exp gained, not dungeon level
   player field of view based on perception and environment
   player editing, exp assigning and such go in separate functions
+  Add races and clases
 
-Parser.py
+---
+
+Parser.py (After everything else is done)
   Create basic word parser
   Support basic commands
+  using nlp to control everything
