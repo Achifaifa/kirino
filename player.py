@@ -7,10 +7,12 @@ import dungeon
 class player:
   'Player instance'
   #Main characteristics
-  name="____" #Name
+  name="_" #Name
   pocket=0    #Money
   exp=0       #EXP
   lv=1        #Level
+  race="_"
+  charclass="_"
 
   #Attribute variables 
   INT=1
@@ -38,6 +40,8 @@ class player:
     self.name="Test subject"
     self.pocket=0
     self.exp=8
+    self.race="_"
+    self.charclass="_"
 
     #Set attributes to 1
     self.STR=1
@@ -60,6 +64,20 @@ class player:
           self.ypos=i
           self.xpos=j
           self.zpos=0
+
+    #Random race
+    with open("races","r") as file:
+      racesarray = []
+      for line in file:
+          racesarray.append(line.rstrip('\n') )
+    self.race=random.choice(racesarray)
+
+    #Random class
+    with open("classes","r") as file:
+      classesarray = []
+      for line in file:
+          classesarray.append(line.rstrip('\n') )
+    self.charclass=random.choice(classesarray)
     
   #Test function. Prints attributes.
   def getatr(self):
@@ -109,14 +127,17 @@ class player:
       print self.name,"- Character sheet"
       print "____________________"
       print "Gold: ",self.pocket
-      print "Level",self.lv,"(",self.exp,"xp)"
+      print "Level "+str(self.lv)+" "+self.race+" "+self.charclass
+      print "(",self.exp,"xp)"
       print ""
       self.getatr()
       print "____________________"
       print ""
       print "1.- Spend experience"
       print "2.- Inventory"
-      print "3.- Modify character"
+      print "3.- Character options"
+      print "4.- Save"
+      print "5.- Load"
       print ""
       print "0.- Exit"
       menu=raw_input("->")
@@ -235,19 +256,18 @@ class player:
           print self.name,"- Character sheet"
           print ""
           print "1.- Change name"
-          print "2.- Save"
-          print "3.- Load"
           print "---"
           print "0.- Back"
           coptmen=raw_input("->")
           if coptmen=="1":
             self.name=raw_input("New name? ")
-          if coptmen=="2":
-            self.save()
-          if coptmen=="3":
-            self.load()
           if coptmen=="0":
             break
+
+      elif menu=="4":
+        self.save()
+      elif menu=="5":
+        self.load()
       elif menu=="0":
         break
       pass

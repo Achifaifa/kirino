@@ -86,7 +86,8 @@ def crawl():
     dung.fill(hero)
     dung.minimap(hero)
     print "Floor",fl,(hero.xpos,hero.ypos)
-    print "Lv",hero.lv,"(",hero.exp,"exp)",hero.pocket,"gold"
+    print "Lv",hero.lv,hero.race,hero.charclass
+    print hero.exp,"exp",hero.pocket,"gold"
     print ""
     hero.getatr()
     print ""

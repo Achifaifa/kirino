@@ -6,13 +6,18 @@ How to use: run launch.py
 
 List of files:
   
+Program files:
   dungeon.py:   Generates random dungeons, maps, minimaps, etc.
   launch.py:    main menus, procedures and test stuff.
   mob.py:       Generates a dude with a position. Has random movement options.
   parser.py:    Future word parser (Now empty)
   player.py:    Basic player functionality.
 
+Data files:  
+  classes:      List of classes
+  races:        List of races
+
+Info files
   bugs:         List of bugs, weird behaviours and goto fails
   readme:       This file
   todo:         Stuff I want to get done, projects, ideas
-  
