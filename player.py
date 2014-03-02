@@ -246,7 +246,6 @@ class player:
             self.save()
           if coptmen=="3":
             self.load()
-            raw_input("")
           if coptmen=="0":
             break
       elif menu=="0":
@@ -256,24 +255,40 @@ class player:
   #Save player stats into a text file
   def save(self):
     with open("save","w") as savefile:
-      savefile.write(str(self.name)+" #Name \n")
-      savefile.write(str(self.lv)+" #Level\n")
-      savefile.write(str(self.exp)+" #Exp \n")
-      savefile.write(str(self.pocket)+" #Money \n")
-      savefile.write(str(self.INT)+" #INT \n")
-      savefile.write(str(self.DEX)+" #DEX \n")
-      savefile.write(str(self.PER)+" #PER \n")
-      savefile.write(str(self.WIL)+" #WIL \n")
-      savefile.write(str(self.STR)+" #STR \n")
-      savefile.write(str(self.CON)+" #CON \n")
-
+      savefile.write("Name:"+str(self.name)+"\n")
+      savefile.write("Level:"+str(self.lv)+"\n")
+      savefile.write("Exp:"+str(self.exp)+"\n")
+      savefile.write("Money:"+str(self.pocket)+"\n")
+      savefile.write("INT:"+str(self.INT)+"\n")
+      savefile.write("DEX:"+str(self.DEX)+"\n")
+      savefile.write("PER:"+str(self.PER)+"\n")
+      savefile.write("WIL:"+str(self.WIL)+"\n")
+      savefile.write("STR:"+str(self.STR)+"\n")
+      savefile.write("CON:"+str(self.CON))
     pass
 
   #Load player stats from a text file
   def load(self):
     with open("save") as savefile:
       for line in savefile:
-        line=line.partition('#')[0]
-        #line=line.rstrip
-        print str(line)
+        if line.partition(':')[0]=="Name":
+          self.name=line.partition(':')[2]
+        if line.partition(':')[0]=="Level":
+          self.lv=int(line.partition(':')[2])
+        if line.partition(':')[0]=="Exp":
+          self.exp=int(line.partition(':')[2])
+        if line.partition(':')[0]=="Money":
+          self.pocket=int(line.partition(':')[2])
+        if line.partition(':')[0]=="INT":
+          self.INT=int(line.partition(':')[2])
+        if line.partition(':')[0]=="DEX":
+          self.DEX=int(line.partition(':')[2])
+        if line.partition(':')[0]=="PER":
+          self.PER=int(line.partition(':')[2])
+        if line.partition(':')[0]=="WIL":
+          self.WIL=int(line.partition(':')[2])
+        if line.partition(':')[0]=="STR":
+          self.STR=int(line.partition(':')[2])
+        if line.partition(':')[0]=="CON":
+          self.CON=int(line.partition(':')[2])
 pass
