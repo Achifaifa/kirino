@@ -13,11 +13,12 @@ Item.py
   enchant()
 
 Launch.py:
-  Options, etc etc)
+  Options, etc etc
   Keyboard events
   Function that shows the explored map as a ""popup""
   Ask if go down when reaching exit
   saving inventory in text file with character info
+  enable debug and dump in the main game menu
 
 Player.py
   Cemetery file (Dump all the dead characters into a file)
@@ -28,7 +29,7 @@ Player.py
 Parser.py (After everything else is done)
   Create basic word parser
   Support basic commands
-  using nlp to control everything
+  use nlp to control everything
 
 ---
 
@@ -36,3 +37,4 @@ Extras (zero priority to-do)
   Music
   In-game help
   Colours
+  story modules

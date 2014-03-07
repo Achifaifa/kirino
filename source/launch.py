@@ -127,7 +127,8 @@ def crawl():
     print "nwse - move"
     print "c - character sheet"
     print "o - options"
-    print "q - exit to menu"
+    print "q - go back to menu"
+    print "z - report dungeon"
     crawlmen=raw_input("-> ")
     if crawlmen=="c":
       hero.charsheet()
@@ -137,6 +138,8 @@ def crawl():
       options()
     elif crawlmen=="q":
       break
+    elif crawlmen=="z":
+      dung.report()
   pass
 
 #New character menu (pass)

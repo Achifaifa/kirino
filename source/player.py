@@ -155,22 +155,22 @@ class player:
     #Checks de direction and moves
     if direction=="n":
       if dungeon.dungarray[self.ypos-1][self.xpos]=="#":
-        print "There is a wall there!"
+        pass
       else:
         self.ypos -= moves
     elif direction=="w":
       if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
-         print "There is a wall there!"
+        pass
       else:
         self.xpos -= moves  
     elif direction=="s":
       if dungeon.dungarray[self.ypos+1][self.xpos]=="#":
-        print "There is a wall there!"
+        pass
       else:     
         self.ypos += moves
     elif direction=="e":
       if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
-        print "There is a wall there!"
+        pass
       else:
         self.xpos += moves
     else:

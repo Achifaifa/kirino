@@ -160,7 +160,7 @@ class dungeon:
   def dumpdung(self,place): 
     if place==0:
       #Dump to file mode.
-      with open(".logs/kirino.dump","a") as dump:
+      with open("../logs/kirino.dump","a") as dump:
         dump.write ("\n ###################### \n")
   	for i in range (0,len(self.dungarray)):
   	  for j in range (0,len(self.dungarray[i])):
@@ -224,6 +224,13 @@ class dungeon:
 	      print (i+1,j+1), "Undeleted room marker"
 	    else:
 	      print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+
+  #Dumps a map of the dungeon into a text file
+  def report(self):
+    with open("../logs/report","a") as dump:
+      for i in range (0,len(self.dungarray)):
+        dump.write(''.join(map(str,self.dungarray[i]))+"\n")
+      dump.write("\n ---------- \n")
 	   
   #Map generator. Creates a map of the dungeon on screen.
   #This shows the entire dungarray[][]
