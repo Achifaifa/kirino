@@ -1,0 +1,21 @@
+ Kirino test documentation - mob.py<br/>
+ <a href="./index.html"> Back to index</a><br/><br/> 
+
+ Mob class. This defines and generates creeps moving in the dungeon on their own.<br/><br/>
+
+ <b>Libraries used</b>: <br/>os, random, dungeon<br/><br/>
+
+ <b>Functions</b>:<br/>
+
+ <br/><i><b>__init__(self,dungeon)</i></b>:<br/>
+ Creates a creep on a random empty spot of the dungeon. The only condition is the tile not being rock (#).<br/>
+
+ <br/><i><b>move(self,dungeon,str direction,int distance)</i></b>:<br/>
+ Moves a creep on a dungeon a certain tiles (distance) on a certain direction (direction). <br/>
+ The direction must be a string (n, s, e, w).<br/>
+
+ <br/><i><b>randmove(self,dungeon,int dist)</i></b>:<br/>
+ Moves a creep in a dungeon a certain amount of tiles (dist) in a random direction.<br/>
+
+ <br/><i><b>trandmove(self,dungeon)</i></b>:<br/>
+ Moves a creep a random number of tiles in a random direction.<br/>

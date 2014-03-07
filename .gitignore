@@ -20,3 +20,7 @@ Thumbs.db
 #Others
 .pyc
 save
+
+#folders
+./logs/* #log folder
+./player/* #player save folder

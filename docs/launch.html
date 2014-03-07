@@ -1,0 +1,38 @@
+Kirino test documentation - launch.py<br/>
+<a href="./index.html"> Back to index</a><br/><br/>
+ 
+This module is the main loop. It processes all the player, dungeon and mob objects and displays them in a meaningful way.<br/>
+<br/>
+<b>Libraries used</b>:<br/> os, random, dungeon, player, mob<br/>
+<br/>
+<b>Functions:</b><br/>
+
+<br/><i><b>crawl()</i></b>:<br/>
+This is the main function.<br/>
+1.- Asks for a dungeon size (Returns message if smaller than 40x20)<br/>
+2.- Creates a <a href="./dungeon.html">dungeon object</a>, and then places a <a href="./player.html">player object</a> inside it, asking for a player name.<br/>
+3.-Main loop<br/>
+3.1.- If the player is in the exit tile, it creates another floor. This is done by creating a new dungeon, creating a new player and then assigning the old player variables to the new player using save(), load() and the launch.py temporary global variables.<br/>
+3.2.- Fills the filled array (see dungeon) with the player data and displayr the minimap and basic stats and options<br/>
+3.3.- Asks for an option, processes it and starts again.<br/>
+
+<br/><i><b>lsave(player)</i></b>:<br/>
+Takes the attributes from the player object and saves them in temporary global variables.<br/>
+
+<br/><i><b>lload(player)</i></b>:<br/>
+Takes the temporary global variables and replaces the attributes of the player object with them.<br/>
+
+<br/><i><b>menu()</i></b>:<br/>
+Main menu. Gives access to a new game and the game options. Exiting this menu will end the program.<br/>
+
+<br/><i><b>newchar()</i></b>:<br/>
+Now empty. The new character generator called from the main menu will go here.<br/>
+
+<br/><i><b>options()</i></b>:<br/>
+Displays and modifies the game options (Currently empty)<br/>
+
+<br/><i><b>purge()</i></b>:<br/>
+Resets the values of all the temporary global variables.
+
+<br/>
+

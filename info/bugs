@@ -1,0 +1,31 @@
+This file contains bugs and/or weird behaviours spotted and pending to be fixed. 
+
+Dungeon.py
+
+  Map generation:   
+    Leaves one D in one of the rooms (Pending fix that and remove code that removes Ds)
+    Generator is predictable (Multiple south rooms connected to a north one)
+    Cthulhu algorithm needs more randomness.
+    Entrance and exit tiles are too close together in big dungeons
+    Dungeon array not closed on the borders
+
+  Minimap/advmap: 
+    Doesn't have minimum size (Sanitize input pending on generator to avoid infinite loops)
+    Stupid out of range errors (Fucking lists, how do they work?)
+
+mob.py
+
+player.py
+  Movement:         
+    Issues when SPD is too high (Solved with turns in the future, movement always 1 as temporary fix)
+    Inventory management issues
+      2H weapons don't unequip 1h weapons.
+      can't dual-wield 1h weapons.
+
+launch.py 
+  crawl:
+    'int' object not callable when assigning global variables, generator size input depending on integer input not to crash
+
+item.py
+  Items in inventory and equip are conserved between games (play->exit->play)
+  item names contain extra spaces

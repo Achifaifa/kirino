@@ -1,0 +1,43 @@
+ Kirino test documentation - dungeon.py<br/>
+ <a href="./index.html"> Back to index</a><br/><br/>
+
+ Dungeon class. Generates 2D arrays with tiles, forming a dungeon that can be crawled by a player or mob object.<br/><br/>
+
+ <b>Libraries used</b>: <br/>os, random, player, mob<br/><br/>
+
+ <b>Functions</b>:<br/>
+
+ <br/><i><b>__init__(self,int x,int y)</i></b>:<br/>
+ Class constructor. x and y are the horizontal and vertical size of the dungeon (Array). The minimum size is 40x20.<br/>
+
+ <br/><i><b>advmap(self, int x, int y, int xmapsize, int ymapsize)</i></b>:<br/>
+ Creates an advanced map of the filled dungeon of width xmapsize and length ymapsize centered in (x,y). If (x,y) is close to the border of the dungeon array, they will be set so nothing outside the array is displayed.<br/>
+
+ <br/><i><b>advmapcoords(self, int x, int y)</i></b>:<br/>
+ Creates an advanced map of size 20x10 (default) centered in the position (x,y). Same restrictions apply.<br/>
+
+ <br/><i><b>debug(self)</i></b>:<br/>
+ Checks if the dungeon is correctly built<br/>
+ Returns an integer as error condition code:<br/>
+ EC0: No errors were found (The array meets the requirements to be used).<br/>
+ EC1: There is no entrance or exit.<br/>
+ EC2: The dungeon is below the minimum size, either horizontally or vertically. <br/>
+ EC3: Can't reach the exit from the entrance (planned feature)<br/>
+ EC4: There are halls or rooms unconnected or unreachable (planned feature)<br/>
+
+ <br/><i><b>dumpdung(self,int place)</i></b>:<br/>
+ creates a list of all the positions in the dungeon and the terain type in it.<br/>
+ If place is 0, the function dumps the dungeon data into a text file located in ./kirino.dump. If a dump file already exists, it creates a separator and appends a new dump.<br/>
+ If place is not 0, then it dumps on console.<br/>
+
+ <br/><i><b>fill(self, player)</i></b>:<br/>
+ Creates a temporary 2D array (dungeon.filled[y][x]), which contains the player marker (8) and the objects overlapped over the dungeon floor tile identifiers.<br/>
+
+ <br/><i><b>map(self)</i></b>:<br/>
+ Creates a map on console showing the entire dungeon.<br/>
+
+ <br/><i><b>minimap(self, player)</i></b>:<br/>
+ Creates an advanced map of size 20x10 centered in the position of the player object.<br/>
+
+
+

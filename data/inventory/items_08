@@ -1,0 +1,15 @@
+# name:ATK:DEF:price
+#
+# Place/Type:
+#   01 - Head
+#   02 - Face
+#   03 - Neck
+#   04 - Shoulders
+#   05 - Chest
+#   06 - One hand
+#   07 - Two hands
+#   08 - Ring
+#   09 - Belt
+#   10 - Legs
+#   11 - Feet
+ring:0:0:5

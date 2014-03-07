@@ -1,0 +1,8 @@
+Path debugging
+  -Check adj(A)
+  -Check adj(adj(A)) until adj(n)=X
+  Blame my college if I can't find a non-recursive way to do this.
+Inventory
+  Create invarray, overlap it with filled[][]
+Playyer
+  add atk and defn attrs

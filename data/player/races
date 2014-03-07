@@ -1,0 +1,16 @@
+# Race:STR:INT:DEX:PER:CON:WIL:CHA
+# Each number indicates a positive or negative bonus
+# 
+human:0:0:0:0:0:0:0
+elf:0:0:2:0:-2:0:0
+orc:2:-2:0:0:2:0:-2
+dwarf:0:0:0:0:2:0:-2
+high elf:-1:0:3:0:-2:0:0
+half elf:0:0:1:0:-1:0:0
+half orc:2:-2:0:0:0:0:-2
+halfling:-2:0:+2:0:0:0:0
+necron:0:0:0:0:0:2:-2
+tyranid:3:0:0:0:3:-3:-3
+tau:-2:2:2:0:-2:0:0
+ratling:1:-1:2:0:0:0:-2
+cyborg:1:2:-3:2:3:-5:0

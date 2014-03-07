@@ -1,0 +1,39 @@
+ Kirino test documentation - player.py<br/>
+ <a href="./index.html"> Back to index</a><br/><br/> 
+
+ Player class. Used to generate, define and manage the player.<br/><br/>
+
+ <b>Libraries used</b>: <br/>os, random, dungeon<br/><br/>
+
+ <b>Functions</b>:<br/>
+
+ <br/><i><b>__init__(self, dungeon)</i></b>:<br/>
+ Class constructor. Initializes attributes, adds random race and class, and places the player at the coordinates of the entrance tile.<br/>
+
+ <br/><i><b>charsheet(self)</i></b>:<br/>
+ Brings up the character sheet menu. Displays name, attributes and optionsto save, load, modify the character and spend the experience gained.<br/>
+
+ <br/><i><b>getatr(self)</i></b>:<br/>
+ Prints the primary and secondary attributes in console.<br/>
+
+ <br/><i><b>invmenu()</i></b>:<br/>
+ Inventory managing menu (planned feature).<br/>
+
+ <br/><i><b>load(self)</i></b>:<br/>
+ takes attributes saved in a plain text file in ./save and loads the character with them.<br/>
+
+ <br/><i><b>move(self, dungeon, str direction)</i></b>:<br/>
+ Moves the player one tile in the given direction. Accepted strings are n, s, e and w.<br/>
+
+ <br/><i><b>optmenu()</i></b>:<br/>
+ Character options name.<br/>
+
+ <br/><i><b>save(self)</i></b>:<br/>
+ Takes the attributes from the player and stores them in a text file (./save).<br/>
+ The file has the format (attribute:value), one attribute per line.<br/>
+
+ <br/><i><b>secondary(self)</i></b>:<br/>
+ Calculates the secondary attributes from the player.<br/>
+
+ <br/><i><b>spend(self)</i></b>:<br/>
+ Brings up the experience spending menu.<br/>
