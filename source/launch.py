@@ -83,7 +83,7 @@ def menu():
   #Main menu
   while 1:
     os.system('clear')
-    print "Kirino test"
+    print "Kirino test -- v0.0.1"
     print "1.- Play"
     print "2.- Options"
     print "3.- "

@@ -18,9 +18,10 @@ Thumbs.db
 *.dump
 
 #Others
-.pyc
+source/*.pyc
 .dox
 
 #folders
-./logs/* #log folder
-./player/* #player save folder
+logs/* #log folder
+player/* #player save folder
+tests/* #tests folder

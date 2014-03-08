@@ -18,10 +18,13 @@ Item.py
 Launch.py:
   Keyboard events
   Ask if go down when reaching exit
+  Items modify player attributes
   saving inventory in text file with character info
   Function that shows the explored map as a ""popup""
 
 Player.py
+  Show attribute modifiers in inventory menu
+  Show attribute boost in crawl screen
   Cemetery file (Dump all the dead characters into a file)
   player field of view based on perception and environment
 
