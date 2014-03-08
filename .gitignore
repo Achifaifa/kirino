@@ -19,7 +19,7 @@ Thumbs.db
 
 #Others
 .pyc
-save
+.dox
 
 #folders
 ./logs/* #log folder

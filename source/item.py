@@ -4,6 +4,7 @@ import random
 
 #Item class. Creates and manages items.
 class item:
+  "Item class creates and manages items"
 
   #Item attributes
   ID=0      #Identifier
@@ -79,10 +80,10 @@ class item:
       pricearr=[]
       for line in invfile:
         if not line.startswith("#"):
-          inventory.append(line.rstrip("\n").partition(':')[0])
-          atkbarr.append(line.rstrip("\n").partition(':')[2].partition(':')[0])
-          defbarr.append(line.rstrip("\n").partition(':')[2].partition(':')[2].partition(':')[0])
-          pricearr.append(line.rstrip("\n").partition(':')[2].partition(':')[2].partition(':')[2])
+          inventory.append(line.rstrip("\n").partition(':')[0].strip())
+          atkbarr.append(line.rstrip("\n").partition(':')[2].partition(':')[0].strip())
+          defbarr.append(line.rstrip("\n").partition(':')[2].partition(':')[2].partition(':')[0].strip())
+          pricearr.append(line.rstrip("\n").partition(':')[2].partition(':')[2].partition(':')[2].strip())
 
     #Assign the attributes to an item.
     randitem=random.randrange(len(inventory))
@@ -133,12 +134,13 @@ class item:
       defmod=[]
       for line in modifile:
         if not line.startswith("#"):
-          modifiers.append(line.rstrip("\n").partition(':')[0])
-          atkmod.append(line.rstrip("\n").partition(':')[2].partition(':')[0])
-          defmod.append(line.rstrip("\n").partition(':')[2].partition(':')[2])
+          modifiers.append(line.rstrip("\n").partition(':')[0].strip())
+          atkmod.append(line.rstrip("\n").partition(':')[2].partition(':')[0].strip())
+          defmod.append(line.rstrip("\n").partition(':')[2].partition(':')[2].strip())
 
     #Assign the data with the random values
-    self.name=modifiers[randint]+" "+self.name
+    if randint!=9:
+      self.name=modifiers[randint]+" "+self.name
     self.atk=self.atk+(self.atk*int(atkmod[randint])/100)
     self.defn=self.defn+(self.defn*int(defmod[randint])/100)
     self.price=self.price+(self.price*int(atkmod[randint])/100)+(self.price*int(defmod[randint])/100)
@@ -260,3 +262,7 @@ class item:
 #   print ""
 #   print "_________"
 #   print ""
+
+# while 1:
+#   new=item(random.randint(1,11))
+#   print new.name

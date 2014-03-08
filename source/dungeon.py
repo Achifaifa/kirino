@@ -14,6 +14,10 @@ class dungeon:
   #Main dungeon generator, fills the dungeon array with terrain tiles
   #Absolute minimum size 40 horizontal and 20 vertical
   def __init__(self,x,y):
+    if x<40:
+      x=40
+    if y<20:
+      y=20
     self.xsize=x
     self.ysize=y
     self.dungarray=[]
@@ -244,6 +248,10 @@ class dungeon:
   #xmapsize and ymapsize are the horizontal and vertical size of the map. 
   #If the coordinates are too close to the edge, they are replaced so the map does not show anything outside the dungeon array.   
   def advmap(self,x,y,xmapsize,ymapsize):
+    if x<20:
+      x=20
+    if y<10:
+      y=10
     mapstring=[]
     for i in range(ymapsize+1):
       mapstring.append([])

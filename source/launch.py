@@ -5,14 +5,15 @@ import random
 import player
 import dungeon
 import mob
+import item
 
 #load/save global variables
 dex=0
-int=0
+intv=0
 con=0
 per=0
 wil=0
-str=0
+strv=0
 cha=0
 xp=0
 points=0
@@ -21,8 +22,6 @@ lv=1
 hp2=0
 mp2=0
 name="empty"
-tempx=0
-tempy=0
 flcounter=1 #Floor counter
 fl=1#Actual floor (Displayed)
 tempinventory=[]
@@ -59,32 +58,31 @@ def menu():
       for line in configfile:
         if not line.startswith('#'):
           if line.partition(':')[0]=="North":
-              north=(line.partition(':')[2]).strip()
+              north=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="South":
-              south=(line.partition(':')[2]).strip()
+              south=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="East":
-              east=(line.partition(':')[2]).strip()
+              east=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="West":
-              west=(line.partition(':')[2]).strip()
+              west=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Sheet":
-              charsh=(line.partition(':')[2]).strip()
+              charsh=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Options":
-              opt=(line.partition(':')[2]).strip()
+              opt=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Quit":
-              quit=(line.partition(':')[2]).strip()
+              quit=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Report":
-              report=(line.partition(':')[2]).strip()
+              report=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Autosave":
-              autosave=int((line.partition(':')[2]).strip())
+              autosave=int((line.partition(':')[2]).strip(' '))
 
   #Main menu
-  dungcreated=0
-  while 1==1:
+  while 1:
     os.system('clear')
     print "Kirino test"
     print "1.- Play"
     print "2.- Options"
-    print ""
+    print "3.- "
     print "--"
     print "0.- Exit"
     menu=raw_input("->")
@@ -191,31 +189,30 @@ def crawl():
   global flcounter
   global fl
   fl=1 #Initialize floor to 1
-  ok=0
 
   #Dungeon and player creation
-  while ok!=1:
+  while 1:
     purge()
-    tempx=input("Horizontal size: ")
-    tempy=input("Vertical size: ")
-    if tempx<40 or tempy<20:
+    tempxs=int(raw_input("Horizontal size: "))
+    tempys=int(raw_input("Vertical size: "))
+    if tempxs<40 or tempys<20:
       print "Minimum size 40x20"
-    elif tempx>=40 and tempy>=20:
-      ok=1
-  dung=dungeon.dungeon(tempx,tempy)
+    elif tempxs>=40 and tempys>=20:
+      break
+  dung=dungeon.dungeon(tempxs,tempys)
   hero=player.player(dung)
   hero.name=raw_input("What is your name?")
 
   #Main crawling menu and interface
   crawlmen=-1
-  while 1==1:
+  while 1:
     if dung.dungarray[hero.ypos][hero.xpos]=="X":
       flcounter+=1
       fl+=1
       lsave(hero) 
       if autosave==1:
         hero.save()
-      dung=dungeon.dungeon(tempx,tempy)
+      dung=dungeon.dungeon(tempxs,tempys)
       lload(hero)
       for i in range(len(dung.dungarray)):
         for j in range(len(dung.dungarray[i])):
@@ -255,6 +252,7 @@ def crawl():
     elif crawlmen==opt:
       options()
     elif crawlmen==quit:
+      purge()
       break
     elif crawlmen==report:
       dung.report()
@@ -267,11 +265,11 @@ def newchar():
 #resets all the temporary variables
 def purge():
   global dex
-  global int
+  global intv
   global con
   global per
   global wil
-  global str
+  global strv
   global cha
   global xp
   global pocket 
@@ -282,11 +280,11 @@ def purge():
   global tempequiparr
   global points
   dex=0
-  int=0 
+  intv=0 
   con=0
   per=0
   wil=0 
-  str=0
+  strv=0
   cha=0
   xp=0
   pocket=0
@@ -295,18 +293,19 @@ def purge():
   hp2=0
   mp2=0
   tempinventory=[]
-  tempequiparr=[]
+  for i in range (len(tempequiparr)):
+    tempequiparr[i]=item.item(0)
   points=0
 
 
 #Grab all the stats from the player and store them in the temporary variables
 def lsave(playa):
   global dex
-  global int
+  global intv
   global con
   global per
   global wil
-  global str
+  global strv
   global cha
   global xp
   global pocket 
@@ -317,11 +316,11 @@ def lsave(playa):
   global tempequiparr
   global points
   dex=playa.DEX
-  int=playa.INT 
+  intv=playa.INT 
   con=playa.CON
   per=playa.PER
   wil=playa.WIL 
-  str=playa.STR
+  strv=playa.STR
   cha=playa.CHA
   xp=playa.exp
   pocket=playa.pocket
@@ -338,11 +337,11 @@ def lload(playa):
   global flcounter
   global lv
   playa.DEX=dex
-  playa.INT=int 
+  playa.INT=intv
   playa.CON=con
   playa.PER=per
   playa.WIL=wil 
-  playa.STR=str
+  playa.STR=strv
   playa.CHA=cha
   playa.pocket=pocket
   playa.name=name

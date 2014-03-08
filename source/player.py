@@ -6,6 +6,7 @@ import item
 
 #Player class definition
 class player:
+  "Player class. Creates and manages player objects"
   #Main characteristics
   name="_" #Name
   pocket=0    #Money
@@ -553,7 +554,7 @@ class player:
       for line in savefile:
         if not line.startswith("#"):
           if line.partition(':')[0]=="Name":
-            self.name=(line.partition(':')[2]).strip()
+            self.name=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Level":
             self.lv=int(line.partition(':')[2])
           if line.partition(':')[0]=="Exp":
@@ -575,9 +576,9 @@ class player:
           if line.partition(':')[0]=="CHA":
             self.CHA=int(line.partition(':')[2])
           if line.partition(':')[0]=="Race":
-            self.race=(line.partition(':')[2]).strip()
+            self.race=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="Class":
-            self.charclass=(line.partition(':')[2]).strip()
+            self.charclass=(line.partition(':')[2]).strip(' ')
           if line.partition(':')[0]=="HP":
             self.hp2=int(line.partition(':')[2])
           if line.partition(':')[0]=="MP":
