@@ -58,23 +58,23 @@ def menu():
       for line in configfile:
         if not line.startswith('#'):
           if line.partition(':')[0]=="North":
-              north=(line.partition(':')[2]).strip(' ')
+            north=(line.partition(':')[2]).strip()          
           if line.partition(':')[0]=="South":
-              south=(line.partition(':')[2]).strip(' ')
+            south=(line.partition(':')[2]).strip()          
           if line.partition(':')[0]=="East":
-              east=(line.partition(':')[2]).strip(' ')
+            east=(line.partition(':')[2]).strip()         
           if line.partition(':')[0]=="West":
-              west=(line.partition(':')[2]).strip(' ')
+            west=(line.partition(':')[2]).strip()          
           if line.partition(':')[0]=="Sheet":
-              charsh=(line.partition(':')[2]).strip(' ')
+            charsh=(line.partition(':')[2]).strip()         
           if line.partition(':')[0]=="Options":
-              opt=(line.partition(':')[2]).strip(' ')
+            opt=(line.partition(':')[2]).strip()          
           if line.partition(':')[0]=="Quit":
-              quit=(line.partition(':')[2]).strip(' ')
+            quit=(line.partition(':')[2]).strip()   
           if line.partition(':')[0]=="Report":
-              report=(line.partition(':')[2]).strip(' ')
+            report=(line.partition(':')[2]).strip()          
           if line.partition(':')[0]=="Autosave":
-              autosave=int((line.partition(':')[2]).strip(' '))
+            autosave=int((line.partition(':')[2]).strip())
 
   #Main menu
   while 1:

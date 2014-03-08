@@ -2,15 +2,15 @@ Name:
 Level:1
 HP:18
 MP:6
-Race:cyborg
-Class:tourist
+Race:half orc
+Class:ranger
 Exp:1
 Points:45
 Money:0
-INT:3
-DEX:-2
-PER:3
+INT:-1
+DEX:1
+PER:1
 WIL:1
-STR:2
-CON:4
-CHA:-4
+STR:3
+CON:1
+CHA:1
