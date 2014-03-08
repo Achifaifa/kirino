@@ -33,8 +33,8 @@ class dungeon:
       for v in range(self.xsize*self.ysize/1600):
         roomy=random.randrange(self.ysize/3)+4
         roomx=random.randrange(self.xsize/3)+4
-        roomstarty=random.randrange(1,self.ysize-roomy)
-        roomstartx=random.randrange(1,self.xsize-roomx)
+        roomstarty=random.randrange(2,self.ysize-roomy-2)
+        roomstartx=random.randrange(2,self.xsize-roomx-2)
         for a in range(roomstarty,roomstarty+roomy):
           for b in range(roomstartx,roomstartx+roomx):
             self.dungarray[a][b]="."
@@ -45,8 +45,8 @@ class dungeon:
       for v in range(self.xsize*self.ysize/400):
         roomy=random.randrange(self.ysize/5)+2
         roomx=random.randrange(self.xsize/5)+2
-        roomstarty=random.randrange(1,self.ysize-roomy)
-        roomstartx=random.randrange(1,self.xsize-roomx)
+        roomstarty=random.randrange(2,self.ysize-roomy-2)
+        roomstartx=random.randrange(2,self.xsize-roomx-2)
         for a in range(roomstarty,roomstarty+roomy):
           for b in range(roomstartx,roomstartx+roomx):
             self.dungarray[a][b]="."
@@ -164,6 +164,8 @@ class dungeon:
   def dumpdung(self,place): 
     if place==0:
       #Dump to file mode.
+      if not os.path.exists("../logs/"):
+        os.makedirs("../logs/")
       with open("../logs/kirino.dump","a") as dump:
         dump.write ("\n ###################### \n")
   	for i in range (0,len(self.dungarray)):
@@ -231,6 +233,8 @@ class dungeon:
 
   #Dumps a map of the dungeon into a text file
   def report(self):
+    if not os.path.exists("../logs/"):
+      os.makedirs("../logs/")
     with open("../logs/report","a+") as dump:
       for i in range (0,len(self.dungarray)):
         dump.write(''.join(map(str,self.dungarray[i]))+"\n")

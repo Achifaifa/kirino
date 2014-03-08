@@ -6,7 +6,6 @@ Dungeon.py
     Leaves one D in one of the rooms (Pending fix that and remove code that removes Ds)
     Generator is predictable (Multiple south rooms connected to a north one)
     Cthulhu algorithm needs more randomness.
-    Dungeon array not closed on the borders
 
 item.py
 

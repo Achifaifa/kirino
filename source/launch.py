@@ -53,6 +53,8 @@ def menu():
   global autosave
 
   #Checks if there is a config file. If it exists, loads the key mapping variables from it
+  if not os.path.exists("../player/"):
+    os.makedirs("../player/")
   if os.path.isfile("../player/config"):
     with open("../player/config","r") as configfile:
       for line in configfile:
@@ -74,7 +76,9 @@ def menu():
           if line.partition(':')[0]=="Report":
             report=(line.partition(':')[2]).strip()          
           if line.partition(':')[0]=="Autosave":
-            autosave=int((line.partition(':')[2]).strip())
+            if line.partition(':')[2].strip()=="on":
+              autosave=1
+
 
   #Main menu
   while 1:
@@ -118,6 +122,7 @@ def options():
     if opmen=="2":
       keymap()
     if opmen=="0":
+      saveoptions()
       break
 
 #Keyboard mapping options menu. Saves the configuration to file at exit
@@ -149,21 +154,7 @@ def keymap():
     print ""
     keymenu=raw_input("-> ")
     if keymenu=="0":
-      with open("../player/config","w") as configfile:
-        configfile.write("# \n")
-        configfile.write("# Keyboard options \n")
-        configfile.write("# \n")
-        configfile.write("North:"+north+"\n")
-        configfile.write("South:"+south+"\n")
-        configfile.write("East:"+east+"\n")
-        configfile.write("West:"+west+"\n")
-        configfile.write("Sheet:"+charsh+"\n")
-        configfile.write("Options:"+opt+"\n")
-        configfile.write("Quit:"+quit+"\n")
-        configfile.write("Report:"+report+"\n")
-        configfile.write("# \n")
-        configfile.write("# Game options \n")
-        configfile.write("# \n")
+      saveoptions()
       break
     if keymenu=="9":
       pass
@@ -183,6 +174,30 @@ def keymap():
       report=raw_input("New key for 'Report dungeon' ")
     if keymenu=="8":
       quit=raw_input("New key for 'Quit dungeon' ")
+
+#Saves the game options to file
+def saveoptions():
+  if not os.path.exists("../player/"):
+    os.makedirs("../player/")
+  with open("../player/config","w+") as configfile:
+    configfile.write("# \n")
+    configfile.write("# Keyboard options \n")
+    configfile.write("# \n")
+    configfile.write("North:"+north+"\n")
+    configfile.write("South:"+south+"\n")
+    configfile.write("East:"+east+"\n")
+    configfile.write("West:"+west+"\n")
+    configfile.write("Sheet:"+charsh+"\n")
+    configfile.write("Options:"+opt+"\n")
+    configfile.write("Quit:"+quit+"\n")
+    configfile.write("Report:"+report+"\n")
+    configfile.write("# \n")
+    configfile.write("# Game options \n")
+    configfile.write("# \n")
+    if autosave==1:
+      configfile.write("Autosave:on")
+    if autosave==0:
+      configfile.write("Autosave:off")
 
 #Dungeon crawling, main function
 def crawl():

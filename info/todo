@@ -1,22 +1,25 @@
 TO-DO
 
+Elements inside files ordered by priority
+
 Dungeon.py:
   Complete debugger (Make sure the exit is reachable from the entrance)
-  Add items to dungeon (loot) via an item array
-  create another array with the explorer dungeon
+  Add monies (loot)
+  Add items to dungeon (loot) via an item array 
+  create another array with the explored dungeon
 
 Mob.py:
-  Add stats (Movement, damage, flying)
   Add random name generator from word files
+  Add stats (Movement, damage, flying)
 
 Item.py
   enchant()
 
 Launch.py:
   Keyboard events
-  Function that shows the explored map as a ""popup""
   Ask if go down when reaching exit
   saving inventory in text file with character info
+  Function that shows the explored map as a ""popup""
 
 Player.py
   Cemetery file (Dump all the dead characters into a file)
@@ -31,7 +34,7 @@ Parser.py (After everything else is done)
 
 ---
 
-Extras (zero priority to-do)
+Extras (zero priority to-do, no priority order)
   Music
   In-game help
   Colours
