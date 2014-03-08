@@ -33,8 +33,8 @@ class dungeon:
       for v in range(self.xsize*self.ysize/1600):
         roomy=random.randrange(self.ysize/3)+4
         roomx=random.randrange(self.xsize/3)+4
-        roomstarty=random.randrange(2,self.ysize-roomy-2)
-        roomstartx=random.randrange(2,self.xsize-roomx-2)
+        roomstarty=random.randrange(1,self.ysize-roomy)
+        roomstartx=random.randrange(1,self.xsize-roomx)
         for a in range(roomstarty,roomstarty+roomy):
           for b in range(roomstartx,roomstartx+roomx):
             self.dungarray[a][b]="."
@@ -45,8 +45,8 @@ class dungeon:
       for v in range(self.xsize*self.ysize/400):
         roomy=random.randrange(self.ysize/5)+2
         roomx=random.randrange(self.xsize/5)+2
-        roomstarty=random.randrange(2,self.ysize-roomy-2)
-        roomstartx=random.randrange(2,self.xsize-roomx-2)
+        roomstarty=random.randrange(1,self.ysize-roomy)
+        roomstartx=random.randrange(1,self.xsize-roomx)
         for a in range(roomstarty,roomstarty+roomy):
           for b in range(roomstartx,roomstartx+roomx):
             self.dungarray[a][b]="."
@@ -102,6 +102,18 @@ class dungeon:
                       for n in range(l-j):
                         self.dungarray[k-var][l-n]="."
                         #I still don't know how the fuck I made this work
+
+      #Fill the borders of the dungeon so the player does not fall out
+      for i in range(len(self.dungarray)):
+        for j in range(len(self.dungarray[i])):
+          if i==0:
+            self.dungarray[i][j]="#"
+          if i==len(self.dungarray):
+            self.dungarray[i][j]="#"
+          if j==0:
+            self.dungarray[i][j]="#"
+          if j==len(self.dungarray[i]):
+            self.dungarray[i][j]="#"
           
       #This generates random coordinates for the entrance tile (A)
       entrancey=random.randrange(self.ysize)
