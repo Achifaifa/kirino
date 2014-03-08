@@ -25,6 +25,7 @@ List of files/folders:
 
 +player:              Player files
   -save:                Example save file
+  -config:              Example configuration file
 
 +source:              Source file folder
   -dungeon.py:          Dungeon class and generator

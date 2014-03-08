@@ -227,7 +227,7 @@ class dungeon:
 
   #Dumps a map of the dungeon into a text file
   def report(self):
-    with open("../logs/report","a") as dump:
+    with open("../logs/report","a+") as dump:
       for i in range (0,len(self.dungarray)):
         dump.write(''.join(map(str,self.dungarray[i]))+"\n")
       dump.write("\n ---------- \n")
@@ -300,7 +300,7 @@ class dungeon:
       if entrance!=1 or exit!=1:
         return(1)
       else:
-      #Checks if X is reachable from A (Unnecessary, but pending. Low priority)
+      #Checks if X is reachable from A (pending)
         pass
         return(0)
 

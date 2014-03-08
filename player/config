@@ -1,0 +1,14 @@
+# 
+# Keyboard options 
+# 
+North:w
+South:r
+East:s
+West:a
+Sheet:z
+Options:x
+Quit:;
+Report:c
+# 
+# Game options 
+# 

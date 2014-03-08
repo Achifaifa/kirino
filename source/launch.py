@@ -31,8 +31,53 @@ tempequiparr=[]
 #Environment variables
 autosave=0
 
+#Key mapping variables
+north="n"
+south="s"
+east="e"
+west="w"
+charsh="c"
+opt="o"
+quit="q"
+report="z"
+
 #Main menu
 def menu():
+  global north
+  global south
+  global east
+  global west
+  global charsh
+  global opt
+  global quit
+  global report
+  global autosave
+
+  #Checks if there is a config file. If it exists, loads the key mapping variables from it
+  if os.path.isfile("../player/config"):
+    with open("../player/config","r") as configfile:
+      for line in configfile:
+        if not line.startswith('#'):
+          if line.partition(':')[0]=="North":
+              north=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="South":
+              south=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="East":
+              east=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="West":
+              west=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="Sheet":
+              charsh=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="Options":
+              opt=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="Quit":
+              quit=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="Report":
+              report=(line.partition(':')[2]).strip()
+          if line.partition(':')[0]=="Autosave":
+              autosave=int((line.partition(':')[2]).strip())
+
+  #Main menu
   dungcreated=0
   while 1==1:
     os.system('clear')
@@ -65,14 +110,81 @@ def options():
     if autosave==1:
       print "1.- Autosave [on]"
     print "  Saves the character to file between floors"
+    print "2.- Key mapping"
     print ""
     print "--"
     print "0.- Go back"
     opmen=raw_input("->")
     if opmen=="1":
       autosave=not autosave
+    if opmen=="2":
+      keymap()
     if opmen=="0":
       break
+
+#Keyboard mapping options menu. Saves the configuration to file at exit
+def keymap():
+  global north
+  global south
+  global east
+  global west
+  global charsh
+  global opt
+  global quit
+  global report
+  while 1:
+    os.system('clear')
+    print "Kirino test"
+    print "Options - Keyboard mapping"
+    print ""
+    print "1.- Go north: "+north
+    print "2.- Go south: "+south
+    print "3.- Go east: "+east
+    print "4.- Go west: "+west
+    print "5.- Character sheet : "+charsh
+    print "6.- Option menu: "+opt
+    print "7.- Report dungeon: "+report
+    print "8.- Quit dungeon: "+quit
+    print "---"
+    print "9.- More keys"
+    print "0.- Go back"
+    print ""
+    keymenu=raw_input("-> ")
+    if keymenu=="0":
+      with open("../player/config","w") as configfile:
+        configfile.write("# \n")
+        configfile.write("# Keyboard options \n")
+        configfile.write("# \n")
+        configfile.write("North:"+north+"\n")
+        configfile.write("South:"+south+"\n")
+        configfile.write("East:"+east+"\n")
+        configfile.write("West:"+west+"\n")
+        configfile.write("Sheet:"+charsh+"\n")
+        configfile.write("Options:"+opt+"\n")
+        configfile.write("Quit:"+quit+"\n")
+        configfile.write("Report:"+report+"\n")
+        configfile.write("# \n")
+        configfile.write("# Game options \n")
+        configfile.write("# \n")
+      break
+    if keymenu=="9":
+      pass
+    if keymenu=="1":
+      north=raw_input("New key for 'go north' ")
+    if keymenu=="2":
+      south=raw_input("New key for 'go south' ")
+    if keymenu=="3":
+      east=raw_input("New key for 'go east' ")
+    if keymenu=="4":
+      west=raw_input("New key for 'go west' ")
+    if keymenu=="5":
+      charsh=raw_input("New key for 'Character sheet' ")
+    if keymenu=="6":
+      opt=raw_input("New key for 'Option menu' ")
+    if keymenu=="7":
+      report=raw_input("New key for 'Report dungeon' ")
+    if keymenu=="8":
+      quit=raw_input("New key for 'Quit dungeon' ")
 
 #Dungeon crawling, main function
 def crawl():
@@ -125,20 +237,26 @@ def crawl():
     hero.getatr()
     print ""
     print "nwse - move"
-    print "c - character sheet"
-    print "o - options"
-    print "q - go back to menu"
-    print "z - report dungeon"
+    print charsh+" - character sheet"
+    print opt+" - options"
+    print quit+" - go back to menu"
+    print report+" - report dungeon"
     crawlmen=raw_input("-> ")
-    if crawlmen=="c":
+    if crawlmen==charsh:
       hero.charsheet()
-    elif crawlmen=="n" or crawlmen=="s" or crawlmen=="e" or crawlmen=="w":
-      hero.move(dung,crawlmen)
-    elif crawlmen=="o":
+    elif crawlmen==north:
+      hero.move(dung,1) 
+    elif crawlmen==south: 
+      hero.move(dung,3)
+    elif crawlmen==east:
+      hero.move(dung,4)
+    elif crawlmen==west:
+      hero.move(dung,2)
+    elif crawlmen==opt:
       options()
-    elif crawlmen=="q":
+    elif crawlmen==quit:
       break
-    elif crawlmen=="z":
+    elif crawlmen==report:
       dung.report()
   pass
 
@@ -252,3 +370,6 @@ def lload(playa):
       playa.points+=2
 
 menu()
+
+# for i in range(100):
+#   print i,(3*i)+(2*(i-1))

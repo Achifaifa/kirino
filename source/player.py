@@ -153,22 +153,22 @@ class player:
     # moves+=self.SPD/10 #disabled because of bugs
 
     #Checks de direction and moves
-    if direction=="n":
+    if direction==1:
       if dungeon.dungarray[self.ypos-1][self.xpos]=="#":
         pass
       else:
         self.ypos -= moves
-    elif direction=="w":
+    elif direction==2:
       if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
         pass
       else:
         self.xpos -= moves  
-    elif direction=="s":
+    elif direction==3:
       if dungeon.dungarray[self.ypos+1][self.xpos]=="#":
         pass
       else:     
         self.ypos += moves
-    elif direction=="e":
+    elif direction==4:
       if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
         pass
       else:
@@ -549,7 +549,7 @@ class player:
 
   #Load player stats from a text file into a player object
   def load(self):
-    with open("../player/save") as savefile:
+    with open("../player/save","r") as savefile:
       for line in savefile:
         if not line.startswith("#"):
           if line.partition(':')[0]=="Name":
