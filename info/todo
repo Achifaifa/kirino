@@ -4,7 +4,6 @@ Elements inside files ordered by priority
 
 Dungeon.py:
   Complete debugger (Make sure the exit is reachable from the entrance)
-  Add monies (loot)
   Add items to dungeon (loot) via an item array 
   create another array with the explored dungeon
 
@@ -23,6 +22,7 @@ Launch.py:
   Function that shows the explored map as a ""popup""
 
 Player.py
+  Dropping items from the inventory
   Show attribute modifiers in inventory menu
   Show attribute boost in crawl screen
   Cemetery file (Dump all the dead characters into a file)

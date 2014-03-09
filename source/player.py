@@ -40,11 +40,13 @@ class player:
   yPos=0
   zPos=0 #0: On the ground; 1: Flying
   
-
-  #Initialization of the player objects. 
-  #Receives a dungeon object, then sets the coordinates of the player object in the entrance tile
-  #It also chooses a random race and class from the ./data/races and ./data/classes files
   def __init__(self,dungeon):
+    """
+    Initialization of the player objects. 
+    Receives a dungeon object, then sets the coordinates of the player object in the entrance tile
+    It also chooses a random race and class from the ./data/races and ./data/classes files
+    """
+
     #Initialize atributes
     self.name="Test subject"
     self.pocket=0
@@ -119,12 +121,14 @@ class player:
           classesarray.append(line.rstrip('\n'))
     self.charclass=random.choice(classesarray) 
 
-    #add a one hand weapon to the inventory
+    #add two random items to the inventory
     for i in range(2):
       self.inventory.append(item.item(random.randint(1,11)))
 
-  #Pick item. This receives an item and adds it to the inventory if the inventory is not full
   def pickobject(self,object):
+    """
+    Pick item. This receives an item and adds it to the inventory if the inventory is not full (Not yet implemented)
+    """
 
     #Counts item in inventory
     invcounter=0
@@ -133,13 +137,15 @@ class player:
 
     #If the inventory is not full, it adds it. 
     #If the inventory is full, passes.
-    if invcounter>10:
+    if invcounter>=10:
       pass
     if invcounter<10:
-      self.inventory.append(item)
+      self.inventory.append(object)
     
-  #Test function. Prints attributes.
   def getatr(self):
+    """
+    Prints the player attributes on screen.
+    """
     print 'HP:',self.hp2,"/",self.HP
     print 'MP:',self.mp2,"/",self.MP
     print 'INT:',self.INT,'DEX:',self.DEX,'CON:',self.CON
@@ -147,8 +153,14 @@ class player:
     print 'CHA:',self.CHA
     print 'END:',self.END,'SPD:', self.SPD    
     
-  #Move function. Accepts strings with direction(n, w, s, e) and an integer with the distance
   def move(self,dungeon,direction):
+    """
+    Move function. Receives a dungeon object to check for obstacles and an integer [1,4] indicating the direction
+      1 north
+      2 west
+      3 south
+      4 east
+    """
     #This gives 1 base move and 1 extra move for every 10 SPD
     moves=1
     # moves+=self.SPD/10 #disabled because of bugs
@@ -177,16 +189,21 @@ class player:
     else:
       pass
 
-  #Define secondary attributes from the primary ones.
-  #Receiver a player object and recalculates HP, MP, END and SPD from the primary attributes
   def secondary(self):
+    """
+    Calculates and sets the secondary attributes from the primary ones.
+    Receives a player object and recalculates HP, MP, END and SPD from the primary attributes
+    """
     self.HP=((self.CON+self.STR)*4)+10
     self.MP=(self.STR+self.DEX+self.INT+self.CON+self.WIL+self.PER)
     self.END=((self.CON+self.STR+self.WIL)*3)+5
     self.SPD=(self.CON+self.DEX)*3
 
-  #Character sheet. Character managing and modifying menu. 
   def charsheet(self):
+    """
+    Character sheet. 
+    Main menu to edit, view and configure characters and player options
+    """
     menu=0
     while 1==1:
       self.secondary()
@@ -231,8 +248,10 @@ class player:
         break
       pass
 
-  #Experience spending menu
   def spend(self):
+    """
+    Point spending menu.
+    """
     choice=-1
     while choice!="0":
       os.system('clear')
@@ -332,8 +351,10 @@ class player:
         else:
           pass
 
-  #Player options menu
   def optmenu(self):
+    """
+    Player options menu
+    """
     coptmen=-1
     while coptmen!="0":
       os.system('clear')
@@ -349,8 +370,10 @@ class player:
       if coptmen=="0":
         break
 
-  #Inventory menu
   def invmenu(self):
+    """
+    Inventory menu. 
+    """
     while 1:
       os.system('clear')
       print "Kirino test"
@@ -382,8 +405,7 @@ class player:
 
       #Print everything in the inventory array
       for i in range(len(self.inventory)):
-        if self.inventory[i].equip==0:
-          print i+1,"-",self.inventory[i].name
+        print i+1,"-",self.inventory[i].name
 
       print ""
       print "0.- Back"
@@ -525,10 +547,14 @@ class player:
       elif invmenu=="0":
         break
 
-  #Save function.
-  #Takes a player object and saves the stats into a text file
   def save(self):
-    with open("../player/save","w") as savefile:
+    """
+    Save function. Takes the player attributes and saves them into a text file in ../player/save
+    If the path or the file do not exists they are created.
+    """
+    if not os.path.exists("../player/"):
+      os.makedirs("../player/")
+    with open("../player/save","w+") as savefile:
       savefile.write("Name:"+str(self.name)+"\n")
       savefile.write("Level:"+str(self.lv)+"\n")
       savefile.write("HP:"+str(self.hp2)+"\n")
@@ -548,8 +574,14 @@ class player:
 
     pass
 
-  #Load player stats from a text file into a player object
   def load(self):
+    """
+    Takes the information from the save file stored in ../player/save and loads it into the player object.
+    If the path does not exist it is created. 
+    """
+
+    if not os.path.exists("../player/"):
+      os.makedirs("../player/")
     with open("../player/save","r") as savefile:
       for line in savefile:
         if not line.startswith("#"):

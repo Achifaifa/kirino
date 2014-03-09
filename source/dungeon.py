@@ -5,7 +5,7 @@ import player
 import mob
 
 class dungeon:
-  "Dungeon class"
+  "Creates and manages dungeons and dungeon displaying features"
   xsize=0
   ysize=0
   dungarray=[]
@@ -14,6 +14,10 @@ class dungeon:
   #Main dungeon generator, fills the dungeon array with terrain tiles
   #Absolute minimum size 40 horizontal and 20 vertical
   def __init__(self,x,y):
+    """
+    Constructor. Receives two integers (x,y) that define the horizontal and vertical size.
+    Minimum size is 40x20. If something smaller is given, defaults at the minimum for that dimension.
+    """
     if x<40:
       x=40
     if y<20:
@@ -154,7 +158,28 @@ class dungeon:
       # 	if self.dungarray[randy][randx]=="#":
       #    self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
       # 	else: pass
-            
+
+      #Add money (loot) in random places in the ground. 1 drop per 50 floor tiles
+      counter=0
+      tempx=0
+      tempy=0
+      for i in range(self.ysize):
+        for j in range(self.xsize):
+          if self.dungarray[i][j]==".":
+            counter+=1
+      for i in range(1,counter/75):
+        while self.dungarray[tempy][tempx]!=".":
+          tempx=random.randrange(1,self.xsize)
+          tempy=random.randrange(1,self.ysize)
+        self.dungarray[tempy][tempx]="$"
+
+      #Add objects (loot) in random places. 1 drop per 100 floor tiles
+      for i in range (1,counter/100):
+        while self.dungarray[tempy][tempx]!=".":
+          tempx=random.randrange(1,self.xsize)
+          tempy=random.randrange(1,self.ysize)
+        self.dungarray[tempy][tempx]="/"        
+
       #Dungeon should be done
 
       #Initializes the filled array so it has the same sizent content as the dungarray
@@ -169,11 +194,12 @@ class dungeon:
         for j in range (0,self.xsize):
           self.filled[i][j]=self.dungarray[i][j]
       
-      
-  #Dump the dung. Generates a list of coordinates and tile type.
-  #Place indicates where. 0 is return to console, anything else dumps it to a file
-  #Avoid dumping to console with big dungeons, output turns out unreadable
   def dumpdung(self,place): 
+    """
+    Dump the dung. Generates a list of coordinates and tile type.
+    Place indicates where. 0 is return to console, anything else dumps it to a file
+    Avoid dumping to console with big dungeons, output turns out unreadable
+    """
     if place==0:
       #Dump to file mode.
       if not os.path.exists("../logs/"):
@@ -243,8 +269,10 @@ class dungeon:
 	    else:
 	      print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
 
-  #Dumps a map of the dungeon into a text file
   def report(self):
+    """
+    Dumps a map of the dungeon into a text file
+    """
     if not os.path.exists("../logs/"):
       os.makedirs("../logs/")
     with open("../logs/report","a+") as dump:
@@ -252,18 +280,24 @@ class dungeon:
         dump.write(''.join(map(str,self.dungarray[i]))+"\n")
       dump.write("\n ---------- \n")
 	   
-  #Map generator. Creates a map of the dungeon on screen.
-  #This shows the entire dungarray[][]
   def map(self):
+    """
+    Map generator. Creates a map of the dungeon on screen.
+    This shows the entire dungarray[][]
+    """
+
     for i in range (0,len(self.dungarray)):
       print ''.join(map(str,self.dungarray[i]))
       #TO-DO: Use colours in the console to print this, so the map on the console looks better (zero priority)
       
-  #Advanced map. 
-  #Displays an area of the map. x and y are the coordinates of the dungeon array in which the advanced map is centered.
-  #xmapsize and ymapsize are the horizontal and vertical size of the map. 
-  #If the coordinates are too close to the edge, they are replaced so the map does not show anything outside the dungeon array.   
   def advmap(self,x,y,xmapsize,ymapsize):
+    """
+    Advanced map function. 
+    Displays an area of the map. x and y are the coordinates of the dungeon array in which the advanced map is centered.
+    xmapsize and ymapsize are the horizontal and vertical size of the map. minimum size is 20x10. If something smaller is entered, it defaults at the smallest value. 
+    If the coordinates are too close to the edge, they are replaced so the map does not show anything outside the dungeon array.   
+    """
+
     if xmapsize<20:
       xmapsize=20
     if ymapsize<10:
@@ -290,24 +324,31 @@ class dungeon:
     #Print loop
     for i in range(len(mapstring)):
       print ''.join(map(str,mapstring[i]))
-  
-  #Generates an advanced map (20x10) centered on the position (x,y)   
+     
   def advmapcoords(self,x,y):
+    """
+    Generates an advanced map (20x10) centered on the position (x,y)
+    """
     self.advmap(x,y,20,10)
 
-  #Generates a minimap (advmap centered on the player object passed)
   def minimap(self,player):
+    """
+    Generates a minimap (advmap centered on the player object passed)
+    """
     self.advmapcoords(player.xpos,player.ypos)
     
-  #Debug dungeon 
-  #Returns an integer as error condition code:
-  #	EC0: (This is not actually an error, everything is fine)
-  #	EC1: There is no entrance or exit
-  #	EC2: It's below the minimum size
-  #	EC3: Can't reach the exit from the entrance (pending)
-  #	EC4: There are halls unconnected or unreachable (pending)
-  #Used in the constructor on this class, although it can be invoked anytime.
   def debug(self):
+    """
+    Debug dungeon 
+    Returns an integer as error condition code:
+      EC0: (This is not actually an error, everything is fine)
+      EC1: There is no entrance or exit
+      EC2: It's below the minimum size
+      EC3: Can't reach the exit from the entrance (pending)
+      EC4: There are halls unconnected or unreachable (pending)
+    Used in the constructor on this class, although it can be invoked anytime.
+    """
+
     #Making sure the dungeon is over the minimum size
     if self.xsize<40 or self.ysize<20:
       return(2)
@@ -328,10 +369,12 @@ class dungeon:
         pass
         return(0)
 
-  #Fills the dungeon temporarily with PC and NPC object and mob markers. 
-  #Needs a player, the object array (Pending) and the mob array (pending)
-  #Does not return anything, but modifies the filled array
   def fill(self,player):
+    """
+    Fills the dungeon temporarily with PC and NPC object and mob markers. 
+    Needs a player, the object array (Pending) and the mob array (pending)
+    Does not return anything, but modifies the filled array
+    """
     for i in range (0,self.ysize):
       secondary=[]
       for j in range (0,self.xsize):

@@ -1,21 +1,64 @@
- Kirino test documentation - mob.py<br/>
- <a href="./index.html"> Back to index</a><br/><br/> 
 
- Mob class. This defines and generates creeps moving in the dungeon on their own.<br/><br/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module mob</title>
+</head><body bgcolor="#f0f0f8">
 
- <b>Libraries used</b>: <br/>os, random, dungeon<br/><br/>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>mob</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/achifaifa/git/kirino/source/mob.py">/home/achifaifa/git/kirino/source/mob.py</a></font></td></tr></table>
+    <p><tt>#usr/bin/env&nbsp;python</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="mob.html#mob">mob</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="mob">class <strong>mob</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>giant&nbsp;enemy&nbsp;class.<br>
+All&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;generation,&nbsp;IA&nbsp;and&nbsp;movement&nbsp;is&nbsp;implemented&nbsp;here.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="mob-__init__"><strong>__init__</strong></a>(self, dungeon)</dt><dd><tt>Mob&nbsp;generator.&nbsp;Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;and&nbsp;places&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;spot&nbsp;that&nbsp;is&nbsp;not&nbsp;filled&nbsp;with&nbsp;rock.</tt></dd></dl>
 
- <b>Functions</b>:<br/>
+<dl><dt><a name="mob-move"><strong>move</strong></a>(self, dungeon, direction, distance)</dt><dd><tt>Move&nbsp;function.&nbsp;Needs&nbsp;a&nbsp;dungeon&nbsp;object.<br>
+Accepts&nbsp;direction&nbsp;and&nbsp;distance<br>
+&nbsp;&nbsp;1&nbsp;north<br>
+&nbsp;&nbsp;2&nbsp;west<br>
+&nbsp;&nbsp;3&nbsp;south<br>
+&nbsp;&nbsp;4&nbsp;east</tt></dd></dl>
 
- <br/><i><b>__init__(self,dungeon)</i></b>:<br/>
- Creates a creep on a random empty spot of the dungeon. The only condition is the tile not being rock (#).<br/>
+<dl><dt><a name="mob-randmove"><strong>randmove</strong></a>(self, dungeon, dist)</dt><dd><tt>Moves&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;direction&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;tiles</tt></dd></dl>
 
- <br/><i><b>move(self,dungeon,str direction,int distance)</i></b>:<br/>
- Moves a creep on a dungeon a certain tiles (distance) on a certain direction (direction). <br/>
- The direction must be a string (n, s, e, w).<br/>
+<dl><dt><a name="mob-trandmove"><strong>trandmove</strong></a>(self, dungeon)</dt><dd><tt>Moves&nbsp;a&nbsp;random&nbsp;number&nbsp;of&nbsp;tiles&nbsp;in&nbsp;a&nbsp;random&nbsp;direction</tt></dd></dl>
 
- <br/><i><b>randmove(self,dungeon,int dist)</i></b>:<br/>
- Moves a creep in a dungeon a certain amount of tiles (dist) in a random direction.<br/>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>xpos</strong> = 0</dl>
 
- <br/><i><b>trandmove(self,dungeon)</i></b>:<br/>
- Moves a creep a random number of tiles in a random direction.<br/>
+<dl><dt><strong>ypos</strong> = 0</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

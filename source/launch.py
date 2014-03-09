@@ -1,4 +1,8 @@
 #!/usr/bin/env pyton
+"""
+Main procedure file.
+All the crawl and configuration implementation are in this module.
+"""
 import os
 import sys
 import random
@@ -42,6 +46,9 @@ report="z"
 
 #Main menu
 def menu():
+  """
+  Main menu function. Loads the configuration file and enters the menu loop.
+  """
   global north
   global south
   global east
@@ -99,8 +106,11 @@ def menu():
     if menu=="0":
       exit()
 
-#Game options menu
+
 def options():
+  """
+  Game options menu. This allows modification of the general options, such as key mappings, autosave, etc.
+  """
   global autosave
   while 1:
     os.system('clear')
@@ -127,6 +137,9 @@ def options():
 
 #Keyboard mapping options menu. Saves the configuration to file at exit
 def keymap():
+  """
+  Key mapping configuration menu
+  """
   global north
   global south
   global east
@@ -175,8 +188,11 @@ def keymap():
     if keymenu=="8":
       quit=raw_input("New key for 'Quit dungeon' ")
 
-#Saves the game options to file
 def saveoptions():
+  """
+  Option saving function. Takes all the configuration variables and writes them into a file.
+  The file is located in ../player/, if the directory does not exist this creates the directory and the file.
+  """
   if not os.path.exists("../player/"):
     os.makedirs("../player/")
   with open("../player/config","w+") as configfile:
@@ -199,8 +215,10 @@ def saveoptions():
     if autosave==0:
       configfile.write("Autosave:off")
 
-#Dungeon crawling, main function
 def crawl():
+  """
+  Main crawling function. Displays the map, keys and different statistics.
+  """
   global flcounter
   global fl
   fl=1 #Initialize floor to 1
@@ -221,6 +239,8 @@ def crawl():
   #Main crawling menu and interface
   crawlmen=-1
   while 1:
+
+    #Actions if player has reached exit
     if dung.dungarray[hero.ypos][hero.xpos]=="X":
       flcounter+=1
       fl+=1
@@ -235,6 +255,20 @@ def crawl():
             hero.ypos=i
             hero.xpos=j
             hero.zpos=0
+
+    #Action if player has reached a money loot tile
+    if dung.dungarray[hero.ypos][hero.xpos]=="$":
+      monies=random.randrange(1,5)
+      hero.pocket+=monies
+      dung.dungarray[hero.ypos][hero.xpos]="."
+
+    #Action if player has reached a gear loot tile
+    if dung.dungarray[hero.ypos][hero.xpos]=="/":
+      loot=item.item(random.randrange(1,11))
+      hero.pickobject(loot)
+      dung.dungarray[hero.ypos][hero.xpos]="."
+
+    #Crawling loop
     os.system('clear')
     print "Kirino test"
     dung.fill(hero)
@@ -273,12 +307,18 @@ def crawl():
       dung.report()
   pass
 
-#New character menu (pass)
 def newchar():
+  """
+  This function displays the menu to create a new character.
+  Not yet implemented.
+  """
   pass
 
-#resets all the temporary variables
 def purge():
+  """
+  Sets to zero all the global temporal variables used to store player data.
+  Used when exiting a game so the data is not carried to the next one.
+  """
   global dex
   global intv
   global con
@@ -312,9 +352,10 @@ def purge():
     tempequiparr[i]=item.item(0)
   points=0
 
-
-#Grab all the stats from the player and store them in the temporary variables
 def lsave(playa):
+  """
+  Takes a player object and saves all its attributes into global variables. 
+  """
   global dex
   global intv
   global con
@@ -347,8 +388,10 @@ def lsave(playa):
   tempequiparr=playa.equiparr
   points=playa.points
 
-#Reassign temporary saved values to new character
 def lload(playa):
+  """
+  Loads all the global variables into a player object and then purges the temporal variables.
+  """
   global flcounter
   global lv
   playa.DEX=dex

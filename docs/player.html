@@ -1,39 +1,129 @@
- Kirino test documentation - player.py<br/>
- <a href="./index.html"> Back to index</a><br/><br/> 
 
- Player class. Used to generate, define and manage the player.<br/><br/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module player</title>
+</head><body bgcolor="#f0f0f8">
 
- <b>Libraries used</b>: <br/>os, random, dungeon<br/><br/>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>player</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/achifaifa/git/kirino/source/player.py">/home/achifaifa/git/kirino/source/player.py</a></font></td></tr></table>
+    <p><tt>#usr/bin/env&nbsp;python</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
+</td><td width="25%" valign=top><a href="item.html">item</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="player.html#player">player</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="player">class <strong>player</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Player&nbsp;class.&nbsp;Creates&nbsp;and&nbsp;manages&nbsp;<a href="#player">player</a>&nbsp;objects<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="player-__init__"><strong>__init__</strong></a>(self, dungeon)</dt><dd><tt>Initialization&nbsp;of&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;objects.&nbsp;<br>
+Receives&nbsp;a&nbsp;dungeon&nbsp;object,&nbsp;then&nbsp;sets&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;object&nbsp;in&nbsp;the&nbsp;entrance&nbsp;tile<br>
+It&nbsp;also&nbsp;chooses&nbsp;a&nbsp;random&nbsp;race&nbsp;and&nbsp;class&nbsp;from&nbsp;the&nbsp;./data/races&nbsp;and&nbsp;./data/classes&nbsp;files</tt></dd></dl>
 
- <b>Functions</b>:<br/>
+<dl><dt><a name="player-charsheet"><strong>charsheet</strong></a>(self)</dt><dd><tt>Character&nbsp;sheet.&nbsp;<br>
+Main&nbsp;menu&nbsp;to&nbsp;edit,&nbsp;view&nbsp;and&nbsp;configure&nbsp;characters&nbsp;and&nbsp;<a href="#player">player</a>&nbsp;options</tt></dd></dl>
 
- <br/><i><b>__init__(self, dungeon)</i></b>:<br/>
- Class constructor. Initializes attributes, adds random race and class, and places the player at the coordinates of the entrance tile.<br/>
+<dl><dt><a name="player-getatr"><strong>getatr</strong></a>(self)</dt><dd><tt>Prints&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;attributes&nbsp;on&nbsp;screen.</tt></dd></dl>
 
- <br/><i><b>charsheet(self)</i></b>:<br/>
- Brings up the character sheet menu. Displays name, attributes and optionsto save, load, modify the character and spend the experience gained.<br/>
+<dl><dt><a name="player-invmenu"><strong>invmenu</strong></a>(self)</dt><dd><tt>Inventory&nbsp;menu.</tt></dd></dl>
 
- <br/><i><b>getatr(self)</i></b>:<br/>
- Prints the primary and secondary attributes in console.<br/>
+<dl><dt><a name="player-load"><strong>load</strong></a>(self)</dt><dd><tt>Takes&nbsp;the&nbsp;information&nbsp;from&nbsp;the&nbsp;save&nbsp;file&nbsp;stored&nbsp;in&nbsp;../<a href="#player">player</a>/save&nbsp;and&nbsp;loads&nbsp;it&nbsp;into&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;object.<br>
+If&nbsp;the&nbsp;path&nbsp;does&nbsp;not&nbsp;exist&nbsp;it&nbsp;is&nbsp;created.</tt></dd></dl>
 
- <br/><i><b>invmenu()</i></b>:<br/>
- Inventory managing menu (planned feature).<br/>
+<dl><dt><a name="player-move"><strong>move</strong></a>(self, dungeon, direction)</dt><dd><tt>Move&nbsp;function.&nbsp;Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;to&nbsp;check&nbsp;for&nbsp;obstacles&nbsp;and&nbsp;an&nbsp;integer&nbsp;[1,4]&nbsp;indicating&nbsp;the&nbsp;direction<br>
+&nbsp;&nbsp;1&nbsp;north<br>
+&nbsp;&nbsp;2&nbsp;west<br>
+&nbsp;&nbsp;3&nbsp;south<br>
+&nbsp;&nbsp;4&nbsp;east</tt></dd></dl>
 
- <br/><i><b>load(self)</i></b>:<br/>
- takes attributes saved in a plain text file in ./save and loads the character with them.<br/>
+<dl><dt><a name="player-optmenu"><strong>optmenu</strong></a>(self)</dt><dd><tt>Player&nbsp;options&nbsp;menu</tt></dd></dl>
 
- <br/><i><b>move(self, dungeon, str direction)</i></b>:<br/>
- Moves the player one tile in the given direction. Accepted strings are n, s, e and w.<br/>
+<dl><dt><a name="player-pickobject"><strong>pickobject</strong></a>(self, object)</dt><dd><tt>Pick&nbsp;item.&nbsp;This&nbsp;receives&nbsp;an&nbsp;item&nbsp;and&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;inventory&nbsp;if&nbsp;the&nbsp;inventory&nbsp;is&nbsp;not&nbsp;full&nbsp;(Not&nbsp;yet&nbsp;implemented)</tt></dd></dl>
 
- <br/><i><b>optmenu()</i></b>:<br/>
- Character options name.<br/>
+<dl><dt><a name="player-save"><strong>save</strong></a>(self)</dt><dd><tt>Save&nbsp;function.&nbsp;Takes&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;attributes&nbsp;and&nbsp;saves&nbsp;them&nbsp;into&nbsp;a&nbsp;text&nbsp;file&nbsp;in&nbsp;../<a href="#player">player</a>/save<br>
+If&nbsp;the&nbsp;path&nbsp;or&nbsp;the&nbsp;file&nbsp;do&nbsp;not&nbsp;exists&nbsp;they&nbsp;are&nbsp;created.</tt></dd></dl>
 
- <br/><i><b>save(self)</i></b>:<br/>
- Takes the attributes from the player and stores them in a text file (./save).<br/>
- The file has the format (attribute:value), one attribute per line.<br/>
+<dl><dt><a name="player-secondary"><strong>secondary</strong></a>(self)</dt><dd><tt>Calculates&nbsp;and&nbsp;sets&nbsp;the&nbsp;secondary&nbsp;attributes&nbsp;from&nbsp;the&nbsp;primary&nbsp;ones.<br>
+Receives&nbsp;a&nbsp;<a href="#player">player</a>&nbsp;object&nbsp;and&nbsp;recalculates&nbsp;HP,&nbsp;MP,&nbsp;END&nbsp;and&nbsp;SPD&nbsp;from&nbsp;the&nbsp;primary&nbsp;attributes</tt></dd></dl>
 
- <br/><i><b>secondary(self)</i></b>:<br/>
- Calculates the secondary attributes from the player.<br/>
+<dl><dt><a name="player-spend"><strong>spend</strong></a>(self)</dt><dd><tt>Point&nbsp;spending&nbsp;menu.</tt></dd></dl>
 
- <br/><i><b>spend(self)</i></b>:<br/>
- Brings up the experience spending menu.<br/>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>CHA</strong> = 1</dl>
+
+<dl><dt><strong>CON</strong> = 1</dl>
+
+<dl><dt><strong>DEX</strong> = 1</dl>
+
+<dl><dt><strong>END</strong> = 0</dl>
+
+<dl><dt><strong>HP</strong> = 0</dl>
+
+<dl><dt><strong>INT</strong> = 1</dl>
+
+<dl><dt><strong>MP</strong> = 0</dl>
+
+<dl><dt><strong>PER</strong> = 1</dl>
+
+<dl><dt><strong>SPD</strong> = 0</dl>
+
+<dl><dt><strong>STR</strong> = 1</dl>
+
+<dl><dt><strong>WIL</strong> = 1</dl>
+
+<dl><dt><strong>charclass</strong> = '_'</dl>
+
+<dl><dt><strong>equiparr</strong> = []</dl>
+
+<dl><dt><strong>exp</strong> = 0</dl>
+
+<dl><dt><strong>hp2</strong> = 0</dl>
+
+<dl><dt><strong>inventory</strong> = []</dl>
+
+<dl><dt><strong>lv</strong> = 1</dl>
+
+<dl><dt><strong>mp2</strong> = 0</dl>
+
+<dl><dt><strong>name</strong> = '_'</dl>
+
+<dl><dt><strong>pocket</strong> = 0</dl>
+
+<dl><dt><strong>points</strong> = 0</dl>
+
+<dl><dt><strong>race</strong> = '_'</dl>
+
+<dl><dt><strong>xPos</strong> = 0</dl>
+
+<dl><dt><strong>yPos</strong> = 0</dl>
+
+<dl><dt><strong>zPos</strong> = 0</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>

@@ -4,7 +4,7 @@ import random
 
 #Item class. Creates and manages items.
 class item:
-  "Item class creates and manages items"
+  "Creates and manages items"
 
   #Item attributes
   ID=0      #Identifier
@@ -23,15 +23,10 @@ class item:
   atk=0
   defn=0
 
-  #Item constructor. Takes random data and sets the attributes
-  #Needs an integer (type) to determine the item type (See any item_XX file or the table below)
   def __init__(self,type):
-
-    self.equip=0
-    self.type=type
-
-    #Assign path depending on item type
-    # Place/Type:
+    """
+    Item constructor. Takes random data from the inventory data files and sets the attributes
+    Needs an integer (type) to determine the item type
     #   01 - Head
     #   02 - Face
     #   03 - Neck
@@ -43,7 +38,13 @@ class item:
     #   09 - Belt
     #   10 - Legs
     #   11 - Feet
-    #   00 - Empty
+    #   00 - Empty (Item with all the attributes set to zero)
+    """
+
+    self.equip=0
+    self.type=type
+
+    #Assign path depending on item type
     path="_"
     if type==1:
       path="../data/inventory/items_01"
@@ -229,6 +230,9 @@ class item:
       self.reset()
 
   def reset(self):
+    """
+    Sets all the attributes of the given item object to zero or empty string.
+    """
     self.name=""
     self.price=0
     self.atk=0
@@ -241,8 +245,11 @@ class item:
     self.wilbonus=0 
     self.chabonus=0
 
-  #Enchants the item (Permanently adds attribute, attack or defense bonuses)
   def enchant(self):
+    """
+    Enchants the item (Permanently adds attribute, attack or defense bonuses)
+    Not yet implemented.
+    """
     pass
 
 #test stuff

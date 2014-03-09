@@ -1,22 +1,91 @@
-Kirino test documentation - item.py<br/>
-<a href="./index.html"> Back to index</a><br/><br/>
 
-Item class. Creates and manages items<br/><br/>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module item</title>
+</head><body bgcolor="#f0f0f8">
 
-<b>Libraries used</b>:<br/> os, random<br/><br/>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>item</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/achifaifa/git/kirino/source/item.py">/home/achifaifa/git/kirino/source/item.py</a></font></td></tr></table>
+    <p><tt>#usr/bin/env&nbsp;python</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="item.html#item">item</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="item">class <strong>item</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;items<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="item-__init__"><strong>__init__</strong></a>(self, type)</dt><dd><tt>Item&nbsp;constructor.&nbsp;Takes&nbsp;random&nbsp;data&nbsp;from&nbsp;the&nbsp;inventory&nbsp;data&nbsp;files&nbsp;and&nbsp;sets&nbsp;the&nbsp;attributes<br>
+Needs&nbsp;an&nbsp;integer&nbsp;(type)&nbsp;to&nbsp;determine&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;type<br>
+#&nbsp;&nbsp;&nbsp;01&nbsp;-&nbsp;Head<br>
+#&nbsp;&nbsp;&nbsp;02&nbsp;-&nbsp;Face<br>
+#&nbsp;&nbsp;&nbsp;03&nbsp;-&nbsp;Neck<br>
+#&nbsp;&nbsp;&nbsp;04&nbsp;-&nbsp;Shoulders<br>
+#&nbsp;&nbsp;&nbsp;05&nbsp;-&nbsp;Chest<br>
+#&nbsp;&nbsp;&nbsp;06&nbsp;-&nbsp;One&nbsp;hand<br>
+#&nbsp;&nbsp;&nbsp;07&nbsp;-&nbsp;Two&nbsp;hands<br>
+#&nbsp;&nbsp;&nbsp;08&nbsp;-&nbsp;Ring<br>
+#&nbsp;&nbsp;&nbsp;09&nbsp;-&nbsp;Belt<br>
+#&nbsp;&nbsp;&nbsp;10&nbsp;-&nbsp;Legs<br>
+#&nbsp;&nbsp;&nbsp;11&nbsp;-&nbsp;Feet<br>
+#&nbsp;&nbsp;&nbsp;00&nbsp;-&nbsp;Empty&nbsp;(Item&nbsp;with&nbsp;all&nbsp;the&nbsp;attributes&nbsp;set&nbsp;to&nbsp;zero)</tt></dd></dl>
 
-<b>Functions:</b><br/>
+<dl><dt><a name="item-enchant"><strong>enchant</strong></a>(self)</dt><dd><tt>Enchants&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;(Permanently&nbsp;adds&nbsp;attribute,&nbsp;attack&nbsp;or&nbsp;defense&nbsp;bonuses)<br>
+Not&nbsp;yet&nbsp;implemented.</tt></dd></dl>
 
-<br/><i><b>__init__(int type)</i></b>:<br/>
+<dl><dt><a name="item-reset"><strong>reset</strong></a>(self)</dt><dd><tt>Sets&nbsp;all&nbsp;the&nbsp;attributes&nbsp;of&nbsp;the&nbsp;given&nbsp;<a href="#item">item</a>&nbsp;object&nbsp;to&nbsp;zero&nbsp;or&nbsp;empty&nbsp;string.</tt></dd></dl>
 
-Constructor. Creates an item of the type specified (0-11). <br/>
-Takes the data for the random names, attributes and boosters from the files located in ../data/inventory/<br/>
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>ID</strong> = 0</dl>
 
-<br/><i><b>enchant(self)</i></b>:<br/>
+<dl><dt><strong>atk</strong> = 0</dl>
 
-Emtpy(pending)<br/>
+<dl><dt><strong>chabonus</strong> = 0</dl>
 
-<br/><i><b>reset(self)</i></b>:<br/>
+<dl><dt><strong>conbonus</strong> = 0</dl>
 
-Sets all the attributes and boosters of the object to zero<br/>
+<dl><dt><strong>defn</strong> = 0</dl>
 
+<dl><dt><strong>dexbonus</strong> = 0</dl>
+
+<dl><dt><strong>equip</strong> = 0</dl>
+
+<dl><dt><strong>intbonus</strong> = 0</dl>
+
+<dl><dt><strong>name</strong> = '_'</dl>
+
+<dl><dt><strong>perbonus</strong> = 0</dl>
+
+<dl><dt><strong>strbonus</strong> = 0</dl>
+
+<dl><dt><strong>type</strong> = 0</dl>
+
+<dl><dt><strong>wilbonus</strong> = 0</dl>
+
+</td></tr></table></td></tr></table>
+</body></html>
