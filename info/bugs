@@ -1,20 +1,28 @@
-This file contains bugs and/or weird behaviours spotted and pending to be fixed. 
+This file contains bugs and/or weird behaviours spotted, identified and pending to be fixed. 
 
 Dungeon.py
   Map generation:   
-    Leaves one D in one of the rooms (Pending fix that and remove code that removes Ds)
-    Generator is predictable (Multiple south rooms connected to a north one)
+    Leaves one D in one of the rooms.
+    Generator is predictable.
     Cthulhu algorithm needs more randomness.
-    Big dungeons are unplayable
 
 item.py
 
 launch.py 
-  Keyboard mapping option menu messed up when using special keys (Arrows etc)
+  Keyboard configuration accepts non-standard keys
+  Errors on input with empty strings
+  Unidentified issue with random attacks with no mobs nearby
 
 mob.py
 
 player.py
-  Inventory management issues
+  Inventory issues
     2H weapons don't unequip 1h weapons.
     can't dual-wield 1h weapons.
+
+---
+
+Others
+  Big dungeons (>100x100) are unplayable
+  Unefficient generating algorithms
+  VERY unefficient everything

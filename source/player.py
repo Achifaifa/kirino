@@ -1,31 +1,43 @@
 #usr/bin/env python 
 import os
+import copy
 import random
 import dungeon
 import item
+import common
 
 #Player class definition
 class player:
   "Player class. Creates and manages player objects"
   #Main characteristics
-  name="_" #Name
-  pocket=0    #Money
-  exp=0       #EXP
-  lv=1        #Level
-  points=0    #Expendable points
-  race="_"
-  charclass="_"
+  name="_"      #Name
+  pocket=0      #Money
+  exp=0         #EXP
+  lv=1          #Level
+  points=0      #Expendable points
+  race="_"      #Race
+  charclass="_" #Class
   inventory=[]  #10 slot inventory
   equiparr=[]   #Equipped item inventory
 
-  #Attribute variables
+  #Attribute and attribute booster variables
   INT=1
+  intboost=0
   DEX=1
+  dexboost=0
   PER=1
+  perboost=0
   WIL=1
+  wilboost=0
   STR=1
+  strboost=0
   CON=1
+  conboost=0
   CHA=1
+  chaboost=0
+
+  totatk=0
+  totdefn=0
 
   #Status variables
   HP=0
@@ -36,9 +48,9 @@ class player:
   SPD=0
   
   #Position
-  xPos=0
-  yPos=0
-  zPos=0 #0: On the ground; 1: Flying
+  xpos=0
+  ypos=0
+  zpos=0 #0: On the ground; 1: Flying
   
   def __init__(self,dungeon):
     """
@@ -72,6 +84,18 @@ class player:
     self.secondary()
     self.mp2=self.MP
     self.hp2=self.HP
+
+    #Set attribute boosters to 0
+    self.strboost=0
+    self.intboost=0
+    self.conboost=0
+    self.wilboost=0
+    self.perboost=0
+    self.dexboost=0
+    self.chaboost=0
+
+    self.totatk=1
+    self.totdefn=1
     
     #Initialize position at the entrance
     for i in range(len(dungeon.dungarray)):
@@ -122,36 +146,33 @@ class player:
     self.charclass=random.choice(classesarray) 
 
     #add two random items to the inventory
-    for i in range(2):
+    for i in range(7):
       self.inventory.append(item.item(random.randint(1,11)))
 
   def pickobject(self,object):
     """
-    Pick item. This receives an item and adds it to the inventory if the inventory is not full (Not yet implemented)
+    Pick item. This receives an item and adds it to the inventory if the inventory is not full/
+    Returns 1 if the object was correctly picked, returns 0 if it wasn't
     """
-
-    #Counts item in inventory
-    invcounter=0
-    for i in range(len(self.inventory)):
-      invcounter+=1
-
     #If the inventory is not full, it adds it. 
     #If the inventory is full, passes.
-    if invcounter>=10:
+    if len(self.inventory)>=9:
       pass
-    if invcounter<10:
+      return 0
+    if len(self.inventory)<9:
       self.inventory.append(object)
+      return 1
     
   def getatr(self):
     """
     Prints the player attributes on screen.
     """
-    print 'HP:',self.hp2,"/",self.HP
-    print 'MP:',self.mp2,"/",self.MP
-    print 'INT:',self.INT,'DEX:',self.DEX,'CON:',self.CON
-    print 'WIL:',self.WIL,'STR:',self.STR,'PER:',self.PER
-    print 'CHA:',self.CHA
-    print 'END:',self.END,'SPD:', self.SPD    
+    print 'HP: '+str(self.hp2)+"/"+str(self.HP)+", MP: "+str(self.mp2)+"/"+str(self.MP)
+    print 'INT: '+str(self.INT)+"+"+str(self.intboost)+'  DEX: '+str(self.DEX)+"+"+str(self.dexboost)
+    print 'CON: '+str(self.CON)+"+"+str(self.conboost)+'  STR: '+str(self.STR)+"+"+str(self.strboost)
+    print 'WIL: '+str(self.WIL)+"+"+str(self.wilboost)+'  PER: '+str(self.PER)+"+"+str(self.perboost)
+    print 'CHA: '+str(self.CHA)+"+"+str(self.chaboost)
+    print 'END: '+str(self.END)+'   SPD:', self.SPD    
     
   def move(self,dungeon,direction):
     """
@@ -194,10 +215,10 @@ class player:
     Calculates and sets the secondary attributes from the primary ones.
     Receives a player object and recalculates HP, MP, END and SPD from the primary attributes
     """
-    self.HP=((self.CON+self.STR)*4)+10
-    self.MP=(self.STR+self.DEX+self.INT+self.CON+self.WIL+self.PER)
-    self.END=((self.CON+self.STR+self.WIL)*3)+5
-    self.SPD=(self.CON+self.DEX)*3
+    self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
+    self.MP=(self.STR+self.strboost+self.DEX+self.dexboost+self.INT+self.intboost+self.CON+self.conboost+self.WIL+self.wilboost+self.PER+self.perboost)
+    self.END=((self.CON+self.conboost+self.STR+self.strboost+self.wilboost+self.WIL)*3)+5
+    self.SPD=(self.CON+self.conboost+self.DEX+self.dexboost)*3
 
   def charsheet(self):
     """
@@ -208,7 +229,7 @@ class player:
     while 1==1:
       self.secondary()
       os.system('clear')
-      print "Kirino test"
+      common.version()
       print self.name,"- Character sheet"
       print "_____________________"
       print "Level "+str(self.lv)+" "+self.race+" "+self.charclass
@@ -216,7 +237,6 @@ class player:
         print self.exp,"/ 5 xp",self.points,"points"
       if self.lv>1:
         print self.exp,"/",3*self.lv+(2*(self.lv-1)),"xp,",self.points,"points"
-      print int(self.pocket),"gold"
       print ""
       self.getatr()
       print "_____________________"
@@ -228,7 +248,8 @@ class player:
       print "5.- Load"
       print ""
       print "0.- Exit"
-      menu=raw_input("->")
+      print "->"
+      menu=common.getch()
       #Spend exp
       if menu=="1":
         self.spend()
@@ -240,10 +261,14 @@ class player:
         self.optmenu()
       #Save
       elif menu=="4":
+        print "saving..."
         self.save()
+        raw_input("Player saved")
       #Load
       elif menu=="5":
+        print "loading..."
         self.load()
+        raw_input("Player loaded")
       elif menu=="0":
         break
       pass
@@ -255,7 +280,7 @@ class player:
     choice=-1
     while choice!="0":
       os.system('clear')
-      print "Kirino test"
+      common.version()
       print self.name,"- Character sheet"
       print ""
       print "Spend points"
@@ -297,13 +322,13 @@ class player:
         costcha=((self.CHA/5)+1)*5
 
       #printing menu
-      print "1.-",[coststr],"STR",(self.STR)
-      print "2.-",[costint],"INT",(self.INT)
-      print "3.-",[costdex],"DEX",(self.DEX)
-      print "4.-",[costcon],"CON",(self.CON)
-      print "5.-",[costper],"PER",(self.PER)
-      print "6.-",[costwil],"WIL",(self.WIL)
-      print "7.-",[costcha],"CHA",(self.CHA)
+      print "1.- ["+str(coststr)+"] STR "+str(self.STR)+" (+"+str(self.strboost)+")"
+      print "2.- ["+str(costint)+"] INT "+str(self.INT)+" (+"+str(self.intboost)+")"
+      print "3.- ["+str(costdex)+"] DEX "+str(self.DEX)+" (+"+str(self.dexboost)+")"
+      print "4.- ["+str(costcon)+"] CON "+str(self.CON)+" (+"+str(self.conboost)+")"
+      print "5.- ["+str(costper)+"] PER "+str(self.PER)+" (+"+str(self.perboost)+")"
+      print "6.- ["+str(costwil)+"] WIL "+str(self.WIL)+" (+"+str(self.wilboost)+")"
+      print "7.- ["+str(costcha)+"] CHA "+str(self.CHA)+" (+"+str(self.chaboost)+")"
       print ""
       print "Secondary attributes:"
       print 'END:', self.END, '     SPD:', self.SPD
@@ -312,7 +337,8 @@ class player:
       print "---"
       print "0.- Exit"
       print ""
-      choice=raw_input("->")
+      print "->"
+      choice=common.getch()
 
       #Choice cases
       if self.points==0:
@@ -358,13 +384,14 @@ class player:
     coptmen=-1
     while coptmen!="0":
       os.system('clear')
-      print "Kirino test"
+      common.version()
       print self.name,"- Character sheet"
       print ""
       print "1.- Change name"
       print "---"
       print "0.- Back"
-      coptmen=raw_input("->")
+      print "->"
+      coptmen=common.getch()
       if coptmen=="1":
         self.name=raw_input("New name? ")
       if coptmen=="0":
@@ -376,176 +403,126 @@ class player:
     """
     while 1:
       os.system('clear')
-      print "Kirino test"
+      common.version()
       print self.name,"- Character sheet"
       print ""
       print "Equipped"
       print ""
-      print "[+"+str(self.equiparr[0].atk)+"/+"+str(self.equiparr[0].defn)+"]Head: "+self.equiparr[0].name
-      print "[+"+str(self.equiparr[1].atk)+"/+"+str(self.equiparr[1].defn)+"]Face: "+self.equiparr[1].name
-      print "[+"+str(self.equiparr[2].atk)+"/+"+str(self.equiparr[2].defn)+"]Neck: "+self.equiparr[2].name
-      print "[+"+str(self.equiparr[3].atk)+"/+"+str(self.equiparr[3].defn)+"]Shoulders: "+self.equiparr[3].name
-      print "[+"+str(self.equiparr[4].atk)+"/+"+str(self.equiparr[4].defn)+"]Chest: "+self.equiparr[4].name
-      print "[+"+str(self.equiparr[5].atk)+"/+"+str(self.equiparr[5].defn)+"]Left hand: "+self.equiparr[5].name
-      print "[+"+str(self.equiparr[6].atk)+"/+"+str(self.equiparr[6].defn)+"]Right hand: "+self.equiparr[6].name
-      print "[+"+str(self.equiparr[7].atk)+"/+"+str(self.equiparr[7].defn)+"]Ring: "+self.equiparr[7].name
-      print "[+"+str(self.equiparr[8].atk)+"/+"+str(self.equiparr[8].defn)+"]Belt: "+self.equiparr[8].name
-      print "[+"+str(self.equiparr[9].atk)+"/+"+str(self.equiparr[9].defn)+"]Legs: "+self.equiparr[9].name
-      print "[+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"]Feet: "+self.equiparr[10].name
+      print "01 [+"+str(self.equiparr[0].atk)+"/+"+str(self.equiparr[0].defn)+"] Head: "+self.equiparr[0].name
+      print "02 [+"+str(self.equiparr[1].atk)+"/+"+str(self.equiparr[1].defn)+"] Face: "+self.equiparr[1].name
+      print "03 [+"+str(self.equiparr[2].atk)+"/+"+str(self.equiparr[2].defn)+"] Neck: "+self.equiparr[2].name
+      print "04 [+"+str(self.equiparr[3].atk)+"/+"+str(self.equiparr[3].defn)+"] Shoulders: "+self.equiparr[3].name
+      print "05 [+"+str(self.equiparr[4].atk)+"/+"+str(self.equiparr[4].defn)+"] Chest: "+self.equiparr[4].name
+      print "06 [+"+str(self.equiparr[5].atk)+"/+"+str(self.equiparr[5].defn)+"] Left hand: "+self.equiparr[5].name
+      print "07 [+"+str(self.equiparr[6].atk)+"/+"+str(self.equiparr[6].defn)+"] Right hand: "+self.equiparr[6].name
+      print "08 [+"+str(self.equiparr[7].atk)+"/+"+str(self.equiparr[7].defn)+"] Ring: "+self.equiparr[7].name
+      print "09 [+"+str(self.equiparr[8].atk)+"/+"+str(self.equiparr[8].defn)+"] Belt: "+self.equiparr[8].name
+      print "10 [+"+str(self.equiparr[9].atk)+"/+"+str(self.equiparr[9].defn)+"] Legs: "+self.equiparr[9].name
+      print "11 [+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"] Feet: "+self.equiparr[10].name
       print ""
-      totatk=0
-      totdefn=0
-      for i in range(len(self.equiparr)):
-        totatk+=self.equiparr[i].atk
-        totdefn+=self.equiparr[i].defn
-      print "[+"+str(totatk)+"/+"+str(totdefn)+"]"
+      print "[+"+str(self.totatk)+"/+"+str(self.totdefn)+"]"
       print ""
-      print "Inventory"
+      print "Inventory (+"+str(self.pocket)+" G)"
       print ""
 
       #Print everything in the inventory array
       for i in range(len(self.inventory)):
-        print i+1,"-",self.inventory[i].name
+        print "0"+str(i+1)+" [+"+str(self.inventory[i].atk)+"/+"+str(self.inventory[i].defn)+"] "+self.inventory[i].name+" ("+str(self.inventory[i].price)+"G)" 
 
       print ""
-      print "0.- Back"
+      print "q - destroy item"
+      print "w - enchant item"
+      print "a - unequip item"
+      print "0 - Back"
       print ""
-      invmenu=raw_input("-> ")
+      print "-> "
+      invmenu=common.getch()
 
-      temp=0
       #Item flipping (Inventory <-> Equip)
-      if invmenu=="1":
-        if len(self.inventory)>0:
-          if not self.equiparr[self.inventory[0].type-1].name=="":
-            temp=self.equiparr[self.inventory[0].type-1]
+      if "0"<invmenu<=str(len(self.inventory)):
+        invmenu=int(invmenu)        
+        if len(self.inventory)>=invmenu:
+          if not self.equiparr[self.inventory[invmenu-1].type-1].name=="":
+            temp=self.equiparr[self.inventory[invmenu-1].type-1]
+            self.strboost-=self.equiparr[self.inventory[invmenu-1].type-1].strbonus
+            self.intboost-=self.equiparr[self.inventory[invmenu-1].type-1].intbonus
+            self.conboost-=self.equiparr[self.inventory[invmenu-1].type-1].conbonus
+            self.wilboost-=self.equiparr[self.inventory[invmenu-1].type-1].wilbonus
+            self.perboost-=self.equiparr[self.inventory[invmenu-1].type-1].perbonus
+            self.dexboost-=self.equiparr[self.inventory[invmenu-1].type-1].dexbonus
+            self.chaboost-=self.equiparr[self.inventory[invmenu-1].type-1].chabonus
+            self.totatk-=self.equiparr[self.inventory[invmenu-1].type-1].atk
+            self.totdefn-=self.equiparr[self.inventory[invmenu-1].type-1].defn
           else:
             temp=item.item(0)
-          self.inventory[0].equip=1
+          self.inventory[invmenu-1].equip=1
           temp.equip=0
-          self.equiparr[self.inventory[0].type-1]=self.inventory[0]
-          del self.inventory[0]
+          self.strboost+=self.inventory[invmenu-1].strbonus
+          self.intboost+=self.inventory[invmenu-1].intbonus
+          self.conboost+=self.inventory[invmenu-1].conbonus
+          self.wilboost+=self.inventory[invmenu-1].wilbonus
+          self.perboost+=self.inventory[invmenu-1].perbonus
+          self.dexboost+=self.inventory[invmenu-1].dexbonus
+          self.chaboost+=self.inventory[invmenu-1].chabonus
+          self.totatk+=self.inventory[invmenu-1].atk
+          self.totdefn+=self.inventory[invmenu-1].defn
+          self.equiparr[self.inventory[invmenu-1].type-1]=self.inventory[invmenu-1]
+          del self.inventory[invmenu-1]
           self.inventory.append(temp)
           if self.inventory[len(self.inventory)-1].name=="":
             del self.inventory[len(self.inventory)-1]
-      if invmenu=="2":
-        if len(self.inventory)>1:
-          if not self.equiparr[self.inventory[1].type-1].name=="":
-            temp=self.equiparr[self.inventory[1].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[1].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[1].type-1]=self.inventory[1]
-          del self.inventory[1]
+
+      #Destroy an item from inventory
+      if invmenu=="q":
+        print "Which item? "
+        itdst=common.getch()
+        if "0"<itdst<=str(len(self.inventory)):
+          itemdestroyed=self.inventory[int(itdst)-1].name
+          print "Destroy "+itemdestroyed+"? (y/n)"
+          confirm=common.getch()
+          if confirm=="y":
+            del self.inventory[int(itdst)-1]
+            raw_input(itemdestroyed+" destroyed")
+
+      #Enchanting menu
+      if invmenu=="w":
+        print "Which item? "
+        itech=common.getch()
+        if "0"<itech<=str(len(self.inventory)):
+          self.inventory[int(itech)-1].enchant(self)
+          if self.inventory[int(itech)-1].name=="":
+            del self.inventory[int(itech)-1]
+
+      #Unequip menu
+      if invmenu=="a":
+        print "Which item? "
+        unitem=common.getch()
+        if 0<int(unitem)<=len(self.equiparr) and self.equiparr[int(unitem)-1].name!="":
+          temp=copy.copy(self.equiparr[int(unitem)-1])
+          self.strboost-=self.equiparr[int(unitem)-1].strbonus
+          self.intboost-=self.equiparr[int(unitem)-1].intbonus
+          self.conboost-=self.equiparr[int(unitem)-1].conbonus
+          self.wilboost-=self.equiparr[int(unitem)-1].wilbonus
+          self.perboost-=self.equiparr[int(unitem)-1].perbonus
+          self.dexboost-=self.equiparr[int(unitem)-1].dexbonus
+          self.chaboost-=self.equiparr[int(unitem)-1].chabonus
+          self.totatk-=self.equiparr[int(unitem)-1].atk
+          self.totdefn-=self.equiparr[int(unitem)-1].defn
           self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="3":
-        if len(self.inventory)>2:
-          if not self.equiparr[self.inventory[2].type-1].name=="":
-            temp=self.equiparr[self.inventory[2].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[2].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[2].type-1]=self.inventory[2]
-          del self.inventory[2]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="4":
-        if len(self.inventory)>3:
-          if not self.equiparr[self.inventory[3].type-1].name=="":
-            temp=self.equiparr[self.inventory[3].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[3].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[3].type-1]=self.inventory[3]
-          del self.inventory[3]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="5":
-        if len(self.inventory)>4:
-          if not self.equiparr[self.inventory[4].type-1].name=="":
-            temp=self.equiparr[self.inventory[4].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[4].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[4].type-1]=self.inventory[4]
-          del self.inventory[4]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="6":
-        if len(self.inventory)>5:
-          if not self.equiparr[self.inventory[5].type-1].name=="":
-            temp=self.equiparr[self.inventory[5].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[5].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[5].type-1]=self.inventory[5]
-          del self.inventory[5]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="7":
-        if len(self.inventory)>6:
-          if not self.equiparr[self.inventory[6].type-1].name=="":
-            temp=self.equiparr[self.inventory[6].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[6].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[6].type-1]=self.inventory[6]
-          del self.inventory[6]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="8":
-        if len(self.inventory)>7:
-          if not self.equiparr[self.inventory[7].type-1].name=="":
-            temp=self.equiparr[self.inventory[7].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[7].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[7].type-1]=self.inventory[7]
-          del self.inventory[7]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="9":
-        if len(self.inventory)>8:
-          if not self.equiparr[self.inventory[8].type-1].name=="":
-            temp=self.equiparr[self.inventory[8].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[8].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[8].type-1]=self.inventory[8]
-          del self.inventory[8]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
-      if invmenu=="10":
-        if len(self.inventory)>9:
-          if not self.equiparr[self.inventory[9].type-1].name=="":
-            temp=self.equiparr[self.inventory[9].type-1]
-          else:
-            temp=item.item(0)
-          self.inventory[9].equip=1
-          temp.equip=0
-          self.equiparr[self.inventory[9].type-1]=self.inventory[9]
-          del self.inventory[9]
-          self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
-            del self.inventory[len(self.inventory)-1]
+          self.equiparr[int(unitem)-1].reset()
+
+      #Exit from inventory menu
       elif invmenu=="0":
         break
+
+  def attack(self,dir):
+    """
+    attacks the mob object specified
+    """
+    atkpow=(self.totatk*self.str)-mob.defn
+    if atkpow<0:
+      atkpow=0
+    mob.HP-=atkpow
 
   def save(self):
     """
@@ -555,22 +532,24 @@ class player:
     if not os.path.exists("../player/"):
       os.makedirs("../player/")
     with open("../player/save","w+") as savefile:
+      savefile.write("# \n# Player \n# \n")
       savefile.write("Name:"+str(self.name)+"\n")
-      savefile.write("Level:"+str(self.lv)+"\n")
-      savefile.write("HP:"+str(self.hp2)+"\n")
-      savefile.write("MP:"+str(self.mp2)+"\n")
       savefile.write("Race:"+self.race+"\n")
       savefile.write("Class:"+self.charclass+"\n")
+      savefile.write("Money:"+str(self.pocket)+"\n")
+      savefile.write("Level:"+str(self.lv)+"\n")
       savefile.write("Exp:"+str(self.exp)+"\n")
       savefile.write("Points:"+str(self.points)+"\n")
-      savefile.write("Money:"+str(self.pocket)+"\n")
+      savefile.write("HP:"+str(self.hp2)+"\n")
+      savefile.write("MP:"+str(self.mp2)+"\n")
       savefile.write("INT:"+str(self.INT)+"\n")
       savefile.write("DEX:"+str(self.DEX)+"\n")
       savefile.write("PER:"+str(self.PER)+"\n")
       savefile.write("WIL:"+str(self.WIL)+"\n")
       savefile.write("STR:"+str(self.STR)+"\n")
       savefile.write("CON:"+str(self.CON)+"\n")
-      savefile.write("CHA:"+str(self.CHA))
+      savefile.write("CHA:"+str(self.CHA)+"\n")
+      savefile.write("# \n# Inventory \n# \n")
 
     pass
 
@@ -617,4 +596,5 @@ class player:
             self.mp2=int(line.partition(':')[2])
           if line.partition(':')[0]=="Points":
             self.points=int(line.partition(':')[2])
+
 pass

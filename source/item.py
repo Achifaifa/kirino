@@ -1,6 +1,7 @@
 #usr/bin/env python 
 import os
 import random
+import common
 
 #Item class. Creates and manages items.
 class item:
@@ -22,6 +23,7 @@ class item:
   chabonus=0
   atk=0
   defn=0
+  enchantlv=0
 
   def __init__(self,type):
     """
@@ -41,6 +43,7 @@ class item:
     #   00 - Empty (Item with all the attributes set to zero)
     """
 
+    self.enchantlv=0
     self.equip=0
     self.type=type
 
@@ -81,12 +84,12 @@ class item:
       pricearr=[]
       for line in invfile:
         if not line.startswith("#"):
-          inventory.append(line.rstrip("\n").partition(':')[0].strip())
-          atkbarr.append(line.rstrip("\n").partition(':')[2].partition(':')[0].strip())
-          defbarr.append(line.rstrip("\n").partition(':')[2].partition(':')[2].partition(':')[0].strip())
-          pricearr.append(line.rstrip("\n").partition(':')[2].partition(':')[2].partition(':')[2].strip())
+          inventory.append(line.strip().partition(':')[0].strip())
+          atkbarr.append(line.strip().partition(':')[2].partition(':')[0].strip())
+          defbarr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0].strip())
+          pricearr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].strip())
 
-    #Assign the attributes to an item.
+    #Assign the attributes from a random item in the chosen file
     randitem=random.randrange(len(inventory))
     self.name=inventory[randitem].rstrip()
     self.atk=int(atkbarr[randitem])
@@ -105,6 +108,7 @@ class item:
     #08 celestial:100:100  -> 00.10%
     #09 universal:200:200  -> 00.01%
     #10 no modifiers       -> 70.00%
+
     randint=0
     randint=random.randint(1,10000)
     if randint<=7000: #no modifiers
@@ -142,9 +146,9 @@ class item:
     #Assign the data with the random values
     if randint!=9:
       self.name=modifiers[randint]+" "+self.name
-    self.atk=self.atk+(self.atk*int(atkmod[randint])/100)
-    self.defn=self.defn+(self.defn*int(defmod[randint])/100)
-    self.price=self.price+(self.price*int(atkmod[randint])/100)+(self.price*int(defmod[randint])/100)
+      self.atk=self.atk+(self.atk*int(atkmod[randint])/100)
+      self.defn=self.defn+(self.defn*int(defmod[randint])/100)
+      self.price=(self.price+((self.price*int(atkmod[randint])/100)+(self.price*int(defmod[randint])/100)))
 
     # Modifying attribute boosts
     # 20.0% chance of one attribute boost
@@ -219,7 +223,7 @@ class item:
         self.name=chaarray[self.chabonus]+" "+self.name
 
     #Adjust price after attr boost
-    self.price=self.price*(self.strbonus+self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus)
+    self.price=(self.price*(1+self.strbonus+self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus))
 
     #Avoiding negative prices 
     if self.price<0:
@@ -245,12 +249,101 @@ class item:
     self.wilbonus=0 
     self.chabonus=0
 
-  def enchant(self):
+  def enchant(self,player):
     """
-    Enchants the item (Permanently adds attribute, attack or defense bonuses)
-    Not yet implemented.
+    Enchants the item (Permanently adds attribute bonuses and increases either the attack or defense by 1).
+    Requires the player enchanting the object to be passed to alter the money balance.
+    Items can only be enchanted up to lv10.
+
+    Chances of attribute boosts:
+      79.0% chance of one attribute boost
+      15.0% chance of two attribute boost
+      04.5% chance of three attribute boost
+      00.5% chance of four attribute boost
+      01.0% chances of the item being destroyed
+
+    Enchanting an item costs the current item price, and doubles its price.
+    If the player has no money to pay for the enchant or the item is lv10, enchant() returns a message and passes.
+
+    If the item is destroyed all its attributes are set to 0. 
+    Deleting the resetted item from the inventory is done in the player module after calling the enchant() function.
     """
-    pass
+
+    enchantprice=self.price
+    ex=0 #Exception variable
+    if player.pocket<enchantprice:
+      ("You don't have enough money")
+    if self.enchantlv>=10:
+      raw_input("Maximum enchant level reached")
+    if player.pocket>=enchantprice and self.enchantlv<10:
+      player.pocket-=enchantprice
+
+      # Calculate random number
+      randint=random.randint(1,1000)
+      attboost=0
+      if randint<5:
+        attboost=4
+      if randint>51 and randint<=50:
+        attboost=3
+      if randint>50 and randint<=200:
+        attboost=2
+      if randint>200 and randint<=990:
+        attboost=1
+      if randint>990:
+        raw_input(self.name+" broke during enchanting")
+        self.reset()
+        ex=1
+
+      if not ex:
+        #Randomly assign the bonus points available
+        for i in range(1,attboost+1):
+          boosted=random.randint(1,7)
+          if boosted==1:
+            self.strbonus+=1
+          if boosted==2:
+            self.intbonus+=1
+          if boosted==3:
+            self.dexbonus+=1
+          if boosted==4:
+            self.perbonus+=1
+          if boosted==5:
+            self.conbonus+=1
+          if boosted==6:
+            self.wilbonus+=1
+          if boosted==7:
+            self.chabonus+=1
+
+        #double the price of the item
+        #Adding 3 to avoid enchanted item prices to stay at zero
+        self.price=((self.price+1)*2)
+
+        #Increase attack or defense
+        i=random.randint(0,1)
+        if i==0:
+          self.atk+=1
+        if i==1:
+          self.defn+=1
+
+        #Increase enchant level
+        self.enchantlv+=1
+
+        #Display the enchanting level in the item name
+        if "a"<=self.name[-1:]<="z":
+          self.name=self.name+" +1"
+        else:
+          templv=int(self.name.partition('+')[2].strip())
+          templv+=1
+          tempname=self.name.partition('+')[0]
+          self.name=tempname+"+"+str(templv)
+          #Remove the numbers after the + in the name, add 1, attack the numbers to name.
+
+        raw_input(self.name+" enchanted successfully")
+
+    #If the player has no money, pass
+    else:
+      pass
+    
+
 
 #test stuff
 # while 1:
@@ -271,5 +364,5 @@ class item:
 #   print ""
 
 # while 1:
-#   new=item(random.randint(1,11))
-#   print new.name
+#   new=item(5)
+#   print new.price,"  ",new.name

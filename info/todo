@@ -4,40 +4,44 @@ Elements inside files ordered by priority
 
 Dungeon.py:
   Complete debugger (Make sure the exit is reachable from the entrance)
-  Add items to dungeon (loot) via an item array 
-  create another array with the explored dungeon
-
-Mob.py:
-  Add random name generator from word files
-  Add stats (Movement, damage, flying)
+  create another array with the explored dungeon if the fog is on
 
 Item.py
-  enchant()
+  Item tiers
+
+common.py
+  Add error handling
+  add getch()
+
+help.py
+  complete tutorial
+  Increase readability
 
 Launch.py:
-  Keyboard events
-  Ask if go down when reaching exit
-  Items modify player attributes
   saving inventory in text file with character info
   Function that shows the explored map as a ""popup""
+  
+Mob.py:
+  Add stats (Movement, damage, flying)
+  attack function
+  """IA""" (move towards player if inside the perception range)
+  Add random name generator from word files
 
 Player.py
-  Dropping items from the inventory
+  attack function
   Show attribute modifiers in inventory menu
-  Show attribute boost in crawl screen
   Cemetery file (Dump all the dead characters into a file)
-  player field of view based on perception and environment
 
 ---
 
 Parser.py (After everything else is done)
   Create basic word parser
   Support basic commands
-  use nlp to control everything
+  use nlp to control alternate actions
 
 ---
 
-Extras (zero priority to-do, no priority order)
+Extras (zero priority to-do, in no priority order)
   Music
   In-game help
   Colours

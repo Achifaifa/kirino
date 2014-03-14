@@ -1,8 +1,10 @@
 #usr/bin/env python
 import os
+import math
 import random
 import player
 import mob
+import common
 
 class dungeon:
   "Creates and manages dungeons and dungeon displaying features"
@@ -10,6 +12,7 @@ class dungeon:
   ysize=0
   dungarray=[]
   filled=[]
+  mobarray=[]
   
   #Main dungeon generator, fills the dungeon array with terrain tiles
   #Absolute minimum size 40 horizontal and 20 vertical
@@ -150,6 +153,15 @@ class dungeon:
       	for j in range (len(self.dungarray[i])):
       	  if self.dungarray[i][j]=="D":
       	    self.dungarray[i][j]="."
+
+      #Adds a mob for every 60 free spaces:
+      spacecounter=0
+      for i in range(self.ysize):
+        for j in range(self.xsize):
+          if self.dungarray[i][j]==".":
+            spacecounter+=1
+      for i in range(spacecounter/60):
+        self.mobarray.append(mob.mob(self))
       	  
       # Adds spaces in random positions with rocks, one for every 3x3 zone.
       # for i in range(0,self.xsize*self.ysize/9):
@@ -187,7 +199,7 @@ class dungeon:
       for i in range (0,self.ysize):
         secondary=[]
         for j in range (0,self.xsize):
-          secondary.append("#")
+          secondary.append("~")
         self.filled.append(secondary)
       #Fills the filled array with the dungarray data
       for i in range (0,self.ysize):
@@ -318,9 +330,7 @@ class dungeon:
     for i in range(y,y+ymapsize):
       counter+=1
       for j in range(x,x+xmapsize):
-        mapstring[counter].append(self.filled[i][j]) # Gives out of range errors sometimes.
-    # Add the "player" marker (a marker in the middle of the map, not in the actual player position)
-    # mapstring[(ymapsize/2)+1][xmapsize/2]="8"
+        mapstring[counter].append(self.filled[i][j]) 
     #Print loop
     for i in range(len(mapstring)):
       print ''.join(map(str,mapstring[i]))
@@ -331,10 +341,13 @@ class dungeon:
     """
     self.advmap(x,y,20,10)
 
-  def minimap(self,player):
+  def minimap(self,player,fog):
     """
     Generates a minimap (advmap centered on the player object passed)
+    Uses the function fill(), so it needs the fog parameter too.
+    1=fog enabled, anything else fog disabled.
     """
+    self.fill(player,fog)
     self.advmapcoords(player.xpos,player.ypos)
     
   def debug(self):
@@ -369,20 +382,58 @@ class dungeon:
         pass
         return(0)
 
-  def fill(self,player):
+  def fill(self,player,fog):
     """
     Fills the dungeon temporarily with PC and NPC object and mob markers. 
-    Needs a player, the object array (Pending) and the mob array (pending)
+    Needs a player and the mob array (pending)
     Does not return anything, but modifies the filled array
+    if the parameter fog is 1, it displays a fogged minimap. 
     """
-    for i in range (0,self.ysize):
+
+    #Initialize filled array with fog
+    for i in range (self.ysize):
       secondary=[]
-      for j in range (0,self.xsize):
-        secondary.append("#")
+      for j in range (self.xsize):
+        secondary.append("~")
       self.filled.append(secondary)
+
+    #Calculate how many tiles the player is allowed to see
+    totper=player.PER+player.perboost   
+    
     #Fills the filled array with the dungarray data
-    for i in range (0,self.ysize):
-      for j in range (0,self.xsize):
-        self.filled[i][j]=self.dungarray[i][j]
+    #Only in the places the player is allowed to see
+    for i in range (self.ysize):
+      for j in range (self.xsize):
+        if fog==1:
+          viewx=(totper-(abs(i-player.ypos))+2)
+          if viewx<0:
+            viewx=2
+          viewy=(totper-(abs(j-player.xpos))+1)
+          if viewy<0:
+            viewy=1
+          if player.ypos-viewy<i<player.ypos+viewy:
+            if player.xpos-viewx<j<player.xpos+viewx:
+              for k in range(len(self.mobarray)):
+                if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
+                  self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]="i"
+                else:
+                  self.filled[i][j]=self.dungarray[i][j]
+            else:
+              self.filled[i][j]="~"
+          else:
+            self.filled[i][j]="~"
+        #If fog is not on, just generate a regular minimap
+        if fog!=1:
+          for k in range(len(self.mobarray)):
+            if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
+              self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]="i"
+            else:
+              self.filled[i][j]=self.dungarray[i][j]   
+
     #Places the player marker in the filled array
     self.filled[player.ypos][player.xpos]="8"
+
+
+# q=dungeon(60,60)
+# for i in range(len(q.mobarray)):
+#   print q.mobarray[i]

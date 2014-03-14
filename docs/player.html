@@ -17,11 +17,13 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
-</td><td width="25%" valign=top><a href="item.html">item</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
+<a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
+<a href="item.html">item</a><br>
 </td><td width="25%" valign=top><a href="os.html">os</a><br>
-</td><td width="25%" valign=top><a href="random.html">random</a><br>
-</td></tr></table></td></tr></table><p>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -45,6 +47,8 @@
 Receives&nbsp;a&nbsp;dungeon&nbsp;object,&nbsp;then&nbsp;sets&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;object&nbsp;in&nbsp;the&nbsp;entrance&nbsp;tile<br>
 It&nbsp;also&nbsp;chooses&nbsp;a&nbsp;random&nbsp;race&nbsp;and&nbsp;class&nbsp;from&nbsp;the&nbsp;./data/races&nbsp;and&nbsp;./data/classes&nbsp;files</tt></dd></dl>
 
+<dl><dt><a name="player-attack"><strong>attack</strong></a>(self, dir)</dt><dd><tt>attacks&nbsp;the&nbsp;mob&nbsp;object&nbsp;specified</tt></dd></dl>
+
 <dl><dt><a name="player-charsheet"><strong>charsheet</strong></a>(self)</dt><dd><tt>Character&nbsp;sheet.&nbsp;<br>
 Main&nbsp;menu&nbsp;to&nbsp;edit,&nbsp;view&nbsp;and&nbsp;configure&nbsp;characters&nbsp;and&nbsp;<a href="#player">player</a>&nbsp;options</tt></dd></dl>
 
@@ -63,7 +67,8 @@ If&nbsp;the&nbsp;path&nbsp;does&nbsp;not&nbsp;exist&nbsp;it&nbsp;is&nbsp;created
 
 <dl><dt><a name="player-optmenu"><strong>optmenu</strong></a>(self)</dt><dd><tt>Player&nbsp;options&nbsp;menu</tt></dd></dl>
 
-<dl><dt><a name="player-pickobject"><strong>pickobject</strong></a>(self, object)</dt><dd><tt>Pick&nbsp;item.&nbsp;This&nbsp;receives&nbsp;an&nbsp;item&nbsp;and&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;inventory&nbsp;if&nbsp;the&nbsp;inventory&nbsp;is&nbsp;not&nbsp;full&nbsp;(Not&nbsp;yet&nbsp;implemented)</tt></dd></dl>
+<dl><dt><a name="player-pickobject"><strong>pickobject</strong></a>(self, object)</dt><dd><tt>Pick&nbsp;item.&nbsp;This&nbsp;receives&nbsp;an&nbsp;item&nbsp;and&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;inventory&nbsp;if&nbsp;the&nbsp;inventory&nbsp;is&nbsp;not&nbsp;full/<br>
+Returns&nbsp;1&nbsp;if&nbsp;the&nbsp;object&nbsp;was&nbsp;correctly&nbsp;picked,&nbsp;returns&nbsp;0&nbsp;if&nbsp;it&nbsp;wasn't</tt></dd></dl>
 
 <dl><dt><a name="player-save"><strong>save</strong></a>(self)</dt><dd><tt>Save&nbsp;function.&nbsp;Takes&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;attributes&nbsp;and&nbsp;saves&nbsp;them&nbsp;into&nbsp;a&nbsp;text&nbsp;file&nbsp;in&nbsp;../<a href="#player">player</a>/save<br>
 If&nbsp;the&nbsp;path&nbsp;or&nbsp;the&nbsp;file&nbsp;do&nbsp;not&nbsp;exists&nbsp;they&nbsp;are&nbsp;created.</tt></dd></dl>
@@ -97,13 +102,21 @@ Data and other attributes defined here:<br>
 
 <dl><dt><strong>WIL</strong> = 1</dl>
 
+<dl><dt><strong>chaboost</strong> = 0</dl>
+
 <dl><dt><strong>charclass</strong> = '_'</dl>
+
+<dl><dt><strong>conboost</strong> = 0</dl>
+
+<dl><dt><strong>dexboost</strong> = 0</dl>
 
 <dl><dt><strong>equiparr</strong> = []</dl>
 
 <dl><dt><strong>exp</strong> = 0</dl>
 
 <dl><dt><strong>hp2</strong> = 0</dl>
+
+<dl><dt><strong>intboost</strong> = 0</dl>
 
 <dl><dt><strong>inventory</strong> = []</dl>
 
@@ -113,17 +126,27 @@ Data and other attributes defined here:<br>
 
 <dl><dt><strong>name</strong> = '_'</dl>
 
+<dl><dt><strong>perboost</strong> = 0</dl>
+
 <dl><dt><strong>pocket</strong> = 0</dl>
 
 <dl><dt><strong>points</strong> = 0</dl>
 
 <dl><dt><strong>race</strong> = '_'</dl>
 
-<dl><dt><strong>xPos</strong> = 0</dl>
+<dl><dt><strong>strboost</strong> = 0</dl>
 
-<dl><dt><strong>yPos</strong> = 0</dl>
+<dl><dt><strong>totatk</strong> = 0</dl>
 
-<dl><dt><strong>zPos</strong> = 0</dl>
+<dl><dt><strong>totdefn</strong> = 0</dl>
+
+<dl><dt><strong>wilboost</strong> = 0</dl>
+
+<dl><dt><strong>xpos</strong> = 0</dl>
+
+<dl><dt><strong>ypos</strong> = 0</dl>
+
+<dl><dt><strong>zpos</strong> = 0</dl>
 
 </td></tr></table></td></tr></table>
 </body></html>

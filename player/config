@@ -9,7 +9,9 @@ Sheet:z
 Options:x
 Quit:;
 Report:c
+Next floor:m
 # 
 # Game options 
 # 
-Autosave:on
+Autosave:on 
+Fog:off

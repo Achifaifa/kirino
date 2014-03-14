@@ -3,6 +3,7 @@
 *.sh~
 *~
 *.kate-swp
+.directory
 
 Thumbs.db
 
@@ -22,6 +23,6 @@ source/*.pyc
 .dox
 
 #folders
-logs/* #log folder
-player/* #player save folder
-tests/* #tests folder
+logs/*
+player/*
+tests/*

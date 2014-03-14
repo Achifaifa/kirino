@@ -10,6 +10,9 @@ import player
 import dungeon
 import mob
 import item
+import parser
+import common
+import help
 
 #load/save global variables
 dex=0
@@ -33,6 +36,7 @@ tempequiparr=[]
 
 #Environment variables
 autosave=0
+fog=1
 
 #Key mapping variables
 north="n"
@@ -43,6 +47,7 @@ charsh="c"
 opt="o"
 quit="q"
 report="z"
+nextf="m"
 
 #Main menu
 def menu():
@@ -58,6 +63,8 @@ def menu():
   global quit
   global report
   global autosave
+  global fog
+  global nextf
 
   #Checks if there is a config file. If it exists, loads the key mapping variables from it
   if not os.path.exists("../player/"):
@@ -85,36 +92,53 @@ def menu():
           if line.partition(':')[0]=="Autosave":
             if line.partition(':')[2].strip()=="on":
               autosave=1
+          if line.partition(':')[0]=="Fog":
+            if line.partition(':')[2].strip()=="off":
+              fog=0
+          if line.partition(':')[0]=="Next floor":
+            nextf=(line.partition(':')[2]).strip()
 
 
   #Main menu
   while 1:
     os.system('clear')
-    print "Kirino test -- v0.0.1"
+    common.version()
+    print ""
+    print ""
     print "1.- Play"
     print "2.- Options"
     print "3.- "
     print "--"
+    print "9.- Help"
     print "0.- Exit"
-    menu=raw_input("->")
+    print "->"
+    menu=common.getch()
     if menu=="1":
       crawl()
     if menu=="2":
-      options()
+      options(0)
     if menu=="3":
       pass
+    if menu=="9":
+      help.help()
     if menu=="0":
-      exit()
+      print "Close kirino (y/n)?"
+      ec=common.getch()
+      if ec=="y": 
+        exit()
 
 
-def options():
+def options(restricted):
   """
   Game options menu. This allows modification of the general options, such as key mappings, autosave, etc.
+  If the restricted parameter is 1, it hides the options that should not be changed during the game (fog, etc)
+
   """
   global autosave
+  global fog
   while 1:
     os.system('clear')
-    print "Kirino test"
+    common.version()
     print "Options"
     print ""
     if autosave==0:
@@ -122,15 +146,25 @@ def options():
     if autosave==1:
       print "1.- Autosave [on]"
     print "  Saves the character to file between floors"
-    print "2.- Key mapping"
+    if fog==0 and not restricted:
+      print "2.- Fog [off]"
+    if fog==1 and not restricted:
+      print "2.- Fog [on]"
+    print "3.- Key mapping"
     print ""
     print "--"
+    print "9.- Help"
     print "0.- Go back"
-    opmen=raw_input("->")
+    print "-> "
+    opmen=common.getch()
     if opmen=="1":
       autosave=not autosave
-    if opmen=="2":
+    if opmen=="3":
       keymap()
+    if opmen=="2" and not restricted:
+      fog=not fog
+    if opmen=="9":
+      help.help()
     if opmen=="0":
       saveoptions()
       break
@@ -138,7 +172,7 @@ def options():
 #Keyboard mapping options menu. Saves the configuration to file at exit
 def keymap():
   """
-  Key mapping configuration menu
+  Key mapping configuration menu.
   """
   global north
   global south
@@ -150,7 +184,7 @@ def keymap():
   global report
   while 1:
     os.system('clear')
-    print "Kirino test"
+    common.version()
     print "Options - Keyboard mapping"
     print ""
     print "1.- Go north: "+north
@@ -165,28 +199,37 @@ def keymap():
     print "9.- More keys"
     print "0.- Go back"
     print ""
-    keymenu=raw_input("-> ")
+    print "-> "
+    keymenu=common.getch()
     if keymenu=="0":
       saveoptions()
       break
     if keymenu=="9":
       pass
     if keymenu=="1":
-      north=raw_input("New key for 'go north' ")
+      print "New key for 'go north' "
+      north=common.getch()
     if keymenu=="2":
-      south=raw_input("New key for 'go south' ")
+      print "New key for 'go south' "
+      south=common.getch()
     if keymenu=="3":
-      east=raw_input("New key for 'go east' ")
+      print "New key for 'go east' "
+      east=common.getch()
     if keymenu=="4":
-      west=raw_input("New key for 'go west' ")
+      print "New key for 'go west' "
+      west=common.getch()
     if keymenu=="5":
-      charsh=raw_input("New key for 'Character sheet' ")
+      print "New key for 'Character sheet' "
+      charsh=common.getch()
     if keymenu=="6":
-      opt=raw_input("New key for 'Option menu' ")
+      print "New key for 'Option menu' "
+      opt=common.getch()
     if keymenu=="7":
-      report=raw_input("New key for 'Report dungeon' ")
+      print "New key for 'Report dungeon' "
+      report=common.getch()
     if keymenu=="8":
-      quit=raw_input("New key for 'Quit dungeon' ")
+      print "New key for 'Quit dungeon' "
+      quit=common.getch()
 
 def saveoptions():
   """
@@ -207,13 +250,18 @@ def saveoptions():
     configfile.write("Options:"+opt+"\n")
     configfile.write("Quit:"+quit+"\n")
     configfile.write("Report:"+report+"\n")
+    configfile.write("Next floor:"+nextf+"\n")
     configfile.write("# \n")
     configfile.write("# Game options \n")
     configfile.write("# \n")
     if autosave==1:
-      configfile.write("Autosave:on")
+      configfile.write("Autosave:on \n")
     if autosave==0:
-      configfile.write("Autosave:off")
+      configfile.write("Autosave:off \n")
+    if fog==1:
+      configfile.write("Fog:on")
+    if fog==0:
+      configfile.write("Fog:off")
 
 def crawl():
   """
@@ -234,27 +282,27 @@ def crawl():
       break
   dung=dungeon.dungeon(tempxs,tempys)
   hero=player.player(dung)
-  hero.name=raw_input("What is your name?")
+  hero.name=raw_input("What is your name? ")
 
   #Main crawling menu and interface
   crawlmen=-1
   while 1:
+    #Move all the mobs
+    for i in range(len(dung.mobarray)):
+      dung.mobarray[i].trandmove(dung)
 
-    #Actions if player has reached exit
-    if dung.dungarray[hero.ypos][hero.xpos]=="X":
-      flcounter+=1
-      fl+=1
-      lsave(hero) 
-      if autosave==1:
-        hero.save()
-      dung=dungeon.dungeon(tempxs,tempys)
-      lload(hero)
-      for i in range(len(dung.dungarray)):
-        for j in range(len(dung.dungarray[i])):
-          if dung.dungarray[i][j]=="A":
-            hero.ypos=i
-            hero.xpos=j
-            hero.zpos=0
+    #If any of the mobs has locked on the player and the player is in range, attack
+    for j in range(len(dung.mobarray)):
+      if dung.mobarray[j].lock:
+        if hero.ypos<=dung.mobarray[j].ypos+1 and hero.ypos>=dung.mobarray[j].ypos-1 and hero.xpos<=dung.mobarray[j].xpos+1 and hero.xpos>=dung.mobarray[j].xpos-1:
+          dung.mobarray[j].attack(hero,dung)
+        else:
+          dung.mobarray[j].lock=0
+        
+    #If any of the mobs are near the player, lock them
+    for k in range(len(dung.mobarray)):
+      if hero.ypos<=dung.mobarray[k].ypos+1 and hero.ypos>=dung.mobarray[k].ypos-1 and hero.xpos<=dung.mobarray[k].xpos+1 and hero.xpos>=dung.mobarray[k].xpos-1:
+        dung.mobarray[k].lock=1
 
     #Action if player has reached a money loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="$":
@@ -265,30 +313,35 @@ def crawl():
     #Action if player has reached a gear loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
       loot=item.item(random.randrange(1,11))
-      hero.pickobject(loot)
-      dung.dungarray[hero.ypos][hero.xpos]="."
+      if hero.pickobject(loot):
+        dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Crawling loop
     os.system('clear')
-    print "Kirino test"
-    dung.fill(hero)
-    dung.minimap(hero)
+    common.version()
+    print ""
+    dung.fill(hero,fog)
+    dung.minimap(hero,fog)
     print "Floor",fl,(hero.xpos,hero.ypos)
     print "Lv",hero.lv,hero.race,hero.charclass
     if hero.lv==1:
-      print hero.exp,"/ 5 xp",hero.pocket,"gold"
+      print str(hero.exp)+"/5 xp, "+str(hero.pocket)+" gold"
     if hero.lv>1:
-      print hero.exp,"/",3*hero.lv+(2*(hero.lv-1)),"xp,",hero.pocket,"gold"
+      print str(hero.exp)+"/"+str(3*hero.lv+(2*(hero.lv-1)))+" xp, "+str(hero.pocket)+" gold"
     print ""
     hero.getatr()
     print ""
-    print "nwse - move"
+    print north+south+east+west+" - move"
     print charsh+" - character sheet"
     print opt+" - options"
     print quit+" - go back to menu"
     print report+" - report dungeon"
-    crawlmen=raw_input("-> ")
-    if crawlmen==charsh:
+    #Show an extra "go down" option if player has reached the exit
+    if dung.dungarray[hero.ypos][hero.xpos]=="X":
+      print nextf+" - next floor"
+    print "-> "
+    crawlmen=common.getch()
+    if crawlmen==charsh: #Character sheet menu
       hero.charsheet()
     elif crawlmen==north:
       hero.move(dung,1) 
@@ -298,13 +351,47 @@ def crawl():
       hero.move(dung,4)
     elif crawlmen==west:
       hero.move(dung,2)
-    elif crawlmen==opt:
-      options()
+    elif crawlmen==opt: #Game option menu
+      options(1)
+    elif crawlmen==nextf: #Next floor
+      #Double check if the player is in the exit tile
+      if dung.dungarray[hero.ypos][hero.xpos]=="X":
+        flcounter+=1
+        fl+=1
+        lsave(hero) 
+        if autosave==1:
+          hero.save()
+        dung=dungeon.dungeon(tempxs,tempys)
+        lload(hero)
+        for i in range(len(dung.dungarray)):
+          for j in range(len(dung.dungarray[i])):
+            if dung.dungarray[i][j]=="A":
+              hero.ypos=i
+              hero.xpos=j
+              hero.zpos=0 
+
     elif crawlmen==quit:
-      purge()
-      break
+      print "Exit to menu (y/n)?"
+      print "All unsaved progress will be lost?"
+      confv=common.getch()
+      if confv=="y":
+        purge()
+        break
     elif crawlmen==report:
-      dung.report()
+      rc=-1
+      print "Report dungeon? (y/n)"
+      print "This will add the current floor to the ./logs/report file"
+      print "Please consider sending this file when you are done playing"
+      print "-> "
+      rc=common.getch()
+      if rc=="y":
+        dung.report()
+        raw_input("Dungeon saved in log file")
+
+    #If the player health is EL0, game over
+    if hero.hp2<=0:
+      raw_input("Game over")
+      break
   pass
 
 def newchar():
@@ -331,6 +418,7 @@ def purge():
   global name
   global lv
   global hp2
+  global mp2
   global tempinventory
   global tempequiparr
   global points
@@ -368,6 +456,7 @@ def lsave(playa):
   global name
   global lv
   global hp2
+  global mp2
   global tempinventory
   global tempequiparr
   global points
@@ -421,12 +510,9 @@ def lload(playa):
       playa.points+=2
   lvlimit=3*playa.lv+(2*(playa.lv-1))
   if playa.lv>1:
-    if playa.exp>=lvlimit:
+    while playa.exp>=lvlimit:
       playa.lv+=1
       playa.exp-=lvlimit
       playa.points+=2
 
 menu()
-
-# for i in range(100):
-#   print i,(3*i)+(2*(i-1))

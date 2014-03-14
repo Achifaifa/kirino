@@ -17,11 +17,13 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="mob.html">mob</a><br>
-</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
+<a href="math.html">math</a><br>
+</td><td width="25%" valign=top><a href="mob.html">mob</a><br>
+<a href="os.html">os</a><br>
 </td><td width="25%" valign=top><a href="player.html">player</a><br>
-</td><td width="25%" valign=top><a href="random.html">random</a><br>
-</td></tr></table></td></tr></table><p>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -64,14 +66,17 @@ Used&nbsp;in&nbsp;the&nbsp;constructor&nbsp;on&nbsp;this&nbsp;class,&nbsp;althou
 Place&nbsp;indicates&nbsp;where.&nbsp;0&nbsp;is&nbsp;return&nbsp;to&nbsp;console,&nbsp;anything&nbsp;else&nbsp;dumps&nbsp;it&nbsp;to&nbsp;a&nbsp;file<br>
 Avoid&nbsp;dumping&nbsp;to&nbsp;console&nbsp;with&nbsp;big&nbsp;dungeons,&nbsp;output&nbsp;turns&nbsp;out&nbsp;unreadable</tt></dd></dl>
 
-<dl><dt><a name="dungeon-fill"><strong>fill</strong></a>(self, player)</dt><dd><tt>Fills&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;temporarily&nbsp;with&nbsp;PC&nbsp;and&nbsp;NPC&nbsp;object&nbsp;and&nbsp;mob&nbsp;markers.&nbsp;<br>
-Needs&nbsp;a&nbsp;player,&nbsp;the&nbsp;object&nbsp;array&nbsp;(Pending)&nbsp;and&nbsp;the&nbsp;mob&nbsp;array&nbsp;(pending)<br>
-Does&nbsp;not&nbsp;return&nbsp;anything,&nbsp;but&nbsp;modifies&nbsp;the&nbsp;filled&nbsp;array</tt></dd></dl>
+<dl><dt><a name="dungeon-fill"><strong>fill</strong></a>(self, player, fog)</dt><dd><tt>Fills&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;temporarily&nbsp;with&nbsp;PC&nbsp;and&nbsp;NPC&nbsp;object&nbsp;and&nbsp;mob&nbsp;markers.&nbsp;<br>
+Needs&nbsp;a&nbsp;player&nbsp;and&nbsp;the&nbsp;mob&nbsp;array&nbsp;(pending)<br>
+Does&nbsp;not&nbsp;return&nbsp;anything,&nbsp;but&nbsp;modifies&nbsp;the&nbsp;filled&nbsp;array<br>
+if&nbsp;the&nbsp;parameter&nbsp;fog&nbsp;is&nbsp;1,&nbsp;it&nbsp;displays&nbsp;a&nbsp;fogged&nbsp;minimap.</tt></dd></dl>
 
 <dl><dt><a name="dungeon-map"><strong>map</strong></a>(self)</dt><dd><tt>Map&nbsp;generator.&nbsp;Creates&nbsp;a&nbsp;map&nbsp;of&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;on&nbsp;screen.<br>
 This&nbsp;shows&nbsp;the&nbsp;entire&nbsp;dungarray[][]</tt></dd></dl>
 
-<dl><dt><a name="dungeon-minimap"><strong>minimap</strong></a>(self, player)</dt><dd><tt>Generates&nbsp;a&nbsp;minimap&nbsp;(advmap&nbsp;centered&nbsp;on&nbsp;the&nbsp;player&nbsp;object&nbsp;passed)</tt></dd></dl>
+<dl><dt><a name="dungeon-minimap"><strong>minimap</strong></a>(self, player, fog)</dt><dd><tt>Generates&nbsp;a&nbsp;minimap&nbsp;(advmap&nbsp;centered&nbsp;on&nbsp;the&nbsp;player&nbsp;object&nbsp;passed)<br>
+Uses&nbsp;the&nbsp;function&nbsp;<a href="#dungeon-fill">fill</a>(),&nbsp;so&nbsp;it&nbsp;needs&nbsp;the&nbsp;fog&nbsp;parameter&nbsp;too.<br>
+1=fog&nbsp;enabled,&nbsp;anything&nbsp;else&nbsp;fog&nbsp;disabled.</tt></dd></dl>
 
 <dl><dt><a name="dungeon-report"><strong>report</strong></a>(self)</dt><dd><tt>Dumps&nbsp;a&nbsp;map&nbsp;of&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;into&nbsp;a&nbsp;text&nbsp;file</tt></dd></dl>
 
@@ -80,6 +85,8 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>dungarray</strong> = []</dl>
 
 <dl><dt><strong>filled</strong> = []</dl>
+
+<dl><dt><strong>mobarray</strong> = []</dl>
 
 <dl><dt><strong>xsize</strong> = 0</dl>
 
