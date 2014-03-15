@@ -1,4 +1,4 @@
-#Kirino v0.0.2
+#Kirino v0.0.2b
   
 Basic console based dungeon crawler. 
 
@@ -58,6 +58,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * Equipped items not modifying player's secondary attributes
   * Unequipped objects being destroyed
   * Total attack and defense stats stacking when switching items
+  * [0.0.2b] Zombies attacking from a long distance
 * Others:
   * Cleaned code
   * Increased feedback in less obvious functions

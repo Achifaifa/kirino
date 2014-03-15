@@ -99,9 +99,10 @@ class mob:
     """
     Attacks the player object passed to the function
     """
-    if player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1:
-      # attackpow=(self.str*4)-player.totdefn
-      attackpow=0 # Temporary fix for random damage
+    if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
+        player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
+      attackpow=(self.str*4)-player.totdefn
+      # attackpow=0 # Temporary fix for random damage
       if attackpow<0:
         attackpow=0
       player.hp2-=attackpow

@@ -2,21 +2,21 @@
 # Player 
 # 
 Name:
-Race:tyranid
-Class:librarian
-Money:23
-Level:2
-Exp:6
-Points:47
+Race:dwarf
+Class:salesman
+Money:7
+Level:1
+Exp:1
+Points:45
 HP:18
 MP:6
 INT:1
 DEX:1
 PER:1
 WIL:1
-STR:4
-CON:4
-CHA:-2
+STR:1
+CON:3
+CHA:1
 # 
 # Inventory 
 # 

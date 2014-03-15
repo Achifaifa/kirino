@@ -11,7 +11,6 @@ Item.py
 
 common.py
   Add error handling
-  add getch()
 
 help.py
   complete tutorial
@@ -24,7 +23,7 @@ Launch.py:
 Mob.py:
   Add stats (Movement, damage, flying)
   attack function
-  """IA""" (move towards player if inside the perception range)
+  """AI""" (move towards player if inside the perception range)
   Add random name generator from word files
 
 Player.py
@@ -43,6 +42,5 @@ Parser.py (After everything else is done)
 
 Extras (zero priority to-do, in no priority order)
   Music
-  In-game help
   Colours
   story modules

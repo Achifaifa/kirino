@@ -1,4 +1,4 @@
-#!/usr/bin/env pyton
+#!usr/bin/env pyton
 """
 Main procedure file.
 All the crawl and configuration implementation are in this module.
@@ -294,14 +294,16 @@ def crawl():
     #If any of the mobs has locked on the player and the player is in range, attack
     for j in range(len(dung.mobarray)):
       if dung.mobarray[j].lock:
-        if hero.ypos<=dung.mobarray[j].ypos+1 and hero.ypos>=dung.mobarray[j].ypos-1 and hero.xpos<=dung.mobarray[j].xpos+1 and hero.xpos>=dung.mobarray[j].xpos-1:
+        if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
+            dung.mobarray[j].xpos-1<=hero.xpos<=dung.mobarray[j].xpos+1 ):
           dung.mobarray[j].attack(hero,dung)
         else:
           dung.mobarray[j].lock=0
         
     #If any of the mobs are near the player, lock them
     for k in range(len(dung.mobarray)):
-      if hero.ypos<=dung.mobarray[k].ypos+1 and hero.ypos>=dung.mobarray[k].ypos-1 and hero.xpos<=dung.mobarray[k].xpos+1 and hero.xpos>=dung.mobarray[k].xpos-1:
+      if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
+          dung.mobarray[j].xpos-1<=hero.xpos<=dung.mobarray[j].xpos+1 ):
         dung.mobarray[k].lock=1
 
     #Action if player has reached a money loot tile
