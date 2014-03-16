@@ -61,18 +61,21 @@ class mob:
     If the mob is locked the function does nothing
     """
     if not self.lock:
-      if direction==1:
-        if dungeon.dungarray[self.ypos-1][self.xpos]==".":
-          self.ypos -= distance
-      if direction==2:
-        if dungeon.dungarray[self.ypos][self.xpos-1]==".":
-          self.xpos -= distance  
-      if direction==3:
-        if dungeon.dungarray[self.ypos+1][self.xpos]==".":     
-          self.ypos += distance
-      if direction==4:
-        if dungeon.dungarray[self.ypos][self.xpos+1]==".":
-          self.xpos += distance
+      try:
+        if direction==1:
+          if dungeon.dungarray[self.ypos-1][self.xpos]==".":
+            self.ypos -= distance
+        if direction==2:
+          if dungeon.dungarray[self.ypos][self.xpos-1]==".":
+            self.xpos -= distance  
+        if direction==3:
+          if dungeon.dungarray[self.ypos+1][self.xpos]==".":     
+            self.ypos += distance
+        if direction==4:
+          if dungeon.dungarray[self.ypos][self.xpos+1]==".":
+            self.xpos += distance
+      except indexError:
+        pass
   
   def randmove(self,dungeon,dist):
     """

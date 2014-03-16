@@ -1,4 +1,4 @@
-#Kirino v0.0.2b
+#Kirino v0.0.2c
   
 Basic console based dungeon crawler. 
 
@@ -59,6 +59,9 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * Unequipped objects being destroyed
   * Total attack and defense stats stacking when switching items
   * [0.0.2b] Zombies attacking from a long distance
+  * [0.0.2c] Non-standard keys (Arrows etc) being accepted in options
+  * [0.0.2c] Fixed input errors with empty strings
+  * [0.0.2c] Mob movement causing indexErrors
 * Others:
   * Cleaned code
   * Increased feedback in less obvious functions
@@ -67,6 +70,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * Attribute boost from items now showing in crawl screen and character sheet
   * Going to the next floor now requires user input
   * Items in the inventory can be destroyed
+  * [0.0.2c] Other visual adjustments
 
 ####**v0.0.1** (2014-03-07):
   First versioned release.

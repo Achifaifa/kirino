@@ -2,9 +2,9 @@
 # Player 
 # 
 Name:
-Race:dwarf
-Class:salesman
-Money:7
+Race:tyranid
+Class:rogue
+Money:0
 Level:1
 Exp:1
 Points:45
@@ -14,9 +14,9 @@ INT:1
 DEX:1
 PER:1
 WIL:1
-STR:1
-CON:3
-CHA:1
+STR:4
+CON:4
+CHA:-2
 # 
 # Inventory 
 # 

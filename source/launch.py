@@ -111,7 +111,7 @@ def menu():
     print "--"
     print "9.- Help"
     print "0.- Exit"
-    print "->"
+    print "->",
     menu=common.getch()
     if menu=="1":
       crawl()
@@ -145,17 +145,23 @@ def options(restricted):
       print "1.- Autosave [off]"
     if autosave==1:
       print "1.- Autosave [on]"
-    print "  Saves the character to file between floors"
-    if fog==0 and not restricted:
+    print "    Saves the character between floors"
+    if not fog and not restricted:
       print "2.- Fog [off]"
-    if fog==1 and not restricted:
+    if fog and not restricted:
       print "2.- Fog [on]"
+    if restricted and fog:
+      print "2.- Fog [on] [Locked]"
+    if restricted and not fog:
+      print "2.- Fog [off] [Locked]"
+    print "    Hides the dungeon out of view range"
+    print ""
     print "3.- Key mapping"
     print ""
     print "--"
     print "9.- Help"
     print "0.- Go back"
-    print "-> "
+    print "->",
     opmen=common.getch()
     if opmen=="1":
       autosave=not autosave
@@ -199,37 +205,70 @@ def keymap():
     print "9.- More keys"
     print "0.- Go back"
     print ""
-    print "-> "
+    print "->",
     keymenu=common.getch()
     if keymenu=="0":
       saveoptions()
       break
     if keymenu=="9":
       pass
+    #North
     if keymenu=="1":
       print "New key for 'go north' "
-      north=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        north=tempk
     if keymenu=="2":
       print "New key for 'go south' "
-      south=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        south=tempk
     if keymenu=="3":
       print "New key for 'go east' "
-      east=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        east=tempk
     if keymenu=="4":
       print "New key for 'go west' "
-      west=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        west=tempk
     if keymenu=="5":
       print "New key for 'Character sheet' "
-      charsh=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        charsh=tempk
     if keymenu=="6":
       print "New key for 'Option menu' "
-      opt=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        opt=tempk
     if keymenu=="7":
       print "New key for 'Report dungeon' "
-      report=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        report=tempk
     if keymenu=="8":
       print "New key for 'Quit dungeon' "
-      quit=common.getch()
+      tempk=raw_input()
+      if len(tempk)!=1:
+        raw_input("Invalid key")
+      if len(tempk)==1:
+        quit=tempk
 
 def saveoptions():
   """
@@ -274,12 +313,15 @@ def crawl():
   #Dungeon and player creation
   while 1:
     purge()
-    tempxs=int(raw_input("Horizontal size: "))
-    tempys=int(raw_input("Vertical size: "))
-    if tempxs<40 or tempys<20:
-      print "Minimum size 40x20"
-    elif tempxs>=40 and tempys>=20:
-      break
+    try:
+      tempxs=int(raw_input("Horizontal size: "))
+      tempys=int(raw_input("Vertical size: "))
+      if tempxs<40 or tempys<20:
+        print "Minimum size 40x20"
+      elif tempxs>=40 and tempys>=20:
+        break
+    except ValueError:
+      pass
   dung=dungeon.dungeon(tempxs,tempys)
   hero=player.player(dung)
   hero.name=raw_input("What is your name? ")
@@ -341,7 +383,7 @@ def crawl():
     #Show an extra "go down" option if player has reached the exit
     if dung.dungarray[hero.ypos][hero.xpos]=="X":
       print nextf+" - next floor"
-    print "-> "
+    print "->",
     crawlmen=common.getch()
     if crawlmen==charsh: #Character sheet menu
       hero.charsheet()
@@ -384,7 +426,7 @@ def crawl():
       print "Report dungeon? (y/n)"
       print "This will add the current floor to the ./logs/report file"
       print "Please consider sending this file when you are done playing"
-      print "-> "
+      print "->",
       rc=common.getch()
       if rc=="y":
         dung.report()

@@ -9,8 +9,6 @@ Dungeon.py
 item.py
 
 launch.py 
-  Keyboard configuration accepts non-standard keys
-  Errors on input with empty strings
 
 mob.py
 

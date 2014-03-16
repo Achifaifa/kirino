@@ -20,7 +20,7 @@ def help():
     print "---"
     print "0.- Back"
     print ""
-    print "-> "
+    print "->",
     helpmen=common.getch()
     if helpmen=="2":
       funchelp()
@@ -68,7 +68,7 @@ def funchelp():
     print "5.- Saving and loading"
     print "---"  
     print "0.- Back"
-    print "-> "
+    print "->",
     fhmen=common.getch()
     if fhmen=="1":
       introh()

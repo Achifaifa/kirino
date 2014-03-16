@@ -185,29 +185,31 @@ class player:
     #This gives 1 base move and 1 extra move for every 10 SPD
     moves=1
     # moves+=self.SPD/10 #disabled because of bugs
-
-    #Checks de direction and moves
-    if direction==1:
-      if dungeon.dungarray[self.ypos-1][self.xpos]=="#":
-        pass
+    try:
+      #Checks de direction and moves
+      if direction==1:
+        if dungeon.dungarray[self.ypos-1][self.xpos]=="#":
+          pass
+        else:
+          self.ypos -= moves
+      elif direction==2:
+        if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
+          pass
+        else:
+          self.xpos -= moves  
+      elif direction==3:
+        if dungeon.dungarray[self.ypos+1][self.xpos]=="#":
+          pass
+        else:     
+          self.ypos += moves
+      elif direction==4:
+        if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
+          pass
+        else:
+          self.xpos += moves
       else:
-        self.ypos -= moves
-    elif direction==2:
-      if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
         pass
-      else:
-        self.xpos -= moves  
-    elif direction==3:
-      if dungeon.dungarray[self.ypos+1][self.xpos]=="#":
-        pass
-      else:     
-        self.ypos += moves
-    elif direction==4:
-      if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
-        pass
-      else:
-        self.xpos += moves
-    else:
+    except indexError:
       pass
 
   def secondary(self):
@@ -248,7 +250,7 @@ class player:
       print "5.- Load"
       print ""
       print "0.- Exit"
-      print "->"
+      print "->",
       menu=common.getch()
       #Spend exp
       if menu=="1":
@@ -337,7 +339,7 @@ class player:
       print "---"
       print "0.- Exit"
       print ""
-      print "->"
+      print "->",
       choice=common.getch()
 
       #Choice cases
@@ -390,7 +392,7 @@ class player:
       print "1.- Change name"
       print "---"
       print "0.- Back"
-      print "->"
+      print "->",
       coptmen=common.getch()
       if coptmen=="1":
         self.name=raw_input("New name? ")
@@ -435,7 +437,7 @@ class player:
       print "a - unequip item"
       print "0 - Back"
       print ""
-      print "-> "
+      print "->",
       invmenu=common.getch()
 
       #Item flipping (Inventory <-> Equip)
@@ -495,21 +497,23 @@ class player:
 
       #Unequip menu
       if invmenu=="a":
-        print "Which item? "
-        unitem=common.getch()
-        if 0<int(unitem)<=len(self.equiparr) and self.equiparr[int(unitem)-1].name!="":
-          temp=copy.copy(self.equiparr[int(unitem)-1])
-          self.strboost-=self.equiparr[int(unitem)-1].strbonus
-          self.intboost-=self.equiparr[int(unitem)-1].intbonus
-          self.conboost-=self.equiparr[int(unitem)-1].conbonus
-          self.wilboost-=self.equiparr[int(unitem)-1].wilbonus
-          self.perboost-=self.equiparr[int(unitem)-1].perbonus
-          self.dexboost-=self.equiparr[int(unitem)-1].dexbonus
-          self.chaboost-=self.equiparr[int(unitem)-1].chabonus
-          self.totatk-=self.equiparr[int(unitem)-1].atk
-          self.totdefn-=self.equiparr[int(unitem)-1].defn
-          self.inventory.append(temp)
-          self.equiparr[int(unitem)-1].reset()
+        try:
+          unitem=int(raw_input("which item? "))
+          if 0<int(unitem)<=len(self.equiparr) and self.equiparr[int(unitem)-1].name!="":
+            temp=copy.copy(self.equiparr[int(unitem)-1])
+            self.strboost-=self.equiparr[int(unitem)-1].strbonus
+            self.intboost-=self.equiparr[int(unitem)-1].intbonus
+            self.conboost-=self.equiparr[int(unitem)-1].conbonus
+            self.wilboost-=self.equiparr[int(unitem)-1].wilbonus
+            self.perboost-=self.equiparr[int(unitem)-1].perbonus
+            self.dexboost-=self.equiparr[int(unitem)-1].dexbonus
+            self.chaboost-=self.equiparr[int(unitem)-1].chabonus
+            self.totatk-=self.equiparr[int(unitem)-1].atk
+            self.totdefn-=self.equiparr[int(unitem)-1].defn
+            self.inventory.append(temp)
+            self.equiparr[int(unitem)-1].reset()
+        except ValueError:
+          print "Invalid choice"
 
       #Exit from inventory menu
       elif invmenu=="0":
@@ -596,5 +600,3 @@ class player:
             self.mp2=int(line.partition(':')[2])
           if line.partition(':')[0]=="Points":
             self.points=int(line.partition(':')[2])
-
-pass
