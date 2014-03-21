@@ -4,6 +4,10 @@ Help function. Contains help menus and text for the functions in the game.
 """
 import os
 import common
+import dungeon
+import player
+import item
+import config
 
 def help():
   """
@@ -213,4 +217,104 @@ def tutorial():
   Small tutorial with basic controls and elements.
   Not implemented.
   """
-  pass
+  os.system('clear')
+  common.version()
+  print "Help - Using kirino - Tutorial - Introduction"
+  print ""
+  print "Hello there! Welcome to Kirino"
+  print "This is a console-based dungeon crawler. In this tutorial you will learn the basic controls and game mechanics."
+  print ""
+  print "press any key to continue",
+  common.getch()
+
+  os.system('clear')
+  common.version()
+  print "Help - Using kirino - Tutorial - Basic dungeons"
+  print ""
+  new=dungeon.dungeon(40,20)
+  new.map()
+  print ""
+  print "This is a dungeon. It's a labrynth made of rooms and halls. Every dungeon is randomly generated at the start of each level."
+  print "You can see the entrance tile (A) and the exit tile (X) in it."
+  print "Your objective is to reach the exit tile."
+  print ""
+  print "press any key to continue",
+  common.getch()
+
+  new.dungarray=[]
+  with open("../data/tutorial/tutorial_1","r") as tuto1:
+    for line in tuto1:
+      line=line.strip()
+      secondary=[]
+      if line.startswith("#"):
+        for char in line:
+          secondary.append(char)
+      new.dungarray.append(secondary)
+  play=player.player(new)
+  while 1:
+    os.system('clear')
+    common.version()
+    print "Help - Using kirino - Tutorial - Basic dungeons"
+    print ""
+    print "Go ahead, give it a go!"
+    print "use "+north+south+east+west+" to move horizontally"
+    print "use "+northeast+northwest+southeast+southwest+" to move diagonally"
+    print "When you reach the exit tile, press "+nextf
+    print "You can change the key mapping in the option menu ("+opt+")"
+    new.map()
+    print ""
+    print "-> ",
+    tut1ch=common.getch()
+    if tut1ch==north:
+      pass
+    if tut1ch==south:
+      pass
+    if tut1ch==east:
+      pass
+    if tut1ch==west:
+      pass
+    if tut1ch==northeast:
+      pass
+    if tut1ch==northwest:
+      pass
+    if tut1ch==southeast:
+      pass
+    if tut1ch==southwest:
+      pass
+    if tut1ch==opt:
+      pass
+
+
+  os.system('clear')
+  common.version()
+  print "Help - Using kirino - Tutorial - Items"
+  print ""
+  print "You will find some things throughout the dungeons. Here is a brief summary."
+  print "/ <- This is an object. It can be a weapon, clothing or something else. You won't know until you pick it up!"
+  print "$ <- This is money! Pick it up, and you'll be able to use it to enchant weapons and buy things"
+  print ""
+  print "More things will be added on the future, make sure to check them out"
+  print ""
+  print "press any key to continue",
+  common.getch()
+
+  os.system('clear')
+  common.version()
+  print "Help - Using kirino - Tutorial - Enemies"
+  print ""
+  print "Of course, you will not be alone in the dungeons. Enemies will be around! Here is a small list:"
+  print ""
+  print "i - Zombie"
+  print ""
+  print "You can see the complete descriptions in the help menu"
+  print ""
+  print "press any key to continue",
+  common.getch()
+
+  os.system('clear')
+  common.version()
+  print "Help - Using kirino - Tutorial - "
+  print ""
+  print "blablablablablbabla. Go kill some zombies"
+  #Interactive tutorial goes here
+  # common.getch()

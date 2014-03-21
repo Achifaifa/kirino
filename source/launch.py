@@ -13,6 +13,7 @@ import item
 import parser
 import common
 import help
+import config
 
 #load/save global variables
 dex=0
@@ -34,71 +35,12 @@ fl=1#Actual floor (Displayed)
 tempinventory=[]
 tempequiparr=[]
 
-#Environment variables
-autosave=0
-fog=1
-
-#Key mapping variables
-north="n"
-south="s"
-east="e"
-west="w"
-charsh="c"
-opt="o"
-quit="q"
-report="z"
-nextf="m"
-
 #Main menu
 def menu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
-  """
-  global north
-  global south
-  global east
-  global west
-  global charsh
-  global opt
-  global quit
-  global report
-  global autosave
-  global fog
-  global nextf
-
-  #Checks if there is a config file. If it exists, loads the key mapping variables from it
-  if not os.path.exists("../player/"):
-    os.makedirs("../player/")
-  if os.path.isfile("../player/config"):
-    with open("../player/config","r") as configfile:
-      for line in configfile:
-        if not line.startswith('#'):
-          if line.partition(':')[0]=="North":
-            north=(line.partition(':')[2]).strip()          
-          if line.partition(':')[0]=="South":
-            south=(line.partition(':')[2]).strip()          
-          if line.partition(':')[0]=="East":
-            east=(line.partition(':')[2]).strip()         
-          if line.partition(':')[0]=="West":
-            west=(line.partition(':')[2]).strip()          
-          if line.partition(':')[0]=="Sheet":
-            charsh=(line.partition(':')[2]).strip()         
-          if line.partition(':')[0]=="Options":
-            opt=(line.partition(':')[2]).strip()          
-          if line.partition(':')[0]=="Quit":
-            quit=(line.partition(':')[2]).strip()   
-          if line.partition(':')[0]=="Report":
-            report=(line.partition(':')[2]).strip()          
-          if line.partition(':')[0]=="Autosave":
-            if line.partition(':')[2].strip()=="on":
-              autosave=1
-          if line.partition(':')[0]=="Fog":
-            if line.partition(':')[2].strip()=="off":
-              fog=0
-          if line.partition(':')[0]=="Next floor":
-            nextf=(line.partition(':')[2]).strip()
-
-
+  """ 
+  cfg=config.config()
   #Main menu
   while 1:
     os.system('clear')
@@ -116,7 +58,7 @@ def menu():
     if menu=="1":
       crawl()
     if menu=="2":
-      options(0)
+      config.options(0)
     if menu=="3":
       pass
     if menu=="9":
@@ -127,187 +69,13 @@ def menu():
       if ec=="y": 
         exit()
 
-
-def options(restricted):
-  """
-  Game options menu. This allows modification of the general options, such as key mappings, autosave, etc.
-  If the restricted parameter is 1, it hides the options that should not be changed during the game (fog, etc)
-
-  """
-  global autosave
-  global fog
-  while 1:
-    os.system('clear')
-    common.version()
-    print "Options"
-    print ""
-    if autosave==0:
-      print "1.- Autosave [off]"
-    if autosave==1:
-      print "1.- Autosave [on]"
-    print "    Saves the character between floors"
-    if not fog and not restricted:
-      print "2.- Fog [off]"
-    if fog and not restricted:
-      print "2.- Fog [on]"
-    if restricted and fog:
-      print "2.- Fog [on] [Locked]"
-    if restricted and not fog:
-      print "2.- Fog [off] [Locked]"
-    print "    Hides the dungeon out of view range"
-    print ""
-    print "3.- Key mapping"
-    print ""
-    print "--"
-    print "9.- Help"
-    print "0.- Go back"
-    print "->",
-    opmen=common.getch()
-    if opmen=="1":
-      autosave=not autosave
-    if opmen=="3":
-      keymap()
-    if opmen=="2" and not restricted:
-      fog=not fog
-    if opmen=="9":
-      help.help()
-    if opmen=="0":
-      saveoptions()
-      break
-
-#Keyboard mapping options menu. Saves the configuration to file at exit
-def keymap():
-  """
-  Key mapping configuration menu.
-  """
-  global north
-  global south
-  global east
-  global west
-  global charsh
-  global opt
-  global quit
-  global report
-  while 1:
-    os.system('clear')
-    common.version()
-    print "Options - Keyboard mapping"
-    print ""
-    print "1.- Go north: "+north
-    print "2.- Go south: "+south
-    print "3.- Go east: "+east
-    print "4.- Go west: "+west
-    print "5.- Character sheet : "+charsh
-    print "6.- Option menu: "+opt
-    print "7.- Report dungeon: "+report
-    print "8.- Quit dungeon: "+quit
-    print "---"
-    print "9.- More keys"
-    print "0.- Go back"
-    print ""
-    print "->",
-    keymenu=common.getch()
-    if keymenu=="0":
-      saveoptions()
-      break
-    if keymenu=="9":
-      pass
-    #North
-    if keymenu=="1":
-      print "New key for 'go north' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        north=tempk
-    if keymenu=="2":
-      print "New key for 'go south' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        south=tempk
-    if keymenu=="3":
-      print "New key for 'go east' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        east=tempk
-    if keymenu=="4":
-      print "New key for 'go west' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        west=tempk
-    if keymenu=="5":
-      print "New key for 'Character sheet' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        charsh=tempk
-    if keymenu=="6":
-      print "New key for 'Option menu' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        opt=tempk
-    if keymenu=="7":
-      print "New key for 'Report dungeon' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        report=tempk
-    if keymenu=="8":
-      print "New key for 'Quit dungeon' "
-      tempk=raw_input()
-      if len(tempk)!=1:
-        raw_input("Invalid key")
-      if len(tempk)==1:
-        quit=tempk
-
-def saveoptions():
-  """
-  Option saving function. Takes all the configuration variables and writes them into a file.
-  The file is located in ../player/, if the directory does not exist this creates the directory and the file.
-  """
-  if not os.path.exists("../player/"):
-    os.makedirs("../player/")
-  with open("../player/config","w+") as configfile:
-    configfile.write("# \n")
-    configfile.write("# Keyboard options \n")
-    configfile.write("# \n")
-    configfile.write("North:"+north+"\n")
-    configfile.write("South:"+south+"\n")
-    configfile.write("East:"+east+"\n")
-    configfile.write("West:"+west+"\n")
-    configfile.write("Sheet:"+charsh+"\n")
-    configfile.write("Options:"+opt+"\n")
-    configfile.write("Quit:"+quit+"\n")
-    configfile.write("Report:"+report+"\n")
-    configfile.write("Next floor:"+nextf+"\n")
-    configfile.write("# \n")
-    configfile.write("# Game options \n")
-    configfile.write("# \n")
-    if autosave==1:
-      configfile.write("Autosave:on \n")
-    if autosave==0:
-      configfile.write("Autosave:off \n")
-    if fog==1:
-      configfile.write("Fog:on")
-    if fog==0:
-      configfile.write("Fog:off")
-
 def crawl():
   """
   Main crawling function. Displays the map, keys and different statistics.
   """
   global flcounter
   global fl
+  global cfg
   fl=1 #Initialize floor to 1
 
   #Dungeon and player creation
@@ -364,8 +132,8 @@ def crawl():
     os.system('clear')
     common.version()
     print ""
-    dung.fill(hero,fog)
-    dung.minimap(hero,fog)
+    dung.fill(hero,cfg.fog)
+    dung.minimap(hero,cfg.fog)
     print "Floor",fl,(hero.xpos,hero.ypos)
     print "Lv",hero.lv,hero.race,hero.charclass
     if hero.lv==1:
@@ -375,11 +143,12 @@ def crawl():
     print ""
     hero.getatr()
     print ""
-    print north+south+east+west+" - move"
-    print charsh+" - character sheet"
-    print opt+" - options"
-    print quit+" - go back to menu"
-    print report+" - report dungeon"
+    print cfg.north+cfg.south+cfg.east+cfg.west+" - move (n/s/e/w)"
+    print cfg.northeast+cfg.northwest+cfg.southeast+cfg.southwest+" - move (ne/nw/se/sw)"
+    print cfg.charsh+" - character sheet"
+    print cfg.opt+" - options"
+    print cfg.quit+" - go back to menu"
+    print cfg.report+" - report dungeon"
     #Show an extra "go down" option if player has reached the exit
     if dung.dungarray[hero.ypos][hero.xpos]=="X":
       print nextf+" - next floor"
@@ -395,8 +164,16 @@ def crawl():
       hero.move(dung,4)
     elif crawlmen==west:
       hero.move(dung,2)
+    elif crawlmen==northeast:
+      hero.move(dung,6) 
+    elif crawlmen==northwest: 
+      hero.move(dung,5)
+    elif crawlmen==southeast:
+      hero.move(dung,8)
+    elif crawlmen==southwest:
+      hero.move(dung,7)
     elif crawlmen==opt: #Game option menu
-      options(1)
+      cfg.options(1)
     elif crawlmen==nextf: #Next floor
       #Double check if the player is in the exit tile
       if dung.dungarray[hero.ypos][hero.xpos]=="X":

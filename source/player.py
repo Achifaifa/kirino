@@ -181,6 +181,10 @@ class player:
       2 west
       3 south
       4 east
+      5 northwest
+      6 northeast
+      7 southwest
+      8 southeast
     """
     #This gives 1 base move and 1 extra move for every 10 SPD
     moves=1
@@ -206,6 +210,30 @@ class player:
         if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
           pass
         else:
+          self.xpos += moves
+      elif direction==5:
+        if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#":
+          pass
+        else:
+          self.ypos -= moves
+          self.xpos -= moves
+      elif direction==6:
+        if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#":
+          pass
+        else:
+          self.ypos -= moves
+          self.xpos += moves
+      elif direction==7:
+        if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#":
+          pass
+        else:
+          self.ypos += moves
+          self.xpos -= moves
+      elif direction==8:
+        if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#":
+          pass
+        else:
+          self.ypos += moves
           self.xpos += moves
       else:
         pass
@@ -236,9 +264,9 @@ class player:
       print "_____________________"
       print "Level "+str(self.lv)+" "+self.race+" "+self.charclass
       if self.lv==1:
-        print self.exp,"/ 5 xp",self.points,"points"
+        print str(self.exp)+"/5 xp,",self.points,"points"
       if self.lv>1:
-        print self.exp,"/",3*self.lv+(2*(self.lv-1)),"xp,",self.points,"points"
+        print str(self.exp)+"/"+str(3*self.lv+(2*(self.lv-1))),"xp,",self.points,"points"
       print ""
       self.getatr()
       print "_____________________"
@@ -271,6 +299,7 @@ class player:
         print "loading..."
         self.load()
         raw_input("Player loaded")
+      #Exit
       elif menu=="0":
         break
       pass

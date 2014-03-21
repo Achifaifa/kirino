@@ -1,4 +1,4 @@
-#Kirino v0.0.2c
+#Kirino v0.0.2d
   
 Basic console based dungeon crawler. 
 
@@ -22,24 +22,33 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
     * `classes`:          List of player classes
 * docs:               Documentation folder (pydoc generated html files)
 * info:               Information files
-  * `bugs`:               List of bugs and weird behaviours to fix
-  * `todo`:               Ideas and stuff
-  * `notes`:              Temporary notes on feature implementation
+  * `bugs`:             List of bugs and weird behaviours to fix
+  * `todo`:             Ideas and stuff
+  * `notes`:            Temporary notes on feature implementation
 * player:             Player files
-  * `save`:               Example save file
-  * `config`:             Example configuration file
+  * `save`:             Example save file
+  * `config`:           Example configuration file
 * source:             Source file folder
-  * `common.py`:          Common functions and procedures
-  * `dungeon.py`:         Dungeon class
-  * `help.py`:            Help menus and text
-  * `item.py`:            Item class
-  * `launch.py`:          Main menus and procedures.
-  * `mob.py`:             Giant enemy class
-  * `parser.py`:          Word parser (Empty)
-  * `player.py`:          Player class
+  * `common.py`:        Common functions and procedures
+  * `config.py`:        Configuration class
+  * `dungeon.py`:       Dungeon class
+  * `help.py`:          Help and tutorial
+  * `item.py`:          Item class
+  * `launch.py`:        Main menus and procedures.
+  * `mob.py`:           Giant enemy class
+  * `parser.py`:        Word parser (Empty)
+  * `player.py`:        Player class
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.3** (2014-03-21):
+* New features: 
+  * Tutorial
+* Others:
+  * Added diagonal movement
+  * Restructured configuration code
+  * Added config.py
 
 ####**v0.0.2** (2014-03-14):
 * New features:

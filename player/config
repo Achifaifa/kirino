@@ -1,10 +1,14 @@
 # 
 # Keyboard options 
 # 
-North:w
-South:r
-East:s
-West:a
+North:8
+South:2
+East:6
+West:4
+Northeast:9
+Northwest:7
+Southeast:3
+Southwest:1
 Sheet:z
 Options:x
 Quit:;

@@ -1,22 +1,22 @@
 # 
 # Player 
 # 
-Name:
-Race:tyranid
-Class:rogue
-Money:0
+Name:rst
+Race:ratling
+Class:hacker
+Money:3
 Level:1
 Exp:1
 Points:45
-HP:18
+HP:-4
 MP:6
-INT:1
-DEX:1
+INT:0
+DEX:3
 PER:1
 WIL:1
-STR:4
-CON:4
-CHA:-2
+STR:2
+CON:1
+CHA:1
 # 
 # Inventory 
 # 

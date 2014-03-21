@@ -10,7 +10,6 @@ Item.py
   Item tiers
 
 common.py
-  Add error handling
 
 help.py
   complete tutorial
@@ -22,7 +21,6 @@ Launch.py:
   
 Mob.py:
   Add stats (Movement, damage, flying)
-  attack function
   """AI""" (move towards player if inside the perception range)
   Add random name generator from word files
 
@@ -30,6 +28,8 @@ Player.py
   attack function
   Show attribute modifiers in inventory menu
   Cemetery file (Dump all the dead characters into a file)
+  2H weapons unequip 1h weapons.
+  Dual-wielding 1h weapons.
 
 ---
 
