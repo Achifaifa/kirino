@@ -303,5 +303,5 @@ def saveoptions(self):
     if self.fog==0:
       configfile.write("Fog:off")
 
-cfg=config()
-cfg.options(0)
+# cfg=config()
+# cfg.options(0)

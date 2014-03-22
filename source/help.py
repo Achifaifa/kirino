@@ -217,6 +217,8 @@ def tutorial():
   Small tutorial with basic controls and elements.
   Not implemented.
   """
+  cfg=config.config()
+
   os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Introduction"
@@ -251,38 +253,46 @@ def tutorial():
           secondary.append(char)
       new.dungarray.append(secondary)
   play=player.player(new)
+  new.mobarray=[]
+  new.fill(play,0)
   while 1:
     os.system('clear')
     common.version()
     print "Help - Using kirino - Tutorial - Basic dungeons"
     print ""
     print "Go ahead, give it a go!"
-    print "use "+north+south+east+west+" to move horizontally"
-    print "use "+northeast+northwest+southeast+southwest+" to move diagonally"
-    print "When you reach the exit tile, press "+nextf
-    print "You can change the key mapping in the option menu ("+opt+")"
+    print "use "+cfg.north+cfg.south+cfg.east+cfg.west+" to move horizontally"
+    print "use "+cfg.northeast+cfg.northwest+cfg.southeast+cfg.southwest+" to move diagonally"
+    print "When you reach the exit tile, press "+cfg.nextf
+    print "You can change the key mapping in the option menu ("+cfg.opt+")"
+    print "If you want to skip this part of the tutorial, press "+cfg.quit
     new.map()
     print ""
     print "-> ",
     tut1ch=common.getch()
-    if tut1ch==north:
-      pass
-    if tut1ch==south:
-      pass
-    if tut1ch==east:
-      pass
-    if tut1ch==west:
-      pass
-    if tut1ch==northeast:
-      pass
-    if tut1ch==northwest:
-      pass
-    if tut1ch==southeast:
-      pass
-    if tut1ch==southwest:
-      pass
-    if tut1ch==opt:
-      pass
+    if tut1ch==cfg.north:
+      play.move(new,1)
+    if tut1ch==cfg.south:
+      play.move(new,3)
+    if tut1ch==cfg.east:
+      play.move(new,4)
+    if tut1ch==cfg.west:
+      play.move(new,2)
+    if tut1ch==cfg.northeast:
+      play.move(new,6)
+    if tut1ch==cfg.northwest:
+      play.move(new,5)
+    if tut1ch==cfg.southeast:
+      play.move(new,8)
+    if tut1ch==cfg.southwest:
+      play.move(new,7)
+    if tut1ch==cfg.quit:
+      break
+    if tut1ch==cfg.opt:
+      cfg.options(1)
+    if new.dungarray[play.ypos][play.xpos]=="X":
+      if tut1ch==cfg.nextf:
+        break
 
 
   os.system('clear')

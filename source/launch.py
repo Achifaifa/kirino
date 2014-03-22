@@ -73,9 +73,9 @@ def crawl():
   """
   Main crawling function. Displays the map, keys and different statistics.
   """
+  cfg=config.config()
   global flcounter
   global fl
-  global cfg
   fl=1 #Initialize floor to 1
 
   #Dungeon and player creation
@@ -151,36 +151,36 @@ def crawl():
     print cfg.report+" - report dungeon"
     #Show an extra "go down" option if player has reached the exit
     if dung.dungarray[hero.ypos][hero.xpos]=="X":
-      print nextf+" - next floor"
+      print cfg.nextf+" - next floor"
     print "->",
     crawlmen=common.getch()
-    if crawlmen==charsh: #Character sheet menu
+    if crawlmen==cfg.charsh: #Character sheet menu
       hero.charsheet()
-    elif crawlmen==north:
+    elif crawlmen==cfg.north:
       hero.move(dung,1) 
-    elif crawlmen==south: 
+    elif crawlmen==cfg.south: 
       hero.move(dung,3)
-    elif crawlmen==east:
+    elif crawlmen==cfg.east:
       hero.move(dung,4)
-    elif crawlmen==west:
+    elif crawlmen==cfg.west:
       hero.move(dung,2)
-    elif crawlmen==northeast:
+    elif crawlmen==cfg.northeast:
       hero.move(dung,6) 
-    elif crawlmen==northwest: 
+    elif crawlmen==cfg.northwest: 
       hero.move(dung,5)
-    elif crawlmen==southeast:
+    elif crawlmen==cfg.southeast:
       hero.move(dung,8)
-    elif crawlmen==southwest:
+    elif crawlmen==cfg.southwest:
       hero.move(dung,7)
-    elif crawlmen==opt: #Game option menu
+    elif crawlmen==cfg.opt: #Game option menu
       cfg.options(1)
-    elif crawlmen==nextf: #Next floor
+    elif crawlmen==cfg.nextf: #Next floor
       #Double check if the player is in the exit tile
       if dung.dungarray[hero.ypos][hero.xpos]=="X":
         flcounter+=1
         fl+=1
         lsave(hero) 
-        if autosave==1:
+        if cfg.autosave==1:
           hero.save()
         dung=dungeon.dungeon(tempxs,tempys)
         lload(hero)
@@ -191,14 +191,14 @@ def crawl():
               hero.xpos=j
               hero.zpos=0 
 
-    elif crawlmen==quit:
+    elif crawlmen==cfg.quit:
       print "Exit to menu (y/n)?"
       print "All unsaved progress will be lost?"
       confv=common.getch()
       if confv=="y":
         purge()
         break
-    elif crawlmen==report:
+    elif crawlmen==cfg.report:
       rc=-1
       print "Report dungeon? (y/n)"
       print "This will add the current floor to the ./logs/report file"

@@ -1,6 +1,10 @@
-#Kirino v0.0.2d
+#Kirino v0.0.3
   
 Basic console based dungeon crawler. 
+
+##Release notes
+
+v0.0.3 Required a major code re-structuring. Some of the minor functions may have been missed some changes and the game may crash under some circumstances. If this happens, please submit a message/issue/twitter mention with the crash message so it can be fixed ASAP.
 
 ##How to use
 
