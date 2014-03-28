@@ -37,6 +37,35 @@ def help():
     else:
       pass
 
+def keyhelp():
+  """
+  Displays all the keys that can be used while crawling and their function.
+  """
+  cfg=config.config()
+  os.system('clear')
+  common.version()
+  print "Key help"
+  print ""
+  print "Movement"
+  print ""
+  print "  "+cfg.northwest+" "+cfg.north+" "+cfg.northeast+"   "
+  print "   \|/   "
+  print "  "+cfg.west+"-X-"+cfg.east+"  "
+  print "   /|\   "
+  print "  "+cfg.southwest+" "+cfg.south+" "+cfg.southeast+"   "
+  print ""
+  print "Actions"
+  print ""
+  print "Input mode:      "+cfg.console
+  print "Character sheet: "+cfg.charsh
+  print "Options menu:    "+cfg.opt
+  print "Quit:            "+cfg.quit
+  print "Report dungeon:  "+cfg.report
+  print "Next floor:      "+cfg.nextf
+  print ""
+  print "Press any key to continue"
+  common.getch()
+
 def about():
   """
   Gives information about the game

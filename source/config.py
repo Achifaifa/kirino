@@ -1,6 +1,6 @@
 #usr/bin/env python
 import os
-import common
+import common, help
 
 class config:
   """
@@ -26,6 +26,8 @@ class config:
   quit="q"
   report="z"
   nextf="m"
+  showkeys="k"
+  console="/"
 
   def __init__(self):
     #Environment variables
@@ -46,6 +48,8 @@ class config:
     self.quit="q"
     self.report="z"
     self.nextf="m"
+    self.showkeys="k"
+    self.console="/"
 
     #Checks if there is a config file. If it exists, loads the option variables from it
     if os.path.isfile("../player/config"):
@@ -73,7 +77,11 @@ class config:
             if line.partition(':')[0]=="Options":
               self.opt=(line.partition(':')[2]).strip()          
             if line.partition(':')[0]=="Quit":
-              self.quit=(line.partition(':')[2]).strip()   
+              self.quit=(line.partition(':')[2]).strip() 
+            if line.partition(':')[0]=="Show keys:":
+              self.showkeys=(line.partition(':')[2]).strip()  
+            if line.partition(':')[0]=="Input mode":
+              self.console=(line.partition(':')[2]).strip() 
             if line.partition(':')[0]=="Report":
               self.report=(line.partition(':')[2]).strip()          
             if line.partition(':')[0]=="Autosave":
@@ -123,7 +131,7 @@ class config:
       if opmen=="1":
         self.autosave=not self.autosave
       if opmen=="3":
-        self.keymap()
+        self.keymap(restricted)
       if opmen=="2" and not restricted:
         self.fog=not self.fog
       if opmen=="9":
@@ -133,14 +141,14 @@ class config:
         break
 
   #Keyboard mapping options menu. Saves the configuration to file at exit
-  def keymap(self):
+  def keymap(self,restricted):
     """
     Key mapping configuration menu.
     """
     while 1:
       os.system('clear')
       common.version()
-      print "Options - Keyboard mapping"
+      print "Options - Keyboard mapping 1/2"
       print ""
       print "1.- Go north: "+self.north
       print "2.- Go south: "+self.south
@@ -163,12 +171,14 @@ class config:
         while 1:
           os.system('clear')
           common.version()
-          print "Options - Keyboard mapping"
+          print "Options - Keyboard mapping 2/2"
           print ""
           print "1.- Character sheet : "+self.charsh
           print "2.- Option menu: "+self.opt
           print "3.- Report dungeon: "+self.report
           print "4.- Quit dungeon: "+self.quit
+          print "5.- Show keys: "+self.showkeys
+          print "6.- Input mode: "+self.console
           print "---"
           print "9.- More keys"
           print "0.- Go back"
@@ -203,12 +213,26 @@ class config:
               raw_input("Invalid key")
             if len(tempk)==1:
               self.quit=tempk
+          if keymenu2=="5":
+            print "New key for 'Show keys' "
+            tempk=raw_input()
+            if len(tempk)!=1:
+              raw_input("Invalid key")
+            if len(tempk)==1:
+              self.showkeys=tempk
+          if keymenu2=="6":
+            print "New key for 'Input mode' "
+            tempk=raw_input()
+            if len(tempk)!=1:
+              raw_input("Invalid key")
+            if len(tempk)==1:
+              self.console=tempk
           if keymenu2=="9":
             saveoptions(self)
             break
           if keymenu2=="0":
             saveoptions(self)
-            menu()
+            break
       
       if keymenu=="1":
         print "New key for 'go north' "
@@ -286,11 +310,13 @@ def saveoptions(self):
     configfile.write("Northwest:"+self.northwest+"\n")
     configfile.write("Southeast:"+self.southeast+"\n")
     configfile.write("Southwest:"+self.southwest+"\n")
+    configfile.write("Input mode:"+self.console+"\n")
     configfile.write("Sheet:"+self.charsh+"\n")
     configfile.write("Options:"+self.opt+"\n")
     configfile.write("Quit:"+self.quit+"\n")
     configfile.write("Report:"+self.report+"\n")
     configfile.write("Next floor:"+self.nextf+"\n")
+    configfile.write("Show keys:"+self.showkeys+"\n")
     configfile.write("# \n")
     configfile.write("# Game options \n")
     configfile.write("# \n")
@@ -302,6 +328,3 @@ def saveoptions(self):
       configfile.write("Fog:on")
     if self.fog==0:
       configfile.write("Fog:off")
-
-# cfg=config()
-# cfg.options(0)

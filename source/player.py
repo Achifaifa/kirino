@@ -1,10 +1,6 @@
 #usr/bin/env python 
-import os
-import copy
-import random
-import dungeon
-import item
-import common
+import copy, os, random
+import common, dungeon, item
 
 #Player class definition
 class player:
@@ -19,6 +15,9 @@ class player:
   charclass="_" #Class
   inventory=[]  #10 slot inventory
   equiparr=[]   #Equipped item inventory
+  totalfl=0     #Total floors explored
+  prestige=0
+  prestigelv=1
 
   #Attribute and attribute booster variables
   INT=1
@@ -66,6 +65,9 @@ class player:
     self.points=45
     self.race="_"
     self.charclass="_"
+    self.totalfl=0
+    self.prestigelv=0
+    self.prestige=0
 
     #Initializing inventory arrays
     self.inventory=[]
@@ -237,7 +239,7 @@ class player:
           self.xpos += moves
       else:
         pass
-    except indexError:
+    except IndexError:
       pass
 
   def secondary(self):
@@ -267,6 +269,7 @@ class player:
         print str(self.exp)+"/5 xp,",self.points,"points"
       if self.lv>1:
         print str(self.exp)+"/"+str(3*self.lv+(2*(self.lv-1))),"xp,",self.points,"points"
+      print str(self.totalfl)+" floors explored"
       print ""
       self.getatr()
       print "_____________________"
@@ -473,7 +476,7 @@ class player:
       if "0"<invmenu<=str(len(self.inventory)):
         invmenu=int(invmenu)        
         if len(self.inventory)>=invmenu:
-          if not self.equiparr[self.inventory[invmenu-1].type-1].name=="":
+          if not self.equiparr[self.inventory[invmenu-1].type-1].name==" ":
             temp=self.equiparr[self.inventory[invmenu-1].type-1]
             self.strboost-=self.equiparr[self.inventory[invmenu-1].type-1].strbonus
             self.intboost-=self.equiparr[self.inventory[invmenu-1].type-1].intbonus
@@ -500,7 +503,7 @@ class player:
           self.equiparr[self.inventory[invmenu-1].type-1]=self.inventory[invmenu-1]
           del self.inventory[invmenu-1]
           self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name=="":
+          if self.inventory[len(self.inventory)-1].name==" ":
             del self.inventory[len(self.inventory)-1]
 
       #Destroy an item from inventory
@@ -517,18 +520,21 @@ class player:
 
       #Enchanting menu
       if invmenu=="w":
-        print "Which item? "
-        itech=common.getch()
-        if "0"<itech<=str(len(self.inventory)):
-          self.inventory[int(itech)-1].enchant(self)
-          if self.inventory[int(itech)-1].name=="":
-            del self.inventory[int(itech)-1]
+        try:
+          print "Which item? "
+          itech=int(common.getch())
+          if 0<itech<=len(self.inventory):
+            self.inventory[int(itech)-1].enchant(self)
+            if self.inventory[int(itech)-1].name==" ":
+              del self.inventory[int(itech)-1]
+        except ValueError:
+          pass
 
       #Unequip menu
       if invmenu=="a":
         try:
           unitem=int(raw_input("which item? "))
-          if 0<int(unitem)<=len(self.equiparr) and self.equiparr[int(unitem)-1].name!="":
+          if 0<int(unitem)<=len(self.equiparr) and self.equiparr[int(unitem)-1].name!=" ":
             temp=copy.copy(self.equiparr[int(unitem)-1])
             self.strboost-=self.equiparr[int(unitem)-1].strbonus
             self.intboost-=self.equiparr[int(unitem)-1].intbonus
@@ -573,6 +579,7 @@ class player:
       savefile.write("Level:"+str(self.lv)+"\n")
       savefile.write("Exp:"+str(self.exp)+"\n")
       savefile.write("Points:"+str(self.points)+"\n")
+      savefile.write("Floors:"+str(self.totalfl)+"\n")
       savefile.write("HP:"+str(self.hp2)+"\n")
       savefile.write("MP:"+str(self.mp2)+"\n")
       savefile.write("INT:"+str(self.INT)+"\n")
@@ -582,21 +589,86 @@ class player:
       savefile.write("STR:"+str(self.STR)+"\n")
       savefile.write("CON:"+str(self.CON)+"\n")
       savefile.write("CHA:"+str(self.CHA)+"\n")
-      savefile.write("# \n# Inventory \n# \n")
-
+      savefile.write("# \n# Equipped items \n# \n")
+      for a in self.equiparr:
+        savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
+      savefile.write("# \n# Inventory items \n# \n")
+      for a in self.inventory:
+        savefile.write("I:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
     pass
+
+  def bury(self):
+    """
+    Saves the character into a cemetery file (./player/cemetery) containing all the player's dead characters.
+    Similar to save, except more verbose.
+    Unlike save it does not record things like maximum HP, items or stats, so buried characters can not be recovered.
+    """
+    if not os.path.exists("../player/"):
+      os.makedirs("../player/")
+    with open("../player/cemetery","a+") as cemetery:
+      cemetery.write("RIP "+self.name+", the "+self.race+" "+self.charclass+".\n")
+      cemetery.write("Died at level "+str(self.lv)+" after exploring "+str(self.totalfl)+" floors.\n")
+      cemetery.write("His body rots under "+str(self.pocket)+" gold.\n")
+      cemetery.write('"'+raw_input("Your last words?")+'" \n \n')
+
+  def reset(self):
+    self.name="_"    
+    self.pocket=0      
+    self.exp=0
+    self.lv=1
+    self.points=0      
+    self.race="_"
+    self.charclass="_"
+    self.inventory=[] 
+    for i in range(11):
+      new=item.item(0)
+      self.equiparr.append(new)
+    self.totalfl=0    
+    self.prestige=0
+    self.prestigelv=1
+
+    self.INT=1
+    self.intboost=0
+    self.DEX=1
+    self.dexboost=0
+    self.PER=1
+    self.perboost=0
+    self.WIL=1
+    self.wilboost=0
+    self.STR=1
+    self.strboost=0
+    self.CON=1
+    self.conboost=0
+    self.CHA=1
+    self.chaboost=0
+
+    self.totatk=0
+    self.totdefn=0
+
+    self.HP=0
+    self.hp2=0
+    self.MP=0
+    self.mp2=0
+    self.END=0
+    self.SPD=0
+    
+    self.xpos=0
+    self.ypos=0
+    self.zpos=0
 
   def load(self):
     """
     Takes the information from the save file stored in ../player/save and loads it into the player object.
     If the path does not exist it is created. 
     """
+    self.reset()
 
     if not os.path.exists("../player/"):
       os.makedirs("../player/")
     with open("../player/save","r") as savefile:
       for line in savefile:
         if not line.startswith("#"):
+          #Load stats and player details
           if line.partition(':')[0]=="Name":
             self.name=(line.partition(':')[2]).strip()
           if line.partition(':')[0]=="Level":
@@ -629,3 +701,55 @@ class player:
             self.mp2=int(line.partition(':')[2])
           if line.partition(':')[0]=="Points":
             self.points=int(line.partition(':')[2])
+          if line.partition(':')[0]=="Floors":
+            self.totalfl=int(line.partition(':')[2])
+
+          #Load equipped items
+                                                                                                                                                          #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
+          if line.startswith("E:"):
+            if not line.rstrip("\n").partition(':')[2].partition(':')[0]==" ":
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].name=           line.rstrip('\n').partition(':')[2].partition(':')[0]
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].enchantlv=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].type=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].atk=        int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].defn=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].strbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].intbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].dexbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].perbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].conbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].wilbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].chabonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].price=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+
+          #Load inventory
+          if line.startswith("I:"):
+            temp=item.item(0)
+
+            #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
+            temp.name=line.rstrip('\n').partition(':')[2].partition(':')[0]
+            temp.enchantlv=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.type=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.atk=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.defn=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.strbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.intbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.dexbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.perbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.conbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.wilbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.chabonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            temp.price=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+            self.inventory.append(copy.copy(temp))
+
+    #Update player bonuses
+    for a in self.equiparr:
+      self.strboost+=(a.strbonus)
+      self.intboost+=(a.intbonus)
+      self.dexboost+=(a.dexbonus)
+      self.perboost+=(a.perbonus)
+      self.conboost+=(a.conbonus)
+      self.wilboost+=(a.wilbonus)
+      self.chaboost+=(a.chabonus)
+      self.totatk+=(a.atk)
+      self.totdefn+=(a.defn)

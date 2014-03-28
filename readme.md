@@ -1,37 +1,44 @@
-#Kirino v0.0.3
+#Kirino v0.0.4
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-v0.0.3 Required a major code re-structuring. Some of the minor functions may have been missed some changes and the game may crash under some circumstances. If this happens, please submit a message/issue/twitter mention with the crash message so it can be fixed ASAP.
+v0.0.3 Required a major code re-structuring. Some of the minor functions may have been missed some changes and the game may crash under some circumstances. If this happens, please submit a message/issue/twitter mention with the crash message so it can be fixed ASAP (The error type, file and line number are enough). 
+(This message will remain here until v0.0.5)
 
 ##How to use
 
-Run launch.py, grab loot, run from zombies. Don't die or you will die (People die if they are killed).
+run launch.py
 
-Help provided in game via the help menu (In the main menu and in the options menu during the game)
+Grab loot, run from zombies, explore dungeons. Help provided in game via the help menu (In the main menu and in the options menu during the game)
 
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (./info/bugs), please consider reporting it.
+
+**Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. When starting a new game, it's safe (And recommended) to delete them.
 
 ##List of files/folders:
 
 * data:               Files containing data for generators
   * inventory:          Inventory files
-    * `items`             List of items and basic stats
-    * `attr_mod`:         List of basic attribute modifiers
     * `atk_def_mod`:      List of attack/def modifiers
+    * `attr_mod`:         List of basic attribute modifiers
+    * `items_XX`          List of items and basic stats    
   * player:             Player files
-    * `races`:            List of player races
     * `classes`:          List of player classes
+    * `names`:            List of names
+    * `races`:            List of player races
+  * tutorial:           Files for the tutorial (Maps, etc)
+    * `tutorial_1`
 * docs:               Documentation folder (pydoc generated html files)
 * info:               Information files
   * `bugs`:             List of bugs and weird behaviours to fix
-  * `todo`:             Ideas and stuff
   * `notes`:            Temporary notes on feature implementation
+  * `todo`:             Ideas and stuff
 * player:             Player files
-  * `save`:             Example save file
+  * `cemetery`:         Example cemetery file
   * `config`:           Example configuration file
+  * `save`:             Example save file
 * source:             Source file folder
   * `common.py`:        Common functions and procedures
   * `config.py`:        Configuration class
@@ -46,9 +53,23 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 
 ##Changelog
 
+####**v0.0.4** (2014-03-28):
+* New features:
+  * Dead characters are now saved in a cemetery file
+  * Added key mapping help screen
+* Bugs fixed:
+  * Fixed crash when executing `launch.py` from another directory
+* Others:
+  * A random name is now chosen if it's left empty when asked
+  * Items can be saved and loaded with the player
+  * The total number of floors explored is now saved with the character
+  * When reporting a dungeon, the user is prompted for a message
+
 ####**v0.0.3** (2014-03-21):
 * New features: 
   * Tutorial
+* Bugs fixed
+  * [0.0.3b] Fixed typo in error handling causing crashes
 * Others:
   * Added diagonal movement
   * Restructured configuration code

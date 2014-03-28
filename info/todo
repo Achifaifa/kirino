@@ -1,6 +1,4 @@
-TO-DO
-
-Elements inside files ordered by priority
+TO-DO (Elements inside files ordered by priority)
 
 Dungeon.py:
   Complete debugger (Make sure the exit is reachable from the entrance)
@@ -12,10 +10,10 @@ Item.py
 common.py
 
 help.py
-  Increase readability
+  finish tutorial
+  Take tutorial and help text from files
 
 Launch.py:
-  saving inventory in text file with character info
   Function that shows the explored map as a ""popup""
   
 Mob.py:
@@ -26,9 +24,9 @@ Mob.py:
 Player.py
   attack function
   Show attribute modifiers in inventory menu
-  Cemetery file (Dump all the dead characters into a file)
   2H weapons unequip 1h weapons.
   Dual-wielding 1h weapons.
+  Add prestige ranks
 
 ---
 
@@ -40,6 +38,6 @@ Parser.py (After everything else is done)
 ---
 
 Extras (zero priority to-do, in no priority order)
+  Small intro
   Music
-  Colours
-  story modules
+  story modules (If pokemon mistery dungeon had a "story", this also can)

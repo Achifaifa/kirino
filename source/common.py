@@ -2,16 +2,14 @@
 """
 Common procedure file. Contains all the code used by most of the other modules.
 """
-import os
-import sys
-import tty
-import termios
+import os, sys, tty, termios
+import config
 
 def version():
   """
   Prints the program name and the version in one line
   """
-  print "Kirino - v0.0.3"
+  print "Kirino - v0.0.4"
 
 def getch():
   """

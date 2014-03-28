@@ -43,8 +43,9 @@
 <td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;dungeons&nbsp;and&nbsp;<a href="#dungeon">dungeon</a>&nbsp;displaying&nbsp;features<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y)</dt><dd><tt>Constructor.&nbsp;Receives&nbsp;two&nbsp;integers&nbsp;(x,y)&nbsp;that&nbsp;define&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;size.<br>
-Minimum&nbsp;size&nbsp;is&nbsp;40x20.&nbsp;If&nbsp;something&nbsp;smaller&nbsp;is&nbsp;given,&nbsp;defaults&nbsp;at&nbsp;the&nbsp;minimum&nbsp;for&nbsp;that&nbsp;dimension.</tt></dd></dl>
+<dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y)</dt><dd><tt>Constructor.&nbsp;<br>
+Receives&nbsp;two&nbsp;integers&nbsp;(x,y)&nbsp;that&nbsp;define&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;size.<br>
+Minimum&nbsp;size&nbsp;is&nbsp;40x20.&nbsp;If&nbsp;something&nbsp;smaller&nbsp;is&nbsp;given,&nbsp;defaults&nbsp;at&nbsp;the&nbsp;minimum.</tt></dd></dl>
 
 <dl><dt><a name="dungeon-advmap"><strong>advmap</strong></a>(self, x, y, xmapsize, ymapsize)</dt><dd><tt>Advanced&nbsp;map&nbsp;function.&nbsp;<br>
 Displays&nbsp;an&nbsp;area&nbsp;of&nbsp;the&nbsp;map.&nbsp;x&nbsp;and&nbsp;y&nbsp;are&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;array&nbsp;in&nbsp;which&nbsp;the&nbsp;advanced&nbsp;map&nbsp;is&nbsp;centered.<br>
@@ -55,7 +56,7 @@ If&nbsp;the&nbsp;coordinates&nbsp;are&nbsp;too&nbsp;close&nbsp;to&nbsp;the&nbsp;
 
 <dl><dt><a name="dungeon-debug"><strong>debug</strong></a>(self)</dt><dd><tt>Debug&nbsp;<a href="#dungeon">dungeon</a>&nbsp;<br>
 Returns&nbsp;an&nbsp;integer&nbsp;as&nbsp;error&nbsp;condition&nbsp;code:<br>
-&nbsp;&nbsp;EC0:&nbsp;(This&nbsp;is&nbsp;not&nbsp;actually&nbsp;an&nbsp;error,&nbsp;everything&nbsp;is&nbsp;fine)<br>
+&nbsp;&nbsp;EC0:&nbsp;(Not&nbsp;actually&nbsp;an&nbsp;error,&nbsp;everything&nbsp;is&nbsp;fine)<br>
 &nbsp;&nbsp;EC1:&nbsp;There&nbsp;is&nbsp;no&nbsp;entrance&nbsp;or&nbsp;exit<br>
 &nbsp;&nbsp;EC2:&nbsp;It's&nbsp;below&nbsp;the&nbsp;minimum&nbsp;size<br>
 &nbsp;&nbsp;EC3:&nbsp;Can't&nbsp;reach&nbsp;the&nbsp;exit&nbsp;from&nbsp;the&nbsp;entrance&nbsp;(pending)<br>

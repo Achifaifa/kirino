@@ -2,3 +2,7 @@ Path debugging
   -Check adj(A)
   -Check adj(adj(A)) until adj(n)=X
   Blame my college if I can't find a non-recursive way to do this ;)
+
+Random halls after main
+  find empty tile, generate 1/2m hall from there
+  repeat for c*2

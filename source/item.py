@@ -235,9 +235,9 @@ class item:
 
   def reset(self):
     """
-    Sets all the attributes of the given item object to zero or empty string.
+    Sets all the attributes of the given item object to zero or space.
     """
-    self.name=""
+    self.name=" "
     self.price=0
     self.atk=0
     self.defn=0
@@ -300,21 +300,28 @@ class item:
           boosted=random.randint(1,7)
           if boosted==1:
             self.strbonus+=1
+            print "+1 STR"
           if boosted==2:
             self.intbonus+=1
+            print "+1 INT"
           if boosted==3:
             self.dexbonus+=1
+            print "+1 DEX"
           if boosted==4:
             self.perbonus+=1
+            print "+1 PER"
           if boosted==5:
             self.conbonus+=1
+            print "+1 CON"
           if boosted==6:
             self.wilbonus+=1
+            print "+1 WIL"
           if boosted==7:
             self.chabonus+=1
+            print "+1 CHA"
 
         #double the price of the item
-        #Adding 3 to avoid enchanted item prices to stay at zero
+        #Adding 1 to avoid enchanted item prices to stay at zero
         self.price=((self.price+1)*2)
 
         #Increase attack or defense
@@ -342,27 +349,3 @@ class item:
     #If the player has no money, pass
     else:
       pass
-    
-
-
-#test stuff
-# while 1:
-#   new=item(2)
-#   print "name:",new.name
-#   print "atk:",new.atk
-#   print "def:",new.defn
-#   print "price:",new.price
-#   print "str boost",new.strbonus
-#   print "int boost",new.intbonus
-#   print "dex boost",new.dexbonus
-#   print "per boost",new.perbonus 
-#   print "con boost",new.conbonus
-#   print "wil boost",new.wilbonus 
-#   print "cha boost",new.chabonus
-#   print ""
-#   print "_________"
-#   print ""
-
-# while 1:
-#   new=item(5)
-#   print new.price,"  ",new.name

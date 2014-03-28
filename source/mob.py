@@ -29,6 +29,7 @@ class mob:
   SPD=0
   defn=0
   lock=0
+  prestige=0
   
   def __init__(self,dungeon):
     """
@@ -40,6 +41,7 @@ class mob:
     self.HP=20
     self.defn=3
     self.lock=0
+    self.prestige=1
 
     #Select starting coordinates
     self.xpos=random.randrange(dungeon.xsize)
@@ -74,7 +76,7 @@ class mob:
         if direction==4:
           if dungeon.dungarray[self.ypos][self.xpos+1]==".":
             self.xpos += distance
-      except indexError:
+      except IndexError:
         pass
   
   def randmove(self,dungeon,dist):
@@ -109,3 +111,4 @@ class mob:
       if attackpow<0:
         attackpow=0
       player.hp2-=attackpow
+      return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!")

@@ -3,17 +3,9 @@
 Main procedure file.
 All the crawl and configuration implementation are in this module.
 """
-import os
-import sys
-import random
-import player
-import dungeon
-import mob
-import item
-import parser
-import common
-import help
-import config
+import os, sys, random
+import player, dungeon, mob, item, parser
+import common, help, config
 
 #load/save global variables
 dex=0
@@ -40,6 +32,14 @@ def menu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
   """ 
+
+  #Changes the directory to where the source files are
+  try:
+    os.chdir(os.path.dirname(__file__))
+  except OSError: #OSError generated when os.path.dirname(__file__) is empty string
+    pass
+    
+  #loads configuration
   cfg=config.config()
   #Main menu
   while 1:
@@ -58,7 +58,7 @@ def menu():
     if menu=="1":
       crawl()
     if menu=="2":
-      config.options(0)
+      cfg.options(0)
     if menu=="3":
       pass
     if menu=="9":
@@ -82,6 +82,9 @@ def crawl():
   while 1:
     purge()
     try:
+      os.system('clear')
+      common.version()
+      print""
       tempxs=int(raw_input("Horizontal size: "))
       tempys=int(raw_input("Vertical size: "))
       if tempxs<40 or tempys<20:
@@ -94,9 +97,18 @@ def crawl():
   hero=player.player(dung)
   hero.name=raw_input("What is your name? ")
 
+  #If name was left empty, pick a random one
+  if len(hero.name)==0:
+    namearray=[]
+    with open("../data/player/names","r") as names:
+      for line in names:
+        namearray.append(line.strip())
+    hero.name=random.choice(namearray)
+
   #Main crawling menu and interface
   crawlmen=-1
   while 1:
+    atkmsg=""
     #Move all the mobs
     for i in range(len(dung.mobarray)):
       dung.mobarray[i].trandmove(dung)
@@ -106,7 +118,7 @@ def crawl():
       if dung.mobarray[j].lock:
         if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
             dung.mobarray[j].xpos-1<=hero.xpos<=dung.mobarray[j].xpos+1 ):
-          dung.mobarray[j].attack(hero,dung)
+          atkmsg=dung.mobarray[j].attack(hero,dung)
         else:
           dung.mobarray[j].lock=0
         
@@ -143,21 +155,19 @@ def crawl():
     print ""
     hero.getatr()
     print ""
-    print cfg.north+cfg.south+cfg.east+cfg.west+" - move (n/s/e/w)"
-    print cfg.northeast+cfg.northwest+cfg.southeast+cfg.southwest+" - move (ne/nw/se/sw)"
-    print cfg.charsh+" - character sheet"
-    print cfg.opt+" - options"
-    print cfg.quit+" - go back to menu"
-    print cfg.report+" - report dungeon"
-    #Show an extra "go down" option if player has reached the exit
-    if dung.dungarray[hero.ypos][hero.xpos]=="X":
-      print cfg.nextf+" - next floor"
+    print cfg.showkeys+" key mapping help"
+    print""
+    print atkmsg
     print "->",
     crawlmen=common.getch()
+    if crawlmen==cfg.console:
+      raw_input(">>>")
     if crawlmen==cfg.charsh: #Character sheet menu
       hero.charsheet()
-    elif crawlmen==cfg.north:
-      hero.move(dung,1) 
+    elif crawlmen==cfg.north: #Check if there are mobs. if 1 attack if 0 move
+      hero.move(dung,1)
+    elif crawlmen==cfg.showkeys:
+      help.keyhelp() 
     elif crawlmen==cfg.south: 
       hero.move(dung,3)
     elif crawlmen==cfg.east:
@@ -178,6 +188,7 @@ def crawl():
       #Double check if the player is in the exit tile
       if dung.dungarray[hero.ypos][hero.xpos]=="X":
         flcounter+=1
+        hero.totalfl+=1
         fl+=1
         lsave(hero) 
         if cfg.autosave==1:
@@ -211,6 +222,7 @@ def crawl():
 
     #If the player health is EL0, game over
     if hero.hp2<=0:
+      hero.bury()
       raw_input("Game over")
       break
   pass
@@ -257,8 +269,8 @@ def purge():
   hp2=0
   mp2=0
   tempinventory=[]
-  for i in range (len(tempequiparr)):
-    tempequiparr[i]=item.item(0)
+  for i in tempequiparr:
+    i.reset()
   points=0
 
 def lsave(playa):
@@ -318,12 +330,11 @@ def lload(playa):
   playa.inventory=tempinventory
   playa.equiparr=tempequiparr
   playa.points=points
-  #Adds 1 xp for every 5 floors
-  if flcounter==5:
-    playa.exp=xp+1
-    flcounter-=5
-  elif flcounter<5:
-    playa.exp+=1
+
+  #Adds 1 xp 
+  playa.exp+=1
+
+  #Levels the player up
   if playa.lv==1:
     if playa.exp>=5:
       playa.lv+=1

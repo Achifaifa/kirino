@@ -1,24 +1,39 @@
 This file contains bugs and/or weird behaviours spotted, identified and pending to be fixed. 
 
-Common.py
-  Space being randomly printed before the title and version
+?> I have no idea why this happens
+!> Bug located
 
-Dungeon.py
-  Map generation:   
-    Leaves one D in one of the rooms.
-    Generator is predictable.
-    Cthulhu algorithm needs more randomness.
+H> High priority
+M> Normal priority
+L> Low priority
+
+--------------------------------------------------
+
+common.py
+  L?> Space being randomly printed before the title and version
+
+config.py
+
+dungeon.py
+  L!> Generator is predictable
+
+help.py
 
 item.py
 
 launch.py 
-  Trailing path under unknown conditions
+  H?> Trailing path under unknown conditions
+  M?> crash when playing a small dungeon after playing a large one
 
 mob.py
 
-player.py
+parser.py
 
----
+player.py
+  H?> Equipped item list duplicated in save file
+  H?> Some items equipped more than once when loading
+
+--------------------------------------------------
 
 Others
   Big dungeons (>100x100) are unplayable

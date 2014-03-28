@@ -1,10 +1,6 @@
 #usr/bin/env python
-import os
-import math
-import random
-import player
-import mob
-import common
+import math, os, random
+import common, mob, player
 
 class dungeon:
   "Creates and manages dungeons and dungeon displaying features"
@@ -14,12 +10,12 @@ class dungeon:
   filled=[]
   mobarray=[]
   
-  #Main dungeon generator, fills the dungeon array with terrain tiles
-  #Absolute minimum size 40 horizontal and 20 vertical
+  #Main dungeon generator
   def __init__(self,x,y):
     """
-    Constructor. Receives two integers (x,y) that define the horizontal and vertical size.
-    Minimum size is 40x20. If something smaller is given, defaults at the minimum for that dimension.
+    Constructor. 
+    Receives two integers (x,y) that define the horizontal and vertical size.
+    Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
     if x<40:
       x=40
@@ -290,6 +286,7 @@ class dungeon:
     with open("../logs/report","a+") as dump:
       for i in range (0,len(self.dungarray)):
         dump.write(''.join(map(str,self.dungarray[i]))+"\n")
+      dump.write(raw_input("report message?"))
       dump.write("\n ---------- \n")
 	   
   def map(self):
@@ -354,7 +351,7 @@ class dungeon:
     """
     Debug dungeon 
     Returns an integer as error condition code:
-      EC0: (This is not actually an error, everything is fine)
+      EC0: (Not actually an error, everything is fine)
       EC1: There is no entrance or exit
       EC2: It's below the minimum size
       EC3: Can't reach the exit from the entrance (pending)

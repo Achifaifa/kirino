@@ -9,11 +9,13 @@ Northeast:9
 Northwest:7
 Southeast:3
 Southwest:1
+Input mode:/
 Sheet:z
-Options:x
+Options:o
 Quit:;
 Report:c
 Next floor:m
+Show keys:k
 # 
 # Game options 
 # 
