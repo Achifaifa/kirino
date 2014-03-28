@@ -15,7 +15,7 @@ Grab loot, run from zombies, explore dungeons. Help provided in game via the hel
 
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (./info/bugs), please consider reporting it.
 
-**Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. When starting a new game, it's safe (And recommended) to delete them.
+**Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them.
 
 ##List of files/folders:
 
