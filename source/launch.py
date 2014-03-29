@@ -78,32 +78,7 @@ def crawl():
   global fl
   fl=1 #Initialize floor to 1
 
-  #Dungeon and player creation
-  while 1:
-    purge()
-    try:
-      os.system('clear')
-      common.version()
-      print""
-      tempxs=int(raw_input("Horizontal size: "))
-      tempys=int(raw_input("Vertical size: "))
-      if tempxs<40 or tempys<20:
-        print "Minimum size 40x20"
-      elif tempxs>=40 and tempys>=20:
-        break
-    except ValueError:
-      pass
-  dung=dungeon.dungeon(tempxs,tempys)
-  hero=player.player(dung)
-  hero.name=raw_input("What is your name? ")
-
-  #If name was left empty, pick a random one
-  if len(hero.name)==0:
-    namearray=[]
-    with open("../data/player/names","r") as names:
-      for line in names:
-        namearray.append(line.strip())
-    hero.name=random.choice(namearray)
+  hero,dung=newgame() 
 
   #Main crawling menu and interface
   crawlmen=-1
@@ -227,12 +202,95 @@ def crawl():
       break
   pass
 
-def newchar():
+def newgame():
   """
   This function displays the menu to create a new character.
   Not yet implemented.
   """
-  pass
+
+  cfg=config.config()
+  while 1:
+    purge()
+    try:
+      os.system('clear')
+      common.version()
+      print""
+      tempxs=int(raw_input("Horizontal size: "))
+      tempys=int(raw_input("Vertical size: "))
+      if tempxs<40 or tempys<20:
+        print "Minimum size 40x20"
+      elif tempxs>=40 and tempys>=20:
+        print str(tempxs)+"x"+str(tempys)+" dungeon created",
+        common.getch()
+        break
+    except ValueError:
+      pass
+  os.system('clear')
+  dung=dungeon.dungeon(tempxs,tempys)
+  hero=player.player(dung)
+  print ""
+  hero.name=raw_input("What is your name? ")
+  #If name was left empty, pick a random one
+  if len(hero.name)==0:
+    namearray=[]
+    with open("../data/player/names","r") as names:
+      for line in names:
+        namearray.append(line.strip())
+    hero.name=random.choice(namearray)
+  with open("../data/player/races","r") as file:
+      racesarray=[]
+      strarray=[]
+      intarray=[]
+      dexarray=[]
+      perarray=[]
+      conarray=[]
+      chaarray=[]
+      for line in file:
+        if not line.startswith('#'):
+          racesarray.append(line.rstrip('\n').partition(':')[0])
+          strarray.append(line.rstrip('\n').partition(':')[2].partition(':')[0])
+          intarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+          dexarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+          perarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+          conarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+          chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+  selected=0
+  while 1:
+    try:
+      os.system('clear')
+      print ""
+      print "Select your race"
+      print "["+cfg.west+"]<- "+racesarray[selected]+" ->["+cfg.east+"]"
+      print "STR +"+str(strarray[selected])+" INT +"+str(intarray[selected])+" DEX +"+str(dexarray[selected])
+      print "PER +"+str(perarray[selected])+" CON +"+str(conarray[selected])+" CHA +"+str(chaarray[selected])
+      print cfg.quit+": select"
+      np=common.getch()
+      if np==cfg.west:
+        selected-=1
+      if np==cfg.east:
+        selected+=1
+      if np==cfg.quit:
+        if not strarray[selected]=="":
+          hero.STR+=int(strarray[selected])
+        if not strarray[selected]=="":
+          hero.INT+=int(intarray[selected])
+        if not strarray[selected]=="":
+          hero.DEX+=int(dexarray[selected])
+        if not strarray[selected]=="":
+          hero.PER+=int(perarray[selected])
+        if not strarray[selected]=="":
+          hero.CON+=int(conarray[selected])
+        if not strarray[selected]=="":
+          hero.CHA+=int(chaarray[selected])
+        break
+    except IndexError:
+      if np==cfg.west:
+        selected +=1
+      if np==cfg.east:
+        selected-=1
+
+  return hero,dung
+
 
 def purge():
   """

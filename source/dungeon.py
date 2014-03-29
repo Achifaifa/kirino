@@ -425,12 +425,7 @@ class dungeon:
             if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
               self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]="i"
             else:
-              self.filled[i][j]=self.dungarray[i][j]   
+              self.filled[i][j]=self.dungarray[i][j]
 
     #Places the player marker in the filled array
     self.filled[player.ypos][player.xpos]="8"
-
-
-# q=dungeon(60,60)
-# for i in range(len(q.mobarray)):
-#   print q.mobarray[i]

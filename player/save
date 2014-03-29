@@ -1,48 +1,26 @@
 # 
 # Player 
 # 
-Name:Torfire
-Race:ratling
-Class:wizard
-Money:32
-Level:3
-Exp:1
-Points:4
-Floors:14
+Name:Bennor
+Race:half orc
+Class:rogue
+Money:6
+Level:1
+Exp:4
+Points:45
+Floors:4
 HP:18
 MP:6
-INT:0
-DEX:3
+INT:-1
+DEX:1
 PER:1
 WIL:1
 STR:3
-CON:7
+CON:1
 CHA:1
 # 
 # Equipped items 
 # 
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E:batman mask:0:2:0:2:0:0:0:0:0:0:0:20
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E:jetpack:0:4:0:1:0:0:0:0:0:0:0:50
-E:bookworm's warrior's rags:0:5:0:0:1:1:0:0:0:0:0:3
-E:invigorating hammer:0:6:2:0:0:0:0:0:1:0:0:40
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E:ultrasonic ring:0:8:1:0:0:0:0:0:0:0:0:20
-E:refined ammo belt:0:9:1:0:0:0:0:0:0:0:0:36
-E:rusty trousers:0:10:0:0:0:0:0:0:0:0:0:0
-E:dirty slippers:0:11:0:0:0:0:0:0:0:0:0:3
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
-E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
@@ -57,12 +35,12 @@ E: :0:0:0:0:0:0:0:0:0:0:0:0
 # 
 # Inventory items 
 # 
-I:shirt:0:5:0:0:0:0:0:0:0:0:0:5
-I:ring:0:8:0:0:0:0:0:0:0:0:0:5
-I:refined googly eyes:0:2:0:0:0:0:0:0:0:0:0:5
-I:fake moustache:0:2:0:1:0:0:0:0:0:0:0:10
-I:invigorating bookworm's power cord:0:9:0:0:0:1:0:0:1:0:0:3
-I:shirt:0:5:0:0:0:0:0:0:0:0:0:5
-I:bermudas:0:10:0:0:0:0:0:0:0:0:0:10
-I:refined ring:0:8:0:0:0:0:0:0:0:0:0:5
-I:brass knuckles:0:6:1:0:0:0:0:0:0:0:0:10
+I:tie:0:3:0:0:0:0:0:0:0:0:0:15
+I:cracked T-shirt:0:5:0:0:0:0:0:0:0:0:0:1
+I:belt:0:9:0:0:0:0:0:0:0:0:0:5
+I:armoured dirty eyepatch:0:2:0:0:0:0:0:0:2:0:1:12
+I:fake stump:0:8:0:0:0:0:0:0:0:0:0:1
+I:ultrasonic ring:0:8:1:0:0:0:0:0:0:0:0:20
+I:invigorating chainmail:0:5:0:7:0:0:0:0:1:0:0:140
+I:leader's dirty party hat:0:1:0:0:0:0:0:0:0:1:0:6
+I:posh bat-belt:0:9:1:2:0:0:0:0:0:0:1:60
