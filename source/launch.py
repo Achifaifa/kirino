@@ -3,7 +3,7 @@
 Main procedure file.
 All the crawl and configuration implementation are in this module.
 """
-import os, sys, random
+import copy, os, sys, random
 import player, dungeon, mob, item, parser
 import common, help, config
 
@@ -26,6 +26,8 @@ flcounter=1 #Floor counter
 fl=1#Actual floor (Displayed)
 tempinventory=[]
 tempequiparr=[]
+xsize=0
+ysize=0
 
 #Main menu
 def menu():
@@ -78,7 +80,7 @@ def crawl():
   global fl
   fl=1 #Initialize floor to 1
 
-  hero,dung=newgame() 
+  hero,dung=copy.copy(newgame())
 
   #Main crawling menu and interface
   crawlmen=-1
@@ -207,27 +209,31 @@ def newgame():
   This function displays the menu to create a new character.
   Not yet implemented.
   """
-
+  global xsize
+  global ysize
   cfg=config.config()
   while 1:
     purge()
     try:
       os.system('clear')
       common.version()
+      print "New game [1/3]Size"
       print""
-      tempxs=int(raw_input("Horizontal size: "))
-      tempys=int(raw_input("Vertical size: "))
-      if tempxs<40 or tempys<20:
+      xsize=int(raw_input("Horizontal size: "))
+      ysize=int(raw_input("Vertical size: "))
+      if xsize<40 or ysize<20:
         print "Minimum size 40x20"
-      elif tempxs>=40 and tempys>=20:
-        print str(tempxs)+"x"+str(tempys)+" dungeon created",
+      elif xsize>=40 and ysize>=20:
+        print str(xsize)+"x"+str(ysize)+" dungeon created",
         common.getch()
         break
     except ValueError:
       pass
   os.system('clear')
-  dung=dungeon.dungeon(tempxs,tempys)
+  dung=dungeon.dungeon(xsize,ysize)
   hero=player.player(dung)
+  common.version()
+  print "New game [2/3] Name"
   print ""
   hero.name=raw_input("What is your name? ")
   #If name was left empty, pick a random one
@@ -258,6 +264,8 @@ def newgame():
   while 1:
     try:
       os.system('clear')
+      common.version()
+      print "New game [3/3] Race"
       print ""
       print "Select your race"
       print "["+cfg.west+"]<- "+racesarray[selected]+" ->["+cfg.east+"]"
@@ -270,6 +278,7 @@ def newgame():
       if np==cfg.east:
         selected+=1
       if np==cfg.quit:
+        hero.race=racesarray[selected]
         if not strarray[selected]=="":
           hero.STR+=int(strarray[selected])
         if not strarray[selected]=="":
@@ -290,7 +299,6 @@ def newgame():
         selected-=1
 
   return hero,dung
-
 
 def purge():
   """

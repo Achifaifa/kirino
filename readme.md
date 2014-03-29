@@ -64,6 +64,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * Items can be saved and loaded with the player
   * The total number of floors explored is now saved with the character
   * When reporting a dungeon, the user is prompted for a message
+  * [0.0.4b] Race can now be selected
 
 ####**v0.0.3** (2014-03-21):
 * New features: 
