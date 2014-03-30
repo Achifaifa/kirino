@@ -9,7 +9,7 @@ def version():
   """
   Prints the program name and the version in one line
   """
-  print "Kirino - v0.0.4b"
+  print "Kirino - v0.0.4c"
 
 def getch():
   """

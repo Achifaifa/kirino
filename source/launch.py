@@ -217,7 +217,7 @@ def newgame():
     try:
       os.system('clear')
       common.version()
-      print "New game [1/3]Size"
+      print "New game [1/5] Size"
       print""
       xsize=int(raw_input("Horizontal size: "))
       ysize=int(raw_input("Vertical size: "))
@@ -233,7 +233,7 @@ def newgame():
   dung=dungeon.dungeon(xsize,ysize)
   hero=player.player(dung)
   common.version()
-  print "New game [2/3] Name"
+  print "New game [2/5] Name"
   print ""
   hero.name=raw_input("What is your name? ")
   #If name was left empty, pick a random one
@@ -265,10 +265,10 @@ def newgame():
     try:
       os.system('clear')
       common.version()
-      print "New game [3/3] Race"
+      print "New game [3/5] Race"
       print ""
       print "Select your race"
-      print "["+cfg.west+"]<- "+racesarray[selected]+" ->["+cfg.east+"]"
+      print "<["+cfg.west+"] "+racesarray[selected]+" ["+cfg.east+"]>"
       print "STR +"+str(strarray[selected])+" INT +"+str(intarray[selected])+" DEX +"+str(dexarray[selected])
       print "PER +"+str(perarray[selected])+" CON +"+str(conarray[selected])+" CHA +"+str(chaarray[selected])
       print cfg.quit+": select"
@@ -291,6 +291,33 @@ def newgame():
           hero.CON+=int(conarray[selected])
         if not strarray[selected]=="":
           hero.CHA+=int(chaarray[selected])
+        break
+    except IndexError:
+      if np==cfg.west:
+        selected +=1
+      if np==cfg.east:
+        selected-=1
+  with open("../data/player/classes","r") as file:
+    classesarray=[]
+    for line in file:
+        classesarray.append(line.rstrip('\n'))
+  selected=0
+  while 1:
+    try:
+      os.system('clear')
+      common.version()
+      print "New game [4/5] Class"
+      print ""
+      print "Select your class"
+      print "<["+cfg.west+"] "+classesarray[selected]+" ["+cfg.east+"]>"
+      print cfg.quit+": select"
+      np=common.getch()
+      if np==cfg.west:
+        selected-=1
+      if np==cfg.east:
+        selected+=1
+      if np==cfg.quit:
+        hero.charclass=classesarray[selected]
         break
     except IndexError:
       if np==cfg.west:
