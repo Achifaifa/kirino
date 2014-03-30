@@ -170,7 +170,7 @@ def crawl():
         lsave(hero) 
         if cfg.autosave==1:
           hero.save()
-        dung=dungeon.dungeon(tempxs,tempys)
+        dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray))
         lload(hero)
         for i in range(len(dung.dungarray)):
           for j in range(len(dung.dungarray[i])):
