@@ -1,4 +1,4 @@
-#Kirino v0.0.4c
+#Kirino v0.0.5
   
 Basic console based dungeon crawler. 
 
@@ -52,6 +52,13 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.5** (2014-04-04):
+* Bugs fixed:
+  * Increasing stats also increases HP
+*Others:
+  * Increased picked items/loot verbosity
+  * Item attribute boost now appears in inventory
 
 ####**v0.0.4** (2014-03-28):
 * New features:

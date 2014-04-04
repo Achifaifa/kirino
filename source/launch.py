@@ -86,6 +86,8 @@ def crawl():
   crawlmen=-1
   while 1:
     atkmsg=""
+    pickmsg=""
+    lootmsg=""
     #Move all the mobs
     for i in range(len(dung.mobarray)):
       dung.mobarray[i].trandmove(dung)
@@ -110,11 +112,13 @@ def crawl():
       monies=random.randrange(1,5)
       hero.pocket+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."
+      lootmsg=("You find "+str(monies)+" gold")
 
     #Action if player has reached a gear loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
       loot=item.item(random.randrange(1,11))
-      if hero.pickobject(loot):
+      picked,pickmsg=hero.pickobject(loot)
+      if picked:
         dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Crawling loop
@@ -134,7 +138,9 @@ def crawl():
     print ""
     print cfg.showkeys+" key mapping help"
     print""
+    print lootmsg
     print atkmsg
+    print pickmsg
     print "->",
     crawlmen=common.getch()
     if crawlmen==cfg.console:

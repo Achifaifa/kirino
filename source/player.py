@@ -160,10 +160,11 @@ class player:
     #If the inventory is full, passes.
     if len(self.inventory)>=9:
       pass
-      return 0
+      return 0,("Your inventory is full!")
     if len(self.inventory)<9:
       self.inventory.append(object)
-      return 1
+      return 1,("You picked "+object.name)
+
     
   def getatr(self):
     """
@@ -247,7 +248,9 @@ class player:
     Calculates and sets the secondary attributes from the primary ones.
     Receives a player object and recalculates HP, MP, END and SPD from the primary attributes
     """
+    temp=self.HP
     self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
+    self.hp2+=(self.HP-temp)
     self.MP=(self.STR+self.strboost+self.DEX+self.dexboost+self.INT+self.intboost+self.CON+self.conboost+self.WIL+self.wilboost+self.PER+self.perboost)
     self.END=((self.CON+self.conboost+self.STR+self.strboost+self.wilboost+self.WIL)*3)+5
     self.SPD=(self.CON+self.conboost+self.DEX+self.dexboost)*3
@@ -431,10 +434,36 @@ class player:
       if coptmen=="0":
         break
 
+  def calcbonus(self,item):
+    """
+    Generates the string with the attribute boosts for the inventory
+    """
+    calcarray=[]
+    if item.strbonus>0:
+      calcarray.append("+"+str(item.strbonus)+" STR")
+    if item.intbonus>0:
+      calcarray.append("+"+str(item.intbonus)+" INT")
+    if item.dexbonus>0:
+      calcarray.append("+"+str(item.dexbonus)+" DEX")
+    if item.perbonus>0:
+      calcarray.append("+"+str(item.perbonus)+" PER")
+    if item.conbonus>0:
+      calcarray.append("+"+str(item.conbonus)+" CON")
+    if item.wilbonus>0:
+      calcarray.append("+"+str(item.wilbonus)+" WIL")
+    if item.chabonus>0:
+      calcarray.append("+"+str(item.chabonus)+" CHA")
+    if len(calcarray)>0:
+      return "("+(', '.join(map(str,calcarray)))+")"
+    if len(calcarray)==0:
+      return ""
+
+
   def invmenu(self):
     """
     Inventory menu. 
     """
+
     while 1:
       os.system('clear')
       common.version()
@@ -442,17 +471,28 @@ class player:
       print ""
       print "Equipped"
       print ""
-      print "01 [+"+str(self.equiparr[0].atk)+"/+"+str(self.equiparr[0].defn)+"] Head: "+self.equiparr[0].name
-      print "02 [+"+str(self.equiparr[1].atk)+"/+"+str(self.equiparr[1].defn)+"] Face: "+self.equiparr[1].name
-      print "03 [+"+str(self.equiparr[2].atk)+"/+"+str(self.equiparr[2].defn)+"] Neck: "+self.equiparr[2].name
-      print "04 [+"+str(self.equiparr[3].atk)+"/+"+str(self.equiparr[3].defn)+"] Shoulders: "+self.equiparr[3].name
-      print "05 [+"+str(self.equiparr[4].atk)+"/+"+str(self.equiparr[4].defn)+"] Chest: "+self.equiparr[4].name
-      print "06 [+"+str(self.equiparr[5].atk)+"/+"+str(self.equiparr[5].defn)+"] Left hand: "+self.equiparr[5].name
-      print "07 [+"+str(self.equiparr[6].atk)+"/+"+str(self.equiparr[6].defn)+"] Right hand: "+self.equiparr[6].name
-      print "08 [+"+str(self.equiparr[7].atk)+"/+"+str(self.equiparr[7].defn)+"] Ring: "+self.equiparr[7].name
-      print "09 [+"+str(self.equiparr[8].atk)+"/+"+str(self.equiparr[8].defn)+"] Belt: "+self.equiparr[8].name
-      print "10 [+"+str(self.equiparr[9].atk)+"/+"+str(self.equiparr[9].defn)+"] Legs: "+self.equiparr[9].name
-      print "11 [+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"] Feet: "+self.equiparr[10].name
+      bonusmsg=self.calcbonus(self.equiparr[0])
+      print "01 [+"+str(self.equiparr[0].atk)+"/+"+str(self.equiparr[0].defn)+"] Head: "+self.equiparr[0].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[1])
+      print "02 [+"+str(self.equiparr[1].atk)+"/+"+str(self.equiparr[1].defn)+"] Face: "+self.equiparr[1].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[2])
+      print "03 [+"+str(self.equiparr[2].atk)+"/+"+str(self.equiparr[2].defn)+"] Neck: "+self.equiparr[2].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[3])
+      print "04 [+"+str(self.equiparr[3].atk)+"/+"+str(self.equiparr[3].defn)+"] Shoulders: "+self.equiparr[3].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[4])
+      print "05 [+"+str(self.equiparr[4].atk)+"/+"+str(self.equiparr[4].defn)+"] Chest: "+self.equiparr[4].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[5])
+      print "06 [+"+str(self.equiparr[5].atk)+"/+"+str(self.equiparr[5].defn)+"] Left hand: "+self.equiparr[5].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[6])
+      print "07 [+"+str(self.equiparr[6].atk)+"/+"+str(self.equiparr[6].defn)+"] Right hand: "+self.equiparr[6].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[7])
+      print "08 [+"+str(self.equiparr[7].atk)+"/+"+str(self.equiparr[7].defn)+"] Ring: "+self.equiparr[7].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[8])
+      print "09 [+"+str(self.equiparr[8].atk)+"/+"+str(self.equiparr[8].defn)+"] Belt: "+self.equiparr[8].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[9])
+      print "10 [+"+str(self.equiparr[9].atk)+"/+"+str(self.equiparr[9].defn)+"] Legs: "+self.equiparr[9].name+bonusmsg
+      bonusmsg=self.calcbonus(self.equiparr[10])
+      print "11 [+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"] Feet: "+self.equiparr[10].name+bonusmsg
       print ""
       print "[+"+str(self.totatk)+"/+"+str(self.totdefn)+"]"
       print ""

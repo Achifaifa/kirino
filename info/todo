@@ -22,7 +22,6 @@ Mob.py:
   Add random name generator from word files
 
 Player.py
-  Show attribute modifiers in inventory menu
   2H weapons unequip 1h weapons.
   Dual-wielding 1h weapons.
   Add prestige ranks
