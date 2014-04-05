@@ -1,4 +1,4 @@
-#Kirino v0.0.5
+#Kirino v0.0.5b
   
 Basic console based dungeon crawler. 
 
@@ -59,6 +59,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 *Others:
   * Increased picked items/loot verbosity
   * Item attribute boost now appears in inventory
+  * [v0.0.5b] Enabled white spaces
 
 ####**v0.0.4** (2014-03-28):
 * New features:

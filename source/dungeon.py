@@ -159,13 +159,13 @@ class dungeon:
       for i in range(spacecounter/60):
         self.mobarray.append(mob.mob(self))
       	  
-      # Adds spaces in random positions with rocks, one for every 3x3 zone.
-      # for i in range(0,self.xsize*self.ysize/9):
-      # 	randx=random.randrange(self.xsize)
-      # 	randy=random.randrange(self.ysize)
-      # 	if self.dungarray[randy][randx]=="#":
-      #    self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
-      # 	else: pass
+      #Adds spaces in random positions with rocks, one for every 3x3 zone.
+      for i in range(0,self.xsize*self.ysize/9):
+        randx=random.randrange(self.xsize)
+       	randy=random.randrange(self.ysize)
+       	if self.dungarray[randy][randx]=="#":
+          self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
+       	else: pass
 
       #Add money (loot) in random places in the ground. 1 drop per 50 floor tiles
       counter=0
