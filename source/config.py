@@ -34,7 +34,7 @@ class config:
     self.autosave=0
     self.fog=1
 
-    #Key mapping variables
+    #Key mapping variables, initializing at default
     self.north="n"
     self.south="s"
     self.east="e"
@@ -95,9 +95,11 @@ class config:
 
   def options(self,restricted):
     """
-    Game options menu. This allows modification of the general options, such as key mappings, autosave, etc.
-    If the restricted parameter is 1, it hides the options that should not be changed during the game (fog, etc)
+    Game options menu. 
 
+    This allows modification of the general options, such as key mappings, autosave, etc.
+
+    If the restricted parameter is 1, it hides the options that should not be changed during the game (fog, etc)
     """
     global autosave
     global fog
@@ -186,47 +188,17 @@ class config:
           print "->",
           keymenu2=common.getch()
           if keymenu2=="1":
-            print "New key for 'Character sheet' "
-            tempk=raw_input()
-            if len(tempk)!=1:
-              raw_input("Invalid key")
-            if len(tempk)==1:
-              self.charsh=tempk
+            self.charsh=newkey("character sheet")
           if keymenu2=="2":
-            print "New key for 'Option menu' "
-            tempk=raw_input()
-            if len(tempk)!=1:
-              raw_input("Invalid key")
-            if len(tempk)==1:
-              self.opt=tempk
+            self.opt=newkey("option menu")
           if keymenu2=="3":
-            print "New key for 'Report dungeon' "
-            tempk=raw_input()
-            if len(tempk)!=1:
-              raw_input("Invalid key")
-            if len(tempk)==1:
-              self.report=tempk
+            self.report=newkey("report dungeon")
           if keymenu2=="4":
-            print "New key for 'Quit dungeon' "
-            tempk=raw_input()
-            if len(tempk)!=1:
-              raw_input("Invalid key")
-            if len(tempk)==1:
-              self.quit=tempk
+            self.quit=newkey("quit")
           if keymenu2=="5":
-            print "New key for 'Show keys' "
-            tempk=raw_input()
-            if len(tempk)!=1:
-              raw_input("Invalid key")
-            if len(tempk)==1:
-              self.showkeys=tempk
+            self.showkeys=newkey("show keys")
           if keymenu2=="6":
-            print "New key for 'Input mode' "
-            tempk=raw_input()
-            if len(tempk)!=1:
-              raw_input("Invalid key")
-            if len(tempk)==1:
-              self.console=tempk
+            self.console=newkey("input mode")
           if keymenu2=="9":
             saveoptions(self)
             break
@@ -235,66 +207,43 @@ class config:
             break
       
       if keymenu=="1":
-        print "New key for 'go north' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.north=tempk
+        self.north=newkey("go north")
       if keymenu=="2":
-        print "New key for 'go south' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.south=tempk
+        self.south=newkey("go south")
       if keymenu=="3":
-        print "New key for 'go east' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.east=tempk
+        self.east=newkey("go east")
       if keymenu=="4":
-        print "New key for 'go west' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.west=tempk
+        self.west=newkey("go west")
       if keymenu=="5":
-        print "New key for 'go northeast' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.northeast=tempk
+        self.northeast=newkey("go northeast")
       if keymenu=="6":
-        print "New key for 'go northwest' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.northwest=tempk
+        self.northwest=newkey("go northwest")
       if keymenu=="7":
-        print "New key for 'go southeast' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.southeast=tempk
+        self.southeast=newkey("go southeast")
       if keymenu=="8":
-        print "New key for 'go southwest' "
-        tempk=raw_input()
-        if len(tempk)!=1:
-          raw_input("Invalid key")
-        if len(tempk)==1:
-          self.southwest=tempk
+        self.southwest=newkey("go southwest")
+
+def newkey(msg):
+  """
+  Changes a key.
+
+  Needs a message with the long name of the key (e.g. 'go northwest' for the option variable northwest)
+  returns the new value of the option variable (e.g. "New key for 'go northwest'" ->4 -> returns 4)
+  """
+  tempk=raw_input("New key for '"+msg+"': ")
+  if len(tempk)==1:
+    return tempk
+  else:
+    raw_input("Invalid key")
+
 
 def saveoptions(self):
   """
-  Option saving function. Takes all the configuration variables and writes them into a file.
-  The file is located in ../player/, if the directory does not exist this creates the directory and the file.
+  Option saving function. 
+
+  Takes all the configuration variables and writes them into a file.
+
+  The file is ../player/config, if the directory does not exist this creates the directory and the file.
   """
   if not os.path.exists("../player/"):
     os.makedirs("../player/")

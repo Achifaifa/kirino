@@ -6,6 +6,7 @@ Dungeon.py:
 
 Item.py
   Item tiers
+  Weighted random generator instead of if sentences (e.g. lines 115 to 136)
 
 common.py
 

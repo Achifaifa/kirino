@@ -1,6 +1,7 @@
 #!usr/bin/env pyton
 """
 Main procedure file.
+
 All the crawl and configuration implementation are in this module.
 """
 import copy, os, sys, random
@@ -38,8 +39,10 @@ def menu():
   #Changes the directory to where the source files are
   try:
     os.chdir(os.path.dirname(__file__))
-  except OSError: #OSError generated when os.path.dirname(__file__) is empty string
-    pass
+  except OSError: 
+  #OSError is generated when os.path.dirname(__file__) is empty string. 
+  #That is, when the path is already where the source files are.
+    pass #No changes are needed.
     
   #loads configuration
   cfg=config.config()
@@ -206,6 +209,11 @@ def crawl():
     #If the player health is EL0, game over
     if hero.hp2<=0:
       hero.bury()
+      try:
+        with open ("../player/save","w+") as youdied:
+          youdied.write("No character saved")
+      except IOError:
+        pass
       raw_input("Game over")
       break
   pass
@@ -258,7 +266,7 @@ def newgame():
       conarray=[]
       chaarray=[]
       for line in file:
-        if not line.startswith('#'):
+        if not line.startswith('#'): #There must be a better way to do this
           racesarray.append(line.rstrip('\n').partition(':')[0])
           strarray.append(line.rstrip('\n').partition(':')[2].partition(':')[0])
           intarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
@@ -336,6 +344,7 @@ def newgame():
 def purge():
   """
   Sets to zero all the global temporal variables used to store player data.
+
   Used when exiting a game so the data is not carried to the next one.
   """
   global dex
@@ -412,6 +421,8 @@ def lsave(playa):
 def lload(playa):
   """
   Loads all the global variables into a player object and then purges the temporal variables.
+
+  This is used when going to the next floor, so it also adds one experience and levels up if possible.
   """
   global flcounter
   global lv

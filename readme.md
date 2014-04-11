@@ -1,11 +1,10 @@
-#Kirino v0.0.5b
+#Kirino v0.0.6
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-v0.0.3 Required a major code re-structuring. Some of the minor functions may have been missed some changes and the game may crash under some circumstances. If this happens, please submit a message/issue/twitter mention with the crash message so it can be fixed ASAP (The error type, file and line number are enough). 
-(This message will remain here until v0.0.5)
+This week's update has focused exclusively on depurating the code and making things easier for future updates. Some of the algorithms were changed so everything is faster now. This could have caused some bugs, specially when playing with fog. Please report those issues so they can be fixed before adding new things over it :)
 
 ##How to use
 
@@ -13,7 +12,7 @@ run launch.py
 
 Grab loot, run from zombies, explore dungeons. Help provided in game via the help menu (In the main menu and in the options menu during the game)
 
-If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (./info/bugs), please consider reporting it.
+If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (./info/bugs), please consider reporting it. Suggestions and opinions are also welcome.
 
 **Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them.
 
@@ -53,10 +52,17 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 
 ##Changelog
 
+####**v0.0.6** (2014-04-11):
+* Bugs fixed:
+  * Increasing stats also increases MP (Similar to bug fixed in v0.0.5)
+* Others:
+  * Save file is now deleted when dying
+  * Depurated code
+
 ####**v0.0.5** (2014-04-04):
 * Bugs fixed:
   * Increasing stats also increases HP
-*Others:
+* Others:
   * Increased picked items/loot verbosity
   * Item attribute boost now appears in inventory
   * [v0.0.5b] Enabled white spaces

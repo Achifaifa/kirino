@@ -40,8 +40,11 @@
 <td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;items<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="item-__init__"><strong>__init__</strong></a>(self, type)</dt><dd><tt>Item&nbsp;constructor.&nbsp;Takes&nbsp;random&nbsp;data&nbsp;from&nbsp;the&nbsp;inventory&nbsp;data&nbsp;files&nbsp;and&nbsp;sets&nbsp;the&nbsp;attributes<br>
+<dl><dt><a name="item-__init__"><strong>__init__</strong></a>(self, type)</dt><dd><tt>Item&nbsp;constructor.&nbsp;<br>
+&nbsp;<br>
+Takes&nbsp;random&nbsp;data&nbsp;from&nbsp;the&nbsp;inventory&nbsp;data&nbsp;files&nbsp;and&nbsp;sets&nbsp;the&nbsp;attributes<br>
 Needs&nbsp;an&nbsp;integer&nbsp;(type)&nbsp;to&nbsp;determine&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;type<br>
+&nbsp;<br>
 #&nbsp;&nbsp;&nbsp;01&nbsp;-&nbsp;Head<br>
 #&nbsp;&nbsp;&nbsp;02&nbsp;-&nbsp;Face<br>
 #&nbsp;&nbsp;&nbsp;03&nbsp;-&nbsp;Neck<br>
@@ -55,7 +58,9 @@ Needs&nbsp;an&nbsp;integer&nbsp;(type)&nbsp;to&nbsp;determine&nbsp;the&nbsp;<a h
 #&nbsp;&nbsp;&nbsp;11&nbsp;-&nbsp;Feet<br>
 #&nbsp;&nbsp;&nbsp;00&nbsp;-&nbsp;Empty&nbsp;(Item&nbsp;with&nbsp;all&nbsp;the&nbsp;attributes&nbsp;set&nbsp;to&nbsp;zero)</tt></dd></dl>
 
-<dl><dt><a name="item-enchant"><strong>enchant</strong></a>(self, player)</dt><dd><tt>Enchants&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;(Permanently&nbsp;adds&nbsp;attribute&nbsp;bonuses&nbsp;and&nbsp;increases&nbsp;either&nbsp;the&nbsp;attack&nbsp;or&nbsp;defense&nbsp;by&nbsp;1).<br>
+<dl><dt><a name="item-enchant"><strong>enchant</strong></a>(self, player)</dt><dd><tt>Enchants&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;<br>
+&nbsp;<br>
+Permanently&nbsp;adds&nbsp;attribute&nbsp;bonuses&nbsp;and&nbsp;increases&nbsp;either&nbsp;the&nbsp;attack&nbsp;or&nbsp;defense&nbsp;by&nbsp;1.<br>
 Requires&nbsp;the&nbsp;player&nbsp;enchanting&nbsp;the&nbsp;object&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;alter&nbsp;the&nbsp;money&nbsp;balance.<br>
 Items&nbsp;can&nbsp;only&nbsp;be&nbsp;enchanted&nbsp;up&nbsp;to&nbsp;lv10.<br>
 &nbsp;<br>
@@ -72,7 +77,7 @@ If&nbsp;the&nbsp;player&nbsp;has&nbsp;no&nbsp;money&nbsp;to&nbsp;pay&nbsp;for&nb
 If&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;is&nbsp;destroyed&nbsp;all&nbsp;its&nbsp;attributes&nbsp;are&nbsp;set&nbsp;to&nbsp;0.&nbsp;<br>
 Deleting&nbsp;the&nbsp;resetted&nbsp;<a href="#item">item</a>&nbsp;from&nbsp;the&nbsp;inventory&nbsp;is&nbsp;done&nbsp;in&nbsp;the&nbsp;player&nbsp;module&nbsp;after&nbsp;calling&nbsp;the&nbsp;<a href="#item-enchant">enchant</a>()&nbsp;function.</tt></dd></dl>
 
-<dl><dt><a name="item-reset"><strong>reset</strong></a>(self)</dt><dd><tt>Sets&nbsp;all&nbsp;the&nbsp;attributes&nbsp;of&nbsp;the&nbsp;given&nbsp;<a href="#item">item</a>&nbsp;object&nbsp;to&nbsp;zero&nbsp;or&nbsp;space.</tt></dd></dl>
+<dl><dt><a name="item-reset"><strong>reset</strong></a>(self)</dt><dd><tt>Sets&nbsp;all&nbsp;the&nbsp;attributes&nbsp;of&nbsp;the&nbsp;given&nbsp;<a href="#item">item</a>&nbsp;object&nbsp;to&nbsp;zero.</tt></dd></dl>
 
 <hr>
 Data and other attributes defined here:<br>

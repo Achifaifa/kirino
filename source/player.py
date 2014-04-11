@@ -54,6 +54,7 @@ class player:
   def __init__(self,dungeon):
     """
     Initialization of the player objects. 
+
     Receives a dungeon object, then sets the coordinates of the player object in the entrance tile
     It also chooses a random race and class from the ./data/races and ./data/classes files
     """
@@ -153,8 +154,10 @@ class player:
 
   def pickobject(self,object):
     """
-    Pick item. This receives an item and adds it to the inventory if the inventory is not full/
-    Returns 1 if the object was correctly picked, returns 0 if it wasn't
+    Pick item from the floor. 
+
+    This receives an item and adds it to the inventory if the inventory is not full.
+    Returns 1 and adds the object to the inventory if the object was correctly picked, returns 0 if it wasn't.
     """
     #If the inventory is not full, it adds it. 
     #If the inventory is full, passes.
@@ -179,7 +182,9 @@ class player:
     
   def move(self,dungeon,direction):
     """
-    Move function. Receives a dungeon object to check for obstacles and an integer [1,4] indicating the direction
+    Move function. 
+
+    Receives a dungeon object to check for obstacles and an integer [1,4] indicating the direction
       1 north
       2 west
       3 south
@@ -189,9 +194,9 @@ class player:
       7 southwest
       8 southeast
     """
-    #This gives 1 base move and 1 extra move for every 10 SPD
+    #This gives 1 base move 
+    #It used to add 1 extra move for every 10 SPD but this caused bugs
     moves=1
-    # moves+=self.SPD/10 #disabled because of bugs
     try:
       #Checks de direction and moves
       if direction==1:
@@ -246,18 +251,23 @@ class player:
   def secondary(self):
     """
     Calculates and sets the secondary attributes from the primary ones.
-    Receives a player object and recalculates HP, MP, END and SPD from the primary attributes
+
+    Receives a player object and recalculates HP, MP, END and SPD from the primary attributes. 
+    It also adds the extra HP and MP gained.
     """
     temp=self.HP
     self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
     self.hp2+=(self.HP-temp)
+    temp2=self.MP
     self.MP=(self.STR+self.strboost+self.DEX+self.dexboost+self.INT+self.intboost+self.CON+self.conboost+self.WIL+self.wilboost+self.PER+self.perboost)
+    self.mp2+=(self.MP-temp)
     self.END=((self.CON+self.conboost+self.STR+self.strboost+self.wilboost+self.WIL)*3)+5
     self.SPD=(self.CON+self.conboost+self.DEX+self.dexboost)*3
 
   def charsheet(self):
     """
     Character sheet. 
+
     Main menu to edit, view and configure characters and player options
     """
     menu=0
@@ -639,9 +649,12 @@ class player:
 
   def bury(self):
     """
-    Saves the character into a cemetery file (./player/cemetery) containing all the player's dead characters.
+    Saves the character into a cemetery file 
+
+    This file is ../player/cemetery and contains all the player's dead characters.
     Similar to save, except more verbose.
-    Unlike save it does not record things like maximum HP, items or stats, so buried characters can not be recovered.
+
+    Unlike save it does not record things like maximum HP, items or stats, so buried characters can NOT be recovered.
     """
     if not os.path.exists("../player/"):
       os.makedirs("../player/")

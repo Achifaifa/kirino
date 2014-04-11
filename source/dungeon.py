@@ -13,8 +13,10 @@ class dungeon:
   #Main dungeon generator
   def __init__(self,x,y):
     """
-    Constructor. 
+    Class constructor. 
+
     Receives two integers (x,y) that define the horizontal and vertical size.
+
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
     if x<40:
@@ -204,82 +206,56 @@ class dungeon:
       
   def dumpdung(self,place): 
     """
-    Dump the dung. Generates a list of coordinates and tile type.
-    Place indicates where. 0 is return to console, anything else dumps it to a file
+    Generates a list of coordinates and tile type.
+
+    Needs a Place parameter indicatis where. 0 is return to console, anything else dumps it to a file
+
     Avoid dumping to console with big dungeons, output turns out unreadable
     """
     if place==0:
       #Dump to file mode.
       if not os.path.exists("../logs/"):
         os.makedirs("../logs/")
-      with open("../logs/kirino.dump","a") as dump:
+      with open("../logs/kirino.dump","a+") as dump:
         dump.write ("\n ###################### \n")
-  	for i in range (0,len(self.dungarray)):
-  	  for j in range (0,len(self.dungarray[i])):
-  	    if self.dungarray[i][j]=="#":
-                dump.write ("(")
-                dump.write (str(i+1))
-                dump.write (", ")
-                dump.write (str(j+1))
-                dump.write (")")
-                dump.write (" Rock \n")
-  	    elif self.dungarray[i][j]=="A":
-                dump.write ("(")
-                dump.write (str(i+1))
-                dump.write (", ")
-                dump.write (str(j+1))
-                dump.write (")")
-                dump.write (" Entrance \n")
-  	    elif self.dungarray[i][j]=="X":
-                dump.write ("(")
-                dump.write (str(i+1))
-                dump.write (", ")
-                dump.write (str(j+1))
-                dump.write (")")
-                dump.write (" Exit \n")
-  	    elif self.dungarray[i][j]==".":
-                dump.write ("(")
-                dump.write (str(i+1))
-                dump.write (", ")
-                dump.write (str(j+1))
-                dump.write (")")
-                dump.write (" Hallway \n")
-  	    elif self.dungarray[i][j]=="D":
-                dump.write ("(")
-                dump.write (str(i+1))
-                dump.write (", ")
-                dump.write (str(j+1))
-                dump.write (")")
-                dump.write (" Undeleted room marker \n")
-  	    else:
-                dump.write ("(")
-                dump.write (str(i+1))
-                dump.write (", ")
-                dump.write (str(j+1))
-                dump.write (")")
-                dump.write (" Unrecognised value (")
-                dump.write (self.dungarray[i][j])
-                dump.write (")")
+      	for i in range (0,len(self.dungarray)):
+      	  for j in range (0,len(self.dungarray[i])):
+            dump.write("("+str(i+1)+", "+str(j+1)+")")
+      	    if self.dungarray[i][j]=="#":
+              dump.write (" Rock \n")
+      	    elif self.dungarray[i][j]=="A":
+              dump.write (" Entrance \n")
+      	    elif self.dungarray[i][j]=="X":
+              dump.write (" Exit \n")
+      	    elif self.dungarray[i][j]==".":
+              dump.write (" Hallway \n")
+      	    elif self.dungarray[i][j]=="D":
+              dump.write (" Undeleted room marker \n")
+      	    else:
+              dump.write (" Unrecognised value ("+self.dungarray[i][j]+")")
     else:
       #Dump to console
-      for i in range (0,len(self.dungarray)):
-	  for j in range (0,len(self.dungarray[i])):
-	    if self.dungarray[i][j]=="#":
-	      print (i+1,j+1),"Rock"
-	    elif self.dungarray[i][j]=="A":
-	      print (i+1,j+1),"Entrance"
-	    elif self.dungarray[i][j]=="X":
-	      print (i+1,j+1),"Exit"
-	    elif self.dungarray[i][j]==".":
-	      print (i+1,j+1), "Hallway"
-	    elif self.dungarray[i][j]=="D":
-	      print (i+1,j+1), "Undeleted room marker"
-	    else:
-	      print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+      for i in range (len(self.dungarray)):
+        for j in range (len(self.dungarray[i])):
+          if self.dungarray[i][j]=="#":
+            print (i+1,j+1),"Rock"
+          elif self.dungarray[i][j]=="A":
+            print (i+1,j+1),"Entrance"
+          elif self.dungarray[i][j]=="X":
+            print (i+1,j+1),"Exit"
+          elif self.dungarray[i][j]==".":
+            print (i+1,j+1), "Hallway"
+          elif self.dungarray[i][j]=="D":
+            print (i+1,j+1), "Undeleted room marker"
+          else:
+            print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+
 
   def report(self):
     """
-    Dumps a map of the dungeon into a text file
+    Appends a map of the dungeon and a report message into a text file.
+
+    File is ../logs/report
     """
     if not os.path.exists("../logs/"):
       os.makedirs("../logs/")
@@ -291,19 +267,24 @@ class dungeon:
 	   
   def map(self):
     """
-    Map generator. Creates a map of the dungeon on screen.
-    This shows the entire dungarray[][]
-    """
+    Map generator. 
 
+    Creates a map of the dungeon on screen.
+    This shows the entire dungarray[][], so dungeons with a horizontal size larger than the horizontal console size will look weird.
+    """
     for i in range (0,len(self.dungarray)):
       print ''.join(map(str,self.dungarray[i]))
-      #TO-DO: Use colours in the console to print this, so the map on the console looks better (zero priority)
       
   def advmap(self,x,y,xmapsize,ymapsize):
     """
     Advanced map function. 
-    Displays an area of the map. x and y are the coordinates of the dungeon array in which the advanced map is centered.
-    xmapsize and ymapsize are the horizontal and vertical size of the map. minimum size is 20x10. If something smaller is entered, it defaults at the smallest value. 
+
+    Displays a small area of the map. 
+
+    x and y are the coordinates of the dungeon array in which the advanced map is centered.
+    xmapsize and ymapsize are the horizontal and vertical size of the map. 
+
+    minimum size is 20x10. If something smaller is entered, it defaults at the smallest value. 
     If the coordinates are too close to the edge, they are replaced so the map does not show anything outside the dungeon array.   
     """
 
@@ -314,20 +295,24 @@ class dungeon:
     mapstring=[]
     for i in range(ymapsize+1):
       mapstring.append([])
+
     #Adjusting for deviation
     x -= xmapsize/2
     y -= ymapsize/2
+
     #Replaces the marker if the input is bad
     if x+xmapsize>=self.xsize:
       x=self.xsize-xmapsize
     if y+ymapsize>=self.ysize:
       y=self.ysize-ymapsize
+
     #Assign loop
     counter=0
     for i in range(y,y+ymapsize):
       counter+=1
       for j in range(x,x+xmapsize):
-        mapstring[counter].append(self.filled[i][j]) 
+        mapstring[counter].append(self.filled[i][j])
+         
     #Print loop
     for i in range(len(mapstring)):
       print ''.join(map(str,mapstring[i]))
@@ -341,6 +326,7 @@ class dungeon:
   def minimap(self,player,fog):
     """
     Generates a minimap (advmap centered on the player object passed)
+
     Uses the function fill(), so it needs the fog parameter too.
     1=fog enabled, anything else fog disabled.
     """
@@ -350,12 +336,14 @@ class dungeon:
   def debug(self):
     """
     Debug dungeon 
+
     Returns an integer as error condition code:
       EC0: (Not actually an error, everything is fine)
       EC1: There is no entrance or exit
       EC2: It's below the minimum size
       EC3: Can't reach the exit from the entrance (pending)
       EC4: There are halls unconnected or unreachable (pending)
+
     Used in the constructor on this class, although it can be invoked anytime.
     """
 
@@ -373,16 +361,18 @@ class dungeon:
           if self.dungarray[i][j]=="X":
             exit += 1
       if entrance!=1 or exit!=1:
-        return(1)
+        return 1
       else:
       #Checks if X is reachable from A (pending)
         pass
-        return(0)
+        return 0
 
   def fill(self,player,fog):
     """
     Fills the dungeon temporarily with PC and NPC object and mob markers. 
-    Needs a player and the mob array (pending)
+
+    Needs a player and the fog parameter
+
     Does not return anything, but modifies the filled array
     if the parameter fog is 1, it displays a fogged minimap. 
     """
@@ -410,15 +400,16 @@ class dungeon:
             viewy=1
           if player.ypos-viewy<i<player.ypos+viewy:
             if player.xpos-viewx<j<player.xpos+viewx:
-              for k in range(len(self.mobarray)):
-                if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
-                  self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]="i"
-                else:
-                  self.filled[i][j]=self.dungarray[i][j]
+              self.filled[i][j]=self.dungarray[i][j]
             else:
               self.filled[i][j]="~"
           else:
             self.filled[i][j]="~"
+          #Add mobs
+          for k in self.mobarray:
+            if player.ypos-viewy<k.ypos<player.ypos+viewy:
+              if player.xpos-viewx<k.xpos<player.xpos+viewx:
+                self.filled[k.ypos][k.xpos]="i"
         #If fog is not on, just generate a regular minimap
         if fog!=1:
           for k in range(len(self.mobarray)):

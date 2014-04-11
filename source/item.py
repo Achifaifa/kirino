@@ -27,8 +27,11 @@ class item:
 
   def __init__(self,type):
     """
-    Item constructor. Takes random data from the inventory data files and sets the attributes
+    Item constructor. 
+
+    Takes random data from the inventory data files and sets the attributes
     Needs an integer (type) to determine the item type
+
     #   01 - Head
     #   02 - Face
     #   03 - Neck
@@ -235,7 +238,7 @@ class item:
 
   def reset(self):
     """
-    Sets all the attributes of the given item object to zero or space.
+    Sets all the attributes of the given item object to zero.
     """
     self.name=" "
     self.price=0
@@ -251,7 +254,9 @@ class item:
 
   def enchant(self,player):
     """
-    Enchants the item (Permanently adds attribute bonuses and increases either the attack or defense by 1).
+    Enchants the item 
+
+    Permanently adds attribute bonuses and increases either the attack or defense by 1.
     Requires the player enchanting the object to be passed to alter the money balance.
     Items can only be enchanted up to lv10.
 

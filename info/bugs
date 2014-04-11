@@ -23,19 +23,18 @@ item.py
 
 launch.py 
   H?> Trailing path under unknown conditions
-  M?> crash when playing a small dungeon after playing a large one
 
 mob.py
 
 parser.py
 
 player.py
-  H?> Equipped item list duplicated in save file
-  H?> Some items equipped more than once when loading
+  H?> Equipped item list sometimes duplicated in save file
+
+???
+  H?> Screen refreshing gets slower with each floor advanced
+  M?> crash when playing a small dungeon after playing a large one
 
 --------------------------------------------------
 
 Others
-  Big dungeons (>100x100) are unplayable
-  Unefficient generating algorithms
-  VERY unefficient everything
