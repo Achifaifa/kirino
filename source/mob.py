@@ -1,11 +1,11 @@
 #usr/bin/env python
-import os
-import random
+import os, random
 import dungeon
 
 class mob:
   """
   giant enemy class.
+
   All the mob generation, IA and movement is implemented here.
   """
   #Position variables
@@ -54,6 +54,7 @@ class mob:
   def move(self,dungeon,direction,distance):
     """
     Move function. Needs a dungeon object.
+
     Accepts direction and distance
       1 north
       2 west
@@ -107,8 +108,7 @@ class mob:
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
       attackpow=(self.str*4)-player.totdefn
-      # attackpow=0 # Temporary fix for random damage
       if attackpow<0:
         attackpow=0
       player.hp2-=attackpow
-      return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!")
+      return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!\n")

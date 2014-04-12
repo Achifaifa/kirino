@@ -199,6 +199,7 @@ class config:
             self.showkeys=newkey("show keys")
           if keymenu2=="6":
             self.console=newkey("input mode")
+          #extra options
           if keymenu2=="9":
             saveoptions(self)
             break
@@ -229,6 +230,7 @@ def newkey(msg):
 
   Needs a message with the long name of the key (e.g. 'go northwest' for the option variable northwest)
   returns the new value of the option variable (e.g. "New key for 'go northwest'" ->4 -> returns 4)
+  If the lenght of the key is not 1, returns an error message.
   """
   tempk=raw_input("New key for '"+msg+"': ")
   if len(tempk)==1:

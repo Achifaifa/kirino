@@ -163,10 +163,10 @@ class player:
     #If the inventory is full, passes.
     if len(self.inventory)>=9:
       pass
-      return 0,("Your inventory is full!")
+      return 0,("Your inventory is full!\n")
     if len(self.inventory)<9:
       self.inventory.append(object)
-      return 1,("You picked "+object.name)
+      return 1,("You picked "+object.name+"\n")
 
     
   def getatr(self):

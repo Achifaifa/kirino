@@ -1,4 +1,4 @@
-#Kirino v0.0.6
+#Kirino v0.0.6b
   
 Basic console based dungeon crawler. 
 
@@ -58,6 +58,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 * Others:
   * Save file is now deleted when dying
   * Depurated code
+  * [0.0.6b] Improved message output
 
 ####**v0.0.5** (2014-04-04):
 * Bugs fixed:

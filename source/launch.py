@@ -115,7 +115,7 @@ def crawl():
       monies=random.randrange(1,5)
       hero.pocket+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."
-      lootmsg=("You find "+str(monies)+" gold")
+      lootmsg=("You find "+str(monies)+" gold\n")
 
     #Action if player has reached a gear loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
@@ -141,9 +141,7 @@ def crawl():
     print ""
     print cfg.showkeys+" key mapping help"
     print""
-    print lootmsg
-    print atkmsg
-    print pickmsg
+    print lootmsg+atkmsg+pickmsg
     print "->",
     crawlmen=common.getch()
     if crawlmen==cfg.console:
