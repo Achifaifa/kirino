@@ -69,9 +69,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * Word parser
   * NPC generator
   * Peddlers and vendors (inactive)
-* Bugs fixed:
-  * 
-*Others:
+* Others:
   * Depurated code
   * Removed white spaces
 
