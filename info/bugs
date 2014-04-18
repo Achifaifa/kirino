@@ -27,9 +27,9 @@ launch.py
 mob.py
 
 parser.py
+  H?> Look instructions not working on random floors
 
 player.py
-  H?> Equipped item list sometimes duplicated in save file
 
 ???
   H?> Screen refreshing gets slower with each floor advanced

@@ -1,0 +1,115 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module npc</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>npc</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/achifaifa/git/kirino/source/npc.py">/home/achifaifa/git/kirino/source/npc.py</a></font></td></tr></table>
+    <p></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="npc.html#npc">npc</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="npc">class <strong>npc</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>NPC&nbsp;generator&nbsp;and&nbsp;manager<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="npc-__init__"><strong>__init__</strong></a>(self, gender, stat, total)</dt><dd><tt>Constructor.&nbsp;Generates&nbsp;an&nbsp;NPC,&nbsp;as&nbsp;in&nbsp;the&nbsp;standalone&nbsp;NPC&nbsp;generator:<br>
+https://github.com/Achifaifa/GM-Tools/tree/master/npcgenerator<br>
+&nbsp;<br>
+Needs:<br>
+&nbsp;<br>
+Gender<br>
+&nbsp;&nbsp;0&nbsp;female<br>
+&nbsp;&nbsp;1&nbsp;male<br>
+&nbsp;&nbsp;Anything&nbsp;else&nbsp;defaults&nbsp;at&nbsp;a&nbsp;random&nbsp;genre<br>
+&nbsp;<br>
+Maximum&nbsp;stat&nbsp;level<br>
+&nbsp;&nbsp;A&nbsp;number&nbsp;smaller&nbsp;than&nbsp;1&nbsp;defaults&nbsp;to&nbsp;5<br>
+&nbsp;<br>
+Total&nbsp;attribute&nbsp;points<br>
+&nbsp;&nbsp;A&nbsp;number&nbsp;smaller&nbsp;than&nbsp;1&nbsp;defaults&nbsp;to&nbsp;16</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>CHA</strong> = 1</dl>
+
+<dl><dt><strong>CON</strong> = 1</dl>
+
+<dl><dt><strong>DEX</strong> = 1</dl>
+
+<dl><dt><strong>INT</strong> = 1</dl>
+
+<dl><dt><strong>PER</strong> = 1</dl>
+
+<dl><dt><strong>STR</strong> = 1</dl>
+
+<dl><dt><strong>WIL</strong> = 1</dl>
+
+<dl><dt><strong>appearance</strong> = ''</dl>
+
+<dl><dt><strong>dislikes1</strong> = ''</dl>
+
+<dl><dt><strong>dislikes2</strong> = ''</dl>
+
+<dl><dt><strong>job</strong> = ''</dl>
+
+<dl><dt><strong>likes1</strong> = ''</dl>
+
+<dl><dt><strong>likes2</strong> = ''</dl>
+
+<dl><dt><strong>name</strong> = ''</dl>
+
+<dl><dt><strong>personality</strong> = ''</dl>
+
+<dl><dt><strong>secondname</strong> = ''</dl>
+
+<dl><dt><strong>statmax</strong> = 0</dl>
+
+<dl><dt><strong>statotal</strong> = 0</dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-load"><strong>load</strong></a>()</dt><dd><tt>Load&nbsp;the&nbsp;data&nbsp;from&nbsp;the&nbsp;files&nbsp;into&nbsp;a&nbsp;dictionary.&nbsp;<br>
+The&nbsp;arrays&nbsp;with&nbsp;the&nbsp;data&nbsp;is&nbsp;stored&nbsp;in&nbsp;a&nbsp;dictionary.<br>
+The&nbsp;dictionary&nbsp;is&nbsp;global&nbsp;in&nbsp;the&nbsp;module&nbsp;and&nbsp;is&nbsp;used&nbsp;by&nbsp;default&nbsp;in&nbsp;the&nbsp;NPC&nbsp;class.</tt></dd></dl>
+ <dl><dt><a name="-sanitize"><strong>sanitize</strong></a>()</dt><dd><tt>Rewrite&nbsp;the&nbsp;NPC&nbsp;data&nbsp;files&nbsp;to&nbsp;follow&nbsp;formatting&nbsp;standards.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>data</strong> = {'appearance': ['adorable', 'adventurous', 'aggressive', 'alert', 'attractive', 'average', 'beautiful', 'blue-eyed', 'bloody', 'blushing', 'bright', 'clean', 'clear', 'cloudy', 'colorful', 'crowded', 'cute', 'dark', 'drab', 'distinct', ...], 'jobs': ['Manager', 'Project Manager', 'Teacher', 'Director', 'Accountant', 'Consultant', 'Administrator', 'Solicitor', 'Account Manager', 'PA', 'Office Manager', 'Analyst', 'Engineer', 'Sales Manager', 'Doctor', 'Software Engineer', 'Business Analyst', 'Managing Director', 'Personal Assistant', 'Marketing Manager', ...], 'namefemale': ['Lucia', 'Maria', 'Paula', 'Laura', 'Claudia', 'Irene', 'Marta', 'Alba', 'Sara', 'Carla', 'Andrea', 'Nerea', 'Julia', 'Natalia', 'Elena', 'Ana', 'Sofia', 'Carmen', 'Daniela', 'Marina', ...], 'namemale': ['Alejandro', 'Daniel', 'Pablo', 'David', 'Adrian', 'Alvaro', 'Javier', 'Sergio', 'Hugo', 'Diego', 'Carlos', 'Marcos', 'Mario', 'Ivan', 'Manuel', 'Miguel', 'Jorge', 'Ruben', 'Iker', 'Raul', ...], 'personality': ['adaptable', 'adventurous', 'affable', 'affectionate', 'agreeable', 'ambitious', 'amiable', 'amicable', 'amusing', 'brave', 'bright', 'broad-minded', 'calm', 'careful', 'charming', 'communicative', 'compassionate', 'conscientious', 'considerate', 'convivial', ...], 'secondnames': ['Garcia', 'Gonzalez', 'Rodriguez', 'Fernandez', 'Lopez', 'Martinez', 'Sanchez', 'Perez', 'Gomez', 'Martin', 'Jimenez', 'Ruiz', 'Hernandez', 'Diaz', 'Moreno', 'Alvarez', 'Mu<font color="#c040c0">\xc3\x91</font>Oz', 'Romero', 'Alonso', 'Gutierrez', ...], 'things': ['broccoflower', 'that last, crumby triangle in a bag of potato chips', 'grass stains', 'locking people out of the car and pretending to drive away', 'opening and sniffing a pack of tennis balls', 'finding money you didn<font color="#c040c0">\xe2\x80\x99</font>t even know you lost', 'waiters and waitresses who bring free refills without asking', 'fat baseball players', 'really, really old tupperware', 'picking up a q and a u at the same time in scrabble', 'blowing your nose in the shower', 'burning churches', 'eating things past the expiry date', 'eating the last piece of dessert somebody left at your house', 'that pile of assorted beers left in your fridge after a party', 'picking your nose', 'wearing underwear just out of the dryer', 'old, dangerous playground equipment', 'anything that can grow wings', 'putting the toppings on a hot dog bun before the hot dog', ...]}</td></tr></table>
+</body></html>

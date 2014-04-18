@@ -1,0 +1,11 @@
+# Group of actions:words ordered from most to least common
+#
+movement:go move walk strut run march
+look:look view examine observe
+use:use consume
+equip:wear equip put
+unequip:unequip remove
+fight:attack hit stab slash kick
+cfg:options configure config cfg
+help:help
+quit:quit close exit fuckit menu

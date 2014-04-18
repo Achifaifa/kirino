@@ -2,18 +2,16 @@
 """
 Help function. Contains help menus and text for the functions in the game.
 """
-import os
-import common
-import dungeon
-import player
-import item
-import config
+import os, sys
+import dungeon, item, parser,player
+import common, config
 
 def help():
   """
   Help main menu. Gives access to the tutorial, descriptions and such
   """
   while 1:
+    sys.stdout.flush() 
     os.system('clear')
     common.version()
     print "Help"
@@ -42,6 +40,7 @@ def keyhelp():
   Displays all the keys that can be used while crawling and their function.
   """
   cfg=config.config()
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Key help"
@@ -70,6 +69,7 @@ def about():
   """
   Gives information about the game
   """
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - About kirino"
@@ -90,6 +90,7 @@ def funchelp():
   Gives information about specific game functions and options
   """
   while 1:
+    sys.stdout.flush() 
     os.system('clear')
     common.version()
     print "Help - Using kirino"
@@ -99,6 +100,7 @@ def funchelp():
     print "3.- Character sheet"
     print "4.- Items and inventory"
     print "5.- Saving and loading"
+    print "6.- Word parser"
     print "---"  
     print "0.- Back"
     print "->",
@@ -113,6 +115,8 @@ def funchelp():
       itemh()
     if fhmen=="5":
       saveh()
+    if fhmen=="6":
+      parserh()
     if fhmen=="0":
       break
 
@@ -120,6 +124,7 @@ def introh():
   """
   Small introduction to the game and basic controls
   """
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - General introduction"
@@ -139,6 +144,7 @@ def crawlingh():
   """
   description of the crawling screen elements
   """
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - crawling screen (1/2)"
@@ -151,6 +157,7 @@ def crawlingh():
   print "keys available. They can be configured in the option menu"
   print ""
   raw_input("next")
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - crawling screen (2/2)"
@@ -171,10 +178,29 @@ def crawlingh():
   print ""
   raw_input("Go back")
 
+def parserh():
+  """
+  Information about the word parser
+  """
+  sys.stdout.flush() 
+  os.system('clear')
+  common.version()
+  print "Help - Using kirino - Word parser"
+  print ""
+  print "Kirino has a very simple word parser that processes basic instructions, such as move, look, hit and such"
+  print "The parser needs, however, certain syntax requirements in the sentences that are passed to it"
+  print ""
+  print "First, the first word must be a verb. 'Go north' is an accepted expression, while 'I want to go north' it's not."
+  print "Second, the simpler the sentences are, the better. 'Drop sword' will have the same effect as 'Drop sword from inventory to the ground'."
+  print "Third, some of the words in a sentence can be ignored. The parser does not analyze the full sentence, it only examines the first word and processes the rest accordingly."
+  print ""
+  raw_input("Go back")
+
 def saveh():
   """
   Information about saving and loading characters and configuration
   """
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Saving and loading"
@@ -197,6 +223,7 @@ def charh():
   """
   Information about the character sheet and the options in it
   """
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Character sheet"
@@ -223,6 +250,7 @@ def itemh():
   """
   Information about items, inventory, enchanting, etc
   """
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Items and inventory"
@@ -248,6 +276,7 @@ def tutorial():
   """
   cfg=config.config()
 
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Introduction"
@@ -258,6 +287,7 @@ def tutorial():
   print "press any key to continue",
   common.getch()
 
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Basic dungeons"
@@ -285,6 +315,7 @@ def tutorial():
   new.mobarray=[]
   new.fill(play,0)
   while 1:
+    sys.stdout.flush()
     os.system('clear')
     common.version()
     print "Help - Using kirino - Tutorial - Basic dungeons"
@@ -324,6 +355,7 @@ def tutorial():
         break
 
 
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Items"
@@ -337,6 +369,7 @@ def tutorial():
   print "press any key to continue",
   common.getch()
 
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Enemies"
@@ -350,10 +383,16 @@ def tutorial():
   print "press any key to continue",
   common.getch()
 
+  sys.stdout.flush() 
   os.system('clear')
   common.version()
-  print "Help - Using kirino - Tutorial - "
+  print "Help - Using kirino - Tutorial - Parser"
   print ""
-  print "blablablablablbabla. Go kill some zombies"
+  print "You can use more than key presses to control your character. Kirino has a word parser that allows you to write small commands, IF style"
+  print "If you have never played Interactive Fiction, playing games like adventure or zork for a few minutes will give you an idea"
+  print "For example, you can use 'go north' to move north, or 'help' to access the help menu."
+  print "Go ahead, try writing something and see if it works!"
+  print ""
+  print "press any key to continue"
   #Interactive tutorial goes here
-  # common.getch()
+  common.getch()

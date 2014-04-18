@@ -9,7 +9,13 @@
 <font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>parser</strong></big></big></font></td
 ><td align=right valign=bottom
 ><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/achifaifa/git/kirino/source/parser.py">/home/achifaifa/git/kirino/source/parser.py</a></font></td></tr></table>
-    <p></p>
+    <p><tt>Parser&nbsp;functions.<br>
+&nbsp;<br>
+Processes&nbsp;a&nbsp;given&nbsp;string&nbsp;and&nbsp;performs&nbsp;the&nbsp;action&nbsp;the&nbsp;string&nbsp;is&nbsp;asking&nbsp;for<br>
+&nbsp;<br>
+The&nbsp;parser,&nbsp;error&nbsp;and&nbsp;other&nbsp;data&nbsp;is&nbsp;located&nbsp;in&nbsp;../data/parser/<br>
+The&nbsp;data&nbsp;is&nbsp;loaded&nbsp;by&nbsp;default&nbsp;in&nbsp;this&nbsp;module,&nbsp;so&nbsp;it&nbsp;is&nbsp;also&nbsp;loaded&nbsp;automagically&nbsp;when&nbsp;importing&nbsp;it.<br>
+To&nbsp;modify&nbsp;the&nbsp;data&nbsp;files,&nbsp;please&nbsp;read&nbsp;the&nbsp;instructions&nbsp;in&nbsp;these&nbsp;files.</tt></p>
 <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#aa55cc">
@@ -17,6 +23,77 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="os.html">os</a><br>
-</td><td width="25%" valign=top></td><td width="25%" valign=top></td><td width="25%" valign=top></td></tr></table></td></tr></table>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
+<a href="config.html">config</a><br>
+</td><td width="25%" valign=top><a href="help.html">help</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-equip"><strong>equip</strong></a>()</dt></dl>
+ <dl><dt><a name="-fight"><strong>fight</strong></a>()</dt></dl>
+ <dl><dt><a name="-load"><strong>load</strong></a>()</dt><dd><tt>Data&nbsp;file&nbsp;loading&nbsp;function.<br>
+&nbsp;<br>
+Load&nbsp;the&nbsp;data&nbsp;in&nbsp;../data/parser/words,errors&nbsp;to&nbsp;data&nbsp;structures</tt></dd></dl>
+ <dl><dt><a name="-look"><strong>look</strong></a>(dungeon, player)</dt><dd><tt>Generates&nbsp;a&nbsp;description&nbsp;about&nbsp;what&nbsp;the&nbsp;player&nbsp;can&nbsp;see&nbsp;from&nbsp;its&nbsp;position.&nbsp;<br>
+&nbsp;<br>
+It&nbsp;uses&nbsp;the&nbsp;filled&nbsp;array&nbsp;from&nbsp;the&nbsp;dungeon&nbsp;object&nbsp;to&nbsp;look&nbsp;for&nbsp;things.<br>
+Talks&nbsp;about&nbsp;enemies,&nbsp;objects,&nbsp;money&nbsp;and&nbsp;space&nbsp;in&nbsp;a&nbsp;very&nbsp;general&nbsp;sense&nbsp;and&nbsp;without&nbsp;many&nbsp;details.&nbsp;<br>
+The&nbsp;output,&nbsp;verbosity&nbsp;and&nbsp;content&nbsp;will&nbsp;be&nbsp;improved&nbsp;in&nbsp;future&nbsp;versions.</tt></dd></dl>
+ <dl><dt><a name="-parse"><strong>parse</strong></a>(words, player, dungeon, config)</dt><dd><tt>Main&nbsp;parsing&nbsp;function.&nbsp;<br>
+&nbsp;<br>
+Splits&nbsp;the&nbsp;string&nbsp;and&nbsp;identifies&nbsp;action,&nbsp;target&nbsp;and&nbsp;options<br>
+&nbsp;<br>
+Needs&nbsp;a&nbsp;string&nbsp;to&nbsp;be&nbsp;parsed.<br>
+&nbsp;<br>
+Returns&nbsp;and&nbsp;action&nbsp;code&nbsp;and&nbsp;a&nbsp;message&nbsp;if&nbsp;needed.<br>
+&nbsp;<br>
+0)&nbsp;No&nbsp;action<br>
+&nbsp;&nbsp;Look&nbsp;sentences&nbsp;only&nbsp;return&nbsp;a&nbsp;description&nbsp;of&nbsp;the&nbsp;place<br>
+&nbsp;&nbsp;Empty,&nbsp;weird&nbsp;or&nbsp;non-interpretable&nbsp;sentences&nbsp;return&nbsp;an&nbsp;error&nbsp;string<br>
+&nbsp;<br>
+1)&nbsp;Move<br>
+&nbsp;&nbsp;11&nbsp;north<br>
+&nbsp;&nbsp;12&nbsp;south<br>
+&nbsp;&nbsp;13&nbsp;east<br>
+&nbsp;&nbsp;14&nbsp;west<br>
+&nbsp;&nbsp;15&nbsp;northeast<br>
+&nbsp;&nbsp;16&nbsp;northwest<br>
+&nbsp;&nbsp;17&nbsp;southeast<br>
+&nbsp;&nbsp;18&nbsp;southwest<br>
+&nbsp;<br>
+&nbsp;&nbsp;19&nbsp;down&nbsp;(next&nbsp;floor)<br>
+&nbsp;<br>
+3)&nbsp;"use"&nbsp;actions<br>
+&nbsp;&nbsp;31&nbsp;use&nbsp;stairs&nbsp;(next&nbsp;floor)<br>
+&nbsp;<br>
+4)&nbsp;Combat&nbsp;actions<br>
+&nbsp;&nbsp;Pending<br>
+&nbsp;<br>
+5)&nbsp;Configuration<br>
+&nbsp;<br>
+6)&nbsp;Help<br>
+&nbsp;&nbsp;61&nbsp;Help&nbsp;keys&nbsp;(Show&nbsp;key&nbsp;mapping)<br>
+&nbsp;&nbsp;62&nbsp;General&nbsp;help&nbsp;(Brings&nbsp;the&nbsp;help&nbsp;menu&nbsp;up)<br>
+&nbsp;<br>
+It&nbsp;evaluates&nbsp;the&nbsp;verb&nbsp;in&nbsp;the&nbsp;first&nbsp;position&nbsp;and&nbsp;the&nbsp;options&nbsp;next<br>
+e.g.:&nbsp;go&nbsp;north,&nbsp;hit&nbsp;zombie,&nbsp;run&nbsp;southeast,&nbsp;walk&nbsp;nw,&nbsp;equip&nbsp;itemname,&nbsp;etc.<br>
+If&nbsp;the&nbsp;first&nbsp;word&nbsp;of&nbsp;the&nbsp;string&nbsp;is&nbsp;not&nbsp;a&nbsp;verb&nbsp;(i.e.&nbsp;I&nbsp;want&nbsp;to&nbsp;walk&nbsp;north)&nbsp;a&nbsp;random&nbsp;generic&nbsp;error&nbsp;message&nbsp;will&nbsp;be&nbsp;returned.</tt></dd></dl>
+ <dl><dt><a name="-use"><strong>use</strong></a>(words)</dt></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>dictionary</strong> = {'cfg': ['options', 'configure', 'config', 'cfg'], 'equip': ['wear', 'equip', 'put'], 'fight': ['attack', 'hit', 'stab', 'slash', 'kick'], 'help': ['help'], 'look': ['look', 'view', 'examine', 'observe'], 'move': ['go', 'move', 'walk', 'strut', 'run', 'march'], 'quit': ['quit', 'close', 'exit', 'fuckit', 'menu'], 'unequip': ['unequip', 'remove'], 'use': ['use', 'consume']}<br>
+<strong>errors</strong> = ['Excuse me, what?', "I don't understand", 'What do you mean exactly?', 'Nope', 'Check your spelling maybe', 'Unrecognised command', 'Is that a verb?', 'What the heck are you planning?', 'Is that even a word?', "You can't do that?", 'Seriously, no.', 'Wha...?', 'Nice try', "You don't really mean it", 'I can only talk one language, sorry', 'Duuuuuude, seriously']<br>
+<strong>insistor</strong> = {}</td></tr></table>
 </body></html>

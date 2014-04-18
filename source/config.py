@@ -1,5 +1,5 @@
 #usr/bin/env python
-import os
+import os, sys
 import common, help
 
 class config:
@@ -104,6 +104,7 @@ class config:
     global autosave
     global fog
     while 1:
+      sys.stdout.flush() 
       os.system('clear')
       common.version()
       print "Options"
@@ -148,6 +149,7 @@ class config:
     Key mapping configuration menu.
     """
     while 1:
+      sys.stdout.flush() 
       os.system('clear')
       common.version()
       print "Options - Keyboard mapping 1/2"
@@ -171,6 +173,7 @@ class config:
         break
       if keymenu=="9":
         while 1:
+          sys.stdout.flush() 
           os.system('clear')
           common.version()
           print "Options - Keyboard mapping 2/2"

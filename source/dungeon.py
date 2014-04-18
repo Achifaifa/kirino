@@ -11,11 +11,13 @@ class dungeon:
   mobarray=[]
   
   #Main dungeon generator
-  def __init__(self,x,y):
+  def __init__(self,x,y,vendor):
     """
     Class constructor. 
 
     Receives two integers (x,y) that define the horizontal and vertical size.
+
+    It also receives a vendor variable. If set to 1 it generates a shop in a random position inside the dungeon.
 
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
@@ -160,14 +162,49 @@ class dungeon:
             spacecounter+=1
       for i in range(spacecounter/60):
         self.mobarray.append(mob.mob(self))
-      	  
+
+      #Adds the vendor
+      #First, look for a pattern in which the shop can fit
+      #The shop looks like this
+      #
+      # A) ####  B) ####
+      #    #p|.     .|q#
+      #    ####     ####
+      #
+      #so it needs a 3x3 block near a room or a vertical hall.
+
+      #Randomize iterator:
+      pairs=[]
+      for i in range (len(self.dungarray)-3):
+        for j in range (len(self.dungarray[0])-3):
+          pairs.append([i,j])
+      random.shuffle(pairs)
+
+      if vendor==1:
+        for i in pairs:
+          #Check surroundings
+          if (self.dungarray[i[0]][i[1]]=="#" and
+              self.dungarray[i[0]][i[1]+1]=="#" and
+              self.dungarray[i[0]][i[1]+2]=="#" and
+              self.dungarray[i[0]+1][i[1]]=="#" and
+              self.dungarray[i[0]+1][i[1]+1]=="#" and
+              self.dungarray[i[0]+1][i[1]+2]=="#" and
+              self.dungarray[i[0]+2][i[1]]=="#" and
+              self.dungarray[i[0]+2][i[1]+1]=="#" and
+              self.dungarray[i[0]+2][i[1]+2]=="#" and
+              self.dungarray[i[0]+1][i[1]+3]=="."):
+            #Place the shop in the first available place and exit the loop
+            self.dungarray[i[0]+1][i[1]+1]="p"
+            self.dungarray[i[0]+1][i[1]+2]="|"
+            break
+         
       #Adds spaces in random positions with rocks, one for every 3x3 zone.
-      for i in range(0,self.xsize*self.ysize/9):
-        randx=random.randrange(self.xsize)
-       	randy=random.randrange(self.ysize)
-       	if self.dungarray[randy][randx]=="#":
-          self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
-       	else: pass
+      # for i in range(0,self.xsize*self.ysize/9):
+      #   randx=random.randrange(self.xsize)
+      #  	randy=random.randrange(self.ysize)
+      #  	if self.dungarray[randy][randx]=="#":
+      #     self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
+      #  	else: pass
 
       #Add money (loot) in random places in the ground. 1 drop per 50 floor tiles
       counter=0

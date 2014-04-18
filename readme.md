@@ -1,4 +1,4 @@
-#Kirino v0.0.6b
+#Kirino v0.0.7
   
 Basic console based dungeon crawler. 
 
@@ -12,7 +12,7 @@ run launch.py
 
 Grab loot, run from zombies, explore dungeons. Help provided in game via the help menu (In the main menu and in the options menu during the game)
 
-If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (./info/bugs), please consider reporting it. Suggestions and opinions are also welcome.
+If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
 
 **Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them.
 
@@ -22,7 +22,18 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * inventory:          Inventory files
     * `atk_def_mod`:      List of attack/def modifiers
     * `attr_mod`:         List of basic attribute modifiers
-    * `items_XX`          List of items and basic stats    
+    * `items_XX`:         List of items and basic stats
+  * npcs:               NPC data
+    * `appearance`        List of visual adjectives
+    * `firstnames_female` List of female names
+    * `firstnames_male`   List of male names
+    * `jobs`              List of jobs
+    * `personality`       List of psychological adjectives
+    * `secondnames`       List of second names
+    * `things`            List of things
+  * parser:             Data filer for the word parser
+    * `errors`:           List of generic error messages
+    * `words`:            Word data for the parser
   * player:             Player files
     * `classes`:          List of player classes
     * `names`:            List of names
@@ -46,11 +57,23 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
   * `item.py`:          Item class
   * `launch.py`:        Main menus and procedures.
   * `mob.py`:           Giant enemy class
-  * `parser.py`:        Word parser (Empty)
+  * `npc.py`:           NPC class
+  * `parser.py`:        Word parser module
   * `player.py`:        Player class
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.7** (2014-04-18):
+* New features:
+  * Word parser
+  * NPC generator
+  * Peddlers and vendors (inactive)
+* Bugs fixed:
+  * 
+*Others:
+  * Depurated code
+  * Removed white spaces
 
 ####**v0.0.6** (2014-04-11):
 * Bugs fixed:

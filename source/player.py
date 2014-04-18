@@ -1,5 +1,5 @@
 #usr/bin/env python 
-import copy, os, random
+import copy, os, random, sys
 import common, dungeon, item
 
 #Player class definition
@@ -149,7 +149,7 @@ class player:
     self.charclass=random.choice(classesarray) 
 
     #add two random items to the inventory
-    for i in range(7):
+    for i in range(2):
       self.inventory.append(item.item(random.randint(1,11)))
 
   def pickobject(self,object):
@@ -200,45 +200,45 @@ class player:
     try:
       #Checks de direction and moves
       if direction==1:
-        if dungeon.dungarray[self.ypos-1][self.xpos]=="#":
+        if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|":
           pass
         else:
           self.ypos -= moves
       elif direction==2:
-        if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
+        if dungeon.dungarray[self.ypos][self.xpos-1]=="#" or dungeon.dungarray[self.ypos][self.xpos-1]=="|":
           pass
         else:
           self.xpos -= moves  
       elif direction==3:
-        if dungeon.dungarray[self.ypos+1][self.xpos]=="#":
+        if dungeon.dungarray[self.ypos+1][self.xpos]=="#" or dungeon.dungarray[self.ypos+1][self.xpos]=="|":
           pass
         else:     
           self.ypos += moves
       elif direction==4:
-        if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
+        if dungeon.dungarray[self.ypos][self.xpos+1]=="#" or dungeon.dungarray[self.ypos][self.xpos+1]=="|":
           pass
         else:
           self.xpos += moves
       elif direction==5:
-        if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#":
+        if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos-1]=="|":
           pass
         else:
           self.ypos -= moves
           self.xpos -= moves
       elif direction==6:
-        if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#":
+        if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos+1]=="|":
           pass
         else:
           self.ypos -= moves
           self.xpos += moves
       elif direction==7:
-        if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#":
+        if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos-1]=="|":
           pass
         else:
           self.ypos += moves
           self.xpos -= moves
       elif direction==8:
-        if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#":
+        if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos+1]=="|":
           pass
         else:
           self.ypos += moves
@@ -273,6 +273,7 @@ class player:
     menu=0
     while 1==1:
       self.secondary()
+      sys.stdout.flush() 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -326,6 +327,7 @@ class player:
     """
     choice=-1
     while choice!="0":
+      sys.stdout.flush() 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -430,6 +432,7 @@ class player:
     """
     coptmen=-1
     while coptmen!="0":
+      sys.stdout.flush() 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -475,6 +478,7 @@ class player:
     """
 
     while 1:
+      sys.stdout.flush() 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
