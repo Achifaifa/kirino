@@ -20,10 +20,11 @@
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
 <a href="math.html">math</a><br>
 </td><td width="25%" valign=top><a href="mob.html">mob</a><br>
-<a href="os.html">os</a><br>
-</td><td width="25%" valign=top><a href="player.html">player</a><br>
-<a href="random.html">random</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<a href="npc.html">npc</a><br>
+</td><td width="25%" valign=top><a href="os.html">os</a><br>
+<a href="player.html">player</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -43,9 +44,11 @@
 <td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;dungeons&nbsp;and&nbsp;<a href="#dungeon">dungeon</a>&nbsp;displaying&nbsp;features<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y)</dt><dd><tt>Class&nbsp;constructor.&nbsp;<br>
+<dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y, vendor)</dt><dd><tt>Class&nbsp;constructor.&nbsp;<br>
 &nbsp;<br>
 Receives&nbsp;two&nbsp;integers&nbsp;(x,y)&nbsp;that&nbsp;define&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;size.<br>
+&nbsp;<br>
+It&nbsp;also&nbsp;receives&nbsp;a&nbsp;vendor&nbsp;variable.&nbsp;If&nbsp;set&nbsp;to&nbsp;1&nbsp;it&nbsp;generates&nbsp;a&nbsp;shop&nbsp;in&nbsp;a&nbsp;random&nbsp;position&nbsp;inside&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>.<br>
 &nbsp;<br>
 Minimum&nbsp;size&nbsp;is&nbsp;40x20.&nbsp;If&nbsp;something&nbsp;smaller&nbsp;is&nbsp;given,&nbsp;defaults&nbsp;at&nbsp;the&nbsp;minimum.</tt></dd></dl>
 
@@ -106,6 +109,8 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>filled</strong> = []</dl>
 
 <dl><dt><strong>mobarray</strong> = []</dl>
+
+<dl><dt><strong>vendorvar</strong> = 0</dl>
 
 <dl><dt><strong>xsize</strong> = 0</dl>
 

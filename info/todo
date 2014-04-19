@@ -27,11 +27,7 @@ Player.py
   Dual-wielding 1h weapons.
   Add prestige ranks
 
----
-
 Parser.py (After everything else is done)
-  Create basic word parser
-  Support basic commands
   use nlp to control alternate actions
 
 ---

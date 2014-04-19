@@ -318,8 +318,10 @@ def crawl():
 
     #Input mode
     if crawlmen==cfg.console:
-      action,parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
-
+      try:
+        action,parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
+      except:
+        pass
     #Character sheet menu
     if crawlmen==cfg.charsh: 
       hero.charsheet()

@@ -1,10 +1,10 @@
-#Kirino v0.0.7
+#Kirino v0.0.7b
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-This week's update has focused exclusively on depurating the code and making things easier for future updates. Some of the algorithms were changed so everything is faster now. This could have caused some bugs, specially when playing with fog. Please report those issues so they can be fixed before adding new things over it :)
+Last week's update focused exclusively on depurating the code and making things easier for future updates. Some of the algorithms were changed so everything is faster now. This could have caused some bugs, specially when playing with fog. Please report those issues so they can be fixed before adding new things over it :)
 
 ##How to use
 
@@ -68,7 +68,11 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 * New features:
   * Word parser
   * NPC generator
-  * Peddlers and vendors (inactive)
+  * Peddlers and vendors 
+  * [0.0.7b] buying and selling items
+* Bugs fixed:
+  * [0.0.7b] Getting stuck at (0,0) when loading character
+  * [0.0.7b] Crash when typing some invalid commands
 * Others:
   * Depurated code
   * Removed white spaces

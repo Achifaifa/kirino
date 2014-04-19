@@ -9,7 +9,7 @@ The data is loaded by default in this module, so it is also loaded automagically
 To modify the data files, please read the instructions in these files.
 """
 import os, random, sys
-import common, config, help
+import common, config, help, npc
 
 dictionary={} #Dictionary with the verbs and action groups
 errors=[] #Array with error messages
@@ -130,6 +130,33 @@ def parse(words,player,dungeon,config):
         return 9,""
   except IndexError:
     return 0,random.choice(errors)+"\n"
+
+def chat(dude,player):
+  """
+  Starts a ""conversation"" with an NPC or other ""intelligent"" creature.
+
+  Needs an object, with information that can be used (NPC/mob) and a player object
+  """
+  common.version()
+  os.system('clear')
+  print "Conversation with vendor - "+dude.name
+  print ""
+  print "Hello stranger!"
+  while 1:
+    conv=raw_input(">>>")
+    if conv=="exit":
+      break
+    else:
+      print random.choice(["Sorry dude, I'm deaf", "Me no speak your idiom", "Shut up and buy stuff"])
+
+def parseconv(conv,dude,player):
+  """
+  Parses a conversation string. 
+
+  Needs the string, a player object and the thing the player is chatting with
+  """
+  pass
+
 
 def look(dungeon,player):
   """

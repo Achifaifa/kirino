@@ -1,23 +1,23 @@
 # 
 # Player 
 # 
-Name:bazongas
+Name:Wulf
 Race:human
 Class:barbarian
-Money:16
-Level:2
-Exp:0
-Points:2
-Floors:5
-HP:38
-MP:-80
-INT:2
-DEX:2
-PER:2
-WIL:3
-STR:3
+Money:9999
+Level:1
+Exp:1
+Points:45
+Floors:0
+HP:34
+MP:-1
+INT:3
+DEX:-2
+PER:3
+WIL:1
+STR:2
 CON:4
-CHA:2
+CHA:-4
 # 
 # Equipped items 
 # 
@@ -26,13 +26,14 @@ E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
-E:cracked switchblade:0:6:0:0:0:0:0:0:0:0:0:4
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
-E:skirt:0:10:0:0:0:0:0:0:0:0:0:5
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
 E: :0:0:0:0:0:0:0:0:0:0:0:0
 # 
 # Inventory items 
 # 
-I:ridiculously massive sword:0:7:7:0:0:0:0:0:0:0:0:70
+I:cracked longsword:0:7:3:0:0:0:0:0:0:0:0:24
+I:fake finger:0:8:0:0:0:0:0:0:0:0:0:1

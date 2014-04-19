@@ -1,0 +1,53 @@
+# Vendor welcome phrases
+#
+W:Hello stranger!
+W:What are you buying?
+W:What are you selling?
+W:Here, let me show you
+W:Swords, armour, grapes, anthrax! 
+W:I have this fine flamethrower for sale...
+W:Take a look stranger!
+W:Something yu want?
+W:You again?
+W:I'm reading, go away!
+W:Wait over the spike trap, I'll be with you in a moment
+#
+# Vendor goodbye messages
+#
+G:Take care!
+G:Aren't you forgetting something?
+G:It was nice to see you!
+G:Try to stay alive, my kids have to eat ;)
+G:Adios!
+G:Don't forget to close the door. Oh wait, nevermind.
+G:Don't get killed, I need your money
+G:That's it?
+#
+# Successful transaction messages
+#
+S:Hahahahah great!
+S:Thank you stranger
+S:Great deal
+S:Don't hit too hard with that, it may break!
+S:Oh, I'd never imagined you'd fal... Thanks stranger!
+S:Need something to go with that?
+S:Anything else?
+S:Let me get the change
+S:Great choice!
+#
+# Failed transaction messages
+#
+F:What the...
+F:Come back when you have the money
+F:GIMME THE MONEY!
+F:Heh, like you can pay for that
+F:Please stop
+F:Go away you hobo
+F:I don't accept zombie bits as payment
+F:I said gold, not mold
+F:Ewww what's that?
+F:That is not money!
+F:You should look for some gold first
+F:Hey, that is not free
+F:Are you serious?
+F:You can't pay me with stones!

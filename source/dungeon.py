@@ -1,6 +1,6 @@
 #usr/bin/env python
 import math, os, random
-import common, mob, player
+import common, mob, npc, player
 
 class dungeon:
   "Creates and manages dungeons and dungeon displaying features"
@@ -9,6 +9,7 @@ class dungeon:
   dungarray=[]
   filled=[]
   mobarray=[]
+  vendorvar=0
   
   #Main dungeon generator
   def __init__(self,x,y,vendor):
@@ -181,6 +182,7 @@ class dungeon:
       random.shuffle(pairs)
 
       if vendor==1:
+        self.vendorvar=npc.vendor()
         for i in pairs:
           #Check surroundings
           if (self.dungarray[i[0]][i[1]]=="#" and
