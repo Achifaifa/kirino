@@ -21,7 +21,7 @@ def parse(words,player,dungeon,config):
 
   Splits the string and identifies action, target and options
 
-  Needs a string to be parsed.
+  Needs a string to be parsed and player, dungeon and config objects.
 
   Returns and action code and a message if needed.
 
@@ -147,7 +147,7 @@ def chat(dude,player):
     if conv=="exit":
       break
     else:
-      print random.choice(["Sorry dude, I'm deaf", "Me no speak your idiom", "Shut up and buy stuff"])
+      print parseconv(conv,dude,player)
 
 def parseconv(conv,dude,player):
   """
@@ -155,7 +155,10 @@ def parseconv(conv,dude,player):
 
   Needs the string, a player object and the thing the player is chatting with
   """
-  pass
+  answer=random.choice(["Shut up $, no one likes you", "I'm not listening", "I don't really feel like talking","Buy stuff or GTFO"])
+  if "$" in answer:
+    answer=answer.partition('$')[0]+player.name+answer.partition('$')[2]
+  return answer
 
 
 def look(dungeon,player):
@@ -319,4 +322,3 @@ load()
 os.system('clear')
 # print dictionary
 # print errors
-

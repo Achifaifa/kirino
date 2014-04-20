@@ -1,4 +1,4 @@
-#Kirino v0.0.7b
+#Kirino v0.0.7c
   
 Basic console based dungeon crawler. 
 
@@ -73,6 +73,8 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 * Bugs fixed:
   * [0.0.7b] Getting stuck at (0,0) when loading character
   * [0.0.7b] Crash when typing some invalid commands
+  * [0.0.7c] Buying expensive items and ending with negative balance
+  * [0.0.7c] Crash when pressing enter in trade menus
 * Others:
   * Depurated code
   * Removed white spaces

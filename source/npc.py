@@ -163,25 +163,28 @@ class vendor:
       print "0.- Back"
       print ""
       print "->",
-      buymenuc=common.getch()
 
       try:
-        if buymenuc=="0":
-          print "Nice doing business with you!"
-          common.getch()
-          break
-        if player.pocket>=self.forsale[int(buymenuc)-1].price:
-          player.pocket-=(2*self.forsale[int(buymenuc)-1].price)
-          if player.pickobject(self.forsale[int(buymenuc)-1]):
-            print random.choice(vendordata["okmsg"])
-            del self.forsale[int(buymenuc)-1]
+        try:
+          buymenuc=common.getch()
+          if buymenuc=="0":
+            print "Nice doing business with you!"
             common.getch()
+            break
+          if player.pocket>=self.forsale[int(buymenuc)-1].price*2:
+            player.pocket-=(2*self.forsale[int(buymenuc)-1].price)
+            if player.pickobject(self.forsale[int(buymenuc)-1]):
+              print random.choice(vendordata["okmsg"])
+              del self.forsale[int(buymenuc)-1]
+              common.getch()
+            else:
+              print random.choice(vendordata["failmsg"])
+              common.getch()
           else:
             print random.choice(vendordata["failmsg"])
             common.getch()
-        else:
-          print random.choice(vendordata["failmsg"])
-          common.getch()
+        except ValueError:
+          pass
       except IndexError:
         pass
 
@@ -200,16 +203,19 @@ class vendor:
       print "0.- Back"
       print ""
       print "->",
-      sellmenuc=common.getch()
 
       try:
-        if sellmenuc=="0":
-          print "Nothing else? I can pay you with roaches!"
-          common.getch()
-          break
-        player.pocket+=player.inventory[int(sellmenuc)-1].price/2
-        self.forsale.append(copy.copy(player.inventory[int(sellmenuc)-1]))
-        del player.inventory[int(sellmenuc)-1]
+        try:
+          sellmenuc=common.getch()
+          if sellmenuc=="0":
+            print "Nothing else? I can pay you with roaches!"
+            common.getch()
+            break
+          player.pocket+=player.inventory[int(sellmenuc)-1].price/2
+          self.forsale.append(copy.copy(player.inventory[int(sellmenuc)-1]))
+          del player.inventory[int(sellmenuc)-1]
+        except ValueError:
+          pass
       except IndexError:
         pass
 
