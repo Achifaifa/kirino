@@ -277,9 +277,11 @@ class item:
     enchantprice=self.price
     ex=0 #Exception variable
     if player.pocket<enchantprice:
-      ("You don't have enough money")
+      print "You don't have enough money"
+      common.getch()
     if self.enchantlv>=10:
-      raw_input("Maximum enchant level reached")
+      print "Maximum enchant level reached"
+      common.getch()
     if player.pocket>=enchantprice and self.enchantlv<10:
       player.pocket-=enchantprice
 
@@ -295,7 +297,8 @@ class item:
       if randint>200 and randint<=990:
         attboost=1
       if randint>990:
-        raw_input(self.name+" broke during enchanting")
+        print self.name+" broke during enchanting"
+        common.getch()
         self.reset()
         ex=1
 

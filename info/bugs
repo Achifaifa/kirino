@@ -10,12 +10,14 @@ L> Low priority
 --------------------------------------------------
 
 common.py
-  L?> Space being randomly printed before the title and version
+  L?> Space being randomly printed before the title and version 
+    Status: Asked at SE http://stackoverflow.com/questions/23140540/os-systemclear-printing-white-space
 
 config.py
 
 dungeon.py
   L!> Generator is predictable
+    Status: Waiting until other things are done, trying to figure out a better way.
 
 help.py
 
@@ -23,11 +25,13 @@ item.py
 
 launch.py 
   H?> Trailing path under unknown conditions
+    Status: Trying to replicate. It sometimes happens after killing a zombie
 
 mob.py
 
 parser.py
   H?> Look instructions not working on random floors
+    Status: Trying to locate cause
 
 player.py
 

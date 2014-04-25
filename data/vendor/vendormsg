@@ -10,6 +10,7 @@ W:Take a look stranger!
 W:Something yu want?
 W:You again?
 W:I'm reading, go away!
+W:Sorry, no grenades left
 W:Wait over the spike trap, I'll be with you in a moment
 #
 # Vendor goodbye messages
@@ -22,14 +23,15 @@ G:Adios!
 G:Don't forget to close the door. Oh wait, nevermind.
 G:Don't get killed, I need your money
 G:That's it?
+G:Goodbye stranger!
 #
 # Successful transaction messages
 #
 S:Hahahahah great!
 S:Thank you stranger
 S:Great deal
-S:Don't hit too hard with that, it may break!
-S:Oh, I'd never imagined you'd fal... Thanks stranger!
+S:Don't hit too hard, it may break!
+S:Never imagined you'd fa- I mean, thanks stranger!
 S:Need something to go with that?
 S:Anything else?
 S:Let me get the change
@@ -51,3 +53,4 @@ F:You should look for some gold first
 F:Hey, that is not free
 F:Are you serious?
 F:You can't pay me with stones!
+F:Unlike me, you don't have unlimited money

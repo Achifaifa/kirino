@@ -193,6 +193,11 @@ class player:
       6 northeast
       7 southwest
       8 southeast
+
+    Returns an integer:
+      0 Can't move (Wall or other obstacle)
+      1 Moved successfully
+      2 Mob present (Not moved, signaled for attack)
     """
     #This gives 1 base move 
     #It used to add 1 extra move for every 10 SPD but this caused bugs
@@ -201,70 +206,95 @@ class player:
       #Checks de direction and moves
       if direction==1:
         if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|":
-          pass
+          return 0
+        if dungeon.filled[self.ypos-1][self.xpos]=="i":
+          return 2
         else:
           self.ypos -= moves
+          return 1
       elif direction==2:
         if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
-          pass
+          return 0
+        if dungeon.filled[self.ypos][self.xpos-1]=="i":
+          return 2
         elif dungeon.dungarray[self.ypos][self.xpos-1]=="|":
           dungeon.vendorvar.commerce(self)
         else:
-          self.xpos -= moves  
+          self.xpos -= moves
+          return 1  
       elif direction==3:
         if dungeon.dungarray[self.ypos+1][self.xpos]=="#" or dungeon.dungarray[self.ypos+1][self.xpos]=="|":
-          pass
+          return 0
+        if dungeon.filled[self.ypos+1][self.xpos]=="i":
+          return 2
         else:     
           self.ypos += moves
+          return 1
       elif direction==4:
         if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
-          pass
+          return 0
+        if dungeon.filled[self.ypos][self.xpos+1]=="i":
+          return 2
         elif dungeon.dungarray[self.ypos][self.xpos+1]=="|":
           dungeon.vendorvar.commerce(self)
         else:
           self.xpos += moves
+          return 1
       elif direction==5:
         if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos-1]=="|":
-          pass
+          return 0
+        if dungeon.filled[self.ypos-1][self.xpos-1]=="i":
+          return 2
         else:
           self.ypos -= moves
           self.xpos -= moves
+          return 1
       elif direction==6:
         if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos+1]=="|":
-          pass
+          return 0
+        if dungeon.filled[self.ypos-1][self.xpos+1]=="i":
+          return 2
         else:
           self.ypos -= moves
           self.xpos += moves
+          return 1
       elif direction==7:
         if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos-1]=="|":
-          pass
+          return 0
+        if dungeon.filled[self.ypos+1][self.xpos-1]=="i":
+          return 2
         else:
           self.ypos += moves
           self.xpos -= moves
+          return 1
       elif direction==8:
         if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos+1]=="|":
-          pass
+          return 0
+        if dungeon.filled[self.ypos+1][self.xpos+1]=="i":
+          return 2
         else:
           self.ypos += moves
           self.xpos += moves
+          return 1
       else:
-        pass
+        return 0
     except IndexError:
-      pass
+      return 0
 
   def secondary(self):
     """
     Calculates and sets the secondary attributes from the primary ones.
-
+ 
     Receives a player object and recalculates HP, MP, END and SPD from the primary attributes. 
     It also adds the extra HP and MP gained.
     """
-    temp=self.HP
+
+    temp=self.HP-self.hp2
     self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
-    self.hp2+=(self.HP-temp)
-    temp2=self.MP
-    self.MP=(self.STR+self.strboost+self.DEX+self.dexboost+self.INT+self.intboost+self.CON+self.conboost+self.WIL+self.wilboost+self.PER+self.perboost)
-    self.mp2+=(self.MP-temp)
+    self.hp2=(self.HP-temp)
+    temp2=self.MP-self.mp2
+    self.MP=(self.INT+self.intboost+self.WIL+self.wilboost)
+    self.mp2=(self.MP-temp2)
     self.END=((self.CON+self.conboost+self.STR+self.strboost+self.wilboost+self.WIL)*3)+5
     self.SPD=(self.CON+self.conboost+self.DEX+self.dexboost)*3
 
@@ -274,6 +304,7 @@ class player:
 
     Main menu to edit, view and configure characters and player options
     """
+
     menu=0
     while 1:
       self.secondary()
@@ -329,8 +360,7 @@ class player:
     Point spending menu.
     """
     choice=-1
-    while choice!="0":
-      sys.stdout.flush() 
+    while choice!="0":time before
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -434,8 +464,7 @@ class player:
     Player options menu
     """
     coptmen=-1
-    while coptmen!="0":
-      sys.stdout.flush() 
+    while coptmen!="0":time before
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -480,8 +509,7 @@ class player:
     Inventory menu. 
     """
 
-    while 1:
-      sys.stdout.flush() 
+    while 1:time before
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -611,19 +639,27 @@ class player:
       elif invmenu=="0":
         break
 
-  def attack(self,dir):
+  def attack(self,mob):
     """
     attacks the mob object specified
+
+    Returns a string to be displayed in the crawl screen
     """
-    atkpow=(self.totatk*self.str)-mob.defn
-    if atkpow<0:
-      atkpow=0
+    atkpow=(self.totatk*self.STR)-mob.defn
+    if atkpow<=0:
+      atkpow=1
     mob.HP-=atkpow
+    mob.hit=1
+    if mob.HP<=0:
+      self.exp+=mob.exp
+      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\nYou killed "+mob.name+" for "+str(mob.exp)+" experience!"
+    else:
+      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\n"
 
   def save(self):
     """
     Save function. Takes the player attributes and saves them into a text file in ../player/save
-    If the path or the file do not exists they are created.
+    If the path or the file do not exist they are created.
     """
     if not os.path.exists("../player/"):
       os.makedirs("../player/")
@@ -719,13 +755,17 @@ class player:
   def load(self):
     """
     Takes the information from the save file stored in ../player/save and loads it into the player object.
-    If the path does not exist it is created. 
     """
+
+    #Save current position
     tempx=self.xpos
     tempy=self.ypos
     tempz=self.zpos
+
+    #Reset all the variables
     self.reset()
 
+    #Load values from file
     try:
       with open("../player/save","r") as savefile:
         for line in savefile:
@@ -758,8 +798,12 @@ class player:
             if line.partition(':')[0]=="Class":
               self.charclass=(line.partition(':')[2]).strip()
             if line.partition(':')[0]=="HP":
+              self.HP=int(line.partition(':')[2])
+            if line.partition(':')[0]=="hp2":
               self.hp2=int(line.partition(':')[2])
             if line.partition(':')[0]=="MP":
+              self.MP=int(line.partition(':')[2])
+            if line.partition(':')[0]=="mp2":
               self.mp2=int(line.partition(':')[2])
             if line.partition(':')[0]=="Points":
               self.points=int(line.partition(':')[2])
@@ -789,19 +833,19 @@ class player:
               temp=item.item(0)
 
               #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-              temp.name=line.rstrip('\n').partition(':')[2].partition(':')[0]
-              temp.enchantlv=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.type=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.atk=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.defn=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.strbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.intbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.dexbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.perbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.conbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.wilbonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.chabonus=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.price=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+              temp.name=          line.rstrip('\n').partition(':')[2].partition(':')[0]
+              temp.enchantlv= int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.type=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.atk=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.defn=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.strbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.intbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.dexbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.perbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.conbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.wilbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.chabonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+              temp.price=     int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
               self.inventory.append(copy.copy(temp))
     except IOError:
       raw_input("Error loading character")
@@ -818,6 +862,7 @@ class player:
       self.totatk+=(a.atk)
       self.totdefn+=(a.defn)
 
+    #Restore position values
     self.xpos=tempx
     self.ypos=tempy
     self.zpos=tempz

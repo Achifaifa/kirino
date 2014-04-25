@@ -1,16 +1,18 @@
-#Kirino v0.0.7c
+#Kirino v0.0.8
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-Last week's update focused exclusively on depurating the code and making things easier for future updates. Some of the algorithms were changed so everything is faster now. This could have caused some bugs, specially when playing with fog. Please report those issues so they can be fixed before adding new things over it :)
+This week's update added the possibility of attacking and destroying mobs. While this gets the whole thing closer to July's goal, it introduces a new problem: Balance. Doing 200 damage to a 20HP zombie after 10 floors is far from balanced, and the future item tiers and different mobs and bosses will only make the entire thing more difficult to balance and adjust. 
+
+If you feel certain items need 'fixing', feel free to change the stats yourself. The item files are reasonably explained and you should have no problems. For now the mob data is generated in the mob class constructor. If you want to share your numbers, you can do so.
 
 ##How to use
 
 run launch.py
 
-Grab loot, run from zombies, explore dungeons. Help provided in game via the help menu (In the main menu and in the options menu during the game)
+Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu (In the main menu and in the options menu during the game)
 
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
 
@@ -64,6 +66,15 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 
 ##Changelog
 
+####**v0.0.8** (2014-04-25):
+* New features:
+  * Combat system
+* Bugs fixed:
+  * Some item messages not showing
+  * HP and HP changing when opening sheet and loading characters
+* Others:
+  * Increased mob information
+  
 ####**v0.0.7** (2014-04-18):
 * New features:
   * Word parser

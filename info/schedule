@@ -3,13 +3,13 @@ Kirino development schedule (Orientative - provisional - etc)
 March
 X 07-09: v0.0.1   - First, disastrous release
 X 14-16: v0.0.2   - Implement basic mobs
-  21-23: v0.0.3   - Enable combat system
+X 21-23: v0.0.3   - Enable combat system
   28-30: v0.0.4   - Complete tutorial, implement item tiers, add action feedback
 April
 X 04-06: v0.0.5   - Guipuzkoa encounter | Bug correcting, testing
 X 11-13: v0.0.6   - Saving items to inventory
 X 17-20: v0.0.7   - |Spring holidays
-  21-27: v0.0.7.2 - |Code a very basic word parser that supports simple instructions
+X 21-27: v0.0.8   - |Code a very basic word parser that supports simple instructions
 May
   01-04: v0.0.9   - Add different mobs and a random mob generator
   09-11: v0.0.10  - 

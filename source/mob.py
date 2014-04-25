@@ -29,7 +29,9 @@ class mob:
   SPD=0
   defn=0
   lock=0
-  prestige=0
+  exp=0
+  hit=0
+  name=""
   
   def __init__(self,dungeon):
     """
@@ -41,7 +43,9 @@ class mob:
     self.HP=20
     self.defn=3
     self.lock=0
-    self.prestige=1
+    self.exp=1
+    self.hit=0
+    self.name="zombie"
 
     #Select starting coordinates
     self.xpos=random.randrange(dungeon.xsize)
@@ -84,6 +88,7 @@ class mob:
     """
     Moves the mob in a random direction a given number of tiles
     """
+
     rand=0
     rand=random.randint(1,4)
     if rand==1:
@@ -99,16 +104,20 @@ class mob:
     """
     Moves 1 tile in a random direction
     """
+
     self.randmove(dungeon,1)
 
   def attack(self,player,dung):
     """
     Attacks the player object passed to the function
     """
+    
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
       attackpow=(self.str*4)-player.totdefn
-      if attackpow<0:
-        attackpow=0
+      if self.hit:
+        attackpow=attackpow/2
+      if attackpow<=0:
+        attackpow=1
       player.hp2-=attackpow
       return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!\n")

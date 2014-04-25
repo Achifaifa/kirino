@@ -5,7 +5,7 @@ look:look view examine observe
 use:use consume
 equip:wear equip put
 unequip:unequip remove
-fight:attack hit stab slash kick
+fight:attack hit stab slash kick punch
 cfg:options configure config cfg
 help:help
 quit:quit close exit fuckit menu

@@ -30,6 +30,7 @@ class dungeon:
     self.ysize=y
     self.dungarray=[]
     while self.debug()!=0: 
+      
       #This fills the dungeon with # (Rock)
       for i in range (0,self.ysize):
         secondary=[]

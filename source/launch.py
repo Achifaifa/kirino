@@ -4,6 +4,7 @@ Main procedure file.
 
 All the crawl and configuration implementation are in this module.
 """
+
 import copy, os, random, sys, time
 import dungeon, item, mob, parser, player
 import common, config, help
@@ -66,8 +67,6 @@ def menu():
       crawl()
     if menu=="2":
       cfg.options(0)
-    if menu=="7":
-      jb()
     if menu=="9":
       help.help()
     if menu=="0":
@@ -76,192 +75,39 @@ def menu():
       if ec=="y": 
         exit()
 
-def jb():
-  """
-  Easter egg
-  """
-  sys.stdout.flush() 
-  os.system('clear')
-  print "***************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "********** o ***"
-  print "********* <|  **"
-  print "**********   ***"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "******* o ******"
-  print "******  |- *****"
-  print "*******   ******"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "**** o *********"
-  print "*** <|  ********"
-  print "****   *********"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "****************"
-  print "****************"
-  print "****************"
-  print "****************"
-  print "**** o **BANG***"
-  print "*** .|- ********"
-  print "****   *********"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "****************"
-  print "****************"
-  print "**** o *********"
-  print "*** .|- ********"
-  print "****   *********"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "**** o *********"
-  print "*** .|- ********"
-  print "****   *********"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~ o ~~~~~~~~~"
-  print "~~~ .|- ~~~~~~~~"
-  print "****   *********"
-  print "****************"
-  print "****************"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~ o ~~~~~~~~~"
-  print "~~~ .|- ~~~~~~~~"
-  print "~~~~   ~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~   ~~~~~~~~~"
-  print "~~~     ~~~~~~~~"
-  print "~~~~   ~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~ ~~~~~~~"
-  print "~~~~~~~   ~~~~~~"
-  print "~~~~~~~~ ~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~ ~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  print "~~~~~~~~~~~~~~~~"
-  time.sleep(0.25)
-  sys.stdout.flush() 
-  os.system('clear')
-
 def crawl():
   """
   Main crawling function. Displays the map, keys and different statistics.
   """
+
   cfg=config.config()
   global flcounter
   global fl
   fl=1 #Initialize floor to 1
   parsemsg=""
+  hitmsg=""
 
   hero,dung=copy.copy(newgame())
 
   #Main crawling menu and interface
   crawlmen=-1
   while 1:
+    #Reset message strings
     atkmsg=""
     pickmsg=""
     lootmsg=""
-    #Move all the mobs
-    for i in range(len(dung.mobarray)):
-      dung.mobarray[i].trandmove(dung)
 
-    #If any of the mobs has locked on the player and the player is in range, attack
+    #Move all the mobs, delete dead mobs from array
+    for i in range(len(dung.mobarray)):
+      try:
+        if dung.mobarray[i].HP<=0:
+          del dung.mobarray[i]
+        else:
+          dung.mobarray[i].trandmove(dung)
+      except IndexError:
+        pass
+
+    #If any of the remaining mobs has locked on the player and the player is in range, attack
     for j in range(len(dung.mobarray)):
       if dung.mobarray[j].lock:
         if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
@@ -269,6 +115,10 @@ def crawl():
           atkmsg=dung.mobarray[j].attack(hero,dung)
         else:
           dung.mobarray[j].lock=0
+
+    #After attacking, reset the hit parameter
+    for a in dung.mobarray:
+      a.hit=0
         
     #If any of the mobs are near the player, lock them
     for k in range(len(dung.mobarray)):
@@ -291,8 +141,6 @@ def crawl():
         dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Print block
-
-    sys.stdout.flush() 
     os.system('clear')
     common.version()
     print ""
@@ -309,9 +157,13 @@ def crawl():
     print ""
     print cfg.showkeys+" key mapping help"
     print""
-    print lootmsg+atkmsg+pickmsg+str(parsemsg)
+    print lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)
     print "->",
-    action,parsemsg=0,""
+
+    #Reset message strings after display
+    action=0
+    parsemsg=""
+    hitmsg=""
     crawlmen=common.getch()
     
     #Action choice block
@@ -326,26 +178,61 @@ def crawl():
     if crawlmen==cfg.charsh: 
       hero.charsheet()
 
-    #Movement
-    #Check if there are mobs. if 1 attack if 0 move
-    elif crawlmen==cfg.north or action==11: 
-      hero.move(dung,1)
+    #Show key help
     elif crawlmen==cfg.showkeys or action==61:
       help.keyhelp() 
+
+    #Movement
+    #Check if there are mobs. 
+    #If there are attack them, if there are not move.
+    elif crawlmen==cfg.north or action==11: 
+      if hero.move(dung,1)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos and a.ypos==hero.ypos-1):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.south or action==12: 
-      hero.move(dung,3)
+      if hero.move(dung,3)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos and a.ypos==hero.ypos+1):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.east or action==13:
-      hero.move(dung,4)
+      if hero.move(dung,4)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos+1 and a.ypos==hero.ypos):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.west or action==14:
-      hero.move(dung,2)
+      if hero.move(dung,2)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.northeast or action==15:
-      hero.move(dung,6) 
+      if hero.move(dung,6)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos+1 and a.ypos==hero.ypos-1):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.northwest or action==16: 
-      hero.move(dung,5)
+      if hero.move(dung,5)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos-1):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.southeast or action==17:
-      hero.move(dung,8)
+      if hero.move(dung,8)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos+1 and a.ypos==hero.ypos+1):
+            hitmsg=hero.attack(a)
+
     elif crawlmen==cfg.southwest or action==18:
-      hero.move(dung,7)
+      if hero.move(dung,7)==2:
+        for a in dung.mobarray:
+          if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos+1):
+            hitmsg=hero.attack(a)
+
 
     #Game option menu
     elif crawlmen==cfg.opt or action==5: #Game option menu
@@ -417,8 +304,7 @@ def newgame():
   cfg=config.config()
   while 1:
     purge()
-    try:
-      sys.stdout.flush() 
+    try:time before
       os.system('clear')
       common.version()
       print "New game [1/5] Size"
@@ -467,8 +353,7 @@ def newgame():
           chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
   selected=0
   while 1:
-    try:
-      sys.stdout.flush() 
+    try:time before
       os.system('clear')
       common.version()
       print "New game [3/5] Race"
@@ -509,8 +394,7 @@ def newgame():
         classesarray.append(line.rstrip('\n'))
   selected=0
   while 1:
-    try:
-      sys.stdout.flush() 
+    try:time before
       os.system('clear')
       common.version()
       print "New game [4/5] Class"
