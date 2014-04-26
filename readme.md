@@ -24,8 +24,8 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 * Ubuntu: Untested, but it should work as in Debian.
 * Other linux distributions: Should work as long as python is installed (Untested)
 
-*OSX: Untested
-*Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.
+* OSX: Untested  
+* Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.  
 You may have some issues with the output formatting, but overall the game is playable.
 
 ##List of files/folders:
