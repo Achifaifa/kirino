@@ -1,4 +1,4 @@
-#Kirino v0.0.8
+#Kirino v0.0.8b
   
 Basic console based dungeon crawler. 
 
@@ -17,6 +17,16 @@ Grab loot, kill zombies, explore dungeons. Help provided in game via the help me
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
 
 **Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them.
+
+##OS specific information
+
+* Debian: Works as is, just type `python /path_to_file/launch.py` in the terminal.
+* Ubuntu: Untested, but it should work as in Debian.
+* Other linux distributions: Should work as long as python is installed (Untested)
+
+*OSX: Untested
+*Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.
+You may have some issues with the output formatting, but overall the game is playable.
 
 ##List of files/folders:
 
@@ -69,6 +79,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 ####**v0.0.8** (2014-04-25):
 * New features:
   * Combat system
+  * [0.0.8b] Windows support
 * Bugs fixed:
   * Some item messages not showing
   * HP and HP changing when opening sheet and loading characters
