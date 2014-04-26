@@ -360,7 +360,7 @@ class player:
     Point spending menu.
     """
     choice=-1
-    while choice!="0":time before
+    while choice!="0": 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -464,7 +464,7 @@ class player:
     Player options menu
     """
     coptmen=-1
-    while coptmen!="0":time before
+    while coptmen!="0": 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -509,7 +509,7 @@ class player:
     Inventory menu. 
     """
 
-    while 1:time before
+    while 1: 
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"

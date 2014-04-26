@@ -103,7 +103,7 @@ class config:
     """
     global autosave
     global fog
-    while 1:time before
+    while 1: 
       os.system('clear')
       common.version()
       print "Options"
@@ -147,7 +147,7 @@ class config:
     """
     Key mapping configuration menu.
     """
-    while 1:time before
+    while 1: 
       os.system('clear')
       common.version()
       print "Options - Keyboard mapping 1/2"

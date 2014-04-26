@@ -304,7 +304,7 @@ def newgame():
   cfg=config.config()
   while 1:
     purge()
-    try:time before
+    try:
       os.system('clear')
       common.version()
       print "New game [1/5] Size"
@@ -353,7 +353,7 @@ def newgame():
           chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
   selected=0
   while 1:
-    try:time before
+    try:
       os.system('clear')
       common.version()
       print "New game [3/5] Race"
@@ -394,7 +394,7 @@ def newgame():
         classesarray.append(line.rstrip('\n'))
   selected=0
   while 1:
-    try:time before
+    try:
       os.system('clear')
       common.version()
       print "New game [4/5] Class"
