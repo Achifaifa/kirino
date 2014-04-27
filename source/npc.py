@@ -31,7 +31,9 @@ class npc:
   INT=1 
   PER=1 
   WIL=1 
-  CHA=1  
+  CHA=1 
+
+  rel=0 
 
   def __init__(self,gender,stat,total):
     """
@@ -66,6 +68,8 @@ class npc:
     self.PER=1 
     self.WIL=1 
     self.CHA=1 
+
+    self.rel=0
     
     for i in range(total-6):
       rnd=random.randint(1,7)
@@ -148,17 +152,56 @@ class vendor:
       else:
         pass
 
+  def pricecalc(self,player):
+    """
+    Calculates the trading multiplier based on the player charisma and the player-NPC relationship
+
+    Base multiplier: 2
+
+    Additional multipliers: 
+
+    CHA<2     - Vendor disliking, price +50%
+    2<=CHA<=5 - Vendor neutral
+    CHA>5     - Vendor liking, price -50%
+
+    Relationship<-5     - Vendor disliking, price +50%
+    -5<=Relationship<=5 - Vendor neutral
+    Relationship>5      - Vendor liking, price -50%
+
+    They also affec the selling price (Same mechanics but opposite numbers)
+    """
+
+    #Base modifiers
+    modifier=2
+
+    #Charisma modifiers
+    if player.CHA+player.chaboost<2:
+      modifier+=0.5
+    elif player.CHA+player.chaboost>5:
+      modifier-=0.5
+
+    #Relationship modifiers
+    if self.keeper.rel>5:
+      modifier-=0.5
+    if self.keeper.rel<5:
+      modifier+=0.5
+
+    return modifier
+
   def buy(self,player):
     """
     Display the list of items available for buying from the vendor
     """
+
+    trademul=self.pricecalc(player)
+
     while 1:
       os.system('clear')
       common.version()
       print "Shop - Buy items ("+str(player.pocket)+"G)"
       print ""
       for i in range(len(self.forsale)):
-        print str(i+1)+".- "+self.forsale[i].name+" ("+str(2*self.forsale[i].price)+"G)"
+        print str(i+1)+".- "+self.forsale[i].name+" ("+str(round(trademul*self.forsale[i].price))+"G)"
       print "--"
       print "0.- Back"
       print ""
@@ -171,8 +214,9 @@ class vendor:
             print "Nice doing business with you!"
             common.getch()
             break
-          if player.pocket>=self.forsale[int(buymenuc)-1].price*2:
-            player.pocket-=(2*self.forsale[int(buymenuc)-1].price)
+
+          if player.pocket>=round(trademul*self.forsale[int(buymenuc)-1].price):
+            player.pocket-=(round(trademul*self.forsale[int(buymenuc)-1].price))
             if player.pickobject(self.forsale[int(buymenuc)-1]):
               print random.choice(vendordata["okmsg"])
               del self.forsale[int(buymenuc)-1]
@@ -192,13 +236,16 @@ class vendor:
     """
     Display the list of items in the inventory to sell
     """
+
+    trademul=self.pricecalc(player)
+
     while 1:
       os.system('clear')
       common.version()
       print "Shop - Sell items ("+str(player.pocket)+"G)"
       print ""
       for i in range(len(player.inventory)):
-        print str(i+1)+".- "+player.inventory[i].name+" ("+str(player.inventory[i].price/2)+"G)"
+        print str(i+1)+".- "+player.inventory[i].name+" ("+str(round(player.inventory[i].price/trademul))+"G)"
       print "--"
       print "0.- Back"
       print ""
@@ -211,15 +258,13 @@ class vendor:
             print "Nothing else? I can pay you with roaches!"
             common.getch()
             break
-          player.pocket+=player.inventory[int(sellmenuc)-1].price/2
+          player.pocket+=round(player.inventory[int(sellmenuc)-1].price/trademul)
           self.forsale.append(copy.copy(player.inventory[int(sellmenuc)-1]))
           del player.inventory[int(sellmenuc)-1]
         except ValueError:
           pass
       except IndexError:
         pass
-
-      
 
 def sanitize(): 
   """

@@ -101,6 +101,7 @@ class config:
 
     If the restricted parameter is 1, it hides the options that should not be changed during the game (fog, etc)
     """
+
     global autosave
     global fog
     while 1: 
@@ -233,6 +234,7 @@ def newkey(msg):
   returns the new value of the option variable (e.g. "New key for 'go northwest'" ->4 -> returns 4)
   If the lenght of the key is not 1, returns an error message.
   """
+
   tempk=raw_input("New key for '"+msg+"': ")
   if len(tempk)==1:
     return tempk
@@ -248,6 +250,7 @@ def saveoptions(self):
 
   The file is ../player/config, if the directory does not exist this creates the directory and the file.
   """
+  
   if not os.path.exists("../player/"):
     os.makedirs("../player/")
   with open("../player/config","w+") as configfile:

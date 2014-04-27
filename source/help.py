@@ -39,6 +39,7 @@ def keyhelp():
   """
   Displays all the keys that can be used while crawling and their function.
   """
+
   cfg=config.config()
   sys.stdout.flush() 
   os.system('clear')
@@ -69,6 +70,7 @@ def about():
   """
   Gives information about the game
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -124,6 +126,7 @@ def introh():
   """
   Small introduction to the game and basic controls
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -144,6 +147,7 @@ def crawlingh():
   """
   description of the crawling screen elements
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -182,6 +186,7 @@ def parserh():
   """
   Information about the word parser
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -200,6 +205,7 @@ def saveh():
   """
   Information about saving and loading characters and configuration
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -223,6 +229,7 @@ def charh():
   """
   Information about the character sheet and the options in it
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -250,6 +257,7 @@ def itemh():
   """
   Information about items, inventory, enchanting, etc
   """
+
   sys.stdout.flush() 
   os.system('clear')
   common.version()
@@ -274,6 +282,7 @@ def tutorial():
   Small tutorial with basic controls and elements.
   Not implemented.
   """
+
   cfg=config.config()
 
   sys.stdout.flush() 
@@ -353,7 +362,6 @@ def tutorial():
     if new.dungarray[play.ypos][play.xpos]=="X":
       if tut1ch==cfg.nextf:
         break
-
 
   sys.stdout.flush() 
   os.system('clear')

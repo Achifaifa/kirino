@@ -1,4 +1,4 @@
-#Kirino v0.0.8b
+#Kirino v0.0.8c
   
 Basic console based dungeon crawler. 
 
@@ -22,9 +22,8 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 
 * Debian: Works as is, just type `python /path_to_file/launch.py` in the terminal.
 * Ubuntu: Untested, but it should work as in Debian.
-* Other linux distributions: Should work as long as python is installed (Untested)
-
-* OSX: Untested  
+* Other linux distributions: Should work as long as python is installed (Untested).
+* OSX: Untested.
 * Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.  
 You may have some issues with the output formatting, but overall the game is playable.
 
@@ -85,6 +84,7 @@ You may have some issues with the output formatting, but overall the game is pla
   * HP and HP changing when opening sheet and loading characters
 * Others:
   * Increased mob information
+  * [0.0.8c] Charisma and vendor relationship influences price
   
 ####**v0.0.7** (2014-04-18):
 * New features:

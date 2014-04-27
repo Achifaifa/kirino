@@ -9,7 +9,8 @@ def version():
   """
   Prints the program name and the version in one line
   """
-  print "Kirino - v0.0.8b"
+
+  print "Kirino - v0.0.8c"
 
 def getch():
   """
@@ -18,6 +19,7 @@ def getch():
 
   *I can't fucking believe this is not in the os library
   """
+
   fd=sys.stdin.fileno()
   old=termios.tcgetattr(fd)
   try:

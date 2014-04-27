@@ -137,6 +137,7 @@ def chat(dude,player):
 
   Needs an object, with information that can be used (NPC/mob) and a player object
   """
+
   common.version()
   os.system('clear')
   print "Conversation with vendor - "+dude.name
@@ -155,10 +156,14 @@ def parseconv(conv,dude,player):
 
   Needs the string, a player object and the thing the player is chatting with
   """
-  answer=random.choice(["Shut up $, no one likes you", "I'm not listening", "I don't really feel like talking","Buy stuff or GTFO"])
-  if "$" in answer:
-    answer=answer.partition('$')[0]+player.name+answer.partition('$')[2]
-  return answer
+
+  if (player.CHA+player.chabonus<1):
+    answer=random.choice(["Shut up $, no one likes you", "I'm dont' talk with the likes of you", "Stay away you fiend!"])
+    if "$" in answer:
+      answer=answer.partition('$')[0]+player.name+answer.partition('$')[2]
+    return answer
+  else:
+    return "Yep yep yep yep yep"
 
 
 def look(dungeon,player):
