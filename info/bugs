@@ -25,15 +25,18 @@ item.py
 
 launch.py 
   H?> Trailing path under unknown conditions
-    Status: Trying to replicate. It sometimes happens after killing a zombie
+    Status: Trying to replicate. It sometimes (Very rarely) happens after killing a zombie
 
 mob.py
 
+npc.py
+  H?> Exiting vendor menu when pressing a button in the potion menu
+
 parser.py
   H?> Look instructions not working on random floors
-    Status: Trying to locate cause
 
 player.py
+  H?> Not loading hp2 and mp2 correctly
 
 ???
   H?> Screen refreshing gets slower with each floor advanced

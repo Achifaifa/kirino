@@ -28,9 +28,91 @@
     
 <tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><dl>
-<dt><font face="helvetica, arial"><a href="item.html#item">item</a>
+<dt><font face="helvetica, arial"><a href="item.html#consumable">consumable</a>
+</font></dt><dt><font face="helvetica, arial"><a href="item.html#item">item</a>
 </font></dt></dl>
  <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="consumable">class <strong>consumable</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Potions,&nbsp;spells,&nbsp;items&nbsp;that&nbsp;can&nbsp;be&nbsp;eaten,&nbsp;drunk&nbsp;or&nbsp;consumed.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="consumable-__init__"><strong>__init__</strong></a>(self, newtype, subtype)</dt><dd><tt>Class&nbsp;constructor.&nbsp;Creates&nbsp;a&nbsp;<a href="#consumable">consumable</a>&nbsp;<a href="#item">item</a>&nbsp;of&nbsp;the&nbsp;specified&nbsp;type.<br>
+&nbsp;<br>
+Consumable&nbsp;items&nbsp;can&nbsp;only&nbsp;be&nbsp;bought&nbsp;from&nbsp;vendors.&nbsp;They&nbsp;can't&nbsp;be&nbsp;found&nbsp;in&nbsp;the&nbsp;ground.<br>
+Requires&nbsp;type&nbsp;and&nbsp;subtype:<br>
+#&nbsp;0&nbsp;-&nbsp;Potion<br>
+#&nbsp;&nbsp;&nbsp;01&nbsp;-&nbsp;HP&nbsp;potion<br>
+#&nbsp;&nbsp;&nbsp;02&nbsp;-&nbsp;MP&nbsp;potion<br>
+#&nbsp;&nbsp;&nbsp;03&nbsp;-&nbsp;Recovery&nbsp;potion&nbsp;(HP&amp;MP)<br>
+#&nbsp;&nbsp;&nbsp;04&nbsp;-&nbsp;Status&nbsp;potions<br>
+#&nbsp;&nbsp;&nbsp;00&nbsp;-&nbsp;Random&nbsp;(except&nbsp;status&nbsp;potions)<br>
+#<br>
+#&nbsp;Potions&nbsp;regenerate&nbsp;a&nbsp;certain&nbsp;amout&nbsp;of&nbsp;HP&nbsp;or&nbsp;MP&nbsp;in&nbsp;a&nbsp;single&nbsp;turn.<br>
+#&nbsp;The&nbsp;amout&nbsp;of&nbsp;points&nbsp;recovered&nbsp;depends&nbsp;on&nbsp;the&nbsp;type&nbsp;of&nbsp;potion.&nbsp;Each&nbsp;potion&nbsp;type&nbsp;has&nbsp;a&nbsp;fixed&nbsp;value&nbsp;that&nbsp;can&nbsp;vary&nbsp;in&nbsp;the&nbsp;-30%&nbsp;/&nbsp;+30%&nbsp;range&nbsp;with&nbsp;random&nbsp;modifiers.<br>
+#&nbsp;Recovery&nbsp;potions&nbsp;recover&nbsp;both&nbsp;HP&nbsp;and&nbsp;MP,&nbsp;and&nbsp;status&nbsp;potions&nbsp;stop&nbsp;damage&nbsp;over&nbsp;time&nbsp;(Poison,&nbsp;fire,&nbsp;bleeding,&nbsp;etc)<br>
+#<br>
+#&nbsp;1&nbsp;-&nbsp;Tome&nbsp;of&nbsp;knowledge<br>
+#<br>
+#&nbsp;Tomes&nbsp;of&nbsp;knowledge&nbsp;add&nbsp;one&nbsp;point&nbsp;to&nbsp;an&nbsp;attribute&nbsp;and&nbsp;decrease&nbsp;one&nbsp;point&nbsp;to&nbsp;another&nbsp;attribute.<br>
+#<br>
+#&nbsp;2&nbsp;-&nbsp;Attack&nbsp;items<br>
+#<br>
+#&nbsp;Attack&nbsp;items&nbsp;inflict&nbsp;extra&nbsp;damage.&nbsp;They&nbsp;can&nbsp;be&nbsp;direct&nbsp;things&nbsp;like&nbsp;bombs&nbsp;or&nbsp;extra&nbsp;strenght,&nbsp;or&nbsp;they&nbsp;can&nbsp;inflict&nbsp;extra&nbsp;damage&nbsp;over&nbsp;time.<br>
+#<br>
+#&nbsp;3.-&nbsp;Unidentified&nbsp;potions<br>
+#<br>
+#&nbsp;Unidentified&nbsp;consumables&nbsp;can&nbsp;have&nbsp;totally&nbsp;random&nbsp;and&nbsp;unexpected&nbsp;effects.&nbsp;<br>
+#&nbsp;Vendors&nbsp;can&nbsp;identify&nbsp;them.&nbsp;When&nbsp;this&nbsp;happens,&nbsp;they&nbsp;are&nbsp;converted&nbsp;to&nbsp;a&nbsp;random&nbsp;type&nbsp;0,&nbsp;1&nbsp;or&nbsp;2&nbsp;<a href="#item">item</a>.<br>
+#<br>
+#&nbsp;4.-&nbsp;Empty&nbsp;<br>
+#<br>
+#&nbsp;Generates&nbsp;an&nbsp;object&nbsp;without&nbsp;propieties&nbsp;named&nbsp;"--EMPTY--"&nbsp;to&nbsp;be&nbsp;displayed&nbsp;in&nbsp;the&nbsp;crawl&nbsp;screen.<br>
+#&nbsp;This&nbsp;objects&nbsp;can&nbsp;not&nbsp;be&nbsp;consumend&nbsp;and&nbsp;are&nbsp;for&nbsp;display&nbsp;purposes&nbsp;only.</tt></dd></dl>
+
+<dl><dt><a name="consumable-reset"><strong>reset</strong></a>(self)</dt><dd><tt>resets&nbsp;an&nbsp;<a href="#item">item</a>&nbsp;so&nbsp;all&nbsp;the&nbsp;attributes&nbsp;are&nbsp;set&nbsp;to&nbsp;zero.</tt></dd></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>areasize</strong> = 0</dl>
+
+<dl><dt><strong>areatype</strong> = 0</dl>
+
+<dl><dt><strong>chabst</strong> = 0</dl>
+
+<dl><dt><strong>conbst</strong> = 0</dl>
+
+<dl><dt><strong>damage</strong> = 0</dl>
+
+<dl><dt><strong>dexbst</strong> = 0</dl>
+
+<dl><dt><strong>dps</strong> = 0</dl>
+
+<dl><dt><strong>hpr</strong> = 0</dl>
+
+<dl><dt><strong>intbst</strong> = 0</dl>
+
+<dl><dt><strong>mpr</strong> = 0</dl>
+
+<dl><dt><strong>name</strong> = '--EMPTY--'</dl>
+
+<dl><dt><strong>perbst</strong> = 0</dl>
+
+<dl><dt><strong>price</strong> = 0</dl>
+
+<dl><dt><strong>statusr</strong> = 0</dl>
+
+<dl><dt><strong>strbst</strong> = 0</dl>
+
+<dl><dt><strong>type</strong> = 4</dl>
+
+<dl><dt><strong>wilbst</strong> = 0</dl>
+
+</td></tr></table> <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ffc8d8">
 <td colspan=3 valign=bottom>&nbsp;<br>

@@ -15,7 +15,9 @@ class player:
   charclass="_" #Class
   inventory=[]  #10 slot inventory
   equiparr=[]   #Equipped item inventory
+  belt=[]       #Quick access consumable items
   totalfl=0     #Total floors explored
+  status=0      #Paralyzed, burned, bleeding, etc
   prestige=0
   prestigelv=1
 
@@ -51,12 +53,14 @@ class player:
   ypos=0
   zpos=0 #0: On the ground; 1: Flying
   
-  def __init__(self,dungeon):
+  def __init__(self,dungeon,randomv):
     """
     Initialization of the player objects. 
 
     Receives a dungeon object, then sets the coordinates of the player object in the entrance tile
     It also chooses a random race and class from the ./data/races and ./data/classes files
+
+    Needs a random parameter. if 1, the character is generated randomly.
     """
 
     #Initialize atributes
@@ -109,48 +113,54 @@ class player:
           self.zpos=0
 
     #Random race
-    with open("../data/player/races","r") as file:
-      racesarray=[]
-      strarray=[]
-      intarray=[]
-      dexarray=[]
-      perarray=[]
-      conarray=[]
-      chaarray=[]
-      for line in file:
-        if not line.startswith('#'):
-          racesarray.append(line.rstrip('\n').partition(':')[0])
-          strarray.append(line.rstrip('\n').partition(':')[2].partition(':')[0])
-          intarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-          dexarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-          perarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-          conarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-          chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-    randrac=random.randrange(1,len(racesarray))
-    self.race=racesarray[randrac]
-    if not strarray[randrac]=="":
-      self.STR+=int(strarray[randrac])
-    if not strarray[randrac]=="":
-      self.INT+=int(intarray[randrac])
-    if not strarray[randrac]=="":
-      self.DEX+=int(dexarray[randrac])
-    if not strarray[randrac]=="":
-      self.PER+=int(perarray[randrac])
-    if not strarray[randrac]=="":
-      self.CON+=int(conarray[randrac])
-    if not strarray[randrac]=="":
-      self.CHA+=int(chaarray[randrac])
+    if randomv==1:
+      with open("../data/player/races","r") as file:
+        racesarray=[]
+        strarray=[]
+        intarray=[]
+        dexarray=[]
+        perarray=[]
+        conarray=[]
+        chaarray=[]
+        for line in file:
+          if not line.startswith('#'):
+            racesarray.append(line.rstrip('\n').partition(':')[0])
+            strarray.append(line.rstrip('\n').partition(':')[2].partition(':')[0])
+            intarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+            dexarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            perarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            conarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+      
+      randrac=random.randrange(1,len(racesarray))
+      self.race=racesarray[randrac]
+      if not strarray[randrac]=="":
+        self.STR+=int(strarray[randrac])
+      if not strarray[randrac]=="":
+        self.INT+=int(intarray[randrac])
+      if not strarray[randrac]=="":
+        self.DEX+=int(dexarray[randrac])
+      if not strarray[randrac]=="":
+        self.PER+=int(perarray[randrac])
+      if not strarray[randrac]=="":
+        self.CON+=int(conarray[randrac])
+      if not strarray[randrac]=="":
+        self.CHA+=int(chaarray[randrac])
 
-    #Random class
-    with open("../data/player/classes","r") as file:
-      classesarray=[]
-      for line in file:
-          classesarray.append(line.rstrip('\n'))
-    self.charclass=random.choice(classesarray) 
+      #Random class
+      with open("../data/player/classes","r") as file:
+        classesarray=[]
+        for line in file:
+            classesarray.append(line.rstrip('\n'))
+      self.charclass=random.choice(classesarray) 
 
     #add two random items to the inventory
     for i in range(2):
       self.inventory.append(item.item(random.randint(1,11)))
+
+    #Initialize the belt
+    for i in range(3):
+      self.belt.append(item.consumable(4,0))
 
   def pickobject(self,object):
     """
@@ -292,9 +302,11 @@ class player:
     temp=self.HP-self.hp2
     self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
     self.hp2=(self.HP-temp)
+
     temp2=self.MP-self.mp2
     self.MP=(self.INT+self.intboost+self.WIL+self.wilboost)
     self.mp2=(self.MP-temp2)
+
     self.END=((self.CON+self.conboost+self.STR+self.strboost+self.wilboost+self.WIL)*3)+5
     self.SPD=(self.CON+self.conboost+self.DEX+self.dexboost)*3
 
@@ -310,18 +322,18 @@ class player:
       self.secondary()
       os.system('clear')
       common.version()
-      print self.name,"- Character sheet"
-      print "_____________________"
+      print self.name,"- Character sheet\n_____________________"
+
       print "Level "+str(self.lv)+" "+self.race+" "+self.charclass
+
       if self.lv==1:
         print str(self.exp)+"/5 xp,",self.points,"points"
       if self.lv>1:
         print str(self.exp)+"/"+str(3*self.lv+(2*(self.lv-1))),"xp,",self.points,"points"
-      print str(self.totalfl)+" floors explored"
-      print ""
+
+      print str(self.totalfl)+" floors explored\n"
       self.getatr()
-      print "_____________________"
-      print ""
+      print "_____________________\n"
       print "1.- Spend points"
       print "2.- Inventory"
       print "3.- Character options"
@@ -343,13 +355,13 @@ class player:
       #Save
       elif menu=="4":
         print "saving..."
-        self.save()
-        raw_input("Player saved")
+        print self.save()
+        common.getch()
       #Load
       elif menu=="5":
         print "loading..."
-        self.load()
-        raw_input("Player loaded")
+        print self.load()
+        common.getch()
       #Exit
       elif menu=="0":
         break
@@ -361,6 +373,7 @@ class player:
     """
     choice=-1
     while choice!="0": 
+      self.secondary()
       os.system('clear')
       common.version()
       print self.name,"- Character sheet"
@@ -503,6 +516,55 @@ class player:
     if len(calcarray)==0:
       return ""
 
+  def use(self,item):
+    """
+    Takes an item object from the player belt and uses it.
+
+    Returns a message to be displayed.
+    """
+    if item.type==0:
+      hppool=int(item.hpr)
+      mppool=int(item.mpr)
+      mpres=0
+      hpres=0
+      nam=item.name
+
+      #restore HP
+      while hppool>0 and self.hp2<self.HP:
+        hppool-=1
+        self.hp2+=1
+        hpres+=1
+
+      #restore MP
+      while mppool>0 and self.mp2<self.MP:
+        mppool-=1
+        self.mp2+=1
+        mpres+=1
+
+      #restore status
+      if item.statusr:
+        self.status=0
+
+      #reset item
+      item.reset()
+
+      #Message generation
+      msg="You drank "+nam+". "
+      if hpres>0 or mpres>0:
+        msg=msg+"You recovered "
+      if hpres>0:
+        msg=msg+str(hpres)+" HP"
+      if hpres>0 and mpres>0:
+        msg=msg+" and "
+      if mpres>0:
+        msg=msg+str(mpres)+" MP"
+      if hpres>0 or mpres>0:
+        msg=msg+"."
+
+      return msg
+
+    if item.type==4:
+      return ""
 
   def invmenu(self):
     """
@@ -540,22 +602,36 @@ class player:
       print "11 [+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"] Feet: "+self.equiparr[10].name+bonusmsg
       print ""
       print "[+"+str(self.totatk)+"/+"+str(self.totdefn)+"]"
-      print ""
-      print "Inventory (+"+str(self.pocket)+" G)"
-      print ""
 
       #Print everything in the inventory array
+      print "\nInventory (+"+str(self.pocket)+" G)\n"
       for i in range(len(self.inventory)):
         print "0"+str(i+1)+" [+"+str(self.inventory[i].atk)+"/+"+str(self.inventory[i].defn)+"] "+self.inventory[i].name+" ("+str(self.inventory[i].price)+"G)" 
 
-      print ""
-      print "q - destroy item"
+      #Print the belt items
+      print "\nBelt\n"
+      print "B1 - "+self.belt[0].name
+      print "B2 - "+self.belt[1].name
+      print "B3 - "+self.belt[2].name
+
+      #Print the inventory action menu
+      print "\nq - destroy item"
       print "w - enchant item"
       print "a - unequip item"
+      print "b - use belt item"
       print "0 - Back"
       print ""
       print "->",
       invmenu=common.getch()
+
+      #Belt using menu
+      if invmenu=="b":
+        try:
+          print "Which item? ",
+          beltmen=common.getch
+          self.use(belt[int(beltmen)-1])
+        except IndexError:
+          pass
 
       #Item flipping (Inventory <-> Equip)
       if "0"<invmenu<=str(len(self.inventory)):
@@ -684,11 +760,13 @@ class player:
       savefile.write("CHA:"+str(self.CHA)+"\n")
       savefile.write("# \n# Equipped items \n# \n")
       for a in self.equiparr:
-        savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
+        if a.name!=" ":
+          savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
       savefile.write("# \n# Inventory items \n# \n")
       for a in self.inventory:
         savefile.write("I:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
-    pass
+
+    return "Player saved"
 
   def bury(self):
     """
@@ -716,9 +794,14 @@ class player:
     self.race="_"
     self.charclass="_"
     self.inventory=[] 
+    self.belt=[]
+    for i in range(3):
+      self.belt.append(item.consumable(4,0))
+    self.equiparr=[]
     for i in range(11):
       new=item.item(0)
       self.equiparr.append(new)
+
     self.totalfl=0    
     self.prestige=0
     self.prestigelv=1
@@ -756,113 +839,122 @@ class player:
     """
     Takes the information from the save file stored in ../player/save and loads it into the player object.
     """
-
-    #Save current position
-    tempx=self.xpos
-    tempy=self.ypos
-    tempz=self.zpos
-
-    #Reset all the variables
-    self.reset()
-
-    #Load values from file
     try:
       with open("../player/save","r") as savefile:
-        for line in savefile:
-          if not line.startswith("#"):
-            #Load stats and player details
-            if line.partition(':')[0]=="Name":
-              self.name=(line.partition(':')[2]).strip()
-            if line.partition(':')[0]=="Level":
-              self.lv=int(line.partition(':')[2])
-            if line.partition(':')[0]=="Exp":
-              self.exp=int(line.partition(':')[2])
-            if line.partition(':')[0]=="Money":
-              self.pocket=int(line.partition(':')[2])
-            if line.partition(':')[0]=="INT":
-              self.INT=int(line.partition(':')[2])
-            if line.partition(':')[0]=="DEX":
-              self.DEX=int(line.partition(':')[2])
-            if line.partition(':')[0]=="PER":
-              self.PER=int(line.partition(':')[2])
-            if line.partition(':')[0]=="WIL":
-              self.WIL=int(line.partition(':')[2])
-            if line.partition(':')[0]=="STR":
-              self.STR=int(line.partition(':')[2])
-            if line.partition(':')[0]=="CON":
-              self.CON=int(line.partition(':')[2])
-            if line.partition(':')[0]=="CHA":
-              self.CHA=int(line.partition(':')[2])
-            if line.partition(':')[0]=="Race":
-              self.race=(line.partition(':')[2]).strip()
-            if line.partition(':')[0]=="Class":
-              self.charclass=(line.partition(':')[2]).strip()
-            if line.partition(':')[0]=="HP":
-              self.HP=int(line.partition(':')[2])
-            if line.partition(':')[0]=="hp2":
-              self.hp2=int(line.partition(':')[2])
-            if line.partition(':')[0]=="MP":
-              self.MP=int(line.partition(':')[2])
-            if line.partition(':')[0]=="mp2":
-              self.mp2=int(line.partition(':')[2])
-            if line.partition(':')[0]=="Points":
-              self.points=int(line.partition(':')[2])
-            if line.partition(':')[0]=="Floors":
-              self.totalfl=int(line.partition(':')[2])
+        if not savefile.readline().startswith("No character"):
 
-            #Load equipped items
-                                                                                                                                                            #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-            if line.startswith("E:"):
-              if not line.rstrip("\n").partition(':')[2].partition(':')[0]==" ":
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].name=           line.rstrip('\n').partition(':')[2].partition(':')[0]
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].enchantlv=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].type=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].atk=        int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].defn=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].strbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].intbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].dexbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].perbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].conbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].wilbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].chabonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].price=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+          #Save current position
+          tempx=self.xpos
+          tempy=self.ypos
+          tempz=self.zpos
 
-            #Load inventory
-            if line.startswith("I:"):
-              temp=item.item(0)
+          #Reset all the variables
+          self.reset()
 
-              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-              temp.name=          line.rstrip('\n').partition(':')[2].partition(':')[0]
-              temp.enchantlv= int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.type=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.atk=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.defn=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.strbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.intbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.dexbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.perbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.conbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.wilbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.chabonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-              temp.price=     int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
-              self.inventory.append(copy.copy(temp))
+          #Load values from file
+          for line in savefile:
+            if not line.startswith("#"):
+              #Load stats and player details
+              if line.partition(':')[0]=="Name":
+                self.name=(line.partition(':')[2]).strip()
+              if line.partition(':')[0]=="Level":
+                self.lv=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Exp":
+                self.exp=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Money":
+                self.pocket=int(line.partition(':')[2])
+              if line.partition(':')[0]=="INT":
+                self.INT=int(line.partition(':')[2])
+              if line.partition(':')[0]=="DEX":
+                self.DEX=int(line.partition(':')[2])
+              if line.partition(':')[0]=="PER":
+                self.PER=int(line.partition(':')[2])
+              if line.partition(':')[0]=="WIL":
+                self.WIL=int(line.partition(':')[2])
+              if line.partition(':')[0]=="STR":
+                self.STR=int(line.partition(':')[2])
+              if line.partition(':')[0]=="CON":
+                self.CON=int(line.partition(':')[2])
+              if line.partition(':')[0]=="CHA":
+                self.CHA=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Race":
+                self.race=(line.partition(':')[2]).strip()
+              if line.partition(':')[0]=="Class":
+                self.charclass=(line.partition(':')[2]).strip()
+              if line.partition(':')[0]=="HP":
+                self.HP=int(line.partition(':')[2])
+              if line.partition(':')[0]=="hp2":
+                self.hp2=int(line.partition(':')[2])
+              if line.partition(':')[0]=="MP":
+                self.MP=int(line.partition(':')[2])
+              if line.partition(':')[0]=="mp2":
+                self.mp2=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Points":
+                self.points=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Floors":
+                self.totalfl=int(line.partition(':')[2])
+
+              #Load equipped items
+                                                                                                                                                              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
+              if line.startswith("E:"):
+                if not line.rstrip("\n").partition(':')[2].partition(':')[0]==" ":
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].name=           line.rstrip('\n').partition(':')[2].partition(':')[0]
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].enchantlv=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].type=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].atk=        int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].defn=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].strbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].intbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].dexbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].perbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].conbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].wilbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].chabonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].price=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+
+              #Load inventory
+              if line.startswith("I:"):
+                temp=item.item(0)
+
+                #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
+                temp.name=          line.rstrip('\n').partition(':')[2].partition(':')[0]
+                temp.enchantlv= int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.type=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.atk=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.defn=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.strbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.intbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.dexbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.perbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.conbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.wilbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.chabonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                temp.price=     int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                self.inventory.append(copy.copy(temp))
+
+          #Update player bonuses
+          for a in self.equiparr:
+            self.strboost+=(a.strbonus)
+            self.intboost+=(a.intbonus)
+            self.dexboost+=(a.dexbonus)
+            self.perboost+=(a.perbonus)
+            self.conboost+=(a.conbonus)
+            self.wilboost+=(a.wilbonus)
+            self.chaboost+=(a.chabonus)
+            self.totatk+=(a.atk)
+            self.totdefn+=(a.defn)
+
+          #Restore position values
+          self.xpos=tempx
+          self.ypos=tempy
+          self.zpos=tempz
+
+          return "Player loaded"
+
+        else:
+          return "Save file is empty"
+
     except IOError:
-      raw_input("Error loading character")
+      print "Error loading character"
 
-    #Update player bonuses
-    for a in self.equiparr:
-      self.strboost+=(a.strbonus)
-      self.intboost+=(a.intbonus)
-      self.dexboost+=(a.dexbonus)
-      self.perboost+=(a.perbonus)
-      self.conboost+=(a.conbonus)
-      self.wilboost+=(a.wilbonus)
-      self.chaboost+=(a.chabonus)
-      self.totatk+=(a.atk)
-      self.totdefn+=(a.defn)
-
-    #Restore position values
-    self.xpos=tempx
-    self.ypos=tempy
-    self.zpos=tempz
+   

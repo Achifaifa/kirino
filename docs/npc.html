@@ -21,7 +21,8 @@
 <a href="copy.html">copy</a><br>
 </td><td width="25%" valign=top><a href="item.html">item</a><br>
 <a href="os.html">os</a><br>
-</td><td width="25%" valign=top><a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="parser.html">parser</a><br>
+<a href="random.html">random</a><br>
 </td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
@@ -91,6 +92,8 @@ Data and other attributes defined here:<br>
 
 <dl><dt><strong>personality</strong> = ''</dl>
 
+<dl><dt><strong>rel</strong> = 0</dl>
+
 <dl><dt><strong>secondname</strong> = ''</dl>
 
 <dl><dt><strong>statmax</strong> = 0</dl>
@@ -109,9 +112,20 @@ Data and other attributes defined here:<br>
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="vendor-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>Vendor&nbsp;constructor.&nbsp;Generates&nbsp;a&nbsp;random&nbsp;NPC&nbsp;(The&nbsp;shopkeeper)&nbsp;and&nbsp;generates&nbsp;items&nbsp;to&nbsp;be&nbsp;sold.</tt></dd></dl>
 
-<dl><dt><a name="vendor-buy"><strong>buy</strong></a>(self, player)</dt><dd><tt>Display&nbsp;the&nbsp;list&nbsp;of&nbsp;items&nbsp;available&nbsp;for&nbsp;buying&nbsp;from&nbsp;the&nbsp;<a href="#vendor">vendor</a></tt></dd></dl>
+<dl><dt><a name="vendor-buyit"><strong>buyit</strong></a>(self, player)</dt><dd><tt>Display&nbsp;the&nbsp;list&nbsp;of&nbsp;items&nbsp;available&nbsp;for&nbsp;buying&nbsp;from&nbsp;the&nbsp;<a href="#vendor">vendor</a></tt></dd></dl>
+
+<dl><dt><a name="vendor-buypot"><strong>buypot</strong></a>(self, player)</dt><dd><tt>Sells&nbsp;potions&nbsp;to&nbsp;the&nbsp;player.&nbsp;Three&nbsp;random&nbsp;potions&nbsp;are&nbsp;generated&nbsp;by&nbsp;the&nbsp;<a href="#vendor">vendor</a>.</tt></dd></dl>
 
 <dl><dt><a name="vendor-commerce"><strong>commerce</strong></a>(self, player)</dt></dl>
+
+<dl><dt><a name="vendor-pricecalc"><strong>pricecalc</strong></a>(self, player)</dt><dd><tt>Calculates&nbsp;the&nbsp;trading&nbsp;multiplier&nbsp;based&nbsp;on&nbsp;the&nbsp;player&nbsp;charisma&nbsp;and&nbsp;the&nbsp;player-NPC&nbsp;relationship<br>
+&nbsp;<br>
+Base&nbsp;multiplier:&nbsp;2<br>
+&nbsp;<br>
+Additional&nbsp;multipliers:&nbsp;<br>
+&nbsp;<br>
+Charisma:&nbsp;+-&nbsp;0.1&nbsp;for&nbsp;each&nbsp;point<br>
+Relationship&nbsp;with&nbsp;<a href="#vendor">vendor</a>:&nbsp;+-0.5&nbsp;for&nbsp;every&nbsp;10&nbsp;points</tt></dd></dl>
 
 <dl><dt><a name="vendor-sell"><strong>sell</strong></a>(self, player)</dt><dd><tt>Display&nbsp;the&nbsp;list&nbsp;of&nbsp;items&nbsp;in&nbsp;the&nbsp;inventory&nbsp;to&nbsp;sell</tt></dd></dl>
 
@@ -133,6 +147,6 @@ The&nbsp;dictionary&nbsp;is&nbsp;global&nbsp;in&nbsp;the&nbsp;module&nbsp;and&nb
 <font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
     
 <tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>npcdata</strong> = {'appearance': ['adorable', 'adventurous', 'aggressive', 'alert', 'attractive', 'average', 'beautiful', 'blue-eyed', 'bloody', 'blushing', 'bright', 'clean', 'clear', 'cloudy', 'colorful', 'crowded', 'cute', 'dark', 'drab', 'distinct', ...], 'jobs': ['Manager', 'Project Manager', 'Teacher', 'Director', 'Accountant', 'Consultant', 'Administrator', 'Solicitor', 'Account Manager', 'PA', 'Office Manager', 'Analyst', 'Engineer', 'Sales Manager', 'Doctor', 'Software Engineer', 'Business Analyst', 'Managing Director', 'Personal Assistant', 'Marketing Manager', ...], 'namefemale': ['Lucia', 'Maria', 'Paula', 'Laura', 'Claudia', 'Irene', 'Marta', 'Alba', 'Sara', 'Carla', 'Andrea', 'Nerea', 'Julia', 'Natalia', 'Elena', 'Ana', 'Sofia', 'Carmen', 'Daniela', 'Marina', ...], 'namemale': ['Alejandro', 'Daniel', 'Pablo', 'David', 'Adrian', 'Alvaro', 'Javier', 'Sergio', 'Hugo', 'Diego', 'Carlos', 'Marcos', 'Mario', 'Ivan', 'Manuel', 'Miguel', 'Jorge', 'Ruben', 'Iker', 'Raul', ...], 'personality': ['adaptable', 'adventurous', 'affable', 'affectionate', 'agreeable', 'ambitious', 'amiable', 'amicable', 'amusing', 'brave', 'bright', 'broad-minded', 'calm', 'careful', 'charming', 'communicative', 'compassionate', 'conscientious', 'considerate', 'convivial', ...], 'secondnames': ['Garcia', 'Gonzalez', 'Rodriguez', 'Fernandez', 'Lopez', 'Martinez', 'Sanchez', 'Perez', 'Gomez', 'Martin', 'Jimenez', 'Ruiz', 'Hernandez', 'Diaz', 'Moreno', 'Alvarez', 'Mu<font color="#c040c0">\xc3\x91</font>Oz', 'Romero', 'Alonso', 'Gutierrez', ...], 'things': ['broccoflower', 'that last, crumby triangle in a bag of potato chips', 'grass stains', 'locking people out of the car and pretending to drive away', 'opening and sniffing a pack of tennis balls', 'finding money you didn<font color="#c040c0">\xe2\x80\x99</font>t even know you lost', 'waiters and waitresses who bring free refills without asking', 'fat baseball players', 'really, really old tupperware', 'picking up a q and a u at the same time in scrabble', 'blowing your nose in the shower', 'burning churches', 'eating things past the expiry date', 'eating the last piece of dessert somebody left at your house', 'that pile of assorted beers left in your fridge after a party', 'picking your nose', 'wearing underwear just out of the dryer', 'old, dangerous playground equipment', 'anything that can grow wings', 'putting the toppings on a hot dog bun before the hot dog', ...]}<br>
-<strong>vendordata</strong> = {'byemsg': ['Take care!', "Aren't you forgetting something?", 'It was nice to see you!', 'Try to stay alive, my kids have to eat ;)', 'Adios!', "Don't forget to close the door. Oh wait, nevermind.", "Don't get killed, I need your money", "That's it?"], 'failmsg': ['What the...', 'Come back when you have the money', 'GIMME THE MONEY!', 'Heh, like you can pay for that', 'Please stop', 'Go away you hobo', "I don't accept zombie bits as payment", 'I said gold, not mold', "Ewww what's that?", 'That is not money!', 'You should look for some gold first', 'Hey, that is not free', 'Are you serious?', "You can't pay me with stones!"], 'okmsg': ['Hahahahah great!', 'Thank you stranger', 'Great deal', "Don't hit too hard with that, it may break!", "Oh, I'd never imagined you'd fal... Thanks stranger!", 'Need something to go with that?', 'Anything else?', 'Let me get the change', 'Great choice!'], 'welcomemsg': ['Hello stranger!', 'What are you buying?', 'What are you selling?', 'Here, let me show you', 'Swords, armour, grapes, anthrax!', 'I have this fine flamethrower for sale...', 'Take a look stranger!', 'Something yu want?', 'You again?', "I'm reading, go away!", "Wait over the spike trap, I'll be with you in a moment"]}</td></tr></table>
+<td width="100%"><strong>npcdata</strong> = {}<br>
+<strong>vendordata</strong> = {}</td></tr></table>
 </body></html>

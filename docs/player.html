@@ -44,12 +44,16 @@
 <td colspan=2><tt>Player&nbsp;class.&nbsp;Creates&nbsp;and&nbsp;manages&nbsp;<a href="#player">player</a>&nbsp;objects<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="player-__init__"><strong>__init__</strong></a>(self, dungeon)</dt><dd><tt>Initialization&nbsp;of&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;objects.&nbsp;<br>
+<dl><dt><a name="player-__init__"><strong>__init__</strong></a>(self, dungeon, randomv)</dt><dd><tt>Initialization&nbsp;of&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;objects.&nbsp;<br>
 &nbsp;<br>
 Receives&nbsp;a&nbsp;dungeon&nbsp;object,&nbsp;then&nbsp;sets&nbsp;the&nbsp;coordinates&nbsp;of&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;object&nbsp;in&nbsp;the&nbsp;entrance&nbsp;tile<br>
-It&nbsp;also&nbsp;chooses&nbsp;a&nbsp;random&nbsp;race&nbsp;and&nbsp;class&nbsp;from&nbsp;the&nbsp;./data/races&nbsp;and&nbsp;./data/classes&nbsp;files</tt></dd></dl>
+It&nbsp;also&nbsp;chooses&nbsp;a&nbsp;random&nbsp;race&nbsp;and&nbsp;class&nbsp;from&nbsp;the&nbsp;./data/races&nbsp;and&nbsp;./data/classes&nbsp;files<br>
+&nbsp;<br>
+Needs&nbsp;a&nbsp;random&nbsp;parameter.&nbsp;if&nbsp;1,&nbsp;the&nbsp;character&nbsp;is&nbsp;generated&nbsp;randomly.</tt></dd></dl>
 
-<dl><dt><a name="player-attack"><strong>attack</strong></a>(self, dir)</dt><dd><tt>attacks&nbsp;the&nbsp;mob&nbsp;object&nbsp;specified</tt></dd></dl>
+<dl><dt><a name="player-attack"><strong>attack</strong></a>(self, mob)</dt><dd><tt>attacks&nbsp;the&nbsp;mob&nbsp;object&nbsp;specified<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;string&nbsp;to&nbsp;be&nbsp;displayed&nbsp;in&nbsp;the&nbsp;crawl&nbsp;screen</tt></dd></dl>
 
 <dl><dt><a name="player-bury"><strong>bury</strong></a>(self)</dt><dd><tt>Saves&nbsp;the&nbsp;character&nbsp;into&nbsp;a&nbsp;cemetery&nbsp;file&nbsp;<br>
 &nbsp;<br>
@@ -68,8 +72,7 @@ Main&nbsp;menu&nbsp;to&nbsp;edit,&nbsp;view&nbsp;and&nbsp;configure&nbsp;charact
 
 <dl><dt><a name="player-invmenu"><strong>invmenu</strong></a>(self)</dt><dd><tt>Inventory&nbsp;menu.</tt></dd></dl>
 
-<dl><dt><a name="player-load"><strong>load</strong></a>(self)</dt><dd><tt>Takes&nbsp;the&nbsp;information&nbsp;from&nbsp;the&nbsp;save&nbsp;file&nbsp;stored&nbsp;in&nbsp;../<a href="#player">player</a>/save&nbsp;and&nbsp;loads&nbsp;it&nbsp;into&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;object.<br>
-If&nbsp;the&nbsp;path&nbsp;does&nbsp;not&nbsp;exist&nbsp;it&nbsp;is&nbsp;created.</tt></dd></dl>
+<dl><dt><a name="player-load"><strong>load</strong></a>(self)</dt><dd><tt>Takes&nbsp;the&nbsp;information&nbsp;from&nbsp;the&nbsp;save&nbsp;file&nbsp;stored&nbsp;in&nbsp;../<a href="#player">player</a>/save&nbsp;and&nbsp;loads&nbsp;it&nbsp;into&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;object.</tt></dd></dl>
 
 <dl><dt><a name="player-move"><strong>move</strong></a>(self, dungeon, direction)</dt><dd><tt>Move&nbsp;function.&nbsp;<br>
 &nbsp;<br>
@@ -81,7 +84,12 @@ Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;to&nbsp;check&nbsp;for&nbsp;obstac
 &nbsp;&nbsp;5&nbsp;northwest<br>
 &nbsp;&nbsp;6&nbsp;northeast<br>
 &nbsp;&nbsp;7&nbsp;southwest<br>
-&nbsp;&nbsp;8&nbsp;southeast</tt></dd></dl>
+&nbsp;&nbsp;8&nbsp;southeast<br>
+&nbsp;<br>
+Returns&nbsp;an&nbsp;integer:<br>
+&nbsp;&nbsp;0&nbsp;Can't&nbsp;move&nbsp;(Wall&nbsp;or&nbsp;other&nbsp;obstacle)<br>
+&nbsp;&nbsp;1&nbsp;Moved&nbsp;successfully<br>
+&nbsp;&nbsp;2&nbsp;Mob&nbsp;present&nbsp;(Not&nbsp;moved,&nbsp;signaled&nbsp;for&nbsp;attack)</tt></dd></dl>
 
 <dl><dt><a name="player-optmenu"><strong>optmenu</strong></a>(self)</dt><dd><tt>Player&nbsp;options&nbsp;menu</tt></dd></dl>
 
@@ -93,7 +101,7 @@ Returns&nbsp;1&nbsp;and&nbsp;adds&nbsp;the&nbsp;object&nbsp;to&nbsp;the&nbsp;inv
 <dl><dt><a name="player-reset"><strong>reset</strong></a>(self)</dt></dl>
 
 <dl><dt><a name="player-save"><strong>save</strong></a>(self)</dt><dd><tt>Save&nbsp;function.&nbsp;Takes&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;attributes&nbsp;and&nbsp;saves&nbsp;them&nbsp;into&nbsp;a&nbsp;text&nbsp;file&nbsp;in&nbsp;../<a href="#player">player</a>/save<br>
-If&nbsp;the&nbsp;path&nbsp;or&nbsp;the&nbsp;file&nbsp;do&nbsp;not&nbsp;exists&nbsp;they&nbsp;are&nbsp;created.</tt></dd></dl>
+If&nbsp;the&nbsp;path&nbsp;or&nbsp;the&nbsp;file&nbsp;do&nbsp;not&nbsp;exist&nbsp;they&nbsp;are&nbsp;created.</tt></dd></dl>
 
 <dl><dt><a name="player-secondary"><strong>secondary</strong></a>(self)</dt><dd><tt>Calculates&nbsp;and&nbsp;sets&nbsp;the&nbsp;secondary&nbsp;attributes&nbsp;from&nbsp;the&nbsp;primary&nbsp;ones.<br>
 &nbsp;<br>
@@ -101,6 +109,10 @@ Receives&nbsp;a&nbsp;<a href="#player">player</a>&nbsp;object&nbsp;and&nbsp;reca
 It&nbsp;also&nbsp;adds&nbsp;the&nbsp;extra&nbsp;HP&nbsp;and&nbsp;MP&nbsp;gained.</tt></dd></dl>
 
 <dl><dt><a name="player-spend"><strong>spend</strong></a>(self)</dt><dd><tt>Point&nbsp;spending&nbsp;menu.</tt></dd></dl>
+
+<dl><dt><a name="player-use"><strong>use</strong></a>(self, item)</dt><dd><tt>Takes&nbsp;an&nbsp;item&nbsp;object&nbsp;from&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;belt&nbsp;and&nbsp;uses&nbsp;it.<br>
+&nbsp;<br>
+Returns&nbsp;a&nbsp;message&nbsp;to&nbsp;be&nbsp;displayed.</tt></dd></dl>
 
 <hr>
 Data and other attributes defined here:<br>
@@ -125,6 +137,8 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>STR</strong> = 1</dl>
 
 <dl><dt><strong>WIL</strong> = 1</dl>
+
+<dl><dt><strong>belt</strong> = []</dl>
 
 <dl><dt><strong>chaboost</strong> = 0</dl>
 
@@ -161,6 +175,8 @@ Data and other attributes defined here:<br>
 <dl><dt><strong>prestigelv</strong> = 1</dl>
 
 <dl><dt><strong>race</strong> = '_'</dl>
+
+<dl><dt><strong>status</strong> = 0</dl>
 
 <dl><dt><strong>strboost</strong> = 0</dl>
 

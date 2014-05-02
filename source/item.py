@@ -1,11 +1,159 @@
 #usr/bin/env python 
-import os
-import random
+import os, random
 import common
+
+class consumable:
+  """
+  Potions, spells, items that can be eaten, drunk or consumed.
+  """
+
+  #Type
+  type=4
+
+  #General propieties
+  name="--EMPTY--"
+  price=0
+
+  #Potion propieties
+  hpr=0
+  mpr=0
+  statusr=0
+
+  #Tome propieties
+  intbst=0
+  dexbst=0
+  perbst=0
+  conbst=0
+  wilbst=0
+  chabst=0
+  strbst=0
+
+  #Attack propieties
+  areatype=0
+  areasize=0
+  damage=0
+  dps=0
+
+  def __init__(self,newtype,subtype):
+    """
+    Class constructor. Creates a consumable item of the specified type.
+
+    Consumable items can only be bought from vendors. They can't be found in the ground.
+    Requires type and subtype:
+    # 0 - Potion
+    #   01 - HP potion
+    #   02 - MP potion
+    #   03 - Recovery potion (HP&MP)
+    #   04 - Status potions
+    #   00 - Random (except status potions)
+    #
+    # Potions regenerate a certain amout of HP or MP in a single turn.
+    # The amout of points recovered depends on the type of potion. Each potion type has a fixed value that can vary in the -30% / +30% range with random modifiers.
+    # Recovery potions recover both HP and MP, and status potions stop damage over time (Poison, fire, bleeding, etc)
+    #
+    # 1 - Tome of knowledge
+    #
+    # Tomes of knowledge add one point to an attribute and decrease one point to another attribute.
+    #
+    # 2 - Attack items
+    #
+    # Attack items inflict extra damage. They can be direct things like bombs or extra strenght, or they can inflict extra damage over time.
+    #
+    # 3.- Unidentified potions
+    #
+    # Unidentified consumables can have totally random and unexpected effects. 
+    # Vendors can identify them. When this happens, they are converted to a random type 0, 1 or 2 item.
+    #
+    # 4.- Empty 
+    #
+    # Generates an object without propieties named "--EMPTY--" to be displayed in the crawl screen.
+    # This objects can not be consumend and are for display purposes only.
+
+    """
+
+    #Variable initialization
+    items=[]
+    self.type=newtype
+
+    #Array loading
+    try:
+      with open ("../data/inventory/items_CI","r") as consumables:
+        for line in consumables:
+
+          #Only check the lines that contain items of the selected class.
+          if line.startswith(str(newtype)):
+
+            #If the item is a potion, save arrays with [name,HP,MP,price]
+            if newtype==0:
+              if subtype==0:
+                subtype=random.randint(1,3)
+              if int(line.strip().partition(':')[2].partition(':')[0])==subtype:
+                tempitem=[]
+                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0])
+                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                items.append(tempitem)
+
+            if newtype==1:
+              pass
+            if newtype==2:
+              pass
+            if newtype==3:
+              pass
+
+    except IOError:
+      raw_input("Could not load consumable data file")
+
+    #Process item arrays:
+    if newtype==0:
+      data=random.choice(items)
+      self.name=data[0]
+      self.hpr=int(data[1])
+      self.mpr=int(data[2])
+      self.price=int(data[3])
+
+    #Generate empty object
+    if newtype==4:
+      self.name="--EMPTY--"
+
+  def reset(self):
+    """
+    resets an item so all the attributes are set to zero.
+    """
+
+    #Type
+    self.type=4
+
+    #General propieties
+    self.name="--EMPTY--"
+    self.price=0
+
+    #Potion propieties
+    self.hpr=0
+    self.mpr=0
+
+    #Tome propieties
+    self.intbst=0
+    self.dexbst=0
+    self.perbst=0
+    self.conbst=0
+    self.wilbst=0
+    self.chabst=0
+    self.strbst=0
+
+    #Attack propieties
+    self.areatype=0
+    self.areasize=0
+    self.damage=0
+    self.dps=0
+
 
 #Item class. Creates and manages items.
 class item:
-  "Creates and manages items"
+  """
+  Creates and manages items
+  """
 
   #Item attributes
   ID=0      #Identifier

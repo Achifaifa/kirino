@@ -6,7 +6,7 @@ All the crawl and configuration implementation are in this module.
 """
 
 import copy, os, random, sys, time
-import dungeon, item, mob, parser, player
+import dungeon, item, mob, npc, parser, player
 import common, config, help
 
 #load/save global variables
@@ -31,26 +31,24 @@ tempequiparr=[]
 xsize=0
 ysize=0
 
+def loadfiles():
+  """
+  Loads the information from the data files into variables
+  """
+  npc.sanitize()
+  npc.load()
+  parser.load()
+
 #Main menu
 def menu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
   """ 
 
-  #Changes the directory to where the source files are
-  try:
-    os.chdir(os.path.dirname(__file__))
-  except OSError: 
-  #OSError is generated when os.path.dirname(__file__) is empty string. 
-  #That is, when the path is already where the source files are.
-    pass #No changes are needed.
-    
   #loads configuration
   cfg=config.config()
   #Main menu
   while 1:
-    sys.stdout.flush()
-    sys.stdout.flush() 
     os.system('clear')
     common.version()
     print ""
@@ -86,6 +84,7 @@ def crawl():
   fl=1 #Initialize floor to 1
   parsemsg=""
   hitmsg=""
+  usemsg=""
 
   hero,dung=copy.copy(newgame())
 
@@ -95,7 +94,7 @@ def crawl():
     #Reset message strings
     atkmsg=""
     pickmsg=""
-    lootmsg=""
+    lootmsg="\n"
 
     #Move all the mobs, delete dead mobs from array
     for i in range(len(dung.mobarray)):
@@ -131,7 +130,7 @@ def crawl():
       monies=random.randrange(1,5)
       hero.pocket+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."
-      lootmsg=("You find "+str(monies)+" gold\n")
+      lootmsg=("\nYou find "+str(monies)+" gold\n")
 
     #Action if player has reached a gear loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
@@ -140,40 +139,43 @@ def crawl():
       if picked:
         dung.dungarray[hero.ypos][hero.xpos]="."
 
-    #Print block
+    #Print header and map
     os.system('clear')
     common.version()
-    print ""
     dung.fill(hero,cfg.fog)
     dung.minimap(hero,cfg.fog)
-    print "Floor",fl,(hero.xpos,hero.ypos)
-    print "Lv",hero.lv,hero.race,hero.charclass
+
+    #Prit data
+    print "FL "+str(fl)+" ["+hero.race+" "+hero.charclass+"]"
+    print "Lv "+str(hero.lv)+" -",
     if hero.lv==1:
       print str(hero.exp)+"/5 xp, "+str(hero.pocket)+" gold"
     if hero.lv>1:
       print str(hero.exp)+"/"+str(3*hero.lv+(2*(hero.lv-1)))+" xp, "+str(hero.pocket)+" gold"
     print ""
     hero.getatr()
-    print ""
-    print cfg.showkeys+" key mapping help"
-    print""
-    print lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)
+    print "\n"+cfg.quick1+" | "+hero.belt[0].name
+    print cfg.quick2+" | "+hero.belt[1].name
+    print cfg.quick3+" | "+hero.belt[2].name
+    print "\n"+cfg.showkeys+": key mapping help"
+    print lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+usemsg
     print "->",
 
     #Reset message strings after display
     action=0
     parsemsg=""
     hitmsg=""
+    usemsg=""
     crawlmen=common.getch()
     
     #Action choice block
-
     #Input mode
     if crawlmen==cfg.console:
       try:
         action,parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
       except:
         pass
+
     #Character sheet menu
     if crawlmen==cfg.charsh: 
       hero.charsheet()
@@ -181,6 +183,14 @@ def crawl():
     #Show key help
     elif crawlmen==cfg.showkeys or action==61:
       help.keyhelp() 
+
+    #Using belt items
+    if crawlmen==cfg.quick1:
+      usemsg=hero.use(hero.belt[0])
+    if crawlmen==cfg.quick2:
+      usemsg=hero.use(hero.belt[1])
+    if crawlmen==cfg.quick3:
+      usemsg=hero.use(hero.belt[2])
 
     #Movement
     #Check if there are mobs. 
@@ -297,7 +307,6 @@ def crawl():
 def newgame():
   """
   This function displays the menu to create a new character.
-  Not yet implemented.
   """
   global xsize
   global ysize
@@ -307,8 +316,7 @@ def newgame():
     try:
       os.system('clear')
       common.version()
-      print "New game [1/5] Size"
-      print""
+      print "New game [1/5] Dungeon size\n~40x40 recommended\n"
       xsize=int(raw_input("Horizontal size: "))
       ysize=int(raw_input("Vertical size: "))
       if xsize<40 or ysize<20:
@@ -318,14 +326,12 @@ def newgame():
         common.getch()
         break
     except ValueError:
-      pass
-  sys.stdout.flush() 
+      pas
   os.system('clear')
   dung=dungeon.dungeon(xsize,ysize,1)
-  hero=player.player(dung)
+  hero=player.player(dung,0)
   common.version()
-  print "New game [2/5] Name"
-  print ""
+  print "New game [2/5] Name\n"
   hero.name=raw_input("What is your name? ")
   #If name was left empty, pick a random one
   if len(hero.name)==0:
@@ -534,4 +540,15 @@ def lload(playa):
       playa.exp-=lvlimit
       playa.points+=2
 
+
+#Changes the directory to where the source files are
+try:
+  os.chdir(os.path.dirname(__file__))
+except OSError: 
+#OSError is generated when os.path.dirname(__file__) is empty string. 
+#That is, when the path is already where the source files are.
+  pass #No changes are needed.
+
+#Load data files and start the menu    
+loadfiles()
 menu()

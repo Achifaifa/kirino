@@ -157,14 +157,37 @@ def parseconv(conv,dude,player):
   Needs the string, a player object and the thing the player is chatting with
   """
 
-  if (player.CHA+player.chabonus<1):
-    answer=random.choice(["Shut up $, no one likes you", "I'm dont' talk with the likes of you", "Stay away you fiend!"])
+  if (player.CHA+player.chaboost<2 and dude.rel<-10):
+    answer=random.choice(["Shut up $, no one likes you", "I dont' talk with the likes of you", "Stay away you fiend!","Get lost $!","$!! YOU AGAIN!?"])
     if "$" in answer:
       answer=answer.partition('$')[0]+player.name+answer.partition('$')[2]
-    return answer
-  else:
-    return "Yep yep yep yep yep"
 
+  else:
+    conv=conv.split()
+    if (conv[0].lower()=="i" and (conv[1]=="need" or (conv[1]=="also" and conv[2]=="need"))):
+
+      del conv[0]
+      while conv[0] in ["a","also","need"]:
+        del conv[0]
+      if conv[0].lower() in ["one","two","three","four","five","six","seven","eight"]:
+        answer=random.choice(["Hey don't be greedy, I can only save one for you!","%?? What do you think this is, a supermarket?","% &? You gotta be kidding me","Absolutely no way"])
+        if "%" in answer:
+          answer=answer.partition('%')[0]+conv[0]+answer.partition('%')[2]
+        if "&" in answer:
+          del conv[0]
+          answer=answer.partition('&')[0]+" ".join(conv)+answer.partition('&')[2]
+        return answer
+
+      conv=" ".join(conv)
+      answer=random.choice(["A $? Let me see...","Not sure if I had one, look around","$? Now that's something I haven't seen in a while","Maybe","You and your $ obsession..."])
+      if "$" in answer:
+        answer=answer.partition('$')[0]+conv+answer.partition('$')[2]
+
+
+    else:
+      answer="What?"
+
+  return answer
 
 def look(dungeon,player):
   """
@@ -176,7 +199,7 @@ def look(dungeon,player):
   """
 
   #Counter variables
-  zombies=piles=objects=0
+  zombies=piles=objects=vendors=0
   exit=entrance=0
   description="You are in a "
   type=-1 #0 is a room, 1 is a hall
@@ -186,6 +209,8 @@ def look(dungeon,player):
     for j in range(player.xpos-10, player.xpos+10):
       if dungeon.filled[i][j]=="i":
         zombies+=1
+      if dungeon.filled[i][j]=="p":
+        vendors+=1
       if dungeon.filled[i][j]=="$":
         piles+=1
       if dungeon.filled[i][j]=="/":
@@ -220,6 +245,10 @@ def look(dungeon,player):
     description=description+" There are also a few piles of gold."
   if piles==1:
     description=description+" There is also a pile of gold."
+
+  #Vendors
+  if vendors>0:
+    description=description+" There is a vendor near you."
 
   #Objects
   if objects>1:
@@ -305,7 +334,7 @@ def load():
             dictionary["quit"]=quitwords
     print "done"
   except IOError:
-    raw_input("cound not load parser data files")
+    raw_input("error loading dictionary files")
   try:
     print "Loading messages...        ",
     with open ("../data/parser/errors","r") as errorsfile:
@@ -317,13 +346,6 @@ def load():
     sys.stdout.flush() 
     os.system('clear')
   except IOError:
-    raw_input("cound not load parser data files")
+    raw_input("error loading message files")
   sys.stdout.flush() 
   os.system('clear')
-
-
-load()
-# sys.stdout.flush() 
-os.system('clear')
-# print dictionary
-# print errors

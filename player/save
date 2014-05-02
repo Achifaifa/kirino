@@ -1,1 +1,28 @@
-No character saved
+# 
+# Player 
+# 
+Name:Acholate
+Race:human
+Class:barbarian
+Money:0
+Level:1
+Exp:1
+Points:45
+Floors:0
+HP:0
+MP:0
+INT:1
+DEX:1
+PER:1
+WIL:1
+STR:1
+CON:1
+CHA:1
+# 
+# Equipped items 
+# 
+# 
+# Inventory items 
+# 
+I:rags:0:5:0:0:0:0:0:0:0:0:0:1
+I:back shield:0:4:0:10:0:0:0:0:0:0:0:100

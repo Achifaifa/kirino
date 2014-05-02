@@ -44,25 +44,26 @@ def keyhelp():
   sys.stdout.flush() 
   os.system('clear')
   common.version()
-  print "Key help"
-  print ""
-  print "Movement"
-  print ""
-  print "  "+cfg.northwest+" "+cfg.north+" "+cfg.northeast+"   "
-  print "   \|/   "
-  print "  "+cfg.west+"-X-"+cfg.east+"  "
-  print "   /|\   "
-  print "  "+cfg.southwest+" "+cfg.south+" "+cfg.southeast+"   "
-  print ""
-  print "Actions"
-  print ""
+  print "Key help\n"
+  print "Movement\n"
+  print "  "+cfg.northwest+" "+cfg.north+" "+cfg.northeast
+  print "   \|/"
+  print "  "+cfg.west+"-X-"+cfg.east
+  print "   /|\ "
+  print "  "+cfg.southwest+" "+cfg.south+" "+cfg.southeast
+  print "Next floor:      "+cfg.nextf+"\n"
+
+  print "Inventory\n"
+  print "Belt item 1:     "+cfg.quick1
+  print "Belt item 2:     "+cfg.quick2
+  print "Belt item 3:     "+cfg.quick3+"\n"
+
+  print "Actions\n"
   print "Input mode:      "+cfg.console
   print "Character sheet: "+cfg.charsh
   print "Options menu:    "+cfg.opt
   print "Quit:            "+cfg.quit
-  print "Report dungeon:  "+cfg.report
-  print "Next floor:      "+cfg.nextf
-  print ""
+  print "Report dungeon:  "+cfg.report+"\n"
   print "Press any key to continue"
   common.getch()
 

@@ -112,9 +112,11 @@ class mob:
     Attacks the player object passed to the function
     """
     
+    #Check if the player is in range
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
-      attackpow=(self.str*4)-player.totdefn
+
+      attackpow=((self.str*4)-player.totdefn)
       if self.hit:
         attackpow=attackpow/2
       if attackpow<=0:

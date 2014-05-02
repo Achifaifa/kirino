@@ -1,10 +1,10 @@
-#Kirino v0.0.8c
+#Kirino v0.0.9
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-This week's update added the possibility of attacking and destroying mobs. While this gets the whole thing closer to July's goal, it introduces a new problem: Balance. Doing 200 damage to a 20HP zombie after 10 floors is far from balanced, and the future item tiers and different mobs and bosses will only make the entire thing more difficult to balance and adjust. 
+The last updates have added the possibility of attacking and destroying mobs, using potions and some other things. While this gets the whole thing closer to July's goal, it introduces a new problem: Balance. Doing 200 damage to a 20HP zombie after 10 floors is far from balanced, and the future item tiers and different mobs and bosses will only make the entire thing more difficult to balance and adjust. 
 
 If you feel certain items need 'fixing', feel free to change the stats yourself. The item files are reasonably explained and you should have no problems. For now the mob data is generated in the mob class constructor. If you want to share your numbers, you can do so.
 
@@ -12,50 +12,52 @@ If you feel certain items need 'fixing', feel free to change the stats yourself.
 
 run launch.py
 
-Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu (In the main menu and in the options menu during the game)
+Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu.
 
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
 
-**Note**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them.
+**Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them. Make sure you save your player folder and replace it when you download the next version.
+
+**Note on controls**: The default controls may not be totally logical for some players. If it's the first time you play, go to the options menu and make sure everything is left to your liking. 
 
 ##OS specific information
 
-* Debian: Works as is, just type `python /path_to_file/launch.py` in the terminal.
-* Ubuntu: Untested, but it should work as in Debian.
+* Debian/Ubuntu: Works as is, just type `python launch.py` in the terminal.
 * Other linux distributions: Should work as long as python is installed (Untested).
-* OSX: Untested.
 * Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.  
 You may have some issues with the output formatting, but overall the game is playable.
+* OSX: Unsupported.
 
 ##List of files/folders:
 
 * data:               Files containing data for generators
   * inventory:          Inventory files
-    * `atk_def_mod`:      List of attack/def modifiers
-    * `attr_mod`:         List of basic attribute modifiers
-    * `items_XX`:         List of items and basic stats
+    * `atk_def_mod`:      Attack/def modifiers
+    * `attr_mod`:         Basic attribute modifiers
+    * `items_CI`:         Consumable items 
+    * `items_XX`:         Items and basic stats
   * npcs:               NPC data
-    * `appearance`        List of visual adjectives
-    * `firstnames_female` List of female names
-    * `firstnames_male`   List of male names
-    * `jobs`              List of jobs
-    * `personality`       List of psychological adjectives
-    * `secondnames`       List of second names
-    * `things`            List of things
+    * `appearance`        Visual adjectives
+    * `firstnames_female` Female names
+    * `firstnames_male`   Male names
+    * `jobs`              Jobs
+    * `personality`       Psychological adjectives
+    * `secondnames`       Second names
+    * `things`            Things
   * parser:             Data filer for the word parser
-    * `errors`:           List of generic error messages
+    * `errors`:           Generic error messages
     * `words`:            Word data for the parser
   * player:             Player files
-    * `classes`:          List of player classes
-    * `names`:            List of names
-    * `races`:            List of player races
+    * `classes`:          Player classes
+    * `names`:            Names
+    * `races`:            Player races
   * tutorial:           Files for the tutorial (Maps, etc)
     * `tutorial_1`
 * docs:               Documentation folder (pydoc generated html files)
 * info:               Information files
   * `bugs`:             List of bugs and weird behaviours to fix
-  * `notes`:            Temporary notes on feature implementation
   * `todo`:             Ideas and stuff
+  * `schedule`:         Orientative proposed deadlines
 * player:             Player files
   * `cemetery`:         Example cemetery file
   * `config`:           Example configuration file
@@ -65,15 +67,25 @@ You may have some issues with the output formatting, but overall the game is pla
   * `config.py`:        Configuration class
   * `dungeon.py`:       Dungeon class
   * `help.py`:          Help and tutorial
-  * `item.py`:          Item class
+  * `item.py`:          Item classes
   * `launch.py`:        Main menus and procedures.
   * `mob.py`:           Giant enemy class
-  * `npc.py`:           NPC class
+  * `npc.py`:           NPC classes
   * `parser.py`:        Word parser module
   * `player.py`:        Player class
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.9** (2014-05-02):
+* New features:
+  * Potions
+* Bugs fixed:
+  * Save file having lots of empty items
+  * Player having random starting attributes
+  * Crash when launching from external directory
+* Others:
+  * Expanded parser
 
 ####**v0.0.8** (2014-04-25):
 * New features:
