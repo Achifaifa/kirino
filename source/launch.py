@@ -49,13 +49,12 @@ def menu():
   cfg=config.config()
   #Main menu
   while 1:
-    os.system('clear')
     common.version()
     print ""
     print ""
     print "1.- Play"
     print "2.- Options"
-    print "3.- "
+    print "3.- Credits"
     print "--"
     print "9.- Help"
     print "0.- Exit"
@@ -65,6 +64,8 @@ def menu():
       crawl()
     if menu=="2":
       cfg.options(0)
+    if menu=="3":
+      scroll(15)
     if menu=="9":
       help.help()
     if menu=="0":
@@ -140,7 +141,6 @@ def crawl():
         dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Print header and map
-    os.system('clear')
     common.version()
     dung.fill(hero,cfg.fog)
     dung.minimap(hero,cfg.fog)
@@ -308,13 +308,13 @@ def newgame():
   """
   This function displays the menu to create a new character.
   """
+
   global xsize
   global ysize
   cfg=config.config()
   while 1:
     purge()
     try:
-      os.system('clear')
       common.version()
       print "New game [1/5] Dungeon size\n~40x40 recommended\n"
       xsize=int(raw_input("Horizontal size: "))
@@ -326,13 +326,15 @@ def newgame():
         common.getch()
         break
     except ValueError:
-      pas
+      pass
+
   os.system('clear')
   dung=dungeon.dungeon(xsize,ysize,1)
   hero=player.player(dung,0)
   common.version()
   print "New game [2/5] Name\n"
   hero.name=raw_input("What is your name? ")
+
   #If name was left empty, pick a random one
   if len(hero.name)==0:
     namearray=[]
@@ -340,6 +342,7 @@ def newgame():
       for line in names:
         namearray.append(line.strip())
     hero.name=random.choice(namearray)
+
   with open("../data/player/races","r") as file:
       racesarray=[]
       strarray=[]
@@ -358,9 +361,9 @@ def newgame():
           conarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
           chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
   selected=0
+
   while 1:
     try:
-      os.system('clear')
       common.version()
       print "New game [3/5] Race"
       print ""
@@ -401,7 +404,6 @@ def newgame():
   selected=0
   while 1:
     try:
-      os.system('clear')
       common.version()
       print "New game [4/5] Class"
       print ""
@@ -430,6 +432,7 @@ def purge():
 
   Used when exiting a game so the data is not carried to the next one.
   """
+
   global dex
   global intv
   global con
@@ -468,6 +471,7 @@ def lsave(playa):
   """
   Takes a player object and saves all its attributes into global variables. 
   """
+
   global dex
   global intv
   global con
@@ -507,6 +511,7 @@ def lload(playa):
 
   This is used when going to the next floor, so it also adds one experience and levels up if possible.
   """
+
   global flcounter
   global lv
   playa.DEX=dex
@@ -539,6 +544,49 @@ def lload(playa):
       playa.lv+=1
       playa.exp-=lvlimit
       playa.points+=2
+
+def scroll(lines):
+  """
+  Scrolls the text from the ./data/misc/credits
+
+  lines is the height in lines of the visible text
+  """
+
+  #Pending to implement music of some sort
+  height=lines
+  emptyheight=height
+
+  credstr=[]
+
+  with open ("../data/misc/credits","r") as credits:
+    for line in credits:
+      credstr.append(line.rstrip("\n"))
+
+  while 1:
+    os.system('clear')
+
+    if emptyheight>0:
+      for i in range(emptyheight):
+        print ""
+      for i in range(height-emptyheight):
+        try:
+          print credstr[i]
+        except IndexError:
+          pass
+      emptyheight-=1
+
+    if emptyheight==0:
+      try:
+        del credstr[0]
+      except IndexError:
+        break
+      for i in range(height):
+        try:
+          print credstr[i]
+        except IndexError:
+          pass
+
+    time.sleep(1/1.5)
 
 
 #Changes the directory to where the source files are

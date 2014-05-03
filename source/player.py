@@ -2,9 +2,11 @@
 import copy, os, random, sys
 import common, dungeon, item
 
-#Player class definition
 class player:
-  "Player class. Creates and manages player objects"
+  """
+  Player class. Creates and manages player objects
+  """
+
   #Main characteristics
   name="_"      #Name
   pocket=0      #Money
@@ -320,7 +322,6 @@ class player:
     menu=0
     while 1:
       self.secondary()
-      os.system('clear')
       common.version()
       print self.name,"- Character sheet\n_____________________"
 
@@ -374,7 +375,6 @@ class player:
     choice=-1
     while choice!="0": 
       self.secondary()
-      os.system('clear')
       common.version()
       print self.name,"- Character sheet"
       print ""
@@ -478,7 +478,6 @@ class player:
     """
     coptmen=-1
     while coptmen!="0": 
-      os.system('clear')
       common.version()
       print self.name,"- Character sheet"
       print ""
@@ -572,7 +571,6 @@ class player:
     """
 
     while 1: 
-      os.system('clear')
       common.version()
       print self.name,"- Character sheet"
       print ""
@@ -737,8 +735,10 @@ class player:
     Save function. Takes the player attributes and saves them into a text file in ../player/save
     If the path or the file do not exist they are created.
     """
+
     if not os.path.exists("../player/"):
       os.makedirs("../player/")
+
     with open("../player/save","w+") as savefile:
       savefile.write("# \n# Player \n# \n")
       savefile.write("Name:"+str(self.name)+"\n")
@@ -758,13 +758,21 @@ class player:
       savefile.write("STR:"+str(self.STR)+"\n")
       savefile.write("CON:"+str(self.CON)+"\n")
       savefile.write("CHA:"+str(self.CHA)+"\n")
-      savefile.write("# \n# Equipped items \n# \n")
+
+      savefile.write("#\n# Equipped items \n#\n")
       for a in self.equiparr:
-        if a.name!=" ":
-          savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
-      savefile.write("# \n# Inventory items \n# \n")
+        savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
+      
+      savefile.write("#\n# Inventory items \n#\n")
       for a in self.inventory:
         savefile.write("I:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
+
+      savefile.write("#\n# Belt items \n#\n")
+      for a in self.belt:
+        if a.type==4:
+          savefile.write("B:"+str(a.type)+":"+a.name+"\n")
+        if a.type==0:
+          savefile.write("B:"+str(a.type)+":"+str(a.subtype)+":"+a.name+":"+str(a.hpr)+":"+str(a.mpr)+":"+str(a.price)+"\n")
 
     return "Player saved"
 
@@ -777,6 +785,7 @@ class player:
 
     Unlike save it does not record things like maximum HP, items or stats, so buried characters can NOT be recovered.
     """
+
     if not os.path.exists("../player/"):
       os.makedirs("../player/")
     with open("../player/cemetery","a+") as cemetery:
@@ -793,10 +802,9 @@ class player:
     self.points=0      
     self.race="_"
     self.charclass="_"
+
     self.inventory=[] 
     self.belt=[]
-    for i in range(3):
-      self.belt.append(item.consumable(4,0))
     self.equiparr=[]
     for i in range(11):
       new=item.item(0)
@@ -839,6 +847,7 @@ class player:
     """
     Takes the information from the save file stored in ../player/save and loads it into the player object.
     """
+
     try:
       with open("../player/save","r") as savefile:
         if not savefile.readline().startswith("No character"):
@@ -932,6 +941,24 @@ class player:
                 temp.price=     int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
                 self.inventory.append(copy.copy(temp))
 
+              #Load belt items
+              if line.startswith("B:"):
+                line=line.lstrip("B:")
+                if line.partition(':')[0]=="4":
+                  self.belt.append(item.consumable(4,0))
+                if line.partition(':')[0]=="0":
+                  temp=item.consumable(0,0)
+                  temp.subtype=int(line.partition(':')[2].partition(':')[0])
+                  temp.name=line.partition(':')[2].partition(':')[2].partition(':')[0]
+                  temp.hpr=int(line.partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  temp.mpr=int(line.partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+                  temp.price=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                  self.belt.append(copy.copy(temp))
+
+          #Add empty items to belt until it's full
+          while len(self.belt)<3:
+            self.belt.append(item.consumable(4,0))
+
           #Update player bonuses
           for a in self.equiparr:
             self.strboost+=(a.strbonus)
@@ -955,6 +982,6 @@ class player:
           return "Save file is empty"
 
     except IOError:
-      print "Error loading character"
+      return "Error loading character"
 
    

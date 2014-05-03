@@ -18,6 +18,7 @@ class consumable:
   hpr=0
   mpr=0
   statusr=0
+  subtype=0
 
   #Tome propieties
   intbst=0
@@ -73,6 +74,7 @@ class consumable:
 
     #Variable initialization
     items=[]
+    self.subtype=subtype
     self.type=newtype
 
     #Array loading

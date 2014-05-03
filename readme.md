@@ -1,4 +1,4 @@
-#Kirino v0.0.9
+#Kirino v0.0.9b
   
 Basic console based dungeon crawler. 
 
@@ -26,7 +26,6 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 * Other linux distributions: Should work as long as python is installed (Untested).
 * Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.  
 You may have some issues with the output formatting, but overall the game is playable.
-* OSX: Unsupported.
 
 ##List of files/folders:
 
@@ -36,6 +35,8 @@ You may have some issues with the output formatting, but overall the game is pla
     * `attr_mod`:         Basic attribute modifiers
     * `items_CI`:         Consumable items 
     * `items_XX`:         Items and basic stats
+  * misc:               Other files
+    * `credits`:          Credit text for the scroller
   * npcs:               NPC data
     * `appearance`        Visual adjectives
     * `firstnames_female` Female names
@@ -86,6 +87,8 @@ You may have some issues with the output formatting, but overall the game is pla
   * Crash when launching from external directory
 * Others:
   * Expanded parser
+  * [0.0.9b] Added credits
+  * [0.0.9b] Potion saving and loading
 
 ####**v0.0.8** (2014-04-25):
 * New features:

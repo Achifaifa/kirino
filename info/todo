@@ -1,4 +1,4 @@
-TO-DO (Elements inside files ordered by priority)
+TO-DO
 
 Dungeon.py:
   Complete debugger (Make sure the exit is reachable from the entrance)
@@ -7,6 +7,7 @@ Dungeon.py:
 Item.py
   Item tiers
   Weighted random generator instead of if sentences (e.g. lines 115 to 136)
+  Items needing a minimum level of dex or str
 
 common.py
 
@@ -16,6 +17,8 @@ help.py
 
 Launch.py:
   Function that shows the explored map as a ""popup""
+  "Remembering" explored tiles, depending on intelligence. If more tiles than the maximum that can be remembered are explored, other random tiles start fading out.
+  When HP<3, WIL will need to be over a certain value to move or do certain things successfully
 
 Mob.py:
   Add stats (Movement, damage, flying)

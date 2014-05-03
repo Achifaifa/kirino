@@ -4,12 +4,20 @@ Common procedure file. Contains all the code used by most of the other modules.
 """
 import os, sys, tty, termios
 
+def vern():
+  """
+  Returns a string with the version number
+  """
+
+  return "v0.0.9b"
+
 def version():
   """
   Prints the program name and the version in one line
   """
 
-  print "Kirino - v0.0.9"
+  os.system('clear')
+  print "Kirino - "+vern()
 
 def getch():
   """
