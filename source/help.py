@@ -41,8 +41,6 @@ def keyhelp():
   """
 
   cfg=config.config()
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Key help\n"
   print "Movement\n"
@@ -72,8 +70,6 @@ def about():
   Gives information about the game
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - About kirino"
   print ""
@@ -93,8 +89,6 @@ def funchelp():
   Gives information about specific game functions and options
   """
   while 1:
-    sys.stdout.flush() 
-    os.system('clear')
     common.version()
     print "Help - Using kirino"
     print ""
@@ -128,8 +122,6 @@ def introh():
   Small introduction to the game and basic controls
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - General introduction"
   print ""
@@ -149,8 +141,6 @@ def crawlingh():
   description of the crawling screen elements
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - crawling screen (1/2)"
   print ""
@@ -162,8 +152,6 @@ def crawlingh():
   print "keys available. They can be configured in the option menu"
   print ""
   raw_input("next")
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - crawling screen (2/2)"
   print ""
@@ -188,8 +176,6 @@ def parserh():
   Information about the word parser
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Word parser"
   print ""
@@ -207,8 +193,6 @@ def saveh():
   Information about saving and loading characters and configuration
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Saving and loading"
   print ""
@@ -231,8 +215,6 @@ def charh():
   Information about the character sheet and the options in it
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Character sheet"
   print ""
@@ -259,8 +241,6 @@ def itemh():
   Information about items, inventory, enchanting, etc
   """
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Items and inventory"
   print ""
@@ -276,6 +256,10 @@ def itemh():
   print "  Enchanting an item increases its attack or defense rating by 1 and adds random attribute boosts. Items can only be enchanted up to level 10 (item +10)"
   print "  Enchanting an item has a failure rate of 1%. If the enchanting fails, the item is destroyed."
   print ""
+  print "-Consumable items"
+  print "  There are also items you can use during your adventure, such as potions, tomes and attack boosters."
+  print "  This items are not found in the floor and they must be purchased from sellers."
+  print "  To use these items, you only have to press the quick use keys you have specified while crawling."
   raw_input("Go back")
 
 def tutorial():
@@ -286,8 +270,6 @@ def tutorial():
 
   cfg=config.config()
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Introduction"
   print ""
@@ -297,8 +279,6 @@ def tutorial():
   print "press any key to continue",
   common.getch()
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Basic dungeons"
   print ""
@@ -325,8 +305,6 @@ def tutorial():
   new.mobarray=[]
   new.fill(play,0)
   while 1:
-    sys.stdout.flush()
-    os.system('clear')
     common.version()
     print "Help - Using kirino - Tutorial - Basic dungeons"
     print ""
@@ -364,8 +342,6 @@ def tutorial():
       if tut1ch==cfg.nextf:
         break
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Items"
   print ""
@@ -378,8 +354,6 @@ def tutorial():
   print "press any key to continue",
   common.getch()
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Enemies"
   print ""
@@ -392,8 +366,6 @@ def tutorial():
   print "press any key to continue",
   common.getch()
 
-  sys.stdout.flush() 
-  os.system('clear')
   common.version()
   print "Help - Using kirino - Tutorial - Parser"
   print ""

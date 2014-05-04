@@ -1,4 +1,4 @@
-#Kirino v0.0.9b
+#Kirino v0.0.9c
   
 Basic console based dungeon crawler. 
 
@@ -89,6 +89,7 @@ You may have some issues with the output formatting, but overall the game is pla
   * Expanded parser
   * [0.0.9b] Added credits
   * [0.0.9b] Potion saving and loading
+  * [0.0.9c] Fixed help module
 
 ####**v0.0.8** (2014-04-25):
 * New features:
