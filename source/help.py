@@ -57,6 +57,7 @@ def keyhelp():
   print "Belt item 3:     "+cfg.quick3+"\n"
 
   print "Actions\n"
+  print "Show map:        "+cfg.showmap
   print "Input mode:      "+cfg.console
   print "Character sheet: "+cfg.charsh
   print "Options menu:    "+cfg.opt
@@ -151,7 +152,9 @@ def crawlingh():
   print "HP, MP, primary and secondary attributes, including the attribute boost from items."
   print "keys available. They can be configured in the option menu"
   print ""
-  raw_input("next")
+  print "press any key to continue"
+  common.getch()
+
   common.version()
   print "Help - Using kirino - crawling screen (2/2)"
   print ""
@@ -160,16 +163,19 @@ def crawlingh():
   print "8 - your current position"
   print "# - A rock tile. You can't walk through"
   print ". - A floor tile. These are empty"
+  print "_ - A trap you have stepped on previously"
   print ""
   print "$ - Money. Walk over this tile to pick it up"
   print "/ - Item. Walk over to pick it up"
   print ""
+  print "p - Peddler. They appear on random floors and they allow you to buy and sell things"
   print "i - Zombie"
   print ""
   print "A - Stairs up. This is where you start on a level"
   print "X - Floor exit. Move here to go to the the next floor"
   print ""
-  raw_input("Go back")
+  print "press any key to go back"
+  common.getch()
 
 def parserh():
   """
@@ -186,7 +192,8 @@ def parserh():
   print "Second, the simpler the sentences are, the better. 'Drop sword' will have the same effect as 'Drop sword from inventory to the ground'."
   print "Third, some of the words in a sentence can be ignored. The parser does not analyze the full sentence, it only examines the first word and processes the rest accordingly."
   print ""
-  raw_input("Go back")
+  print "press any key to go back"
+  common.getch()
 
 def saveh():
   """
@@ -208,7 +215,8 @@ def saveh():
   print "Most of the controls can be customised. They are saved automatically to a text file in ./player/config. The configuration from this text file is automatically loaded when kirino starts."
   print "The options will save automatically (overwriting the previous file) whenever you exit an option menu"
   print ""
-  raw_input("Go back")
+  print "press any key to go back"
+  common.getch()
 
 def charh():
   """
@@ -234,7 +242,8 @@ def charh():
   print "-Save and load your character"
   print "  See 'saving and loading'"
   print ""
-  raw_input("Go back")
+  print "press any key to go back"
+  common.getch()
 
 def itemh():
   """
@@ -260,7 +269,8 @@ def itemh():
   print "  There are also items you can use during your adventure, such as potions, tomes and attack boosters."
   print "  This items are not found in the floor and they must be purchased from sellers."
   print "  To use these items, you only have to press the quick use keys you have specified while crawling."
-  raw_input("Go back")
+  print "press any key to go back"
+  common.getch()
 
 def tutorial():
   """

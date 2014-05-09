@@ -41,7 +41,21 @@
 <font color="#000000" face="helvetica, arial"><a name="dungeon">class <strong>dungeon</strong></a></font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;dungeons&nbsp;and&nbsp;<a href="#dungeon">dungeon</a>&nbsp;displaying&nbsp;features<br>&nbsp;</tt></td></tr>
+<td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;dungeons&nbsp;and&nbsp;<a href="#dungeon">dungeon</a>&nbsp;displaying&nbsp;features<br>
+&nbsp;<br>
+#Size&nbsp;variables<br>
+xsize=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Horizontal&nbsp;<a href="#dungeon">dungeon</a>&nbsp;size<br>
+ysize=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Vertical&nbsp;<a href="#dungeon">dungeon</a>&nbsp;size<br>
+&nbsp;<br>
+#Dungeon&nbsp;arrays<br>
+dungarray=[]&nbsp;&nbsp;#Contains&nbsp;rock,&nbsp;empty,&nbsp;loot,&nbsp;etc<br>
+filled=[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#This&nbsp;is&nbsp;what&nbsp;will&nbsp;be&nbsp;displayed&nbsp;to&nbsp;the&nbsp;player<br>
+explored=[]&nbsp;&nbsp;&nbsp;#No&nbsp;use<br>
+traps=[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Array&nbsp;with&nbsp;the&nbsp;traps&nbsp;on&nbsp;that&nbsp;floor<br>
+&nbsp;<br>
+#Mob&nbsp;and&nbsp;peddler&nbsp;data<br>
+mobarray=[]&nbsp;&nbsp;&nbsp;#Array&nbsp;of&nbsp;mobs&nbsp;walking&nbsp;through&nbsp;the&nbsp;<a href="#dungeon">dungeon</a><br>
+vendorvar=0&nbsp;&nbsp;&nbsp;#If&nbsp;1,&nbsp;a&nbsp;vendor&nbsp;is&nbsp;generated&nbsp;in&nbsp;the&nbsp;floor<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y, vendor)</dt><dd><tt>Class&nbsp;constructor.&nbsp;<br>
@@ -101,20 +115,6 @@ Uses&nbsp;the&nbsp;function&nbsp;<a href="#dungeon-fill">fill</a>(),&nbsp;so&nbs
 <dl><dt><a name="dungeon-report"><strong>report</strong></a>(self)</dt><dd><tt>Appends&nbsp;a&nbsp;map&nbsp;of&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;and&nbsp;a&nbsp;report&nbsp;message&nbsp;into&nbsp;a&nbsp;text&nbsp;file.<br>
 &nbsp;<br>
 File&nbsp;is&nbsp;../logs/report</tt></dd></dl>
-
-<hr>
-Data and other attributes defined here:<br>
-<dl><dt><strong>dungarray</strong> = []</dl>
-
-<dl><dt><strong>filled</strong> = []</dl>
-
-<dl><dt><strong>mobarray</strong> = []</dl>
-
-<dl><dt><strong>vendorvar</strong> = 0</dl>
-
-<dl><dt><strong>xsize</strong> = 0</dl>
-
-<dl><dt><strong>ysize</strong> = 0</dl>
 
 </td></tr></table></td></tr></table>
 </body></html>

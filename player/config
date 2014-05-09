@@ -14,8 +14,9 @@ Sheet:z
 Options:o
 Quit:;
 Report:c
-Next floor:m
+Next floor:b
 Show keys:k
+Show map:m
 Quick slot 1:q
 Quick slot 2:w
 Quick slot 3:f

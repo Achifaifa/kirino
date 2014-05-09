@@ -7,44 +7,58 @@ class mob:
   giant enemy class.
 
   All the mob generation, IA and movement is implemented here.
-  """
+
+  #General attributes
+  lv=1        #Mob level
+  exp=0       #Experience given to the player
+  pres=1      #Prestige given to the player
+  name=""     #Name
+
   #Position variables
   xpos=0
   ypos=0
   zpos=0
 
   #Primary attributes
-  INT=0
-  DEX=0
-  PER=0
-  WIL=0
-  STR=0
-  CON=0
-  CHA=0
+  INT=0       #Intelligence
+  DEX=0       #Dexterity
+  PER=0       #Perception
+  WIL=0       #Willpower
+  STR=0       #Strenght
+  CON=0       #Constitution
+  CHA=0       #Charisma
 
   #Secondary attributes
-  HP=0
-  MP=0
-  END=0
-  SPD=0
-  defn=0
-  lock=0
-  exp=0
-  hit=0
-  name=""
+  HP=0        #Total life
+  MP=0        #Total mana
+  END=0       #Endurance
+  SPD=0       #Speed
+
+  atk=4       #Attack power
+  defn=0      #Defense power
+
+  #Status variables
+  lock=0      #Locked onto a target for attack 
+  hit=0       #Flags when the mob is hit (Does half damage)
+  """
   
   def __init__(self,dungeon):
     """
-    Mob generator. Receives a dungeon object and places the mob in a random spot that is not filled with rock.
+    Mob generator
+
+    Receives a dungeon object and places the mob in a random spot that is not filled with rock.
     """
 
     #Initialize attributes
+    self.lv=1
     self.str=3
     self.HP=20
+    self.atk=4
     self.defn=3
     self.lock=0
     self.exp=1
     self.hit=0
+    self.pres=1
     self.name="zombie"
 
     #Select starting coordinates
@@ -67,6 +81,7 @@ class mob:
 
     If the mob is locked the function does nothing
     """
+    
     if not self.lock:
       try:
         if direction==1:
@@ -116,7 +131,7 @@ class mob:
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
 
-      attackpow=((self.str*4)-player.totdefn)
+      attackpow=((self.str*self.atk)-player.totdefn)
       if self.hit:
         attackpow=attackpow/2
       if attackpow<=0:

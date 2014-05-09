@@ -5,9 +5,9 @@ import common, dungeon, item
 class player:
   """
   Player class. Creates and manages player objects
-  """
 
   #Main characteristics
+
   name="_"      #Name
   pocket=0      #Money
   exp=0         #EXP
@@ -20,41 +20,44 @@ class player:
   belt=[]       #Quick access consumable items
   totalfl=0     #Total floors explored
   status=0      #Paralyzed, burned, bleeding, etc
-  prestige=0
-  prestigelv=1
+  prestige=0    #Prestige points
+  prestigelv=1  #Prestige level (unused)
 
   #Attribute and attribute booster variables
-  INT=1
+
+  INT=1         #Intelligence
+  DEX=1         #Dexterity
+  PER=1         #Perception
+  WIL=1         #Willpower
+  STR=1         #Strenght
+  CON=1         #Constitution
+  CHA=1         #Charisma
   intboost=0
-  DEX=1
   dexboost=0
-  PER=1
   perboost=0
-  WIL=1
   wilboost=0
-  STR=1
   strboost=0
-  CON=1
   conboost=0
-  CHA=1
   chaboost=0
 
-  totatk=0
-  totdefn=0
+  totatk=1      #Total attack power
+  totdefn=1     #Total defense power
 
-  #Status variables
-  HP=0
-  hp2=0
-  MP=0
-  mp2=0
-  END=0
-  SPD=0
+  #Secondary and status variables
+
+  HP=0          #Maximum hit points
+  hp2=0         #Current hit points
+  MP=0          #Maximum mana points
+  mp2=0         #Current mana points
+  END=0         #Endurance
+  SPD=0         #Speed
   
   #Position
   xpos=0
   ypos=0
-  zpos=0 #0: On the ground; 1: Flying
-  
+  zpos=0
+  """
+
   def __init__(self,dungeon,randomv):
     """
     Initialization of the player objects. 
@@ -65,19 +68,27 @@ class player:
     Needs a random parameter. if 1, the character is generated randomly.
     """
 
-    #Initialize atributes
-    self.name="Test subject"
-    self.pocket=0
-    self.exp=1
-    self.points=45
-    self.race="_"
-    self.charclass="_"
-    self.totalfl=0
-    self.prestigelv=0
-    self.prestige=0
+    #Main characteristics
+    self.name="_"      #Name
+    self.pocket=0      #Money
+    self.exp=0         #EXP
+    self.lv=1          #Level
+    self.points=40     #Expendable points
+    if randomv:
+      self.points=0
+    self.race="_"      #Race
+    self.charclass="_" #Class
+    self.totalfl=0     #Total floors explored
+    self.status=0      #Paralyzed, burned, bleeding, etc
+    self.prestige=0    #Prestige points
+    self.prestigelv=1  #Prestige level (unused)
 
     #Initializing inventory arrays
+    self.belt=[]
+    for i in range(3):
+      self.belt.append(item.consumable(4,0))
     self.inventory=[]
+    self.equiparr=[]
     for i in range(11):
       new=item.item(0)
       self.equiparr.append(new)
@@ -90,9 +101,14 @@ class player:
     self.PER=1
     self.DEX=1
     self.CHA=1
-    self.secondary()
-    self.mp2=self.MP
-    self.hp2=self.HP
+
+    #Secondary attributes
+    self.HP=0
+    self.hp2=0
+    self.MP=0
+    self.mp2=0
+    self.END=0
+    self.SPD=0
 
     #Set attribute boosters to 0
     self.strboost=0
@@ -105,6 +121,10 @@ class player:
 
     self.totatk=1
     self.totdefn=1
+
+    self.secondary()
+    self.mp2=self.MP
+    self.hp2=self.HP
     
     #Initialize position at the entrance
     for i in range(len(dungeon.dungarray)):
@@ -116,6 +136,12 @@ class player:
 
     #Random race
     if randomv==1:
+      namearray=[]
+      with open("../data/player/names","r") as names:
+        for line in names:
+          namearray.append(line.strip())
+      self.name=random.choice(namearray)
+
       with open("../data/player/races","r") as file:
         racesarray=[]
         strarray=[]
@@ -156,13 +182,27 @@ class player:
             classesarray.append(line.rstrip('\n'))
       self.charclass=random.choice(classesarray) 
 
+      #Random initial attributes
+      for i in range(9):
+        randstat=random.randrange(6)
+        if randstat==0:
+          self.STR+=1
+        if randstat==1:
+          self.INT+=1
+        if randstat==2:
+          self.DEX+=1
+        if randstat==3:
+          self.PER+=1
+        if randstat==4:
+          self.CON+=1
+        if randstat==5:
+          self.WIL+=1
+        if randstat==6:
+          self.CHA+=1
+
     #add two random items to the inventory
     for i in range(2):
       self.inventory.append(item.item(random.randint(1,11)))
-
-    #Initialize the belt
-    for i in range(3):
-      self.belt.append(item.consumable(4,0))
 
   def pickobject(self,object):
     """
@@ -171,15 +211,15 @@ class player:
     This receives an item and adds it to the inventory if the inventory is not full.
     Returns 1 and adds the object to the inventory if the object was correctly picked, returns 0 if it wasn't.
     """
+
     #If the inventory is not full, it adds it. 
-    #If the inventory is full, passes.
     if len(self.inventory)>=9:
       pass
       return 0,("Your inventory is full!\n")
+    #If the inventory is full, passes.
     if len(self.inventory)<9:
       self.inventory.append(object)
       return 1,("You picked "+object.name+"\n")
-
     
   def getatr(self):
     """
@@ -211,11 +251,12 @@ class player:
       1 Moved successfully
       2 Mob present (Not moved, signaled for attack)
     """
+
     #This gives 1 base move 
     #It used to add 1 extra move for every 10 SPD but this caused bugs
     moves=1
     try:
-      #Checks de direction and moves
+      #Checks the direction and moves
       if direction==1:
         if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|":
           return 0
@@ -298,7 +339,7 @@ class player:
     Calculates and sets the secondary attributes from the primary ones.
  
     Receives a player object and recalculates HP, MP, END and SPD from the primary attributes. 
-    It also adds the extra HP and MP gained.
+    It also adds the extra HP and MP gained after adding an attribute point or leveling up.
     """
 
     temp=self.HP-self.hp2
@@ -372,6 +413,7 @@ class player:
     """
     Point spending menu.
     """
+
     choice=-1
     while choice!="0": 
       self.secondary()
@@ -476,6 +518,7 @@ class player:
     """
     Player options menu
     """
+
     coptmen=-1
     while coptmen!="0": 
       common.version()
@@ -495,6 +538,7 @@ class player:
     """
     Generates the string with the attribute boosts for the inventory
     """
+
     calcarray=[]
     if item.strbonus>0:
       calcarray.append("+"+str(item.strbonus)+" STR")
@@ -515,12 +559,30 @@ class player:
     if len(calcarray)==0:
       return ""
 
+  def willtest(self):
+    """
+    Tests if the player has enough willpower to move.
+
+    Roll a die [1,20] and add the total willpower
+    If the roll is less than 20/remaining HP, the test fails 
+
+    If the player's health is bigger than 5, the player automatically passes the test.
+    """
+
+    if self.hp2<=5:
+      roll=random.randint(1,20)+self.WIL+self.wilboost
+      if self.hp2>0:
+        if roll<20/self.hp2:
+          return 0,"Your body refuses to move"
+    return 1,""
+
   def use(self,item):
     """
     Takes an item object from the player belt and uses it.
 
     Returns a message to be displayed.
     """
+
     if item.type==0:
       hppool=int(item.hpr)
       mppool=int(item.mpr)
@@ -559,7 +621,6 @@ class player:
         msg=msg+str(mpres)+" MP"
       if hpres>0 or mpres>0:
         msg=msg+"."
-
       return msg
 
     if item.type==4:
@@ -719,6 +780,7 @@ class player:
 
     Returns a string to be displayed in the crawl screen
     """
+
     atkpow=(self.totatk*self.STR)-mob.defn
     if atkpow<=0:
       atkpow=1
@@ -726,7 +788,9 @@ class player:
     mob.hit=1
     if mob.HP<=0:
       self.exp+=mob.exp
-      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\nYou killed "+mob.name+" for "+str(mob.exp)+" experience!"
+      if self.lv<=mob.lv+5:
+        self.prestige+=mob.pres
+      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\nYou killed "+mob.name+" for "+str(mob.exp)+" experience!\nYou earn "+str(mob.pres)+" prestige points"
     else:
       return "You attack "+mob.name+" for "+str(atkpow)+" damage!\n"
 
@@ -789,7 +853,7 @@ class player:
     if not os.path.exists("../player/"):
       os.makedirs("../player/")
     with open("../player/cemetery","a+") as cemetery:
-      cemetery.write("RIP "+self.name+", the "+self.race+" "+self.charclass+".\n")
+      cemetery.write("RIP "+self.name+", the "+self.race+" "+self.charclass+" ("+str(self.prestige)+" prestige).\n")
       cemetery.write("Died at level "+str(self.lv)+" after exploring "+str(self.totalfl)+" floors.\n")
       cemetery.write("His body rots under "+str(self.pocket)+" gold.\n")
       cemetery.write('"'+raw_input("Your last words?")+'" \n \n')
@@ -983,5 +1047,3 @@ class player:
 
     except IOError:
       return "Error loading character"
-
-   

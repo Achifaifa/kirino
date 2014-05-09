@@ -2,7 +2,6 @@ TO-DO
 
 Dungeon.py:
   Complete debugger (Make sure the exit is reachable from the entrance)
-  create another array with the explored dungeon if the fog is on
 
 Item.py
   Item tiers
@@ -16,9 +15,6 @@ help.py
   Take tutorial and help text from files
 
 Launch.py:
-  Function that shows the explored map as a ""popup""
-  "Remembering" explored tiles, depending on intelligence. If more tiles than the maximum that can be remembered are explored, other random tiles start fading out.
-  When HP<3, WIL will need to be over a certain value to move or do certain things successfully
 
 Mob.py:
   Add stats (Movement, damage, flying)
@@ -26,9 +22,8 @@ Mob.py:
   Add random name generator from word files
 
 Player.py
-  2H weapons unequip 1h weapons.
+  Unequip 1H weapons when equipping 2H ones.
   Dual-wielding 1h weapons.
-  Add prestige ranks
 
 Parser.py (After everything else is done)
   use nlp to control alternate actions

@@ -5,35 +5,66 @@ import common
 class consumable:
   """
   Potions, spells, items that can be eaten, drunk or consumed.
-  """
+
+  Default attributes
 
   #Type
   type=4
+  
+  # 0 - Potion
+  #   01 - HP potion
+  #   02 - MP potion
+  #   03 - Recovery potion (HP&MP)
+  #   04 - Status potions
+  #   00 - Random (except status potions)
+  #
+  # Potions regenerate a certain amout of HP or MP in a single turn.
+  # The amout of points recovered depends on the type of potion. Each potion type has a fixed value that can vary in the -30% / +30% range with random modifiers.
+  # Recovery potions recover both HP and MP, and status potions stop damage over time (Poison, fire, bleeding, etc)
+  #
+  # 1 - Tome of knowledge
+  #
+  # Tomes of knowledge add one point to an attribute and decrease one point to another attribute.
+  #
+  # 2 - Attack items
+  #
+  # Attack items inflict extra damage. They can be direct things like bombs or extra strenght, or they can inflict extra damage over time.
+  #
+  # 3.- Unidentified potions
+  #
+  # Unidentified consumables can have totally random and unexpected effects. 
+  # Vendors can identify them. When this happens, they are converted to a random type 0, 1 or 2 item.
+  #
+  # 4.- Empty 
+  #
+  # Generates an object without propieties named "--EMPTY--" to be displayed in the crawl screen.
+  # This objects can not be consumend and are for display purposes only.
 
   #General propieties
-  name="--EMPTY--"
-  price=0
+  name="--EMPTY--"  #Name
+  price=0           #Price
 
   #Potion propieties
-  hpr=0
-  mpr=0
-  statusr=0
-  subtype=0
+  hpr=0             #Maximum HP recovered
+  mpr=0             #Maximum MP recovered
+  statusr=0         #If 1, recovers status
+  subtype=0         #Potion subtype
 
   #Tome propieties
-  intbst=0
-  dexbst=0
-  perbst=0
-  conbst=0
-  wilbst=0
-  chabst=0
-  strbst=0
+  intbst=0          #Intelligence modifier
+  dexbst=0          #Dexterity modifier
+  perbst=0          #Perception modifier
+  conbst=0          #Constitution modifier
+  wilbst=0          #Willpower modifier 
+  chabst=0          #Charisma modifier
+  strbst=0          #Strenght modifier
 
   #Attack propieties
-  areatype=0
-  areasize=0
-  damage=0
-  dps=0
+  areatype=0        #Type of area affected
+  areasize=0        #Size of the area
+  damage=0          #Damage caused
+  dps=0             #Damage over time
+  """
 
   def __init__(self,newtype,subtype):
     """
@@ -41,35 +72,6 @@ class consumable:
 
     Consumable items can only be bought from vendors. They can't be found in the ground.
     Requires type and subtype:
-    # 0 - Potion
-    #   01 - HP potion
-    #   02 - MP potion
-    #   03 - Recovery potion (HP&MP)
-    #   04 - Status potions
-    #   00 - Random (except status potions)
-    #
-    # Potions regenerate a certain amout of HP or MP in a single turn.
-    # The amout of points recovered depends on the type of potion. Each potion type has a fixed value that can vary in the -30% / +30% range with random modifiers.
-    # Recovery potions recover both HP and MP, and status potions stop damage over time (Poison, fire, bleeding, etc)
-    #
-    # 1 - Tome of knowledge
-    #
-    # Tomes of knowledge add one point to an attribute and decrease one point to another attribute.
-    #
-    # 2 - Attack items
-    #
-    # Attack items inflict extra damage. They can be direct things like bombs or extra strenght, or they can inflict extra damage over time.
-    #
-    # 3.- Unidentified potions
-    #
-    # Unidentified consumables can have totally random and unexpected effects. 
-    # Vendors can identify them. When this happens, they are converted to a random type 0, 1 or 2 item.
-    #
-    # 4.- Empty 
-    #
-    # Generates an object without propieties named "--EMPTY--" to be displayed in the crawl screen.
-    # This objects can not be consumend and are for display purposes only.
-
     """
 
     #Variable initialization
@@ -105,7 +107,8 @@ class consumable:
               pass
 
     except IOError:
-      raw_input("Could not load consumable data file")
+      print "Could not load consumable data file"
+      common.getch()
 
     #Process item arrays:
     if newtype==0:
@@ -155,25 +158,27 @@ class consumable:
 class item:
   """
   Creates and manages items
-  """
 
   #Item attributes
-  ID=0      #Identifier
-  name="_"  #Item name
-  type=00   #Item table. See any item_XX file or the table below
-  equip=0   #Equipped. 1=yes, 2=no
+  ID=0          #Identifier
+  name="_"      #Item name
+  type=00       #Item table. See any item_XX file or the table below
+  equip=0       #Equipped. 1=yes, 2=no
 
   #Item bonuses
-  strbonus=0
-  intbonus=0
-  dexbonus=0
-  perbonus=0 
-  conbonus=0
-  wilbonus=0 
-  chabonus=0
-  atk=0
-  defn=0
-  enchantlv=0
+  strbonus=0    #Intelligence boost
+  intbonus=0    #Dexterity boost
+  dexbonus=0    #Perception boost
+  perbonus=0    #Constitution boost
+  conbonus=0    #Willpower boost
+  wilbonus=0    #Charisma boost
+  chabonus=0    #Strenght boost
+
+  #Other
+  atk=0         #Attack power
+  defn=0        #Defense power
+  enchantlv=0   #Enchant level
+  """
 
   def __init__(self,type):
     """

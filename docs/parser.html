@@ -56,7 +56,7 @@ Splits&nbsp;the&nbsp;string&nbsp;and&nbsp;identifies&nbsp;action,&nbsp;target&nb
 &nbsp;<br>
 Needs&nbsp;a&nbsp;string&nbsp;to&nbsp;be&nbsp;parsed&nbsp;and&nbsp;player,&nbsp;dungeon&nbsp;and&nbsp;config&nbsp;objects.<br>
 &nbsp;<br>
-Returns&nbsp;and&nbsp;action&nbsp;code&nbsp;and&nbsp;a&nbsp;message&nbsp;if&nbsp;needed.<br>
+Returns&nbsp;an&nbsp;action&nbsp;code&nbsp;and&nbsp;a&nbsp;message&nbsp;if&nbsp;needed.<br>
 &nbsp;<br>
 0)&nbsp;No&nbsp;action<br>
 &nbsp;&nbsp;Look&nbsp;sentences&nbsp;only&nbsp;return&nbsp;a&nbsp;description&nbsp;of&nbsp;the&nbsp;place<br>
@@ -89,7 +89,7 @@ Returns&nbsp;and&nbsp;action&nbsp;code&nbsp;and&nbsp;a&nbsp;message&nbsp;if&nbsp
 It&nbsp;evaluates&nbsp;the&nbsp;verb&nbsp;in&nbsp;the&nbsp;first&nbsp;position&nbsp;and&nbsp;the&nbsp;options&nbsp;next<br>
 e.g.:&nbsp;go&nbsp;north,&nbsp;hit&nbsp;zombie,&nbsp;run&nbsp;southeast,&nbsp;walk&nbsp;nw,&nbsp;equip&nbsp;itemname,&nbsp;etc.<br>
 If&nbsp;the&nbsp;first&nbsp;word&nbsp;of&nbsp;the&nbsp;string&nbsp;is&nbsp;not&nbsp;a&nbsp;verb&nbsp;(i.e.&nbsp;I&nbsp;want&nbsp;to&nbsp;walk&nbsp;north)&nbsp;a&nbsp;random&nbsp;generic&nbsp;error&nbsp;message&nbsp;will&nbsp;be&nbsp;returned.</tt></dd></dl>
- <dl><dt><a name="-parseconv"><strong>parseconv</strong></a>(conv, dude, player)</dt><dd><tt>Parses&nbsp;a&nbsp;conversation&nbsp;string.&nbsp;<br>
+ <dl><dt><a name="-parseconv"><strong>parseconv</strong></a>(convstr, dude, player)</dt><dd><tt>Parses&nbsp;a&nbsp;conversation&nbsp;string.&nbsp;<br>
 &nbsp;<br>
 Needs&nbsp;the&nbsp;string,&nbsp;a&nbsp;player&nbsp;object&nbsp;and&nbsp;the&nbsp;thing&nbsp;the&nbsp;player&nbsp;is&nbsp;chatting&nbsp;with</tt></dd></dl>
  <dl><dt><a name="-use"><strong>use</strong></a>(words)</dt></dl>

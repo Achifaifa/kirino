@@ -11,7 +11,6 @@ L> Low priority
 
 common.py
   L?> Space being randomly printed before the title and version 
-    Status: Asked at SE http://stackoverflow.com/questions/23140540/os-systemclear-printing-white-space
 
 config.py
 
@@ -30,10 +29,8 @@ launch.py
 mob.py
 
 npc.py
-  H?> Exiting vendor menu when pressing a button in the potion menu
 
 parser.py
-  H?> Look instructions not working on random floors
 
 player.py
   H?> Not loading hp2 and mp2 correctly

@@ -6,8 +6,6 @@ class config:
   """
   Configuration class. When instancing it it takes the variables from the configuration files and stores them in the instance.
 
-  """ 
-
   #Environment variables
   autosave=0
   fog=1
@@ -25,12 +23,14 @@ class config:
   opt="o"
   quit="q"
   report="z"
-  nextf="m"
+  nextf="b"
   showkeys="k"
+  showmap="m"
   console="/"
   quick1="1"
   quick2="2"
   quick3="3"
+  """ 
 
   def __init__(self):
     #Environment variables
@@ -50,8 +50,9 @@ class config:
     self.opt="o"
     self.quit="q"
     self.report="z"
-    self.nextf="m"
+    self.nextf="b"
     self.showkeys="k"
+    self.showmap="m"
     self.console="/"
     self.quick1="1"
     self.quick2="2"
@@ -85,7 +86,9 @@ class config:
             if line.partition(':')[0]=="Quit":
               self.quit=(line.partition(':')[2]).strip() 
             if line.partition(':')[0]=="Show keys:":
-              self.showkeys=(line.partition(':')[2]).strip()  
+              self.showkeys=(line.partition(':')[2]).strip() 
+            if line.partition(':')[0]=="Show map:":
+              self.showmap=(line.partition(':')[2]).strip()  
             if line.partition(':')[0]=="Input mode":
               self.console=(line.partition(':')[2]).strip() 
             if line.partition(':')[0]=="Report":
@@ -248,6 +251,8 @@ class config:
               print "Options - Keyboard mapping 3/3"
               print ""
               print "1.- Quick slot 3: "+self.quick3
+              print "2.- Show map: "+self.showmap
+              print "3.- Next floor: "+self.nextf
               print "---"
               print "9.- More keys"
               print "0.- Go back"
@@ -256,6 +261,10 @@ class config:
 
               if keymenu3=="1":
                 self.quick3=newkey("quick slot 3")
+              if keymenu3=="2":
+                self.showmap=newkey("show map")
+              if keymenu3=="3":
+                self.nextf=newkey("next floor")
               if keymenu3=="0":
                 saveoptions(self)
                 break
@@ -309,6 +318,7 @@ def saveoptions(self):
     configfile.write("Report:"+self.report+"\n")
     configfile.write("Next floor:"+self.nextf+"\n")
     configfile.write("Show keys:"+self.showkeys+"\n")
+    configfile.write("Show map:"+self.showmap+"\n")
     configfile.write("Quick slot 1:"+self.quick1+"\n")
     configfile.write("Quick slot 2:"+self.quick2+"\n")
     configfile.write("Quick slot 3:"+self.quick3+"\n")    

@@ -1,11 +1,7 @@
 #Obnoxious files in general
 *.~
 *.sh~
-*~
-*.kate-swp
 .directory
-
-Thumbs.db
 
 #Backups, packages, etc
 
@@ -13,16 +9,9 @@ Thumbs.db
 *.rar
 *.zip
 
-#logs
-
-*.log
-*.dump
-
 #Others
 source/*.pyc
-.dox
 
 #folders
 logs/*
-player/*
 tests/*

@@ -23,7 +23,7 @@ def parse(words,player,dungeon,config):
 
   Needs a string to be parsed and player, dungeon and config objects.
 
-  Returns and action code and a message if needed.
+  Returns an action code and a message if needed.
 
   0) No action
     Look sentences only return a description of the place
@@ -141,8 +141,11 @@ def chat(dude,player):
   common.version()
   os.system('clear')
   print "Conversation with vendor - "+dude.name
-  print ""
-  print "Hello stranger!"
+  print "Type 'exit' to exit"
+  if dude.rel<=10:
+    print "\nHello stranger!"
+  if dude.rel>10:
+    print "\nHello "+player.name
   while 1:
     conv=raw_input(">>>")
     if conv=="exit":
@@ -150,7 +153,7 @@ def chat(dude,player):
     else:
       print parseconv(conv,dude,player)
 
-def parseconv(conv,dude,player):
+def parseconv(convstr,dude,player):
   """
   Parses a conversation string. 
 
@@ -163,13 +166,21 @@ def parseconv(conv,dude,player):
       answer=answer.partition('$')[0]+player.name+answer.partition('$')[2]
 
   else:
-    conv=conv.split()
+    conv=convstr.split()
+    while conv[0].lower().strip(",") in ["ah","oh"]:
+      del conv[0]
+
+    #Answer if there is no conversation
+    if len(conv)<1:
+      answer=random.choice(["Yep","Indeed","Aham"])
+
+    #Answer for needs
     if (conv[0].lower()=="i" and (conv[1]=="need" or (conv[1]=="also" and conv[2]=="need"))):
 
       del conv[0]
       while conv[0] in ["a","also","need"]:
         del conv[0]
-      if conv[0].lower() in ["one","two","three","four","five","six","seven","eight"]:
+      if conv[0].lower() not in ["one","a"]:
         answer=random.choice(["Hey don't be greedy, I can only save one for you!","%?? What do you think this is, a supermarket?","% &? You gotta be kidding me","Absolutely no way"])
         if "%" in answer:
           answer=answer.partition('%')[0]+conv[0]+answer.partition('%')[2]
@@ -177,11 +188,30 @@ def parseconv(conv,dude,player):
           del conv[0]
           answer=answer.partition('&')[0]+" ".join(conv)+answer.partition('&')[2]
         return answer
-
       conv=" ".join(conv)
-      answer=random.choice(["A $? Let me see...","Not sure if I had one, look around","$? Now that's something I haven't seen in a while","Maybe","You and your $ obsession..."])
+      answer=random.choice(["A $? Let me see...","Not sure if I had one, let me look around","$? Now that's something I haven't seen in a while","Maybe","You and your $ obsession..."])
       if "$" in answer:
         answer=answer.partition('$')[0]+conv+answer.partition('$')[2]
+
+    #Answer for likes
+    if (conv[0].lower()=="i" and (conv[1]=="like" or (conv[1]=="also" and conv[2]=="like"))):
+      del conv[0]
+      while conv[0] in ["also","like"]:
+        del conv[0]
+      if " ".join(conv) in [dude.likes1,dude.likes2]:
+        answer=random.choice(["$? I *LOVE* $!","Absolutely!","Damn right I like $","Of course, who doesn't?"])
+        if "$" in answer:
+          answer=answer.partition('$')[0]+" "+" ".join(conv)+" "+answer.partition('$')[2]
+        dude.rel+=1
+      elif " ".join(conv) in [dude.dislikes1,dude.dislikes2]:
+        answer=random.choice(["How can you like $?","I hate that","Ugh, really?","Gross","Eeeeew, get away","You have issues man"])
+        if "$" in answer:
+          answer=answer.partition('$')[0]+" ".join(conv)+answer.partition('$')[2]
+        dude.rel-=1
+      else:
+        answer=random.choice(["I don't really care about $","I'm neutral to be honest","Whatever","no one asked, you know?"])
+        if "$" in answer:
+          answer=answer.partition('$')[0]+" "+" ".join(conv)+" "+answer.partition('$')[2]
 
 
     else:
@@ -343,9 +373,7 @@ def load():
           line=line.strip()
           errors.append(line)
     print "done."
-    sys.stdout.flush() 
     os.system('clear')
   except IOError:
     raw_input("error loading message files")
-  sys.stdout.flush() 
   os.system('clear')

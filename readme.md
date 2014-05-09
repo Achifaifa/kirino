@@ -1,4 +1,4 @@
-#Kirino v0.0.9c
+#Kirino v0.0.10
   
 Basic console based dungeon crawler. 
 
@@ -37,6 +37,7 @@ You may have some issues with the output formatting, but overall the game is pla
     * `items_XX`:         Items and basic stats
   * misc:               Other files
     * `credits`:          Credit text for the scroller
+  * mobs:               Mob files
   * npcs:               NPC data
     * `appearance`        Visual adjectives
     * `firstnames_female` Female names
@@ -51,6 +52,7 @@ You may have some issues with the output formatting, but overall the game is pla
   * player:             Player files
     * `classes`:          Player classes
     * `names`:            Names
+    * `prestige`:         Prestige rank names
     * `races`:            Player races
   * tutorial:           Files for the tutorial (Maps, etc)
     * `tutorial_1`
@@ -74,9 +76,27 @@ You may have some issues with the output formatting, but overall the game is pla
   * `npc.py`:           NPC classes
   * `parser.py`:        Word parser module
   * `player.py`:        Player class
+  * `test.py`:          Functions to test new implementations quickly
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.10** (2014-05-09):
+* New features:
+  * Prestige system
+  * Quick play
+  * Traps
+  * Test utilities
+  * Willpower tests
+  * Intelligence dependant explored map
+* Bugs fixed:
+  * Look instruction not working randomly
+  * Crashes in potion buying menu
+* Others:
+  * Cleaned crawling interface
+  * Removed non working code
+  * Expanded parser
+  * Improved random character generator
 
 ####**v0.0.9** (2014-05-02):
 * New features:

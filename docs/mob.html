@@ -39,10 +39,45 @@
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
 <td colspan=2><tt>giant&nbsp;enemy&nbsp;class.<br>
 &nbsp;<br>
-All&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;generation,&nbsp;IA&nbsp;and&nbsp;movement&nbsp;is&nbsp;implemented&nbsp;here.<br>&nbsp;</tt></td></tr>
+All&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;generation,&nbsp;IA&nbsp;and&nbsp;movement&nbsp;is&nbsp;implemented&nbsp;here.<br>
+&nbsp;<br>
+#General&nbsp;attributes<br>
+lv=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Mob&nbsp;level<br>
+exp=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Experience&nbsp;given&nbsp;to&nbsp;the&nbsp;player<br>
+pres=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Prestige&nbsp;given&nbsp;to&nbsp;the&nbsp;player<br>
+name=""&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Name<br>
+&nbsp;<br>
+#Position&nbsp;variables<br>
+xpos=0<br>
+ypos=0<br>
+zpos=0<br>
+&nbsp;<br>
+#Primary&nbsp;attributes<br>
+INT=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Intelligence<br>
+DEX=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Dexterity<br>
+PER=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Perception<br>
+WIL=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Willpower<br>
+STR=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Strenght<br>
+CON=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Constitution<br>
+CHA=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Charisma<br>
+&nbsp;<br>
+#Secondary&nbsp;attributes<br>
+HP=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;life<br>
+MP=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;mana<br>
+END=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Endurance<br>
+SPD=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Speed<br>
+&nbsp;<br>
+atk=4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Attack&nbsp;power<br>
+defn=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Defense&nbsp;power<br>
+&nbsp;<br>
+#Status&nbsp;variables<br>
+lock=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Locked&nbsp;onto&nbsp;a&nbsp;target&nbsp;for&nbsp;attack&nbsp;<br>
+hit=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Flags&nbsp;when&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;is&nbsp;hit&nbsp;(Does&nbsp;half&nbsp;damage)<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="mob-__init__"><strong>__init__</strong></a>(self, dungeon)</dt><dd><tt>Mob&nbsp;generator.&nbsp;Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;and&nbsp;places&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;spot&nbsp;that&nbsp;is&nbsp;not&nbsp;filled&nbsp;with&nbsp;rock.</tt></dd></dl>
+<dl><dt><a name="mob-__init__"><strong>__init__</strong></a>(self, dungeon)</dt><dd><tt>Mob&nbsp;generator<br>
+&nbsp;<br>
+Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;and&nbsp;places&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;spot&nbsp;that&nbsp;is&nbsp;not&nbsp;filled&nbsp;with&nbsp;rock.</tt></dd></dl>
 
 <dl><dt><a name="mob-attack"><strong>attack</strong></a>(self, player, dung)</dt><dd><tt>Attacks&nbsp;the&nbsp;player&nbsp;object&nbsp;passed&nbsp;to&nbsp;the&nbsp;function</tt></dd></dl>
 
@@ -59,46 +94,6 @@ If&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;is&nbsp;locked&nbsp;the&nbsp;functi
 <dl><dt><a name="mob-randmove"><strong>randmove</strong></a>(self, dungeon, dist)</dt><dd><tt>Moves&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;direction&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;tiles</tt></dd></dl>
 
 <dl><dt><a name="mob-trandmove"><strong>trandmove</strong></a>(self, dungeon)</dt><dd><tt>Moves&nbsp;1&nbsp;tile&nbsp;in&nbsp;a&nbsp;random&nbsp;direction</tt></dd></dl>
-
-<hr>
-Data and other attributes defined here:<br>
-<dl><dt><strong>CHA</strong> = 0</dl>
-
-<dl><dt><strong>CON</strong> = 0</dl>
-
-<dl><dt><strong>DEX</strong> = 0</dl>
-
-<dl><dt><strong>END</strong> = 0</dl>
-
-<dl><dt><strong>HP</strong> = 0</dl>
-
-<dl><dt><strong>INT</strong> = 0</dl>
-
-<dl><dt><strong>MP</strong> = 0</dl>
-
-<dl><dt><strong>PER</strong> = 0</dl>
-
-<dl><dt><strong>SPD</strong> = 0</dl>
-
-<dl><dt><strong>STR</strong> = 0</dl>
-
-<dl><dt><strong>WIL</strong> = 0</dl>
-
-<dl><dt><strong>defn</strong> = 0</dl>
-
-<dl><dt><strong>exp</strong> = 0</dl>
-
-<dl><dt><strong>hit</strong> = 0</dl>
-
-<dl><dt><strong>lock</strong> = 0</dl>
-
-<dl><dt><strong>name</strong> = ''</dl>
-
-<dl><dt><strong>xpos</strong> = 0</dl>
-
-<dl><dt><strong>ypos</strong> = 0</dl>
-
-<dl><dt><strong>zpos</strong> = 0</dl>
 
 </td></tr></table></td></tr></table>
 </body></html>

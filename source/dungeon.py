@@ -3,15 +3,24 @@ import math, os, random
 import common, mob, npc, player
 
 class dungeon:
-  "Creates and manages dungeons and dungeon displaying features"
-  xsize=0
-  ysize=0
-  dungarray=[]
-  filled=[]
-  mobarray=[]
-  vendorvar=0
+  """
+  Creates and manages dungeons and dungeon displaying features
+
+  #Size variables
+  xsize=0       #Horizontal dungeon size
+  ysize=0       #Vertical dungeon size
+
+  #Dungeon arrays
+  dungarray=[]  #Contains rock, empty, loot, etc
+  filled=[]     #This is what will be displayed to the player
+  explored=[]   #No use
+  traps=[]      #Array with the traps on that floor
+
+  #Mob and peddler data
+  mobarray=[]   #Array of mobs walking through the dungeon
+  vendorvar=0   #If 1, a vendor is generated in the floor
+  """
   
-  #Main dungeon generator
   def __init__(self,x,y,vendor):
     """
     Class constructor. 
@@ -22,6 +31,7 @@ class dungeon:
 
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
+
     if x<40:
       x=40
     if y<20:
@@ -157,6 +167,7 @@ class dungeon:
       	    self.dungarray[i][j]="."
 
       #Adds a mob for every 60 free spaces:
+      self.mobarray=[]
       spacecounter=0
       for i in range(self.ysize):
         for j in range(self.xsize):
@@ -234,15 +245,33 @@ class dungeon:
 
       #Initializes the filled array so it has the same sizent content as the dungarray
       self.filled=[]
-      for i in range (0,self.ysize):
+      for i in range (self.ysize):
         secondary=[]
-        for j in range (0,self.xsize):
+        for j in range (self.xsize):
           secondary.append("~")
         self.filled.append(secondary)
       #Fills the filled array with the dungarray data
-      for i in range (0,self.ysize):
-        for j in range (0,self.xsize):
+      for i in range (self.ysize):
+        for j in range (self.xsize):
           self.filled[i][j]=self.dungarray[i][j]
+
+      #Initialize explored array
+      self.explored=[]
+      for i in range(self.ysize):
+        temp=[]
+        for j in range(self.xsize):
+          temp.append("~")
+        self.explored.append(temp)
+
+      #Add traps
+      self.traps=[]
+      for i in range(5):
+        while 1:
+          randx=random.randrange(len(self.dungarray[0]))
+          randy=random.randrange(len(self.dungarray))
+          if self.dungarray[randy][randx]==".":
+            self.traps.append([randx,randy,random.randint(1,3)])
+            break
       
   def dumpdung(self,place): 
     """
@@ -252,6 +281,7 @@ class dungeon:
 
     Avoid dumping to console with big dungeons, output turns out unreadable
     """
+
     if place==0:
       #Dump to file mode.
       if not os.path.exists("../logs/"):
@@ -290,13 +320,13 @@ class dungeon:
           else:
             print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
 
-
   def report(self):
     """
     Appends a map of the dungeon and a report message into a text file.
 
     File is ../logs/report
     """
+
     if not os.path.exists("../logs/"):
       os.makedirs("../logs/")
     with open("../logs/report","a+") as dump:
@@ -312,6 +342,7 @@ class dungeon:
     Creates a map of the dungeon on screen.
     This shows the entire dungarray[][], so dungeons with a horizontal size larger than the horizontal console size will look weird.
     """
+
     for i in range (0,len(self.dungarray)):
       print ''.join(map(str,self.dungarray[i]))
       
@@ -361,6 +392,7 @@ class dungeon:
     """
     Generates an advanced map (20x10) centered on the position (x,y)
     """
+
     self.advmap(x,y,20,10)
 
   def minimap(self,player,fog):
@@ -370,6 +402,7 @@ class dungeon:
     Uses the function fill(), so it needs the fog parameter too.
     1=fog enabled, anything else fog disabled.
     """
+
     self.fill(player,fog)
     self.advmapcoords(player.xpos,player.ypos)
     
@@ -407,6 +440,32 @@ class dungeon:
         pass
         return 0
 
+  def remember(self,player):
+    """
+    Processes the explored array.
+
+    For every intelligence point, a player can "memorize" up to 100 tiles.
+    If the explored map has more explored tiles than that, deletes random tiles until numbers fix.
+
+    This function should only be called when the fog is on
+    """
+
+    exploredtiles=0
+    for i in range(len(self.explored)):
+      for j in range(len(self.explored[0])):
+        if self.explored[i][j]!="~":
+          exploredtiles+=1
+    extra=exploredtiles-((player.INT+player.intboost)*100)
+    while extra>0:
+      while 1:
+        randx=random.randrange(len(self.explored[0]))
+        randy=random.randrange(len(self.explored))
+        if self.explored[randy][randx]!="~":
+          self.explored[randy][randx]="~"
+          extra-=1
+          break
+
+
   def fill(self,player,fog):
     """
     Fills the dungeon temporarily with PC and NPC object and mob markers. 
@@ -441,6 +500,7 @@ class dungeon:
           if player.ypos-viewy<i<player.ypos+viewy:
             if player.xpos-viewx<j<player.xpos+viewx:
               self.filled[i][j]=self.dungarray[i][j]
+              self.explored[i][j]=self.dungarray[i][j]
             else:
               self.filled[i][j]="~"
           else:
@@ -450,6 +510,7 @@ class dungeon:
             if player.ypos-viewy<k.ypos<player.ypos+viewy:
               if player.xpos-viewx<k.xpos<player.xpos+viewx:
                 self.filled[k.ypos][k.xpos]="i"
+
         #If fog is not on, just generate a regular minimap
         if fog!=1:
           for k in range(len(self.mobarray)):
