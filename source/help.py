@@ -286,13 +286,24 @@ def tutorial():
   print "Hello there! Welcome to Kirino"
   print "This is a console-based dungeon crawler. In this tutorial you will learn the basic controls and game mechanics."
   print ""
+  print "This tutorial will cover only the most basic things you need to use kirino. For more detailed information, check the individual help sections in the help menu."
   print "press any key to continue",
+  common.getch()
+
+  common.version()
+  print "Help - Using kirino - Tutorial - Dungeon layout"
+  print ""
+  print "During your adventure you will have a minimap handy to see what you have near you."
+  print "Interpreting this map is important, and gives you lots of information about what is happening around you."
+  print "For example, traps you have stepped on are marked with a '_', and items and money are also identified. More on that later."
+  print ""
+  print "press any key to continue"
   common.getch()
 
   common.version()
   print "Help - Using kirino - Tutorial - Basic dungeons"
   print ""
-  new=dungeon.dungeon(40,20)
+  new=dungeon.dungeon(40,20,0)
   new.map()
   print ""
   print "This is a dungeon. It's a labrynth made of rooms and halls. Every dungeon is randomly generated at the start of each level."
@@ -311,7 +322,7 @@ def tutorial():
         for char in line:
           secondary.append(char)
       new.dungarray.append(secondary)
-  play=player.player(new)
+  play=player.player(new,1)
   new.mobarray=[]
   new.fill(play,0)
   while 1:
@@ -355,11 +366,11 @@ def tutorial():
   common.version()
   print "Help - Using kirino - Tutorial - Items"
   print ""
-  print "You will find some things throughout the dungeons. Here is a brief summary."
+  print "You will find some things throughout the dungeons. For example:"
   print "/ <- This is an object. It can be a weapon, clothing or something else. You won't know until you pick it up!"
-  print "$ <- This is money! Pick it up, and you'll be able to use it to enchant weapons and buy things"
+  print "$ <- This is money! Take it and you'll be able to use it to enchant weapons and buy things"
   print ""
-  print "More things will be added on the future, make sure to check them out"
+  print "Make sure to check the rest of the things in the help section"
   print ""
   print "press any key to continue",
   common.getch()
@@ -385,5 +396,28 @@ def tutorial():
   print "Go ahead, try writing something and see if it works!"
   print ""
   print "press any key to continue"
-  #Interactive tutorial goes here
+  common.getch()
+
+  common.version()
+  print "Help - Using kirino - Tutorial - NPCs"
+  print ""
+  print "From time to time you will find a peddler in the dungeon (p)"
+  print "This NPCs carry items and sometimes even potions. You can trade with them to sell what you don't need or buy what you want."
+  print "The peddlers will not give things to you for free. Price fluctuates, and it depends on your charisma and your relationship with the peddler."
+  print "The cooler you are and the better the relationship with the NPC, the cheaper you will able to buy and the most money you will get for your items."
+  print ""
+  print "This relationship gets better when you buy things from the peddler and when you talk with it about things it likes"
+  print "The chat function is somewhat crude, but give it a go!"
+  print ""
+  print "press any key to continue"
+  common.getch()
+
+  common.version()
+  print "Help - Using kirino - Tutorial - End"
+  print ""
+  print "That is about all there is to it! Of course there are lot of small details around, but it'll be up to you to discover and play with them."
+  print ""
+  print "Good luck, have fun and thanks for playing!"
+  print ""
+  print "Press any key to finish the tutorial"
   common.getch()

@@ -133,6 +133,79 @@ class dungeon:
             self.dungarray[i][j]="#"
           if j==len(self.dungarray[i]):
             self.dungarray[i][j]="#"
+
+      #Generate random halls (Up to 1/3 the total size from an empty tile in a random direction)
+      #Vertical halls
+      for i in range(self.xsize/20):
+        count=0
+        #Calculate lenght of the hall
+        lenght=random.randrange(int(round(self.ysize/3)))
+        while count<1000:
+          tempx=random.randrange(self.xsize)
+          tempy=random.randrange(self.ysize)
+          #Make sure this is a horizontal hall
+          try:
+            if self.dungarray[tempy+1][tempx]=="#" and self.dungarray[tempy-1][tempx]=="#" and self.dungarray[tempy][tempx]==".":
+              #Add the tiles upwards and/ord downwards one by one
+              upycoord=downycoord=tempy
+              while lenght>0:
+                uod=random.choice([0,1])
+                if uod:
+                  try:
+                    if upycoord>0:
+                      upycoord-=1
+                      self.dungarray[upycoord][tempx]="."
+                      lenght-=1
+                  except:
+                    pass
+                else:
+                  try:
+                    if downycoord<self.ysize-1:
+                      downycoord+=1
+                      self.dungarray[downycoord][tempx]="."
+                      lenght-=1
+                  except:
+                    pass
+            if lenght==0:
+              break
+          except IndexError:
+            pass
+          count+=1
+
+      #Horizontal halls
+      for i in range(self.ysize/10):
+        count=0
+        lenght=random.randrange(self.xsize)
+        while 1:
+          tempx=random.randrange(self.xsize)
+          tempy=random.randrange(self.ysize)
+          try:
+            if self.dungarray[tempy][tempx+1]=="#" and self.dungarray[tempy][tempx+1]=="#" and self.dungarray[tempy][tempx]==".":
+              leftxcoord=rightxcoord=tempx
+              while lenght>0:
+                lor=random.choice([0,1])
+                if lor:
+                  try:
+                    if leftxcoord>0:
+                      leftxcoord-=1
+                      self.dungarray[tempy][leftxcoord]="."
+                      lenght-=1
+                  except:
+                    pass
+                else:
+                  try:
+                    if rightxcoord<self.xsize-1:
+                      rightxcoord+=1
+                      self.dungarray[tempy][rightxcoord]="."
+                      lenght-=1
+                  except:
+                    pass
+            if lenght==0:
+              break
+          except IndexError:
+            pass
+          count+=1
+                
           
       #This generates random coordinates for the entrance tile (A)
       entrancey=random.randrange(self.ysize)
@@ -265,13 +338,21 @@ class dungeon:
 
       #Add traps
       self.traps=[]
-      for i in range(5):
+      for i in range(int(round((self.xsize*self.ysize)/600))):
         while 1:
           randx=random.randrange(len(self.dungarray[0]))
           randy=random.randrange(len(self.dungarray))
           if self.dungarray[randy][randx]==".":
-            self.traps.append([randx,randy,random.randint(1,3)])
-            break
+            #Generate random type of trap
+            # 10%: Trap to next floor
+            # 90%: HP or MP trap
+            randtrap=random.randrange(10)
+            if randtrap==0:
+              self.traps.append([randx,randy,3])
+              break
+            else:
+              self.traps.append([randx,randy,random.randint(1,2)])
+              break
       
   def dumpdung(self,place): 
     """

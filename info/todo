@@ -1,6 +1,6 @@
 TO-DO
 
-Dungeon.py:
+Dungeon.py
   Complete debugger (Make sure the exit is reachable from the entrance)
 
 Item.py
@@ -11,10 +11,9 @@ Item.py
 common.py
 
 help.py
-  finish tutorial
   Take tutorial and help text from files
 
-Launch.py:
+Launch.py
 
 Mob.py:
   Add stats (Movement, damage, flying)
@@ -25,7 +24,7 @@ Player.py
   Unequip 1H weapons when equipping 2H ones.
   Dual-wielding 1h weapons.
 
-Parser.py (After everything else is done)
+Parser.py
   use nlp to control alternate actions
 
 ---

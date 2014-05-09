@@ -5,7 +5,8 @@ import common, help
 class config:
   """
   Configuration class. When instancing it it takes the variables from the configuration files and stores them in the instance.
-
+  If there is no data on the file with a parameter, the default is taken
+  
   #Environment variables
   autosave=0
   fog=1

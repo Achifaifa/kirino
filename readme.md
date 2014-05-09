@@ -1,4 +1,4 @@
-#Kirino v0.0.10
+#Kirino v0.0.10b
   
 Basic console based dungeon crawler. 
 
@@ -92,11 +92,16 @@ You may have some issues with the output formatting, but overall the game is pla
 * Bugs fixed:
   * Look instruction not working randomly
   * Crashes in potion buying menu
+  * [0.0.10b] Fixed crashes in tutorial
 * Others:
   * Cleaned crawling interface
   * Removed non working code
   * Expanded parser
   * Improved random character generator
+  * [0.0.10b] Improved dungeon generator
+  * [0.0.10b] Balanced trap rate/damage
+  * [0.0.10b] Finished tutorial
+
 
 ####**v0.0.9** (2014-05-02):
 * New features:

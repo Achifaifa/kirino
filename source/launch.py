@@ -2,7 +2,7 @@
 """
 Main procedure file.
 
-All the crawl and configuration implementation are in this module.
+Contains menus and the main crawl procedure
 """
 
 import copy, os, random, sys, time
@@ -24,8 +24,8 @@ lv=1
 hp2=0
 mp2=0
 name="empty"
-flcounter=1 #Floor counter
-fl=1#Actual floor (Displayed)
+flcounter=1       #Floor counter
+fl=1              #Actual (total) floor (Displayed)
 tempinventory=[]
 tempequiparr=[]
 xsize=0
@@ -39,7 +39,6 @@ def loadfiles():
   npc.load()
   parser.load()
 
-#Main menu
 def menu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
@@ -47,6 +46,7 @@ def menu():
 
   #loads configuration
   cfg=config.config()
+
   #Main menu
   while 1:
     common.version()
@@ -63,6 +63,7 @@ def menu():
     print "0.- Exit"
     print "->",
     menu=common.getch()
+
     if menu=="1":
       crawl(0)
     if menu=="2":
@@ -79,6 +80,7 @@ def menu():
       print "Close kirino (y/n)?"
       ec=common.getch()
       if ec=="y": 
+        os.system('clear')
         exit()
 
 def crawl(quick):
@@ -163,7 +165,7 @@ def crawl(quick):
     for i in dung.traps:
       if i[0]==hero.xpos and i[1]==hero.ypos:
         if i[2]==1:
-          trapdmg=int(round(hero.HP/random.randrange(5,10)))+1
+          trapdmg=1+random.randrange(1,5)
           hero.hp2-=trapdmg
           dung.dungarray[hero.ypos][hero.xpos]="_"
           trapmsg="You stepped on a trap! Lost "+str(trapdmg)+" HP\n"
@@ -191,6 +193,8 @@ def crawl(quick):
             allowvendor=1
           dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
           lload(hero)
+          if not cfg.fog:
+            dung.explored=dung.dungarray
           while 1:
             i=random.randrange(len(dung.dungarray))
             j=random.randrange(len(dung.dungarray[i]))
@@ -241,6 +245,8 @@ def crawl(quick):
 
     #Explored map
     if crawlmen==cfg.showmap:
+      common.version()
+      print "Map"
       for i in dung.explored:
         print "".join(i)
       common.getch()
@@ -333,6 +339,8 @@ def crawl(quick):
           allowvendor=1
         dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
         lload(hero)
+        if not cfg.fog:
+          dung.explored=dung.dungarray
         for i in range(len(dung.dungarray)):
           for j in range(len(dung.dungarray[i])):
             if dung.dungarray[i][j]=="A":

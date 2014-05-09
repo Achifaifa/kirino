@@ -112,6 +112,13 @@ This&nbsp;shows&nbsp;the&nbsp;entire&nbsp;dungarray[][],&nbsp;so&nbsp;dungeons&n
 Uses&nbsp;the&nbsp;function&nbsp;<a href="#dungeon-fill">fill</a>(),&nbsp;so&nbsp;it&nbsp;needs&nbsp;the&nbsp;fog&nbsp;parameter&nbsp;too.<br>
 1=fog&nbsp;enabled,&nbsp;anything&nbsp;else&nbsp;fog&nbsp;disabled.</tt></dd></dl>
 
+<dl><dt><a name="dungeon-remember"><strong>remember</strong></a>(self, player)</dt><dd><tt>Processes&nbsp;the&nbsp;explored&nbsp;array.<br>
+&nbsp;<br>
+For&nbsp;every&nbsp;intelligence&nbsp;point,&nbsp;a&nbsp;player&nbsp;can&nbsp;"memorize"&nbsp;up&nbsp;to&nbsp;100&nbsp;tiles.<br>
+If&nbsp;the&nbsp;explored&nbsp;map&nbsp;has&nbsp;more&nbsp;explored&nbsp;tiles&nbsp;than&nbsp;that,&nbsp;deletes&nbsp;random&nbsp;tiles&nbsp;until&nbsp;numbers&nbsp;fix.<br>
+&nbsp;<br>
+This&nbsp;function&nbsp;should&nbsp;only&nbsp;be&nbsp;called&nbsp;when&nbsp;the&nbsp;fog&nbsp;is&nbsp;on</tt></dd></dl>
+
 <dl><dt><a name="dungeon-report"><strong>report</strong></a>(self)</dt><dd><tt>Appends&nbsp;a&nbsp;map&nbsp;of&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;and&nbsp;a&nbsp;report&nbsp;message&nbsp;into&nbsp;a&nbsp;text&nbsp;file.<br>
 &nbsp;<br>
 File&nbsp;is&nbsp;../logs/report</tt></dd></dl>

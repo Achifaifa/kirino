@@ -22,6 +22,7 @@ def testm():
     print "3.- Test vendor"
     print "4.- Test parser"
     print "5.- Test chat" 
+    print "6.- Test generator"
     print "---"
     print "0.- Go back"
     testmen=common.getch()
@@ -36,6 +37,8 @@ def testm():
       testparse()
     if testmen=="5":
       testchat()
+    if testmen=="6":
+      testgen()
     if testmen=="0":
       break
 
@@ -89,3 +92,24 @@ def testparse():
 
   print "Not available"
   common.getch()
+
+def testgen():
+  """
+  Test environment for the dungeon generator.
+
+  It generates a dungeon and displayes the full map in the screen
+  """
+
+  while 1:
+    os.system('clear')
+    common.version()
+    print "Dungeon generator test. 0 to exit, other key to generate dungeon"
+    try:
+      new=dungeon.dungeon(40,40,1)
+      new.map()
+    except:
+      print "\n\nError"
+    bla=common.getch()
+    if bla=="0":
+      break
+

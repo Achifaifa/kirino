@@ -1,1 +1,47 @@
-No character saved
+# 
+# Player 
+# 
+Name:Wandatranna
+Race:cyborg
+Class:teacher
+Money:55.0
+Level:4
+Exp:9
+Points:1
+Floors:25
+HP:10
+MP:4
+INT:6
+DEX:0
+PER:5
+WIL:2
+STR:2
+CON:5
+CHA:-3
+#
+# Equipped items 
+#
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E:leader's batman mask:0:2:0:2:0:0:0:0:0:1:0:40
+E:scarf +2:2:3:0:2:1:0:0:0:1:1:0:26
+E:jetpack:0:4:0:1:0:0:0:0:0:0:0:50
+E:T-shirt:0:5:0:0:0:0:0:0:0:0:0:5
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E:massive axe:0:7:6:0:0:0:0:0:0:0:0:60
+E:cracked ring +4:4:8:1:3:1:2:0:1:0:0:0:46
+E:masterful bat-belt:0:9:1:2:0:0:0:0:0:0:0:44
+E:kilt +2:2:10:1:2:0:0:1:0:1:0:0:46
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+#
+# Inventory items 
+#
+I:dollar necklace:0:3:0:0:0:0:0:0:0:0:0:30
+I:fire axe:0:6:3:0:0:0:0:0:0:0:0:30
+I:dirty scarf:0:3:0:0:0:0:0:0:0:0:0:3
+I:posh back shield:0:4:0:10:0:0:0:0:0:0:1:200
+#
+# Belt items 
+#
+B:4:--EMPTY--
+B:4:--EMPTY--
+B:4:--EMPTY--

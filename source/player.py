@@ -32,13 +32,13 @@ class player:
   STR=1         #Strenght
   CON=1         #Constitution
   CHA=1         #Charisma
-  intboost=0
-  dexboost=0
-  perboost=0
-  wilboost=0
-  strboost=0
-  conboost=0
-  chaboost=0
+  intboost=0    #
+  dexboost=0    #
+  perboost=0    #
+  wilboost=0    # Extra attributes given by equipped items
+  strboost=0    #
+  conboost=0    #
+  chaboost=0    #
 
   totatk=1      #Total attack power
   totdefn=1     #Total defense power
@@ -570,7 +570,7 @@ class player:
     """
 
     if self.hp2<=5:
-      roll=random.randint(1,20)+self.WIL+self.wilboost
+      roll=random.randint(1,21)+self.WIL+self.wilboost
       if self.hp2>0:
         if roll<20/self.hp2:
           return 0,"Your body refuses to move"
@@ -788,9 +788,9 @@ class player:
     mob.hit=1
     if mob.HP<=0:
       self.exp+=mob.exp
-      if self.lv<=mob.lv+5:
+      if self.lv<=mob.lv+3:
         self.prestige+=mob.pres
-      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\nYou killed "+mob.name+" for "+str(mob.exp)+" experience!\nYou earn "+str(mob.pres)+" prestige points"
+      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\nYou killed "+mob.name+" for "+str(mob.exp)+" experience!\nYou earn "+str(mob.pres)+" prestige points.\n"
     else:
       return "You attack "+mob.name+" for "+str(atkpow)+" damage!\n"
 
