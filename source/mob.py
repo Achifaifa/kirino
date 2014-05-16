@@ -68,6 +68,8 @@ class mob:
       self.xpos=random.randrange(dungeon.xsize)
       self.ypos=random.randrange(dungeon.ysize)
     self.zpos=0
+
+    #Load files
   
   def move(self,dungeon,direction,distance):
     """

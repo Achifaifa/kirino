@@ -130,8 +130,8 @@ class vendor:
     self.potforsale=[]
     for i in range(random.randrange(4,7)):
       self.forsale.append(item.item(random.randrange(1,11)))
-    for i in range(random.randrange(3)):
-      self.potforsale.append(item.consumable(0,0))
+    for i in range(random.randrange(1,3)):
+      self.potforsale.append(item.consumable(random.choice([1,1,1,2]),0))
 
   def commerce(self,player):
     while 1:

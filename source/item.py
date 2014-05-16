@@ -1,5 +1,5 @@
 #usr/bin/env python 
-import os, random
+import os, copy, random
 import common
 
 class consumable:
@@ -92,15 +92,16 @@ class consumable:
               if subtype==0:
                 subtype=random.randint(1,3)
               if int(line.strip().partition(':')[2].partition(':')[0])==subtype:
-                tempitem=[]
-                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0])
-                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                tempitem.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                tempitem=line.split(':')
+                del tempitem[0]
                 items.append(tempitem)
 
+            #If the item is a scroll/tome, save array with [name, STR, INT, DEX, PER, CON, WIL, CHA, price]
             if newtype==1:
-              pass
+              tempitem=line.split(':')
+              del tempitem[0]
+              items.append(tempitem)
+
             if newtype==2:
               pass
             if newtype==3:
@@ -110,6 +111,8 @@ class consumable:
       print "Could not load consumable data file"
       common.getch()
 
+    self.reset()
+
     #Process item arrays:
     if newtype==0:
       data=random.choice(items)
@@ -117,6 +120,18 @@ class consumable:
       self.hpr=int(data[1])
       self.mpr=int(data[2])
       self.price=int(data[3])
+
+    if newtype==1:
+      data=random.choice(items)
+      self.name=data[0]
+      self.intbst=int(data[2])
+      self.dexbst=int(data[3])
+      self.perbst=int(data[4])
+      self.conbst=int(data[5])
+      self.wilbst=int(data[6])
+      self.chabst=int(data[7])
+      self.strbst=int(data[1])
+      self.price=int(data[8])
 
     #Generate empty object
     if newtype==4:

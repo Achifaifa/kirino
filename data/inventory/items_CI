@@ -4,30 +4,30 @@
 # Potions:
 #   0:potion type:name:HP:MP:price
 #
-0:1:Basic HP potion (+10HP):10:0:10
-0:1:HP potion (+20HP):20:0:25
-0:1:Big HP potion (+50HP):50:0:60
-0:1:Huge HP potion (+100HP):100:0:110
-0:2:Basic MP potion (+10MP):0:10:10
-0:2:MP potion (+20MP):0:20:25
-0:2:Big MP potion (+50MP):0:50:60
-0:2:Huge MP potion (+100MP):0:100:110
-0:3:Basic recovery potion (+10HP/MP):10:10:30
-0:3:Recovery potion (+20HP/MP):20:20:60 
-0:3:Big recovery potion (+50HP/MP):50:50:150
-0:3:Huge recovery potion (+100HP/MP):100:100:300
+0:1:Basic HP potion:10:0:10
+0:1:HP potion:20:0:25
+0:1:Big HP potion:50:0:60
+0:1:Huge HP potion:100:0:110
+0:2:Basic MP potion:0:10:10
+0:2:MP potion:0:20:25
+0:2:Big MP potion:0:50:60
+0:2:Huge MP potion:0:100:110
+0:3:Basic recovery potion:10:10:30
+0:3:Recovery potion:20:20:60 
+0:3:Big recovery potion:50:50:150
+0:3:Huge recovery potion:100:100:300
 #
 # Tomes: 
 #   1:name:STR:INT:DEX:PER:CON:WIL:CHA:price
 #
-1:Tome of muscles (STR+1, DEX-1):1:0:-1:0:0:0:0:100
-1:Tome of knowledge (INT+1, PER-1):0:1:0:-1:0:0:100
-1:Tome of cats (DEX+1, CON-1):0:0:1:0:-1:0:0:100
-1:Tome of telepathy (PER+1, WIL-1):0:0:0:1:0:-1:0:100
-1:Tome of survival (CON+1, CHA-1):0:0:0:0:1:0:-1:100
-1:Tome of determination (WIL+1, PER-1):0:0:0:-1:0:1:0:100
-1:Tome of charming (CHA+1, DEX-1):0:0:-1:0:0:0:1:100
-1:Tome of the gods (All +1):1:1:1:1:1:1:1:10000
+1:Tome of muscles:1:0:-1:0:0:0:0:100
+1:Tome of knowledge:0:1:0:-1:0:0:100
+1:Tome of cats:0:0:1:0:-1:0:0:100
+1:Tome of telepathy:0:0:0:1:0:-1:0:100
+1:Tome of survival:0:0:0:0:1:0:-1:100
+1:Tome of determination:0:0:0:-1:0:1:0:100
+1:Tome of charming:0:0:-1:0:0:0:1:100
+1:Tome of the gods:1:1:1:1:1:1:1:10000
 #
 # Attack:
 #   2:name:area type:size:damage:damage per turn

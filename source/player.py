@@ -610,7 +610,7 @@ class player:
       item.reset()
 
       #Message generation
-      msg="You drank "+nam+". "
+      msg="You drank "+item.name+". "
       if hpres>0 or mpres>0:
         msg=msg+"You recovered "
       if hpres>0:
@@ -622,6 +622,36 @@ class player:
       if hpres>0 or mpres>0:
         msg=msg+"."
       return msg
+
+    if item.type==1:
+      self.INT+=item.intbst
+      self.DEX+=item.dexbst
+      self.PER+=item.perbst
+      self.CON+=item.conbst
+      self.WIL+=item.wilbst
+      self.CHA+=item.chabst
+      self.STR+=item.strbst
+
+      item.reset()
+
+      #Message generation
+      msg="You drank "+item.name+". "
+      if item.intbst>0:
+        msg=msg+"INT +"+str(item.intbst)+" "
+      if item.dexbst>0:
+        msg=msg+"DEX +"+str(item.dexbst)+" "
+      if item.perbst>0:
+        msg=msg+"PER +"+str(item.perbst)+" "
+      if item.conbst>0:
+        msg=msg+"CON +"+str(item.conbst)+" "
+      if item.wilbst>0:
+        msg=msg+"WIL +"+str(item.wilbst)+" "
+      if item.chabst>0:
+        msg=msg+"CHA +"+str(item.chabst)+" "
+      if item.strbst>0:
+        msg=msg+"STR +"+str(item.strbst)+" "
+      msg=msg+"\n"
+
 
     if item.type==4:
       return ""

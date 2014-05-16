@@ -16,7 +16,6 @@ config.py
 
 dungeon.py
   L!> Generator is predictable
-    Status: Waiting until other things are done, trying to figure out a better way.
 
 help.py
 
@@ -24,7 +23,6 @@ item.py
 
 launch.py 
   H?> Trailing path under unknown conditions
-    Status: Trying to replicate. It sometimes (Very rarely) happens after killing a zombie
 
 mob.py
 
@@ -36,8 +34,7 @@ player.py
   H?> Not loading hp2 and mp2 correctly
 
 ???
-  H?> Screen refreshing gets slower with each floor advanced
-  M?> crash when playing a small dungeon after playing a large one
+  H?> Screen refreshing sometimes gets slower with each floor advanced
 
 -------------------------------------------------
 

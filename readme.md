@@ -1,12 +1,12 @@
-#Kirino v0.0.10b
+#Kirino v0.0.11
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-The last updates have added the possibility of attacking and destroying mobs, using potions and some other things. While this gets the whole thing closer to July's goal, it introduces a new problem: Balance. Doing 200 damage to a 20HP zombie after 10 floors is far from balanced, and the future item tiers and different mobs and bosses will only make the entire thing more difficult to balance and adjust. 
+I'm starting finals next week, so for the next month or so I'll only be updating kirino to fix minor bugs and add small details. If you have thought about trying it out this is going to be the best time. This release is the most stable so far and will be more or less unchanged for a long while, so you won't need to worry about downloading a new version every week
 
-If you feel certain items need 'fixing', feel free to change the stats yourself. The item files are reasonably explained and you should have no problems. For now the mob data is generated in the mob class constructor. If you want to share your numbers, you can do so.
+Just as a reminder, you can report balance issues with mobs and items too. All suggestions and opinions will be considered.
 
 ##How to use
 
@@ -80,6 +80,14 @@ You may have some issues with the output formatting, but overall the game is pla
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.11** (2014-05-16):
+* New features:
+  * Tomes and scrolls
+* Bugs fixed:
+  * Crash when playing a small dungeon after a large one
+* Others:
+  * Peddlers have at least one potion for sale
 
 ####**v0.0.10** (2014-05-09):
 * New features:
