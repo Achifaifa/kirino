@@ -74,8 +74,7 @@ class player:
     self.exp=0         #EXP
     self.lv=1          #Level
     self.points=40     #Expendable points
-    if randomv:
-      self.points=0
+    if randomv: self.points=0
     self.race="_"      #Race
     self.charclass="_" #Class
     self.totalfl=0     #Total floors explored
@@ -85,8 +84,7 @@ class player:
 
     #Initializing inventory arrays
     self.belt=[]
-    for i in range(3):
-      self.belt.append(item.consumable(4,0))
+    for i in range(3): self.belt.append(item.consumable(4,0))
     self.inventory=[]
     self.equiparr=[]
     for i in range(11):
@@ -138,8 +136,7 @@ class player:
     if randomv==1:
       namearray=[]
       with open("../data/player/names","r") as names:
-        for line in names:
-          namearray.append(line.strip())
+        for line in names: namearray.append(line.strip())
       self.name=random.choice(namearray)
 
       with open("../data/player/races","r") as file:
@@ -162,47 +159,32 @@ class player:
       
       randrac=random.randrange(1,len(racesarray))
       self.race=racesarray[randrac]
-      if not strarray[randrac]=="":
-        self.STR+=int(strarray[randrac])
-      if not strarray[randrac]=="":
-        self.INT+=int(intarray[randrac])
-      if not strarray[randrac]=="":
-        self.DEX+=int(dexarray[randrac])
-      if not strarray[randrac]=="":
-        self.PER+=int(perarray[randrac])
-      if not strarray[randrac]=="":
-        self.CON+=int(conarray[randrac])
-      if not strarray[randrac]=="":
-        self.CHA+=int(chaarray[randrac])
+      if not strarray[randrac]=="": self.STR+=int(strarray[randrac])
+      if not strarray[randrac]=="": self.INT+=int(intarray[randrac])
+      if not strarray[randrac]=="": self.DEX+=int(dexarray[randrac])
+      if not strarray[randrac]=="": self.PER+=int(perarray[randrac])
+      if not strarray[randrac]=="": self.CON+=int(conarray[randrac])
+      if not strarray[randrac]=="": self.CHA+=int(chaarray[randrac])
 
       #Random class
       with open("../data/player/classes","r") as file:
         classesarray=[]
-        for line in file:
-            classesarray.append(line.rstrip('\n'))
+        for line in file: classesarray.append(line.rstrip('\n'))
       self.charclass=random.choice(classesarray) 
 
       #Random initial attributes
       for i in range(9):
         randstat=random.randrange(6)
-        if randstat==0:
-          self.STR+=1
-        if randstat==1:
-          self.INT+=1
-        if randstat==2:
-          self.DEX+=1
-        if randstat==3:
-          self.PER+=1
-        if randstat==4:
-          self.CON+=1
-        if randstat==5:
-          self.WIL+=1
-        if randstat==6:
-          self.CHA+=1
+        if randstat==0: self.STR+=1
+        if randstat==1: self.INT+=1
+        if randstat==2: self.DEX+=1
+        if randstat==3: self.PER+=1
+        if randstat==4: self.CON+=1
+        if randstat==5: self.WIL+=1
+        if randstat==6: self.CHA+=1
 
     #add two random items to the inventory
-    for i in range(2):
-      self.inventory.append(item.item(random.randint(1,11)))
+    for i in range(2): self.inventory.append(item.item(random.randint(1,11)))
 
   def pickobject(self,object):
     """
@@ -258,81 +240,61 @@ class player:
     try:
       #Checks the direction and moves
       if direction==1:
-        if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|":
-          return 0
-        if dungeon.filled[self.ypos-1][self.xpos]=="i":
-          return 2
+        if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|": return 0
+        if dungeon.filled[self.ypos-1][self.xpos]=="i": return 2
         else:
           self.ypos -= moves
           return 1
       elif direction==2:
-        if dungeon.dungarray[self.ypos][self.xpos-1]=="#":
-          return 0
-        if dungeon.filled[self.ypos][self.xpos-1]=="i":
-          return 2
-        elif dungeon.dungarray[self.ypos][self.xpos-1]=="|":
-          dungeon.vendorvar.commerce(self)
+        if dungeon.dungarray[self.ypos][self.xpos-1]=="#": return 0
+        if dungeon.filled[self.ypos][self.xpos-1]=="i": return 2
+        elif dungeon.dungarray[self.ypos][self.xpos-1]=="|": dungeon.vendorvar.commerce(self)
         else:
           self.xpos -= moves
           return 1  
       elif direction==3:
-        if dungeon.dungarray[self.ypos+1][self.xpos]=="#" or dungeon.dungarray[self.ypos+1][self.xpos]=="|":
-          return 0
-        if dungeon.filled[self.ypos+1][self.xpos]=="i":
-          return 2
+        if dungeon.dungarray[self.ypos+1][self.xpos]=="#" or dungeon.dungarray[self.ypos+1][self.xpos]=="|": return 0
+        if dungeon.filled[self.ypos+1][self.xpos]=="i": return 2
         else:     
           self.ypos += moves
           return 1
       elif direction==4:
-        if dungeon.dungarray[self.ypos][self.xpos+1]=="#":
-          return 0
-        if dungeon.filled[self.ypos][self.xpos+1]=="i":
-          return 2
-        elif dungeon.dungarray[self.ypos][self.xpos+1]=="|":
-          dungeon.vendorvar.commerce(self)
+        if dungeon.dungarray[self.ypos][self.xpos+1]=="#": return 0
+        if dungeon.filled[self.ypos][self.xpos+1]=="i": return 2
+        elif dungeon.dungarray[self.ypos][self.xpos+1]=="|": dungeon.vendorvar.commerce(self)
         else:
           self.xpos += moves
           return 1
       elif direction==5:
-        if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos-1]=="|":
-          return 0
-        if dungeon.filled[self.ypos-1][self.xpos-1]=="i":
-          return 2
+        if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos-1]=="|": return 0
+        if dungeon.filled[self.ypos-1][self.xpos-1]=="i": return 2
         else:
           self.ypos -= moves
           self.xpos -= moves
           return 1
       elif direction==6:
-        if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos+1]=="|":
-          return 0
-        if dungeon.filled[self.ypos-1][self.xpos+1]=="i":
-          return 2
+        if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos+1]=="|": return 0
+        if dungeon.filled[self.ypos-1][self.xpos+1]=="i": return 2
         else:
           self.ypos -= moves
           self.xpos += moves
           return 1
       elif direction==7:
-        if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos-1]=="|":
-          return 0
-        if dungeon.filled[self.ypos+1][self.xpos-1]=="i":
-          return 2
+        if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos-1]=="|": return 0
+        if dungeon.filled[self.ypos+1][self.xpos-1]=="i": return 2
         else:
           self.ypos += moves
           self.xpos -= moves
           return 1
       elif direction==8:
-        if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos+1]=="|":
-          return 0
-        if dungeon.filled[self.ypos+1][self.xpos+1]=="i":
-          return 2
+        if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos+1]=="|": return 0
+        if dungeon.filled[self.ypos+1][self.xpos+1]=="i": return 2
         else:
           self.ypos += moves
           self.xpos += moves
           return 1
-      else:
-        return 0
-    except IndexError:
-      return 0
+      else: return 0
+    except IndexError: return 0
 
   def secondary(self):
     """
@@ -365,14 +327,9 @@ class player:
       self.secondary()
       common.version()
       print self.name,"- Character sheet\n_____________________"
-
       print "Level "+str(self.lv)+" "+self.race+" "+self.charclass
-
-      if self.lv==1:
-        print str(self.exp)+"/5 xp,",self.points,"points"
-      if self.lv>1:
-        print str(self.exp)+"/"+str(3*self.lv+(2*(self.lv-1))),"xp,",self.points,"points"
-
+      if self.lv==1: print str(self.exp)+"/5 xp,",self.points,"points"
+      if self.lv>1:  print str(self.exp)+"/"+str(3*self.lv+(2*(self.lv-1))),"xp,",self.points,"points"
       print str(self.totalfl)+" floors explored\n"
       self.getatr()
       print "_____________________\n"
@@ -381,19 +338,15 @@ class player:
       print "3.- Character options"
       print "4.- Save"
       print "5.- Load"
-      print ""
-      print "0.- Exit"
+      print "\n0.- Exit"
       print "->",
       menu=common.getch()
       #Spend exp
-      if menu=="1":
-        self.spend()
+      if menu=="1": self.spend()
       #Inventory menu
-      elif menu=="2":
-        self.invmenu()
+      elif menu=="2": self.invmenu()
       #Character options menu
-      elif menu=="3":
-        self.optmenu()
+      elif menu=="3": self.optmenu()
       #Save
       elif menu=="4":
         print "saving..."
@@ -405,8 +358,7 @@ class player:
         print self.load()
         common.getch()
       #Exit
-      elif menu=="0":
-        break
+      elif menu=="0": break
       pass
 
   def spend(self):
@@ -429,34 +381,20 @@ class player:
         print ""
 
       #Determining cost of improving attributes (Based on AFMBE rules, sort of)  
-      if self.STR<5:
-        coststr=5
-      if self.STR>=5:
-        coststr=((self.STR/5)+1)*5
-      if self.INT<5:
-        costint=5
-      if self.INT>=5:
-        costint=((self.INT/5)+1)*5
-      if self.DEX<5:
-        costdex=5
-      if self.DEX>=5:
-        costdex=((self.DEX/5)+1)*5
-      if self.CON<5:
-        costcon=5
-      if self.CON>=5:
-        costcon=((self.CON/5)+1)*5
-      if self.PER<5:
-        costper=5
-      if self.PER>=5:
-        costper=((self.PER/5)+1)*5
-      if self.WIL<5:
-        costwil=5
-      if self.WIL>=5:
-        costwil=((self.WIL/5)+1)*5
-      if self.CHA<5:
-        costcha=5
-      if self.CHA>=5:
-        costcha=((self.CHA/5)+1)*5
+      if self.STR<5:  coststr=5
+      if self.STR>=5: coststr=((self.STR/5)+1)*5
+      if self.INT<5:  costint=5
+      if self.INT>=5: costint=((self.INT/5)+1)*5
+      if self.DEX<5:  costdex=5
+      if self.DEX>=5: costdex=((self.DEX/5)+1)*5
+      if self.CON<5:  costcon=5
+      if self.CON>=5: costcon=((self.CON/5)+1)*5
+      if self.PER<5:  costper=5
+      if self.PER>=5: costper=((self.PER/5)+1)*5
+      if self.WIL<5:  costwil=5
+      if self.WIL>=5: costwil=((self.WIL/5)+1)*5
+      if self.CHA<5:  costcha=5
+      if self.CHA>=5: costcha=((self.CHA/5)+1)*5
 
       #printing menu
       print "1.- ["+str(coststr)+"] STR "+str(self.STR)+" (+"+str(self.strboost)+")"
@@ -466,20 +404,17 @@ class player:
       print "5.- ["+str(costper)+"] PER "+str(self.PER)+" (+"+str(self.perboost)+")"
       print "6.- ["+str(costwil)+"] WIL "+str(self.WIL)+" (+"+str(self.wilboost)+")"
       print "7.- ["+str(costcha)+"] CHA "+str(self.CHA)+" (+"+str(self.chaboost)+")"
-      print ""
-      print "Secondary attributes:"
+      print "\nSecondary attributes:"
       print 'END:', self.END, '     SPD:', self.SPD
       print 'Max. HP:',self.HP
       print 'Max. MP:',self.MP
       print "---"
       print "0.- Exit"
-      print ""
-      print "->",
+      print "\n->",
       choice=common.getch()
 
       #Choice cases
-      if self.points==0:
-        pass
+      if self.points==0: pass
       else:
         if choice=="1":
           if self.points>=coststr:
@@ -509,10 +444,8 @@ class player:
           if self.points>=costcha:
             self.CHA+=1
             self.points-=costcha
-        elif choice=="0":
-          pass
-        else:
-          pass
+        elif choice=="0": pass
+        else: pass
 
   def optmenu(self):
     """
@@ -522,17 +455,14 @@ class player:
     coptmen=-1
     while coptmen!="0": 
       common.version()
-      print self.name,"- Character sheet"
-      print ""
+      print self.name,"- Character sheet\n"
       print "1.- Change name"
       print "---"
       print "0.- Back"
       print "->",
       coptmen=common.getch()
-      if coptmen=="1":
-        self.name=raw_input("New name? ")
-      if coptmen=="0":
-        break
+      if coptmen=="1": self.name=raw_input("New name? ")
+      if coptmen=="0": break
 
   def calcbonus(self,item):
     """
@@ -540,24 +470,15 @@ class player:
     """
 
     calcarray=[]
-    if item.strbonus>0:
-      calcarray.append("+"+str(item.strbonus)+" STR")
-    if item.intbonus>0:
-      calcarray.append("+"+str(item.intbonus)+" INT")
-    if item.dexbonus>0:
-      calcarray.append("+"+str(item.dexbonus)+" DEX")
-    if item.perbonus>0:
-      calcarray.append("+"+str(item.perbonus)+" PER")
-    if item.conbonus>0:
-      calcarray.append("+"+str(item.conbonus)+" CON")
-    if item.wilbonus>0:
-      calcarray.append("+"+str(item.wilbonus)+" WIL")
-    if item.chabonus>0:
-      calcarray.append("+"+str(item.chabonus)+" CHA")
-    if len(calcarray)>0:
-      return "("+(', '.join(map(str,calcarray)))+")"
-    if len(calcarray)==0:
-      return ""
+    if item.strbonus>0: calcarray.append("+"+str(item.strbonus)+" STR")
+    if item.intbonus>0: calcarray.append("+"+str(item.intbonus)+" INT")
+    if item.dexbonus>0: calcarray.append("+"+str(item.dexbonus)+" DEX")
+    if item.perbonus>0: calcarray.append("+"+str(item.perbonus)+" PER")
+    if item.conbonus>0: calcarray.append("+"+str(item.conbonus)+" CON")
+    if item.wilbonus>0: calcarray.append("+"+str(item.wilbonus)+" WIL")
+    if item.chabonus>0: calcarray.append("+"+str(item.chabonus)+" CHA")
+    if len(calcarray)>0: return "("+(', '.join(map(str,calcarray)))+")"
+    if len(calcarray)==0: return ""
 
   def willtest(self):
     """
@@ -572,8 +493,7 @@ class player:
     if self.hp2<=5:
       roll=random.randint(1,21)+self.WIL+self.wilboost
       if self.hp2>0:
-        if roll<20/self.hp2:
-          return 0,"Your body refuses to move"
+        if roll<20/self.hp2: return 0,"Your body refuses to move"
     return 1,""
 
   def use(self,item):
@@ -603,24 +523,18 @@ class player:
         mpres+=1
 
       #restore status
-      if item.statusr:
-        self.status=0
+      if item.statusr: self.status=0
 
       #reset item
       item.reset()
 
       #Message generation
       msg="You drank "+item.name+". "
-      if hpres>0 or mpres>0:
-        msg=msg+"You recovered "
-      if hpres>0:
-        msg=msg+str(hpres)+" HP"
-      if hpres>0 and mpres>0:
-        msg=msg+" and "
-      if mpres>0:
-        msg=msg+str(mpres)+" MP"
-      if hpres>0 or mpres>0:
-        msg=msg+"."
+      if hpres>0 or mpres>0: msg=msg+"You recovered "
+      if hpres>0: msg=msg+str(hpres)+" HP"
+      if hpres>0 and mpres>0: msg=msg+" and "
+      if mpres>0: msg=msg+str(mpres)+" MP"
+      if hpres>0 or mpres>0: msg=msg+"."
       return msg
 
     if item.type==1:
@@ -636,22 +550,14 @@ class player:
 
       #Message generation
       msg="You drank "+item.name+". "
-      if item.intbst>0:
-        msg=msg+"INT +"+str(item.intbst)+" "
-      if item.dexbst>0:
-        msg=msg+"DEX +"+str(item.dexbst)+" "
-      if item.perbst>0:
-        msg=msg+"PER +"+str(item.perbst)+" "
-      if item.conbst>0:
-        msg=msg+"CON +"+str(item.conbst)+" "
-      if item.wilbst>0:
-        msg=msg+"WIL +"+str(item.wilbst)+" "
-      if item.chabst>0:
-        msg=msg+"CHA +"+str(item.chabst)+" "
-      if item.strbst>0:
-        msg=msg+"STR +"+str(item.strbst)+" "
+      if item.intbst>0: msg=msg+"INT +"+str(item.intbst)+" "
+      if item.dexbst>0: msg=msg+"DEX +"+str(item.dexbst)+" "
+      if item.perbst>0: msg=msg+"PER +"+str(item.perbst)+" "
+      if item.conbst>0: msg=msg+"CON +"+str(item.conbst)+" "
+      if item.wilbst>0: msg=msg+"WIL +"+str(item.wilbst)+" "
+      if item.chabst>0: msg=msg+"CHA +"+str(item.chabst)+" "
+      if item.strbst>0: msg=msg+"STR +"+str(item.strbst)+" "
       msg=msg+"\n"
-
 
     if item.type==4:
       return ""
@@ -664,9 +570,7 @@ class player:
     while 1: 
       common.version()
       print self.name,"- Character sheet"
-      print ""
-      print "Equipped"
-      print ""
+      print "\nEquipped\n"
       bonusmsg=self.calcbonus(self.equiparr[0])
       print "01 [+"+str(self.equiparr[0].atk)+"/+"+str(self.equiparr[0].defn)+"] Head: "+self.equiparr[0].name+bonusmsg
       bonusmsg=self.calcbonus(self.equiparr[1])
@@ -689,13 +593,11 @@ class player:
       print "10 [+"+str(self.equiparr[9].atk)+"/+"+str(self.equiparr[9].defn)+"] Legs: "+self.equiparr[9].name+bonusmsg
       bonusmsg=self.calcbonus(self.equiparr[10])
       print "11 [+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"] Feet: "+self.equiparr[10].name+bonusmsg
-      print ""
-      print "[+"+str(self.totatk)+"/+"+str(self.totdefn)+"]"
+      print "\n[+"+str(self.totatk)+"/+"+str(self.totdefn)+"]"
 
       #Print everything in the inventory array
       print "\nInventory (+"+str(self.pocket)+" G)\n"
-      for i in range(len(self.inventory)):
-        print "0"+str(i+1)+" [+"+str(self.inventory[i].atk)+"/+"+str(self.inventory[i].defn)+"] "+self.inventory[i].name+" ("+str(self.inventory[i].price)+"G)" 
+      for i in range(len(self.inventory)): print "0"+str(i+1)+" [+"+str(self.inventory[i].atk)+"/+"+str(self.inventory[i].defn)+"] "+self.inventory[i].name+" ("+str(self.inventory[i].price)+"G)" 
 
       #Print the belt items
       print "\nBelt\n"
@@ -709,8 +611,7 @@ class player:
       print "a - unequip item"
       print "b - use belt item"
       print "0 - Back"
-      print ""
-      print "->",
+      print "\n->",
       invmenu=common.getch()
 
       #Belt using menu
@@ -719,8 +620,7 @@ class player:
           print "Which item? ",
           beltmen=common.getch
           self.use(belt[int(beltmen)-1])
-        except IndexError:
-          pass
+        except IndexError: pass
 
       #Item flipping (Inventory <-> Equip)
       if "0"<invmenu<=str(len(self.inventory)):
@@ -737,8 +637,7 @@ class player:
             self.chaboost-=self.equiparr[self.inventory[invmenu-1].type-1].chabonus
             self.totatk-=self.equiparr[self.inventory[invmenu-1].type-1].atk
             self.totdefn-=self.equiparr[self.inventory[invmenu-1].type-1].defn
-          else:
-            temp=item.item(0)
+          else: temp=item.item(0)
           self.inventory[invmenu-1].equip=1
           temp.equip=0
           self.strboost+=self.inventory[invmenu-1].strbonus
@@ -753,8 +652,7 @@ class player:
           self.equiparr[self.inventory[invmenu-1].type-1]=self.inventory[invmenu-1]
           del self.inventory[invmenu-1]
           self.inventory.append(temp)
-          if self.inventory[len(self.inventory)-1].name==" ":
-            del self.inventory[len(self.inventory)-1]
+          if self.inventory[len(self.inventory)-1].name==" ": del self.inventory[len(self.inventory)-1]
 
       #Destroy an item from inventory
       if invmenu=="q":
@@ -775,10 +673,8 @@ class player:
           itech=int(common.getch())
           if 0<itech<=len(self.inventory):
             self.inventory[int(itech)-1].enchant(self)
-            if self.inventory[int(itech)-1].name==" ":
-              del self.inventory[int(itech)-1]
-        except ValueError:
-          pass
+            if self.inventory[int(itech)-1].name==" ": del self.inventory[int(itech)-1]
+        except ValueError: pass
 
       #Unequip menu
       if invmenu=="a":
@@ -797,12 +693,10 @@ class player:
             self.totdefn-=self.equiparr[int(unitem)-1].defn
             self.inventory.append(temp)
             self.equiparr[int(unitem)-1].reset()
-        except ValueError:
-          print "Invalid choice"
+        except ValueError: print "Invalid choice"
 
       #Exit from inventory menu
-      elif invmenu=="0":
-        break
+      elif invmenu=="0": break
 
   def attack(self,mob):
     """
@@ -812,17 +706,14 @@ class player:
     """
 
     atkpow=(self.totatk*self.STR)-mob.defn
-    if atkpow<=0:
-      atkpow=1
+    if atkpow<=0: atkpow=1
     mob.HP-=atkpow
     mob.hit=1
     if mob.HP<=0:
       self.exp+=mob.exp
-      if self.lv<=mob.lv+3:
-        self.prestige+=mob.pres
+      if self.lv<=mob.lv+3: self.prestige+=mob.pres
       return "You attack "+mob.name+" for "+str(atkpow)+" damage!\nYou killed "+mob.name+" for "+str(mob.exp)+" experience!\nYou earn "+str(mob.pres)+" prestige points.\n"
-    else:
-      return "You attack "+mob.name+" for "+str(atkpow)+" damage!\n"
+    else: return "You attack "+mob.name+" for "+str(atkpow)+" damage!\n"
 
   def save(self):
     """
@@ -830,9 +721,7 @@ class player:
     If the path or the file do not exist they are created.
     """
 
-    if not os.path.exists("../player/"):
-      os.makedirs("../player/")
-
+    if not os.path.exists("../player/"): os.makedirs("../player/")
     with open("../player/save","w+") as savefile:
       savefile.write("# \n# Player \n# \n")
       savefile.write("Name:"+str(self.name)+"\n")
@@ -854,20 +743,15 @@ class player:
       savefile.write("CHA:"+str(self.CHA)+"\n")
 
       savefile.write("#\n# Equipped items \n#\n")
-      for a in self.equiparr:
-        savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
+      for a in self.equiparr: savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
       
       savefile.write("#\n# Inventory items \n#\n")
-      for a in self.inventory:
-        savefile.write("I:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
+      for a in self.inventory: savefile.write("I:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
 
       savefile.write("#\n# Belt items \n#\n")
       for a in self.belt:
-        if a.type==4:
-          savefile.write("B:"+str(a.type)+":"+a.name+"\n")
-        if a.type==0:
-          savefile.write("B:"+str(a.type)+":"+str(a.subtype)+":"+a.name+":"+str(a.hpr)+":"+str(a.mpr)+":"+str(a.price)+"\n")
-
+        if a.type==4: savefile.write("B:"+str(a.type)+":"+a.name+"\n")
+        if a.type==0: savefile.write("B:"+str(a.type)+":"+str(a.subtype)+":"+a.name+":"+str(a.hpr)+":"+str(a.mpr)+":"+str(a.price)+"\n")
     return "Player saved"
 
   def bury(self):
@@ -880,8 +764,7 @@ class player:
     Unlike save it does not record things like maximum HP, items or stats, so buried characters can NOT be recovered.
     """
 
-    if not os.path.exists("../player/"):
-      os.makedirs("../player/")
+    if not os.path.exists("../player/"): os.makedirs("../player/")
     with open("../player/cemetery","a+") as cemetery:
       cemetery.write("RIP "+self.name+", the "+self.race+" "+self.charclass+" ("+str(self.prestige)+" prestige).\n")
       cemetery.write("Died at level "+str(self.lv)+" after exploring "+str(self.totalfl)+" floors.\n")
@@ -958,44 +841,25 @@ class player:
           for line in savefile:
             if not line.startswith("#"):
               #Load stats and player details
-              if line.partition(':')[0]=="Name":
-                self.name=(line.partition(':')[2]).strip()
-              if line.partition(':')[0]=="Level":
-                self.lv=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Exp":
-                self.exp=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Money":
-                self.pocket=int(line.partition(':')[2])
-              if line.partition(':')[0]=="INT":
-                self.INT=int(line.partition(':')[2])
-              if line.partition(':')[0]=="DEX":
-                self.DEX=int(line.partition(':')[2])
-              if line.partition(':')[0]=="PER":
-                self.PER=int(line.partition(':')[2])
-              if line.partition(':')[0]=="WIL":
-                self.WIL=int(line.partition(':')[2])
-              if line.partition(':')[0]=="STR":
-                self.STR=int(line.partition(':')[2])
-              if line.partition(':')[0]=="CON":
-                self.CON=int(line.partition(':')[2])
-              if line.partition(':')[0]=="CHA":
-                self.CHA=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Race":
-                self.race=(line.partition(':')[2]).strip()
-              if line.partition(':')[0]=="Class":
-                self.charclass=(line.partition(':')[2]).strip()
-              if line.partition(':')[0]=="HP":
-                self.HP=int(line.partition(':')[2])
-              if line.partition(':')[0]=="hp2":
-                self.hp2=int(line.partition(':')[2])
-              if line.partition(':')[0]=="MP":
-                self.MP=int(line.partition(':')[2])
-              if line.partition(':')[0]=="mp2":
-                self.mp2=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Points":
-                self.points=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Floors":
-                self.totalfl=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Name":  self.name=(line.partition(':')[2]).strip()
+              if line.partition(':')[0]=="Level": self.lv=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Exp":   self.exp=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Money": self.pocket=int(line.partition(':')[2])
+              if line.partition(':')[0]=="INT":   self.INT=int(line.partition(':')[2])
+              if line.partition(':')[0]=="DEX":   self.DEX=int(line.partition(':')[2])
+              if line.partition(':')[0]=="PER":   self.PER=int(line.partition(':')[2])
+              if line.partition(':')[0]=="WIL":   self.WIL=int(line.partition(':')[2])
+              if line.partition(':')[0]=="STR":   self.STR=int(line.partition(':')[2])
+              if line.partition(':')[0]=="CON":   self.CON=int(line.partition(':')[2])
+              if line.partition(':')[0]=="CHA":   self.CHA=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Race":  self.race=(line.partition(':')[2]).strip()
+              if line.partition(':')[0]=="Class": self.charclass=(line.partition(':')[2]).strip()
+              if line.partition(':')[0]=="HP":    self.HP=int(line.partition(':')[2])
+              if line.partition(':')[0]=="hp2":   self.hp2=int(line.partition(':')[2])
+              if line.partition(':')[0]=="MP":    self.MP=int(line.partition(':')[2])
+              if line.partition(':')[0]=="mp2":   self.mp2=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Points":self.points=int(line.partition(':')[2])
+              if line.partition(':')[0]=="Floors":self.totalfl=int(line.partition(':')[2])
 
               #Load equipped items
                                                                                                                                                               #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
@@ -1038,8 +902,7 @@ class player:
               #Load belt items
               if line.startswith("B:"):
                 line=line.lstrip("B:")
-                if line.partition(':')[0]=="4":
-                  self.belt.append(item.consumable(4,0))
+                if line.partition(':')[0]=="4": self.belt.append(item.consumable(4,0))
                 if line.partition(':')[0]=="0":
                   temp=item.consumable(0,0)
                   temp.subtype=int(line.partition(':')[2].partition(':')[0])
@@ -1050,8 +913,7 @@ class player:
                   self.belt.append(copy.copy(temp))
 
           #Add empty items to belt until it's full
-          while len(self.belt)<3:
-            self.belt.append(item.consumable(4,0))
+          while len(self.belt)<3: self.belt.append(item.consumable(4,0))
 
           #Update player bonuses
           for a in self.equiparr:
@@ -1071,9 +933,5 @@ class player:
           self.zpos=tempz
 
           return "Player loaded"
-
-        else:
-          return "Save file is empty"
-
-    except IOError:
-      return "Error loading character"
+        else:return "Save file is empty"
+    except IOError: return "Error loading character"

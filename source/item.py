@@ -89,8 +89,7 @@ class consumable:
 
             #If the item is a potion, save arrays with [name,HP,MP,price]
             if newtype==0:
-              if subtype==0:
-                subtype=random.randint(1,3)
+              if subtype==0: subtype=random.randint(1,3)
               if int(line.strip().partition(':')[2].partition(':')[0])==subtype:
                 tempitem=line.split(':')
                 del tempitem[0]
@@ -102,10 +101,8 @@ class consumable:
               del tempitem[0]
               items.append(tempitem)
 
-            if newtype==2:
-              pass
-            if newtype==3:
-              pass
+            if newtype==2: pass
+            if newtype==3: pass
 
     except IOError:
       print "Could not load consumable data file"
@@ -134,8 +131,7 @@ class consumable:
       self.price=int(data[8])
 
     #Generate empty object
-    if newtype==4:
-      self.name="--EMPTY--"
+    if newtype==4: self.name="--EMPTY--"
 
   def reset(self):
     """
@@ -222,32 +218,19 @@ class item:
 
     #Assign path depending on item type
     path="_"
-    if type==1:
-      path="../data/inventory/items_01"
-    if type==2:
-      path="../data/inventory/items_02"
-    if type==3:
-      path="../data/inventory/items_03"
-    if type==4:
-      path="../data/inventory/items_04"
-    if type==5:
-      path="../data/inventory/items_05"
-    if type==6:
-      path="../data/inventory/items_06"
-    if type==7:
-      path="../data/inventory/items_07"
-    if type==8:
-      path="../data/inventory/items_08"
-    if type==9:
-      path="../data/inventory/items_09"
-    if type==10:
-      path="../data/inventory/items_10"
-    if type==11:
-      path="../data/inventory/items_11"
-    if type==0:
-      path="../data/inventory/items_01" #Pick any of the files, it doesn't matter.
-    else:
-      pass
+    if type==1:   path="../data/inventory/items_01"
+    if type==2:   path="../data/inventory/items_02"
+    if type==3:   path="../data/inventory/items_03"
+    if type==4:   path="../data/inventory/items_04"
+    if type==5:   path="../data/inventory/items_05"
+    if type==6:   path="../data/inventory/items_06"
+    if type==7:   path="../data/inventory/items_07"
+    if type==8:   path="../data/inventory/items_08"
+    if type==9:   path="../data/inventory/items_09"
+    if type==10:  path="../data/inventory/items_10"
+    if type==11:  path="../data/inventory/items_11"
+    if type==0:   path="../data/inventory/items_01" #Pick any of the files, it doesn't matter.
+    else: pass
 
     #Open file containing the defined type weapons
     with open (path,"r") as invfile:
@@ -284,27 +267,17 @@ class item:
 
     randint=0
     randint=random.randint(1,10000)
-    if randint<=7000: #no modifiers
-      randint=9
-    if randint>7000 and randint<=7001: #universal
-      randint= 8
-    if randint>7001 and randint<=7011: #celestial
-      randint= 7
-    if randint>7011 and randint<=7100: #perfect
-      randint= 6
-    if randint>7100 and randint<=7500: #masterful
-      randint= 5
-    if randint>7500 and randint<=8000: #refined
-      randint= 4
-    if randint>8000 and randint<=8700: #bent
-      randint= 3
-    if randint>8700 and randint<=9300: #cracked
-      randint= 2
-    if randint>9300 and randint<=9700: #rusty
-      randint= 1
-    if randint>9700 and randint<=10000: #useless
-      randint= 0
-
+    if randint<=7000: randint=9 #no modifiers
+    if randint>7000 and randint<=7001: randint= 8 #universal
+    if randint>7001 and randint<=7011: randint= 7 #celestial
+    if randint>7011 and randint<=7100: randint= 6 #perfect
+    if randint>7100 and randint<=7500: randint= 5 #masterful
+    if randint>7500 and randint<=8000: randint= 4 #refined
+    if randint>8000 and randint<=8700: randint= 3 #bent
+    if randint>8700 and randint<=9300: randint= 2 #cracked
+    if randint>9300 and randint<=9700: randint= 1 #rusty
+    if randint>9700 and randint<=10000: randint= 0 #useless
+      
     #Open the file and load the data
     with open ("../data/inventory/atk_def_modifiers","r") as modifile:
       modifiers=[]
@@ -330,16 +303,11 @@ class item:
     # 00.1% chance of four attribute boost
     randint=random.randint(1,1000)
     attboost=0
-    if randint==1:
-      attboost=4
-    if randint>1 and randint<=10:
-      attboost=3
-    if randint>10 and randint<=60:
-      attboost=2
-    if randint>60 and randint<=200:
-      attboost=1
-    else:
-      pass
+    if randint==1: attboost=4
+    if randint>1 and randint<=10: attboost=3
+    if randint>10 and randint<=60: attboost=2
+    if randint>60 and randint<=200: attboost=1
+    else: pass
 
     #Initialize bonuses
     self.strbonus=0
@@ -353,20 +321,13 @@ class item:
     #Randomly assign the bonus points available
     for i in range(1,attboost+1):
       boosted=random.randint(1,7)
-      if boosted==1:
-        self.strbonus+=1
-      if boosted==2:
-        self.intbonus+=1
-      if boosted==3:
-        self.dexbonus+=1
-      if boosted==4:
-        self.perbonus+=1
-      if boosted==5:
-        self.conbonus+=1
-      if boosted==6:
-        self.wilbonus+=1
-      if boosted==7:
-        self.chabonus+=1
+      if boosted==1: self.strbonus+=1
+      if boosted==2: self.intbonus+=1
+      if boosted==3: self.dexbonus+=1
+      if boosted==4: self.perbonus+=1
+      if boosted==5: self.conbonus+=1
+      if boosted==6: self.wilbonus+=1
+      if boosted==7: self.chabonus+=1
 
     #assigning prefix depending on attributes boosted
     #This will be done from file in the future. Probably.
@@ -380,31 +341,22 @@ class item:
 
     #Choose one name depending on what attribute boost is higher.
     if not self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus+self.strbonus==0:
-      if self.strbonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus:
-        self.name=strarray[self.strbonus]+" "+self.name
-      if self.intbonus>=self.strbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus:
-        self.name=intarray[self.intbonus]+" "+self.name
-      if self.dexbonus>=self.intbonus+self.strbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus:
-        self.name=dexarray[self.dexbonus]+" "+self.name
-      if self.perbonus>=self.intbonus+self.dexbonus+self.strbonus+self.conbonus+self.wilbonus+self.chabonus:
-        self.name=perarray[self.perbonus]+" "+self.name
-      if self.conbonus>=self.intbonus+self.dexbonus+self.perbonus+self.strbonus+self.wilbonus+self.chabonus:
-        self.name=conarray[self.conbonus]+" "+self.name
-      if self.wilbonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.strbonus+self.chabonus:
-        self.name=wilarray[self.wilbonus]+" "+self.name
-      if self.chabonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.strbonus:
-        self.name=chaarray[self.chabonus]+" "+self.name
+      if self.strbonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=strarray[self.strbonus]+" "+self.name
+      if self.intbonus>=self.strbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=intarray[self.intbonus]+" "+self.name
+      if self.dexbonus>=self.intbonus+self.strbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=dexarray[self.dexbonus]+" "+self.name
+      if self.perbonus>=self.intbonus+self.dexbonus+self.strbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=perarray[self.perbonus]+" "+self.name
+      if self.conbonus>=self.intbonus+self.dexbonus+self.perbonus+self.strbonus+self.wilbonus+self.chabonus: self.name=conarray[self.conbonus]+" "+self.name
+      if self.wilbonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.strbonus+self.chabonus: self.name=wilarray[self.wilbonus]+" "+self.name
+      if self.chabonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.strbonus: self.name=chaarray[self.chabonus]+" "+self.name
 
     #Adjust price after attr boost
     self.price=(self.price*(1+self.strbonus+self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus))
 
     #Avoiding negative prices 
-    if self.price<0:
-      self.price=0
+    if self.price<0: self.price=0
 
     #And, if the type selected was 0, set everything to 0 again
-    if type==0:
-      self.reset()
+    if type==0: self.reset()
 
   def reset(self):
     """
@@ -458,14 +410,10 @@ class item:
       # Calculate random number
       randint=random.randint(1,1000)
       attboost=0
-      if randint<5:
-        attboost=4
-      if randint>51 and randint<=50:
-        attboost=3
-      if randint>50 and randint<=200:
-        attboost=2
-      if randint>200 and randint<=990:
-        attboost=1
+      if randint<5: attboost=4
+      if randint>51 and randint<=50: attboost=3
+      if randint>50 and randint<=200: attboost=2
+      if randint>200 and randint<=990: attboost=1
       if randint>990:
         print self.name+" broke during enchanting"
         common.getch()
@@ -504,26 +452,20 @@ class item:
 
         #Increase attack or defense
         i=random.randint(0,1)
-        if i==0:
-          self.atk+=1
-        if i==1:
-          self.defn+=1
+        if i==0: self.atk+=1
+        if i==1: self.defn+=1
 
         #Increase enchant level
         self.enchantlv+=1
 
         #Display the enchanting level in the item name
-        if "a"<=self.name[-1:]<="z":
-          self.name=self.name+" +1"
+        if "a"<=self.name[-1:]<="z": self.name=self.name+" +1"
         else:
           templv=int(self.name.partition('+')[2].strip())
           templv+=1
           tempname=self.name.partition('+')[0]
           self.name=tempname+"+"+str(templv)
           #Remove the numbers after the + in the name, add 1, attack the numbers to name.
-
         raw_input(self.name+" enchanted successfully")
-
     #If the player has no money, pass
-    else:
-      pass
+    else: pass

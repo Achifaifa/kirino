@@ -32,10 +32,8 @@ class dungeon:
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
 
-    if x<40:
-      x=40
-    if y<20:
-      y=20
+    if x<40: x=40
+    if y<20: y=20
     self.xsize=x
     self.ysize=y
     self.dungarray=[]
@@ -80,15 +78,11 @@ class dungeon:
         randlenx=random.randrange(self.xsize*2/3)
         #I'm not sure what this does
         for a in range (randomy,randomy+randleny):
-          if randomy+randleny==self.ysize:
-            self.dungarray[a][randomx]="."
-          if a==randleny-1:
-            self.dungarray[a][randomx]="D"
+          if randomy+randleny==self.ysize: self.dungarray[a][randomx]="."
+          if a==randleny-1: self.dungarray[a][randomx]="D"
         for b in range (randomx,randomx+randlenx):
-          if randomx+randlenx==self.xsize:
-            self.dungarray[randomy][b]="."
-          if b==randlenx-1:
-            self.dungarray[randomy][b]="D"
+          if randomx+randlenx==self.xsize: self.dungarray[randomy][b]="."
+          if b==randlenx-1: self.dungarray[randomy][b]="D"
                   
       #Connect rooms: create halls between positions with "D" (Rooms)
       #Skip this part, reading it gives cancer.
@@ -122,18 +116,6 @@ class dungeon:
                         self.dungarray[k-var][l-n]="."
                         #I still don't know how the fuck I made this work
 
-      #Fill the borders of the dungeon so the player does not fall out
-      for i in range(len(self.dungarray)):
-        for j in range(len(self.dungarray[i])):
-          if i==0:
-            self.dungarray[i][j]="#"
-          if i==len(self.dungarray):
-            self.dungarray[i][j]="#"
-          if j==0:
-            self.dungarray[i][j]="#"
-          if j==len(self.dungarray[i]):
-            self.dungarray[i][j]="#"
-
       #Generate random halls (Up to 1/3 the total size from an empty tile in a random direction)
       #Vertical halls
       for i in range(self.xsize/20):
@@ -156,20 +138,16 @@ class dungeon:
                       upycoord-=1
                       self.dungarray[upycoord][tempx]="."
                       lenght-=1
-                  except:
-                    pass
+                  except: pass
                 else:
                   try:
                     if downycoord<self.ysize-1:
                       downycoord+=1
                       self.dungarray[downycoord][tempx]="."
                       lenght-=1
-                  except:
-                    pass
-            if lenght==0:
-              break
-          except IndexError:
-            pass
+                  except: pass
+            if lenght==0: break
+          except IndexError: pass
           count+=1
 
       #Horizontal halls
@@ -190,20 +168,16 @@ class dungeon:
                       leftxcoord-=1
                       self.dungarray[tempy][leftxcoord]="."
                       lenght-=1
-                  except:
-                    pass
+                  except: pass
                 else:
                   try:
                     if rightxcoord<self.xsize-1:
                       rightxcoord+=1
                       self.dungarray[tempy][rightxcoord]="."
                       lenght-=1
-                  except:
-                    pass
-            if lenght==0:
-              break
-          except IndexError:
-            pass
+                  except: pass
+            if lenght==0: break
+          except IndexError: pass
           count+=1
                 
           
@@ -226,8 +200,7 @@ class dungeon:
       counter=0
       while abs(entrancex-exitx)<self.xsize/2 or abs(entrancey-exity)<self.ysize/2:
         counter += 1
-        if counter>100:
-          break
+        if counter>100: break
         while self.dungarray[exity][exitx]!=".":
       	  exity=random.randrange(self.ysize)
       	  exitx=random.randrange(self.xsize)
@@ -299,8 +272,7 @@ class dungeon:
       tempy=0
       for i in range(self.ysize):
         for j in range(self.xsize):
-          if self.dungarray[i][j]==".":
-            counter+=1
+          if self.dungarray[i][j]==".": counter+=1
       for i in range(1,counter/75):
         while self.dungarray[tempy][tempx]!=".":
           tempx=random.randrange(1,self.xsize)
@@ -320,8 +292,7 @@ class dungeon:
       self.filled=[]
       for i in range (self.ysize):
         secondary=[]
-        for j in range (self.xsize):
-          secondary.append("~")
+        for j in range (self.xsize): secondary.append("~")
         self.filled.append(secondary)
       #Fills the filled array with the dungarray data
       for i in range (self.ysize):
@@ -332,8 +303,7 @@ class dungeon:
       self.explored=[]
       for i in range(self.ysize):
         temp=[]
-        for j in range(self.xsize):
-          temp.append("~")
+        for j in range(self.xsize): temp.append("~")
         self.explored.append(temp)
 
       #Add traps
@@ -365,41 +335,28 @@ class dungeon:
 
     if place==0:
       #Dump to file mode.
-      if not os.path.exists("../logs/"):
-        os.makedirs("../logs/")
+      if not os.path.exists("../logs/"): os.makedirs("../logs/")
       with open("../logs/kirino.dump","a+") as dump:
         dump.write ("\n ###################### \n")
       	for i in range (0,len(self.dungarray)):
       	  for j in range (0,len(self.dungarray[i])):
             dump.write("("+str(i+1)+", "+str(j+1)+")")
-      	    if self.dungarray[i][j]=="#":
-              dump.write (" Rock \n")
-      	    elif self.dungarray[i][j]=="A":
-              dump.write (" Entrance \n")
-      	    elif self.dungarray[i][j]=="X":
-              dump.write (" Exit \n")
-      	    elif self.dungarray[i][j]==".":
-              dump.write (" Hallway \n")
-      	    elif self.dungarray[i][j]=="D":
-              dump.write (" Undeleted room marker \n")
-      	    else:
-              dump.write (" Unrecognised value ("+self.dungarray[i][j]+")")
+      	    if   self.dungarray[i][j]=="#": dump.write (" Rock \n")
+      	    elif self.dungarray[i][j]=="A": dump.write (" Entrance \n")
+      	    elif self.dungarray[i][j]=="X": dump.write (" Exit \n")
+      	    elif self.dungarray[i][j]==".": dump.write (" Hallway \n")
+      	    elif self.dungarray[i][j]=="D": dump.write (" Undeleted room marker \n")
+      	    else: dump.write (" Unrecognised value ("+self.dungarray[i][j]+")")
     else:
       #Dump to console
       for i in range (len(self.dungarray)):
         for j in range (len(self.dungarray[i])):
-          if self.dungarray[i][j]=="#":
-            print (i+1,j+1),"Rock"
-          elif self.dungarray[i][j]=="A":
-            print (i+1,j+1),"Entrance"
-          elif self.dungarray[i][j]=="X":
-            print (i+1,j+1),"Exit"
-          elif self.dungarray[i][j]==".":
-            print (i+1,j+1), "Hallway"
-          elif self.dungarray[i][j]=="D":
-            print (i+1,j+1), "Undeleted room marker"
-          else:
-            print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+          if   self.dungarray[i][j]=="#": print (i+1,j+1),"Rock"
+          elif self.dungarray[i][j]=="A": print (i+1,j+1),"Entrance"
+          elif self.dungarray[i][j]=="X": print (i+1,j+1),"Exit"
+          elif self.dungarray[i][j]==".": print (i+1,j+1), "Hallway"
+          elif self.dungarray[i][j]=="D": print (i+1,j+1), "Undeleted room marker"
+          else: print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
 
   def report(self):
     """
@@ -408,11 +365,9 @@ class dungeon:
     File is ../logs/report
     """
 
-    if not os.path.exists("../logs/"):
-      os.makedirs("../logs/")
+    if not os.path.exists("../logs/"): os.makedirs("../logs/")
     with open("../logs/report","a+") as dump:
-      for i in range (0,len(self.dungarray)):
-        dump.write(''.join(map(str,self.dungarray[i]))+"\n")
+      for i in range (0,len(self.dungarray)): dump.write(''.join(map(str,self.dungarray[i]))+"\n")
       dump.write(raw_input("report message?"))
       dump.write("\n ---------- \n")
 	   
@@ -424,8 +379,7 @@ class dungeon:
     This shows the entire dungarray[][], so dungeons with a horizontal size larger than the horizontal console size will look weird.
     """
 
-    for i in range (0,len(self.dungarray)):
-      print ''.join(map(str,self.dungarray[i]))
+    for i in range (0,len(self.dungarray)): print ''.join(map(str,self.dungarray[i]))
       
   def advmap(self,x,y,xmapsize,ymapsize):
     """
@@ -440,34 +394,27 @@ class dungeon:
     If the coordinates are too close to the edge, they are replaced so the map does not show anything outside the dungeon array.   
     """
 
-    if xmapsize<20:
-      xmapsize=20
-    if ymapsize<10:
-      ymapsize=10
+    if xmapsize<20: xmapsize=20
+    if ymapsize<10: ymapsize=10
     mapstring=[]
-    for i in range(ymapsize+1):
-      mapstring.append([])
+    for i in range(ymapsize+1): mapstring.append([])
 
     #Adjusting for deviation
     x -= xmapsize/2
     y -= ymapsize/2
 
     #Replaces the marker if the input is bad
-    if x+xmapsize>=self.xsize:
-      x=self.xsize-xmapsize
-    if y+ymapsize>=self.ysize:
-      y=self.ysize-ymapsize
+    if x+xmapsize>=self.xsize: x=self.xsize-xmapsize
+    if y+ymapsize>=self.ysize: y=self.ysize-ymapsize
 
     #Assign loop
     counter=0
     for i in range(y,y+ymapsize):
       counter+=1
-      for j in range(x,x+xmapsize):
-        mapstring[counter].append(self.filled[i][j])
+      for j in range(x,x+xmapsize): mapstring[counter].append(self.filled[i][j])
          
     #Print loop
-    for i in range(len(mapstring)):
-      print ''.join(map(str,mapstring[i]))
+    for i in range(len(mapstring)): print ''.join(map(str,mapstring[i]))
      
   def advmapcoords(self,x,y):
     """
@@ -502,24 +449,18 @@ class dungeon:
     """
 
     #Making sure the dungeon is over the minimum size
-    if self.xsize<40 or self.ysize<20:
-      return(2)
+    if self.xsize<40 or self.ysize<20: return(2)
     else:
     #Checks if the entrance and exit are still there
       entrance=0
       exit=0
       for i in range(len(self.dungarray)):
         for j in range(len(self.dungarray[i])):
-          if self.dungarray[i][j]=="A":
-            entrance += 1
-          if self.dungarray[i][j]=="X":
-            exit += 1
+          if self.dungarray[i][j]=="A": entrance += 1
+          if self.dungarray[i][j]=="X": exit += 1
       if entrance!=1 or exit!=1:
         return 1
-      else:
-      #Checks if X is reachable from A (pending)
-        pass
-        return 0
+      else: return 0
 
   def remember(self,player):
     """
@@ -534,8 +475,7 @@ class dungeon:
     exploredtiles=0
     for i in range(len(self.explored)):
       for j in range(len(self.explored[0])):
-        if self.explored[i][j]!="~":
-          exploredtiles+=1
+        if self.explored[i][j]!="~": exploredtiles+=1
     extra=exploredtiles-((player.INT+player.intboost)*100)
     while extra>0:
       while 1:
@@ -560,8 +500,7 @@ class dungeon:
     #Initialize filled array with fog
     for i in range (self.ysize):
       secondary=[]
-      for j in range (self.xsize):
-        secondary.append("~")
+      for j in range (self.xsize): secondary.append("~")
       self.filled.append(secondary)
 
     #Calculate how many tiles the player is allowed to see
@@ -573,19 +512,15 @@ class dungeon:
       for j in range (self.xsize):
         if fog==1:
           viewx=(totper-(abs(i-player.ypos))+2)
-          if viewx<0:
-            viewx=2
+          if viewx<0: viewx=2
           viewy=(totper-(abs(j-player.xpos))+1)
-          if viewy<0:
-            viewy=1
+          if viewy<0: viewy=1
           if player.ypos-viewy<i<player.ypos+viewy:
             if player.xpos-viewx<j<player.xpos+viewx:
               self.filled[i][j]=self.dungarray[i][j]
               self.explored[i][j]=self.dungarray[i][j]
-            else:
-              self.filled[i][j]="~"
-          else:
-            self.filled[i][j]="~"
+            else: self.filled[i][j]="~"
+          else: self.filled[i][j]="~"
           #Add mobs
           for k in self.mobarray:
             if player.ypos-viewy<k.ypos<player.ypos+viewy:
@@ -597,8 +532,7 @@ class dungeon:
           for k in range(len(self.mobarray)):
             if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
               self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]="i"
-            else:
-              self.filled[i][j]=self.dungarray[i][j]
+            else: self.filled[i][j]=self.dungarray[i][j]
 
     #Places the player marker in the filled array
     self.filled[player.ypos][player.xpos]="8"

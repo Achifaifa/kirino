@@ -59,12 +59,9 @@ class npc:
     """
 
     #Sanitize input
-    if stat<1:
-      stat=5
-    if total<1:
-      total=16
-    if gender!=0 and gender!=1:
-      gender=random.choice([0,1])
+    if stat<1: stat=5
+    if total<1: total=16
+    if gender!=0 and gender!=1: gender=random.choice([0,1])
 
     self.STR=1 
     self.DEX=1 
@@ -73,37 +70,27 @@ class npc:
     self.PER=1 
     self.WIL=1 
     self.CHA=1 
-
     self.rel=0
     
     for i in range(total-6):
       rnd=random.randint(1,7)
       if rnd==1:
-        if self.STR<stat: 
-          self.STR=self.STR+1
+        if self.STR<stat: self.STR=self.STR+1
       elif rnd==2:
-        if self.DEX<stat:
-          self.DEX=self.DEX+1
+        if self.DEX<stat: self.DEX=self.DEX+1
       elif rnd==3:
-        if self.CON<stat:
-          self.CON=self.CON+1
+        if self.CON<stat: self.CON=self.CON+1
       elif rnd==4:
-        if self.INT<stat:
-          self.INT=self.INT+1
+        if self.INT<stat: self.INT=self.INT+1
       elif rnd==5:
-        if self.PER<stat:
-          self.PER=self.PER+1
+        if self.PER<stat: self.PER=self.PER+1
       elif rnd==6:
-        if self.WIL<stat:
-          self.WIL=self.WIL+1
+        if self.WIL<stat: self.WIL=self.WIL+1
       elif rnd==7:
-        if self.CHA<stat:
-          self.CHA=self.CHA+1
+        if self.CHA<stat: self.CHA=self.CHA+1
 
-    if gender==0:
-      self.name=random.choice(npcdata["namefemale"])
-    if gender==1:
-      self.name=random.choice(npcdata["namemale"])
+    if gender==0: self.name=random.choice(npcdata["namefemale"])
+    if gender==1: self.name=random.choice(npcdata["namemale"])
     self.secondname=random.choice(npcdata["secondnames"])
     self.personality=random.choice(npcdata["personality"])
     self.appearance=random.choice(npcdata["appearance"])
@@ -128,42 +115,32 @@ class vendor:
     self.keeper=npc(0,0,0)
     self.forsale=[]
     self.potforsale=[]
-    for i in range(random.randrange(4,7)):
-      self.forsale.append(item.item(random.randrange(1,11)))
-    for i in range(random.randrange(1,3)):
-      self.potforsale.append(item.consumable(random.choice([1,1,1,2]),0))
+    for i in range(random.randrange(4,7)): self.forsale.append(item.item(random.randrange(1,11)))
+    for i in range(random.randrange(1,3)): self.potforsale.append(item.consumable(random.choice([1,1,1,2]),0))
 
   def commerce(self,player):
     while 1:
       common.version()
-      print "Shop"
-      print ""
+      print "Shop\n"
       print random.choice(vendordata["welcomemsg"])
-      print ""
-      print "1.- Sell"
+      print "\n1.- Sell"
       print "2.- Buy items"
       print "3.- Buy potions"
       print "4.- Chat"
       print "--"
       print "0.- Back"
-      print ""
-      print "->",
+      print "\n->",
       commenu=common.getch()
 
-      if commenu=="1":
-        self.sell(player)
-      if commenu=="2":
-        self.buyit(player)
-      if commenu=="3":
-        self.buypot(player)
-      if commenu=="4":
-        parser.chat(self.keeper,player)
+      if commenu=="1":self.sell(player)
+      if commenu=="2":self.buyit(player)
+      if commenu=="3":self.buypot(player)
+      if commenu=="4":parser.chat(self.keeper,player)
       if commenu=="0":
         print random.choice(vendordata["byemsg"])
         common.getch()
         break
-      else:
-        pass
+      else: pass
 
   def buypot(self,player):
     """
@@ -173,8 +150,7 @@ class vendor:
     while 1:
       common.version()
       print "Shop - Buy potions ("+str(player.pocket)+"G)\n"
-      for i in range(len(self.potforsale)):
-        print str(i+1)+".- "+self.potforsale[i].name+" ("+str(round(self.pricecalc(player)*self.potforsale[i].price))+"G)"
+      for i in range(len(self.potforsale)): print str(i+1)+".- "+self.potforsale[i].name+" ("+str(round(self.pricecalc(player)*self.potforsale[i].price))+"G)"
       print "--"
       print "0.- Back"
       print "\n->",
@@ -186,7 +162,7 @@ class vendor:
         break
 
       try:
-        try:
+       
           if len(self.potforsale)!=0:
             if player.pocket>=round(self.pricecalc(player)*self.potforsale[int(buypotmenu)-1].price):
               if player.belt[0].name=="--EMPTY--":
@@ -215,10 +191,7 @@ class vendor:
               print random.choice(vendordata["failmsg"])
               common.getch()
 
-        except IndexError:
-          pass
-      except ValueError:
-        pass
+      except (ValueError,IndexError): pass
         
 
   def pricecalc(self,player):
@@ -242,8 +215,7 @@ class vendor:
     #Relationship modifiers
     modifier-=(self.keeper.rel/15)
 
-    if modifier<0.5:
-      modifier=0.5
+    if modifier<0.5: modifier=0.5
 
     return modifier
 
@@ -254,17 +226,13 @@ class vendor:
 
     while 1:
       common.version()
-      print "Shop - Buy items ("+str(player.pocket)+"G)"
-      print ""
-      for i in range(len(self.forsale)):
-        print str(i+1)+".- "+self.forsale[i].name+" ("+str(round(self.pricecalc(player)*self.forsale[i].price))+"G)"
+      print "Shop - Buy items ("+str(player.pocket)+"G)\n"
+      for i in range(len(self.forsale)): print str(i+1)+".- "+self.forsale[i].name+" ("+str(round(self.pricecalc(player)*self.forsale[i].price))+"G)"
       print "--"
       print "0.- Back"
-      print ""
-      print "->",
+      print "\n->",
 
       try:
-        try:
           buymenuc=common.getch()
           if buymenuc=="0":
             print "Nice doing business with you!"
@@ -284,10 +252,7 @@ class vendor:
           else:
             print random.choice(vendordata["failmsg"])
             common.getch()
-        except ValueError:
-          pass
-      except IndexError:
-        pass
+      except (ValueError, IndexError): pass
 
   def sell(self,player):
     """
@@ -296,17 +261,13 @@ class vendor:
 
     while 1:
       common.version()
-      print "Shop - Sell items ("+str(player.pocket)+"G)"
-      print ""
-      for i in range(len(player.inventory)):
-        print str(i+1)+".- "+player.inventory[i].name+" ("+str(round(player.inventory[i].price/self.pricecalc(player)))+"G)"
+      print "Shop - Sell items ("+str(player.pocket)+"G)\n"
+      for i in range(len(player.inventory)):print str(i+1)+".- "+player.inventory[i].name+" ("+str(round(player.inventory[i].price/self.pricecalc(player)))+"G)"
       print "--"
       print "0.- Back"
-      print ""
-      print "->",
+      print "\n->",
 
       try:
-        try:
           sellmenuc=common.getch()
           if sellmenuc=="0":
             print "Nothing else? I can pay you with roaches!"
@@ -318,10 +279,7 @@ class vendor:
           self.keeper.rel+=1
           print random.choice(vendordata["okmsg"])
           common.getch()
-        except ValueError:
-          pass
-      except IndexError:
-        pass
+      except (ValueError, IndexError): pass
 
 def sanitize(): 
   """
@@ -333,27 +291,23 @@ def sanitize():
     with open("../data/npcs/firstnames_male","r+") as firstnamesmale:
       lines=firstnamesmale.readlines()
       firstnamesmale.seek(0,0)
-      for line in lines:
-        firstnamesmale.write(line.title())
+      for line in lines: firstnamesmale.write(line.title())
        
     with open("../data/npcs/firstnames_female","r+") as firstnamesfemale:
       lines=firstnamesfemale.readlines()
       firstnamesfemale.seek(0,0)
-      for line in lines:
-        firstnamesfemale.write(line.title())
+      for line in lines: firstnamesfemale.write(line.title())
 
     with open("../data/npcs/secondnames","r+") as secondnames:
       lines=secondnames.readlines()
       secondnames.seek(0,0)
-      for line in lines:
-        secondnames.write(line.title())
+      for line in lines: secondnames.write(line.title())
 
     #First letter on the first selected thing will be capped later.
     with open("../data/npcs/things","r+") as things:
       lines=things.readlines()
       things.seek(0,0)
-      for line in lines:
-          things.write(line.lower())
+      for line in lines: things.write(line.lower())
 
   except IOError:
     print "error sanitizing NPC data files"
@@ -373,44 +327,37 @@ def load():
     print "Loading NPC data files...  ",
     with open("../data/npcs/firstnames_male","r") as file:
       namemale = []
-      for line in file:
-          namemale.append(line.rstrip('\n'))
+      for line in file: namemale.append(line.rstrip('\n'))
     npcdata["namemale"]=namemale
      
     with open("../data/npcs/firstnames_female","r") as file:
       namefemale = []
-      for line in file:
-          namefemale.append(line.rstrip('\n'))
+      for line in file: namefemale.append(line.rstrip('\n'))
     npcdata["namefemale"]=namefemale
 
     with open("../data/npcs/secondnames","r") as file:
       secondnames = []
-      for line in file:
-          secondnames.append(line.rstrip('\n'))
+      for line in file: secondnames.append(line.rstrip('\n'))
     npcdata["secondnames"]=secondnames
 
     with open("../data/npcs/appearance","r") as file:
       appearance = []
-      for line in file:
-          appearance.append(line.rstrip('\n'))
+      for line in file: appearance.append(line.rstrip('\n'))
     npcdata["appearance"]=appearance
 
     with open("../data/npcs/personality","r") as file:
       personality = []
-      for line in file:
-          personality.append(line.rstrip('\n'))
+      for line in file: personality.append(line.rstrip('\n'))
     npcdata["personality"]=personality
 
     with open("../data/npcs/things","r") as file:
       things = []
-      for line in file:
-        things.append(line.rstrip('\n'))
+      for line in file: things.append(line.rstrip('\n'))
     npcdata["things"]=things
 
     with open("../data/npcs/jobs","r") as file:
       jobs = []
-      for line in file:
-          jobs.append(line.rstrip('\n'))
+      for line in file: jobs.append(line.rstrip('\n'))
     npcdata["jobs"]=jobs
 
   except IOError:

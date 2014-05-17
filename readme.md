@@ -1,4 +1,4 @@
-#Kirino v0.0.11
+#Kirino v0.0.11b
   
 Basic console based dungeon crawler. 
 
@@ -88,6 +88,7 @@ You may have some issues with the output formatting, but overall the game is pla
   * Crash when playing a small dungeon after a large one
 * Others:
   * Peddlers have at least one potion for sale
+  * [0.0.11b] Cleaned code
 
 ####**v0.0.10** (2014-05-09):
 * New features:

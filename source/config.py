@@ -64,50 +64,32 @@ class config:
       with open("../player/config","r") as configfile:
         for line in configfile:
           if not line.startswith('#'):
-            if line.partition(':')[0]=="North":
-              self.north=(line.partition(':')[2]).strip()          
-            if line.partition(':')[0]=="South":
-              self.south=(line.partition(':')[2]).strip()          
-            if line.partition(':')[0]=="East":
-              self.east=(line.partition(':')[2]).strip()         
-            if line.partition(':')[0]=="West":
-              self.west=(line.partition(':')[2]).strip()  
-            if line.partition(':')[0]=="Northeast":
-              self.northeast=(line.partition(':')[2]).strip() 
-            if line.partition(':')[0]=="Northwest":
-              self.northwest=(line.partition(':')[2]).strip() 
-            if line.partition(':')[0]=="Southeast":
-              self.southeast=(line.partition(':')[2]).strip() 
-            if line.partition(':')[0]=="Southwest":
-              self.southwest=(line.partition(':')[2]).strip()         
-            if line.partition(':')[0]=="Sheet":
-              self.charsh=(line.partition(':')[2]).strip()         
-            if line.partition(':')[0]=="Options":
-              self.opt=(line.partition(':')[2]).strip()          
-            if line.partition(':')[0]=="Quit":
-              self.quit=(line.partition(':')[2]).strip() 
-            if line.partition(':')[0]=="Show keys:":
-              self.showkeys=(line.partition(':')[2]).strip() 
-            if line.partition(':')[0]=="Show map:":
-              self.showmap=(line.partition(':')[2]).strip()  
-            if line.partition(':')[0]=="Input mode":
-              self.console=(line.partition(':')[2]).strip() 
-            if line.partition(':')[0]=="Report":
-              self.report=(line.partition(':')[2]).strip()          
-            if line.partition(':')[0]=="Autosave":
-              if line.partition(':')[2].strip()=="on":
-                self.autosave=1
-            if line.partition(':')[0]=="Fog":
-              if line.partition(':')[2].strip()=="off":
-                self.fog=0
-            if line.partition(':')[0]=="Next floor":
-              self.nextf=(line.partition(':')[2]).strip()
-            if line.partition(':')[0]=="Quick slot 1":
-              self.quick1=(line.partition(':')[2]).strip()
-            if line.partition(':')[0]=="Quick slot 2":
-              self.quick2=(line.partition(':')[2]).strip()
-            if line.partition(':')[0]=="Quick slot 3":
-              self.quick3=(line.partition(':')[2]).strip()
+            parA=line.partition(':')[0]
+            parB=line.strip().partition(':')[2]
+            if parA=="North":         self.north=     parB          
+            if parA=="South":         self.south=     parB          
+            if parA=="East":          self.east=      parB         
+            if parA=="West":          self.west=      parB  
+            if parA=="Northeast":     self.northeast= parB 
+            if parA=="Northwest":     self.northwest= parB 
+            if parA=="Southeast":     self.southeast= parB 
+            if parA=="Southwest":     self.southwest= parB         
+            if parA=="Sheet":         self.charsh=    parB         
+            if parA=="Options":       self.opt=       parB          
+            if parA=="Quit":          self.quit=      parB 
+            if parA=="Show keys:":    self.showkeys=  parB 
+            if parA=="Show map:":     self.showmap=   parB  
+            if parA=="Input mode":    self.console=   parB
+            if parA=="Next floor":    self.nextf=     parB
+            if parA=="Quick slot 1":  self.quick1=    parB
+            if parA=="Quick slot 2":  self.quick2=    parB
+            if parA=="Quick slot 3":  self.quick3=    parB 
+            if parA=="Report":        self.report=    parB          
+            if parA=="Autosave":
+              if parB=="on":  self.autosave=1
+            if parA=="Fog":
+              if parB=="off": self.fog=0
+            
 
   def options(self,restricted):
     """
@@ -125,36 +107,24 @@ class config:
       common.version()
       print "Options"
       print ""
-      if self.autosave==0:
-        print "1.- Autosave [off]"
-      if self.autosave==1:
-        print "1.- Autosave [on]"
+      if self.autosave==0:  print "1.- Autosave [off]"
+      if self.autosave==1:  print "1.- Autosave [on]"
       print "    Saves the character between floors"
-      if not self.fog and not restricted:
-        print "2.- Fog [off]"
-      if self.fog and not restricted:
-        print "2.- Fog [on]"
-      if restricted and self.fog:
-        print "2.- Fog [on] [Locked]"
-      if restricted and not self.fog:
-        print "2.- Fog [off] [Locked]"
-      print "    Hides the dungeon out of view range"
-      print ""
-      print "3.- Key mapping"
-      print ""
+      if not self.fog and not restricted:   print "2.- Fog [off]"
+      if     self.fog and not restricted:   print "2.- Fog [on]"
+      if restricted   and     self.fog:     print "2.- Fog [on] [Locked]"
+      if restricted   and not self.fog:     print "2.- Fog [off] [Locked]"
+      print "    Hides the dungeon out of view range\n"
+      print "3.- Key mapping\n"
       print "--"
       print "9.- Help"
       print "0.- Go back"
       print "->",
       opmen=common.getch()
-      if opmen=="1":
-        self.autosave=not self.autosave
-      if opmen=="3":
-        self.keymap(restricted)
-      if opmen=="2" and not restricted:
-        self.fog=not self.fog
-      if opmen=="9":
-        help.help()
+      if opmen=="1": self.autosave=not self.autosave
+      if opmen=="3": self.keymap(restricted)
+      if opmen=="2" and not restricted: self.fog=not self.fog
+      if opmen=="9": help.help()
       if opmen=="0":
         saveoptions(self)
         break
@@ -167,8 +137,7 @@ class config:
     while 1: 
       os.system('clear')
       common.version()
-      print "Options - Keyboard mapping 1/3"
-      print ""
+      print "Options - Keyboard mapping 1/3\n"
       print "1.- Go north: "+self.north
       print "2.- Go south: "+self.south
       print "3.- Go east: "+self.east
@@ -183,22 +152,14 @@ class config:
       print "\n->",
       keymenu=common.getch()
 
-      if keymenu=="1":
-        self.north=newkey("go north")
-      if keymenu=="2":
-        self.south=newkey("go south")
-      if keymenu=="3":
-        self.east=newkey("go east")
-      if keymenu=="4":
-        self.west=newkey("go west")
-      if keymenu=="5":
-        self.northeast=newkey("go northeast")
-      if keymenu=="6":
-        self.northwest=newkey("go northwest")
-      if keymenu=="7":
-        self.southeast=newkey("go southeast")
-      if keymenu=="8":
-        self.southwest=newkey("go southwest")
+      if keymenu=="1": self.north=newkey("go north")
+      if keymenu=="2": self.south=newkey("go south")
+      if keymenu=="3": self.east=newkey("go east")
+      if keymenu=="4": self.west=newkey("go west")
+      if keymenu=="5": self.northeast=newkey("go northeast")
+      if keymenu=="6": self.northwest=newkey("go northwest")
+      if keymenu=="7": self.southeast=newkey("go southeast")
+      if keymenu=="8": self.southwest=newkey("go southwest")
       if keymenu=="0":
         saveoptions(self)
         break
@@ -208,8 +169,7 @@ class config:
           sys.stdout.flush() 
           os.system('clear')
           common.version()
-          print "Options - Keyboard mapping 2/3"
-          print ""
+          print "Options - Keyboard mapping 2/3\n"
           print "1.- Character sheet : "+self.charsh
           print "2.- Option menu: "+self.opt
           print "3.- Report dungeon: "+self.report
@@ -224,22 +184,14 @@ class config:
           print "\n->",
           keymenu2=common.getch()
 
-          if keymenu2=="1":
-            self.charsh=newkey("character sheet")
-          if keymenu2=="2":
-            self.opt=newkey("option menu")
-          if keymenu2=="3":
-            self.report=newkey("report dungeon")
-          if keymenu2=="4":
-            self.quit=newkey("quit")
-          if keymenu2=="5":
-            self.showkeys=newkey("show keys")
-          if keymenu2=="6":
-            self.console=newkey("input mode")
-          if keymenu2=="7":
-            self.quick1=newkey("quick slot 1")
-          if keymenu2=="8":
-            self.quick2=newkey("quick slot 2")
+          if keymenu2=="1": self.charsh=newkey("character sheet")
+          if keymenu2=="2": self.opt=newkey("option menu")
+          if keymenu2=="3": self.report=newkey("report dungeon")
+          if keymenu2=="4": self.quit=newkey("quit")
+          if keymenu2=="5": self.showkeys=newkey("show keys")
+          if keymenu2=="6": self.console=newkey("input mode")
+          if keymenu2=="7": self.quick1=newkey("quick slot 1")
+          if keymenu2=="8": self.quick2=newkey("quick slot 2")
           #extra options
           if keymenu2=="0":
             saveoptions(self)
@@ -250,7 +202,6 @@ class config:
               os.system('clear')
               common.version()
               print "Options - Keyboard mapping 3/3"
-              print ""
               print "1.- Quick slot 3: "+self.quick3
               print "2.- Show map: "+self.showmap
               print "3.- Next floor: "+self.nextf
@@ -260,12 +211,9 @@ class config:
               print "\n->",
               keymenu3=common.getch()
 
-              if keymenu3=="1":
-                self.quick3=newkey("quick slot 3")
-              if keymenu3=="2":
-                self.showmap=newkey("show map")
-              if keymenu3=="3":
-                self.nextf=newkey("next floor")
+              if keymenu3=="1": self.quick3=newkey("quick slot 3")
+              if keymenu3=="2": self.showmap=newkey("show map")
+              if keymenu3=="3": self.nextf=newkey("next floor")
               if keymenu3=="0":
                 saveoptions(self)
                 break
@@ -283,11 +231,8 @@ def newkey(msg):
   """
 
   tempk=raw_input("New key for '"+msg+"': ")
-  if len(tempk)==1:
-    return tempk
-  else:
-    raw_input("Invalid key")
-
+  if len(tempk)==1: return tempk 
+  else: raw_input("Invalid key")
 
 def saveoptions(self):
   """
@@ -298,8 +243,7 @@ def saveoptions(self):
   The file is ../player/config, if the directory does not exist this creates the directory and the file.
   """
   
-  if not os.path.exists("../player/"):
-    os.makedirs("../player/")
+  if not os.path.exists("../player/"): os.makedirs("../player/")
   with open("../player/config","w+") as configfile:
     configfile.write("# \n")
     configfile.write("# Keyboard options \n")
@@ -323,14 +267,8 @@ def saveoptions(self):
     configfile.write("Quick slot 1:"+self.quick1+"\n")
     configfile.write("Quick slot 2:"+self.quick2+"\n")
     configfile.write("Quick slot 3:"+self.quick3+"\n")    
-    configfile.write("# \n")
-    configfile.write("# Game options \n")
-    configfile.write("# \n")
-    if self.autosave==1:
-      configfile.write("Autosave:on \n")
-    if self.autosave==0:
-      configfile.write("Autosave:off \n")
-    if self.fog==1:
-      configfile.write("Fog:on")
-    if self.fog==0:
-      configfile.write("Fog:off")
+    configfile.write("# \n# Game options \n# \n")
+    if self.autosave==1: configfile.write("Autosave:on \n")
+    if self.autosave==0: configfile.write("Autosave:off \n")
+    if self.fog==1: configfile.write("Fog:on")
+    if self.fog==0: configfile.write("Fog:off")

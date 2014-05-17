@@ -27,20 +27,13 @@ def testm():
     print "0.- Go back"
     testmen=common.getch()
 
-    if testmen=="1":
-      testcharsh()
-    if testmen=="2":
-      testfight()
-    if testmen=="3":
-      testvend()
-    if testmen=="4":
-      testparse()
-    if testmen=="5":
-      testchat()
-    if testmen=="6":
-      testgen()
-    if testmen=="0":
-      break
+    if testmen=="1": testcharsh()
+    if testmen=="2": testfight()
+    if testmen=="3": testvend()
+    if testmen=="4": testparse()
+    if testmen=="5": testchat()
+    if testmen=="6": testgen()
+    if testmen=="0": break
 
 def testcharsh():
   """
@@ -107,9 +100,7 @@ def testgen():
     try:
       new=dungeon.dungeon(40,40,1)
       new.map()
-    except:
-      print "\n\nError"
+    except: print "\n\nError"
     bla=common.getch()
-    if bla=="0":
-      break
+    if bla=="0": break
 

@@ -87,19 +87,14 @@ class mob:
     if not self.lock:
       try:
         if direction==1:
-          if dungeon.dungarray[self.ypos-1][self.xpos]==".":
-            self.ypos -= distance
+          if dungeon.dungarray[self.ypos-1][self.xpos]==".": self.ypos-=distance
         if direction==2:
-          if dungeon.dungarray[self.ypos][self.xpos-1]==".":
-            self.xpos -= distance  
+          if dungeon.dungarray[self.ypos][self.xpos-1]==".": self.xpos-=distance  
         if direction==3:
-          if dungeon.dungarray[self.ypos+1][self.xpos]==".":     
-            self.ypos += distance
+          if dungeon.dungarray[self.ypos+1][self.xpos]==".": self.ypos+=distance
         if direction==4:
-          if dungeon.dungarray[self.ypos][self.xpos+1]==".":
-            self.xpos += distance
-      except IndexError:
-        pass
+          if dungeon.dungarray[self.ypos][self.xpos+1]==".": self.xpos+=distance
+      except IndexError: pass
   
   def randmove(self,dungeon,dist):
     """
@@ -108,14 +103,10 @@ class mob:
 
     rand=0
     rand=random.randint(1,4)
-    if rand==1:
-      self.move(dungeon,1,dist)
-    elif rand==2:
-      self.move(dungeon,2,dist)
-    elif rand==3:
-      self.move(dungeon,3,dist)
-    elif rand==0:
-      self.move(dungeon,4,dist)
+    if   rand==1: self.move(dungeon,1,dist)
+    elif rand==2: self.move(dungeon,2,dist)
+    elif rand==3: self.move(dungeon,3,dist)
+    elif rand==0: self.move(dungeon,4,dist)
 
   def trandmove(self,dungeon):
     """
@@ -134,9 +125,7 @@ class mob:
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
 
       attackpow=((self.str*self.atk)-player.totdefn)
-      if self.hit:
-        attackpow=attackpow/2
-      if attackpow<=0:
-        attackpow=1
+      if self.hit: attackpow=attackpow/2
+      if attackpow<=0: attackpow=1
       player.hp2-=attackpow
       return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!\n")

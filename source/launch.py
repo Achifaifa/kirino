@@ -50,32 +50,24 @@ def menu():
   #Main menu
   while 1:
     common.version()
-    print "Main menu"
-    print ""
+    print "Main menu\n"
     print "1.- Play"
     print "2.- Quick play"
     print "3.- Options"
     print "4.- Credits"
-    print ""
-    print "8.- Test utilities"
+    print "\n8.- Test utilities"
     print "--"
     print "9.- Help"
     print "0.- Exit"
     print "->",
     menu=common.getch()
 
-    if menu=="1":
-      crawl(0)
-    if menu=="2":
-      crawl(1)
-    if menu=="3":
-      cfg.options(0)
-    if menu=="4":
-      scroll(15)
-    if menu=="8":
-      test.testm()
-    if menu=="9":
-      help.help()
+    if menu=="1": crawl(0)
+    if menu=="2": crawl(1)
+    if menu=="3": cfg.options(0)
+    if menu=="4": scroll(15)
+    if menu=="8": test.testm()
+    if menu=="9": help.help()
     if menu=="0":
       print "Close kirino (y/n)?"
       ec=common.getch()
@@ -115,18 +107,14 @@ def crawl(quick):
     lootmsg="\n"
 
     #Update the explored map
-    if cfg.fog:
-      dung.remember(hero)
+    if cfg.fog: dung.remember(hero)
 
     #Move all the mobs, delete dead mobs from array
     for i in range(len(dung.mobarray)):
       try:
-        if dung.mobarray[i].HP<=0:
-          del dung.mobarray[i]
-        else:
-          dung.mobarray[i].trandmove(dung)
-      except IndexError:
-        pass
+        if dung.mobarray[i].HP<=0: del dung.mobarray[i]
+        else: dung.mobarray[i].trandmove(dung)
+      except IndexError: pass
 
     #If any of the remaining mobs has locked on the player and the player is in range, attack
     for j in range(len(dung.mobarray)):
@@ -134,12 +122,10 @@ def crawl(quick):
         if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
             dung.mobarray[j].xpos-1<=hero.xpos<=dung.mobarray[j].xpos+1 ):
           atkmsg=dung.mobarray[j].attack(hero,dung)
-        else:
-          dung.mobarray[j].lock=0
+        else: dung.mobarray[j].lock=0
 
     #After attacking, reset the hit parameter
-    for a in dung.mobarray:
-      a.hit=0
+    for a in dung.mobarray: a.hit=0
         
     #If any of the mobs are near the player, lock them
     for k in range(len(dung.mobarray)):
@@ -158,8 +144,7 @@ def crawl(quick):
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
       loot=item.item(random.randrange(1,11))
       picked,pickmsg=hero.pickobject(loot)
-      if picked:
-        dung.dungarray[hero.ypos][hero.xpos]="."
+      if picked: dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Action if player stepped on a trap
     for i in dung.traps:
@@ -185,16 +170,12 @@ def crawl(quick):
           hero.totalfl+=1
           fl+=1
           lsave(hero) 
-          if cfg.autosave==1:
-            hero.save()
+          if cfg.autosave==1: hero.save()
           allowvendor=0
-          randomvendor=random.randrange(5,9)
-          if hero.totalfl%randomvendor==0:
-            allowvendor=1
+          if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
           dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
           lload(hero)
-          if not cfg.fog:
-            dung.explored=dung.dungarray
+          if not cfg.fog: dung.explored=dung.dungarray
           while 1:
             i=random.randrange(len(dung.dungarray))
             j=random.randrange(len(dung.dungarray[i]))
@@ -212,10 +193,8 @@ def crawl(quick):
     #Prit data
     print 'HP: '+str(hero.hp2)+"/"+str(hero.HP)+", MP: "+str(hero.mp2)+"/"+str(hero.MP)
     print "FL "+str(fl)+"  Lv "+str(hero.lv)
-    if hero.lv==1:
-      print "("+str(hero.exp)+"/5 xp)",
-    if hero.lv>1:
-      print str(hero.exp)+"/"+str(3*hero.lv+(2*(hero.lv-1)))+" xp",
+    if hero.lv==1: print "("+str(hero.exp)+"/5 xp)",
+    if hero.lv>1:  print str(hero.exp)+"/"+str(3*hero.lv+(2*(hero.lv-1)))+" xp",
     print str(hero.prestige)+" p"
     print "\n"+cfg.quick1+" | "+hero.belt[0].name
     print cfg.quick2+" | "+hero.belt[1].name
@@ -226,10 +205,7 @@ def crawl(quick):
 
     #Reset message strings after display
     action=0
-    parsemsg=""
-    hitmsg=""
-    usemsg=""
-    wilmsg=""
+    parsemsg=hitmsg=usemsg=wilmsg=""
     crawlmen=common.getch()
 
     #Willpower test
@@ -238,34 +214,26 @@ def crawl(quick):
     #Action choice block
     #Input mode
     if crawlmen==cfg.console:
-      try:
-        action,parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
-      except:
-        pass
+      try: action,parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
+      except: pass
 
     #Explored map
     if crawlmen==cfg.showmap:
       common.version()
       print "Map"
-      for i in dung.explored:
-        print "".join(i)
+      for i in dung.explored: print "".join(i)
       common.getch()
 
     #Character sheet menu
-    if crawlmen==cfg.charsh: 
-      hero.charsheet()
+    if crawlmen==cfg.charsh: hero.charsheet()
 
     #Show key help
-    elif (crawlmen==cfg.showkeys or action==61):
-      help.keyhelp() 
+    elif (crawlmen==cfg.showkeys or action==61): help.keyhelp() 
 
     #Using belt items
-    if crawlmen==cfg.quick1:
-      usemsg=hero.use(hero.belt[0])
-    if crawlmen==cfg.quick2:
-      usemsg=hero.use(hero.belt[1])
-    if crawlmen==cfg.quick3:
-      usemsg=hero.use(hero.belt[2])
+    if crawlmen==cfg.quick1: usemsg=hero.use(hero.belt[0])
+    if crawlmen==cfg.quick2: usemsg=hero.use(hero.belt[1])
+    if crawlmen==cfg.quick3: usemsg=hero.use(hero.belt[2])
 
     #Movement
     #Check if there are mobs. 
@@ -320,8 +288,7 @@ def crawl(quick):
 
 
     #Game option menu
-    elif crawlmen==cfg.opt or action==5: #Game option menu
-      cfg.options(1)
+    elif crawlmen==cfg.opt or action==5: cfg.options(1)
 
     #Next floor
     elif (crawlmen==cfg.nextf or action==19 or action==31) and wils: 
@@ -331,16 +298,12 @@ def crawl(quick):
         hero.totalfl+=1
         fl+=1
         lsave(hero) 
-        if cfg.autosave==1:
-          hero.save()
+        if cfg.autosave==1: hero.save()
         allowvendor=0
-        randomvendor=random.randrange(5,9)
-        if hero.totalfl%randomvendor==0:
-          allowvendor=1
+        if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
         dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
         lload(hero)
-        if not cfg.fog:
-          dung.explored=dung.dungarray
+        if not cfg.fog: dung.explored=dung.dungarray
         for i in range(len(dung.dungarray)):
           for j in range(len(dung.dungarray[i])):
             if dung.dungarray[i][j]=="A":
@@ -350,8 +313,7 @@ def crawl(quick):
 
     #quit to menu
     elif crawlmen==cfg.quit or action==9:
-      print "Exit to menu (y/n)?"
-      print "All unsaved progress will be lost"
+      print "Exit to menu (y/n)?\nAll unsaved progress will be lost"
       confv=common.getch()
       if confv=="y":
         purge()
@@ -375,8 +337,7 @@ def crawl(quick):
       try:
         with open ("../player/save","w+") as youdied:
           youdied.write("No character saved")
-      except IOError:
-        pass
+      except IOError: pass
       raw_input("Game over")
       break
   pass
@@ -406,14 +367,12 @@ def newgame(quick):
         print "New game [1/5] Dungeon size\n~40x40 recommended\n"
         xsize=int(raw_input("Horizontal size: "))
         ysize=int(raw_input("Vertical size: "))
-        if xsize<40 or ysize<20:
-          print "Minimum size 40x20"
+        if xsize<40 or ysize<20: print "Minimum size 40x20"
         elif xsize>=40 and ysize>=20:
           print str(xsize)+"x"+str(ysize)+" dungeon created",
           common.getch()
           break
-      except ValueError:
-        pass
+      except ValueError: pass
 
     os.system('clear')
     dung=dungeon.dungeon(xsize,ysize,1)
@@ -426,8 +385,7 @@ def newgame(quick):
     if len(hero.name)==0:
       namearray=[]
       with open("../data/player/names","r") as names:
-        for line in names:
-          namearray.append(line.strip())
+        for line in names: namearray.append(line.strip())
       hero.name=random.choice(namearray)
 
     with open("../data/player/races","r") as file:
@@ -460,34 +418,23 @@ def newgame(quick):
         print "PER +"+str(perarray[selected])+" CON +"+str(conarray[selected])+" CHA +"+str(chaarray[selected])
         print cfg.quit+": select"
         np=common.getch()
-        if np==cfg.west:
-          selected-=1
-        if np==cfg.east:
-          selected+=1
+        if np==cfg.west: selected-=1
+        if np==cfg.east: selected+=1
         if np==cfg.quit:
           hero.race=racesarray[selected]
-          if not strarray[selected]=="":
-            hero.STR+=int(strarray[selected])
-          if not strarray[selected]=="":
-            hero.INT+=int(intarray[selected])
-          if not strarray[selected]=="":
-            hero.DEX+=int(dexarray[selected])
-          if not strarray[selected]=="":
-            hero.PER+=int(perarray[selected])
-          if not strarray[selected]=="":
-            hero.CON+=int(conarray[selected])
-          if not strarray[selected]=="":
-            hero.CHA+=int(chaarray[selected])
+          if not strarray[selected]=="": hero.STR+=int(strarray[selected])
+          if not strarray[selected]=="": hero.INT+=int(intarray[selected])
+          if not strarray[selected]=="": hero.DEX+=int(dexarray[selected])
+          if not strarray[selected]=="": hero.PER+=int(perarray[selected])
+          if not strarray[selected]=="": hero.CON+=int(conarray[selected])
+          if not strarray[selected]=="": hero.CHA+=int(chaarray[selected])
           break
       except IndexError:
-        if np==cfg.west:
-          selected +=1
-        if np==cfg.east:
-          selected-=1
+        if np==cfg.west: selected +=1
+        if np==cfg.east: selected-=1
     with open("../data/player/classes","r") as file:
       classesarray=[]
-      for line in file:
-          classesarray.append(line.rstrip('\n'))
+      for line in file: classesarray.append(line.rstrip('\n'))
     selected=0
     while 1:
       try:
@@ -498,19 +445,14 @@ def newgame(quick):
         print "<["+cfg.west+"] "+classesarray[selected]+" ["+cfg.east+"]>"
         print cfg.quit+": select"
         np=common.getch()
-        if np==cfg.west:
-          selected-=1
-        if np==cfg.east:
-          selected+=1
+        if np==cfg.west: selected-=1
+        if np==cfg.east: selected+=1
         if np==cfg.quit:
           hero.charclass=classesarray[selected]
           break
       except IndexError:
-        if np==cfg.west:
-          selected +=1
-        if np==cfg.east:
-          selected-=1
-
+        if np==cfg.west: selected +=1
+        if np==cfg.east: selected-=1
   return hero,dung
 
 def purge():
@@ -550,8 +492,7 @@ def purge():
   hp2=0
   mp2=0
   tempinventory=[]
-  for i in tempequiparr:
-    i.reset()
+  for i in tempequiparr: i.reset()
   points=0
 
 def lsave(playa):
@@ -642,48 +583,38 @@ def scroll(lines):
   #Pending to implement music of some sort
   height=lines
   emptyheight=height
-
   credstr=[]
 
   with open ("../data/misc/credits","r") as credits:
-    for line in credits:
-      credstr.append(line.rstrip("\n"))
+    for line in credits:credstr.append(line.strip())
 
   while 1:
     os.system('clear')
 
     if emptyheight>0:
-      for i in range(emptyheight):
-        print ""
+      for i in range(emptyheight): print ""
       for i in range(height-emptyheight):
-        try:
-          print credstr[i]
-        except IndexError:
-          pass
+        try: print credstr[i]
+        except IndexError: pass
       emptyheight-=1
 
     if emptyheight==0:
-      try:
-        del credstr[0]
-      except IndexError:
-        break
+      try: del credstr[0]
+      except IndexError: break
       for i in range(height):
-        try:
-          print credstr[i]
-        except IndexError:
-          pass
-
+        try: print credstr[i]
+        except IndexError: pass
     time.sleep(1/1.5)
 
-
 #Changes the directory to where the source files are
-try:
-  os.chdir(os.path.dirname(__file__))
-except OSError: 
+try: os.chdir(os.path.dirname(__file__))
 #OSError is generated when os.path.dirname(__file__) is empty string. 
 #That is, when the path is already where the source files are.
-  pass #No changes are needed.
+except OSError: pass 
 
 #Load data files and start the menu    
 loadfiles()
-menu()
+try: menu()
+except KeyboardInterrupt:
+  print "Exit kirino? (y/n)"
+  if common.getch()=="y": exit()
