@@ -68,16 +68,15 @@ class consumable:
 
   def __init__(self,newtype,subtype):
     """
-    Class constructor. Creates a consumable item of the specified type.
+    Class constructor. Creates a consumable item of the specified type. Needs a subtype parameter for the potions, which is ignored in the rest of the items.
 
     Consumable items can only be bought from vendors. They can't be found in the ground.
     Requires type and subtype:
     """
 
     #Variable initialization
-    items=[]
-    self.subtype=subtype
-    self.type=newtype
+    items0=[]
+    items1=[]
 
     #Array loading
     try:
@@ -91,15 +90,16 @@ class consumable:
             if newtype==0:
               if subtype==0: subtype=random.randint(1,3)
               if int(line.strip().partition(':')[2].partition(':')[0])==subtype:
-                tempitem=line.split(':')
+                tempitem=line.strip().split(':')
                 del tempitem[0]
-                items.append(tempitem)
+                del tempitem[0]
+                items0.append(tempitem)
 
             #If the item is a scroll/tome, save array with [name, STR, INT, DEX, PER, CON, WIL, CHA, price]
             if newtype==1:
-              tempitem=line.split(':')
+              tempitem=line.strip().split(':')
               del tempitem[0]
-              items.append(tempitem)
+              items1.append(tempitem)
 
             if newtype==2: pass
             if newtype==3: pass
@@ -109,26 +109,28 @@ class consumable:
       common.getch()
 
     self.reset()
+    self.subtype=subtype
+    self.type=newtype
 
     #Process item arrays:
     if newtype==0:
-      data=random.choice(items)
-      self.name=data[0]
-      self.hpr=int(data[1])
-      self.mpr=int(data[2])
+      data=random.choice(items0)
+      self.name=     data[0]
+      self.hpr=  int(data[1])
+      self.mpr=  int(data[2])
       self.price=int(data[3])
 
     if newtype==1:
-      data=random.choice(items)
-      self.name=data[0]
+      data=random.choice(items1)
+      self.name=      data[0]
+      self.strbst=int(data[1])
       self.intbst=int(data[2])
       self.dexbst=int(data[3])
       self.perbst=int(data[4])
       self.conbst=int(data[5])
       self.wilbst=int(data[6])
       self.chabst=int(data[7])
-      self.strbst=int(data[1])
-      self.price=int(data[8])
+      self.price= int(data[8])
 
     #Generate empty object
     if newtype==4: self.name="--EMPTY--"
@@ -146,24 +148,13 @@ class consumable:
     self.price=0
 
     #Potion propieties
-    self.hpr=0
-    self.mpr=0
+    self.hpr=self.mpr=0
 
     #Tome propieties
-    self.intbst=0
-    self.dexbst=0
-    self.perbst=0
-    self.conbst=0
-    self.wilbst=0
-    self.chabst=0
-    self.strbst=0
+    self.intbst=self.dexbst=self.perbst=self.conbst=self.wilbst=self.chabst=self.strbst=0
 
     #Attack propieties
-    self.areatype=0
-    self.areasize=0
-    self.damage=0
-    self.dps=0
-
+    self.areatype=self.areasize=self.damage=self.dps=0
 
 #Item class. Creates and manages items.
 class item:
@@ -212,8 +203,7 @@ class item:
     #   00 - Empty (Item with all the attributes set to zero)
     """
 
-    self.enchantlv=0
-    self.equip=0
+    self.enchantlv=self.equip=0
     self.type=type
 
     #Assign path depending on item type
@@ -362,17 +352,10 @@ class item:
     """
     Sets all the attributes of the given item object to zero.
     """
+    self.defn=self.strbonus=self.intbonus=self.dexbonus=self.perbonus=self.conbonus=self.wilbonus=self.chabonus=0
     self.name=" "
     self.price=0
     self.atk=0
-    self.defn=0
-    self.strbonus=0
-    self.intbonus=0
-    self.dexbonus=0
-    self.perbonus=0 
-    self.conbonus=0
-    self.wilbonus=0 
-    self.chabonus=0
 
   def enchant(self,player):
     """
@@ -469,3 +452,20 @@ class item:
         raw_input(self.name+" enchanted successfully")
     #If the player has no money, pass
     else: pass
+
+if __name__=="__main__":
+  try: os.chdir(os.path.dirname(__file__))
+  except OSError: pass 
+  common.version()
+  print "Item module test"
+  print "1.- Generate items \n2.- Generate consumables"
+  var=common.getch()
+  if var=="1":
+    while 1:
+      new=item(random.randrange(12))
+      if new.name!=" ": print "ITEM   --%s [+%i/%i] (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.atk,new.defn,new.strbonus,new.intbonus,new.dexbonus,new.perbonus,new.conbonus,new.wilbonus,new.chabonus,new.price)
+  if var=="2":
+    while 1:
+      new=consumable(random.choice([0,1]),0)
+      if new.type==0: print "POTION --%s (%i HP, %i MP), %iG"%(new.name,new.hpr,new.mpr,new.price)
+      if new.type==1: print "TOME   --%s (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.strbst,new.intbst,new.dexbst,new.perbst,new.conbst,new.wilbst,new.chabst,new.price)

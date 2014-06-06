@@ -21,7 +21,7 @@
 #   1:name:STR:INT:DEX:PER:CON:WIL:CHA:price
 #
 1:Tome of muscles:1:0:-1:0:0:0:0:100
-1:Tome of knowledge:0:1:0:-1:0:0:100
+1:Tome of knowledge:0:1:0:-1:0:0:0:100
 1:Tome of cats:0:0:1:0:-1:0:0:100
 1:Tome of telepathy:0:0:0:1:0:-1:0:100
 1:Tome of survival:0:0:0:0:1:0:-1:100

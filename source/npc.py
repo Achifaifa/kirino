@@ -61,7 +61,7 @@ class npc:
     #Sanitize input
     if stat<1: stat=5
     if total<1: total=16
-    if gender!=0 and gender!=1: gender=random.choice([0,1])
+    if gender not in [0,1]: gender=random.choice([0,1])
 
     self.STR=1 
     self.DEX=1 

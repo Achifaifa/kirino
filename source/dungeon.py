@@ -32,8 +32,8 @@ class dungeon:
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
 
-    if x<40: x=40
-    if y<20: y=20
+    if x<40:x=40
+    if y<20:y=20
     self.xsize=x
     self.ysize=y
     self.dungarray=[]
@@ -338,25 +338,25 @@ class dungeon:
       if not os.path.exists("../logs/"): os.makedirs("../logs/")
       with open("../logs/kirino.dump","a+") as dump:
         dump.write ("\n ###################### \n")
-      	for i in range (0,len(self.dungarray)):
-      	  for j in range (0,len(self.dungarray[i])):
+      	for i in self.dungarray:
+      	  for j in i:
             dump.write("("+str(i+1)+", "+str(j+1)+")")
-      	    if   self.dungarray[i][j]=="#": dump.write (" Rock \n")
-      	    elif self.dungarray[i][j]=="A": dump.write (" Entrance \n")
-      	    elif self.dungarray[i][j]=="X": dump.write (" Exit \n")
-      	    elif self.dungarray[i][j]==".": dump.write (" Hallway \n")
-      	    elif self.dungarray[i][j]=="D": dump.write (" Undeleted room marker \n")
+      	    if   j=="#": dump.write(" Rock \n")
+      	    elif j=="A": dump.write(" Entrance \n")
+      	    elif j=="X": dump.write(" Exit \n")
+      	    elif j==".": dump.write(" Hallway \n")
+      	    elif j=="D": dump.write(" Undeleted room marker \n")
       	    else: dump.write (" Unrecognised value ("+self.dungarray[i][j]+")")
     else:
       #Dump to console
-      for i in range (len(self.dungarray)):
-        for j in range (len(self.dungarray[i])):
-          if   self.dungarray[i][j]=="#": print (i+1,j+1),"Rock"
-          elif self.dungarray[i][j]=="A": print (i+1,j+1),"Entrance"
-          elif self.dungarray[i][j]=="X": print (i+1,j+1),"Exit"
-          elif self.dungarray[i][j]==".": print (i+1,j+1), "Hallway"
-          elif self.dungarray[i][j]=="D": print (i+1,j+1), "Undeleted room marker"
-          else: print (i+1,j+1),"Unrecognised value",(self.dungarray[i][j])
+      for i in self.dungarray:
+        for j in i:
+          if   j=="#": print "(%i, %i) Rock"                  %(i+1,j+1)
+          elif j=="A": print "(%i, %i) Entrance"              %(i+1,j+1)
+          elif j=="X": print "(%i, %i) Exit"                  %(i+1,j+1)
+          elif j==".": print "(%i, %i) Hallway"               %(i+1,j+1)
+          elif j=="D": print "(%i, %i) Undeleted room marker" %(i+1,j+1)
+          else: print        "(%i, %i) Unrecognised value"    %(i+1,j+1)
 
   def report(self):
     """
@@ -367,7 +367,7 @@ class dungeon:
 
     if not os.path.exists("../logs/"): os.makedirs("../logs/")
     with open("../logs/report","a+") as dump:
-      for i in range (0,len(self.dungarray)): dump.write(''.join(map(str,self.dungarray[i]))+"\n")
+      for i in self.dungarray: dump.write(''.join(map(str,i))+"\n")
       dump.write(raw_input("report message?"))
       dump.write("\n ---------- \n")
 	   
@@ -379,7 +379,7 @@ class dungeon:
     This shows the entire dungarray[][], so dungeons with a horizontal size larger than the horizontal console size will look weird.
     """
 
-    for i in range (0,len(self.dungarray)): print ''.join(map(str,self.dungarray[i]))
+    for i in self.dungarray: print ''.join(map(str,i))
       
   def advmap(self,x,y,xmapsize,ymapsize):
     """
@@ -414,7 +414,7 @@ class dungeon:
       for j in range(x,x+xmapsize): mapstring[counter].append(self.filled[i][j])
          
     #Print loop
-    for i in range(len(mapstring)): print ''.join(map(str,mapstring[i]))
+    for i in mapstring: print ''.join(map(str,i))
      
   def advmapcoords(self,x,y):
     """
@@ -452,12 +452,11 @@ class dungeon:
     if self.xsize<40 or self.ysize<20: return(2)
     else:
     #Checks if the entrance and exit are still there
-      entrance=0
-      exit=0
-      for i in range(len(self.dungarray)):
-        for j in range(len(self.dungarray[i])):
-          if self.dungarray[i][j]=="A": entrance += 1
-          if self.dungarray[i][j]=="X": exit += 1
+      entrance=exit=0
+      for i in self.dungarray:
+        for j in i:
+          if j=="A": entrance+=1
+          if j=="X": exit+=1
       if entrance!=1 or exit!=1:
         return 1
       else: return 0
@@ -473,18 +472,16 @@ class dungeon:
     """
 
     exploredtiles=0
-    for i in range(len(self.explored)):
-      for j in range(len(self.explored[0])):
-        if self.explored[i][j]!="~": exploredtiles+=1
+    for i in self.explored:
+      for j in i:
+        if j!="~": exploredtiles+=1
     extra=exploredtiles-((player.INT+player.intboost)*100)
     while extra>0:
-      while 1:
-        randx=random.randrange(len(self.explored[0]))
-        randy=random.randrange(len(self.explored))
-        if self.explored[randy][randx]!="~":
-          self.explored[randy][randx]="~"
-          extra-=1
-          break
+      randx=random.randrange(len(self.explored[0]))
+      randy=random.randrange(len(self.explored))
+      if self.explored[randy][randx]!="~":
+        self.explored[randy][randx]="~"
+        extra-=1
 
 
   def fill(self,player,fog):
@@ -536,3 +533,14 @@ class dungeon:
 
     #Places the player marker in the filled array
     self.filled[player.ypos][player.xpos]="8"
+
+if __name__=="__main__":
+  try: os.chdir(os.path.dirname(__file__))
+  except OSError: pass 
+  npc.sanitize()
+  npc.load()
+  while 1:
+    common.version()
+    print "Dungeon module test"
+    dung=dungeon(60,30,0)
+    dung.map()

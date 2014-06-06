@@ -92,44 +92,26 @@ class player:
       self.equiparr.append(new)
 
     #Set attributes to 1, set secondary attributes
-    self.STR=1
-    self.INT=1
-    self.CON=1
-    self.WIL=1
-    self.PER=1
-    self.DEX=1
-    self.CHA=1
-
-    #Secondary attributes
-    self.HP=0
-    self.hp2=0
-    self.MP=0
-    self.mp2=0
-    self.END=0
-    self.SPD=0
+    self.STR=self.INT=self.CON=self.WIL=self.PER=self.DEX=self.CHA=1
 
     #Set attribute boosters to 0
-    self.strboost=0
-    self.intboost=0
-    self.conboost=0
-    self.wilboost=0
-    self.perboost=0
-    self.dexboost=0
-    self.chaboost=0
+    self.strboost=self.intboost=self.conboost=self.wilboost=self.perboost=self.dexboost=self.chaboost=0
 
-    self.totatk=1
-    self.totdefn=1
-
+    #Secondary attributes
+    self.HP=self.hp2=0
+    self.MP=self.mp2=0
+    self.END=self.SPD=0
+    self.totatk=self.totdefn=1
     self.secondary()
     self.mp2=self.MP
     self.hp2=self.HP
     
     #Initialize position at the entrance
-    for i in range(len(dungeon.dungarray)):
-      for j in range(len(dungeon.dungarray[i])):
-        if dungeon.dungarray[i][j]=="A":
-          self.ypos=i
-          self.xpos=j
+    for i in dungeon.dungarray:
+      for j in i:
+        if j=="A":
+          self.ypos=dungeon.dungarray.index(i)
+          self.xpos=i.index(j)
           self.zpos=0
 
     #Random race
@@ -140,13 +122,7 @@ class player:
       self.name=random.choice(namearray)
 
       with open("../data/player/races","r") as file:
-        racesarray=[]
-        strarray=[]
-        intarray=[]
-        dexarray=[]
-        perarray=[]
-        conarray=[]
-        chaarray=[]
+        racesarray=strarray=intarray=dexarray=perarray=conarray=chaarray=[]
         for line in file:
           if not line.startswith('#'):
             racesarray.append(line.rstrip('\n').partition(':')[0])
@@ -157,7 +133,7 @@ class player:
             conarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
             chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
       
-      randrac=random.randrange(1,len(racesarray))
+      randrac=random.randrange(len(racesarray))
       self.race=racesarray[randrac]
       if not strarray[randrac]=="": self.STR+=int(strarray[randrac])
       if not strarray[randrac]=="": self.INT+=int(intarray[randrac])
@@ -174,14 +150,15 @@ class player:
 
       #Random initial attributes
       for i in range(9):
-        randstat=random.randrange(6)
-        if randstat==0: self.STR+=1
-        if randstat==1: self.INT+=1
-        if randstat==2: self.DEX+=1
-        if randstat==3: self.PER+=1
-        if randstat==4: self.CON+=1
-        if randstat==5: self.WIL+=1
-        if randstat==6: self.CHA+=1
+        randstat=random.randrange(7)
+        if   randstat==0: self.STR+=1
+        elif randstat==1: self.INT+=1
+        elif randstat==2: self.DEX+=1
+        elif randstat==3: self.PER+=1
+        elif randstat==4: self.CON+=1
+        elif randstat==5: self.WIL+=1
+        elif randstat==6: self.CHA+=1
+        else: pass
 
     #add two random items to the inventory
     for i in range(2): self.inventory.append(item.item(random.randint(1,11)))
@@ -207,12 +184,13 @@ class player:
     """
     Prints the player attributes on screen.
     """
-    print 'HP: '+str(self.hp2)+"/"+str(self.HP)+", MP: "+str(self.mp2)+"/"+str(self.MP)
-    print 'INT: '+str(self.INT)+"+"+str(self.intboost)+'  DEX: '+str(self.DEX)+"+"+str(self.dexboost)
-    print 'CON: '+str(self.CON)+"+"+str(self.conboost)+'  STR: '+str(self.STR)+"+"+str(self.strboost)
-    print 'WIL: '+str(self.WIL)+"+"+str(self.wilboost)+'  PER: '+str(self.PER)+"+"+str(self.perboost)
-    print 'CHA: '+str(self.CHA)+"+"+str(self.chaboost)
-    print 'END: '+str(self.END)+'   SPD:', self.SPD    
+
+    print "HP: %i/%i, MP: %i/%i      "  %(self.hp2,self.HP,self.mp2,self.MP)
+    print "INT: %i(+%i)  DEX: %i(+%i)"  %(self.INT,self.intboost,self.DEX,self.dexboost)
+    print "CON: %i(+%i)  STR: %i(+%i)"  %(self.CON,self.conboost,self.STR,self.strboost)
+    print "WIL: %i(+%i)  PER: %i(+%i)"  %(self.WIL,self.wilboost,self.PER,self.perboost)
+    print "CHA: %i(+%i)              "  %(self.CHA,self.chaboost)
+    print "END: %i SPD: %i           "  %(self.END,self.SPD)
     
   def move(self,dungeon,direction):
     """
@@ -243,55 +221,55 @@ class player:
         if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|": return 0
         if dungeon.filled[self.ypos-1][self.xpos]=="i": return 2
         else:
-          self.ypos -= moves
+          self.ypos-=moves
           return 1
       elif direction==2:
         if dungeon.dungarray[self.ypos][self.xpos-1]=="#": return 0
         if dungeon.filled[self.ypos][self.xpos-1]=="i": return 2
         elif dungeon.dungarray[self.ypos][self.xpos-1]=="|": dungeon.vendorvar.commerce(self)
         else:
-          self.xpos -= moves
+          self.xpos-=moves
           return 1  
       elif direction==3:
         if dungeon.dungarray[self.ypos+1][self.xpos]=="#" or dungeon.dungarray[self.ypos+1][self.xpos]=="|": return 0
         if dungeon.filled[self.ypos+1][self.xpos]=="i": return 2
         else:     
-          self.ypos += moves
+          self.ypos+=moves
           return 1
       elif direction==4:
         if dungeon.dungarray[self.ypos][self.xpos+1]=="#": return 0
         if dungeon.filled[self.ypos][self.xpos+1]=="i": return 2
         elif dungeon.dungarray[self.ypos][self.xpos+1]=="|": dungeon.vendorvar.commerce(self)
         else:
-          self.xpos += moves
+          self.xpos+=moves
           return 1
       elif direction==5:
         if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos-1]=="|": return 0
         if dungeon.filled[self.ypos-1][self.xpos-1]=="i": return 2
         else:
-          self.ypos -= moves
-          self.xpos -= moves
+          self.ypos-=moves
+          self.xpos-=moves
           return 1
       elif direction==6:
         if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos+1]=="|": return 0
         if dungeon.filled[self.ypos-1][self.xpos+1]=="i": return 2
         else:
-          self.ypos -= moves
-          self.xpos += moves
+          self.ypos-=moves
+          self.xpos+=moves
           return 1
       elif direction==7:
         if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos-1]=="|": return 0
         if dungeon.filled[self.ypos+1][self.xpos-1]=="i": return 2
         else:
-          self.ypos += moves
-          self.xpos -= moves
+          self.ypos+=moves
+          self.xpos-=moves
           return 1
       elif direction==8:
         if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos+1]=="|": return 0
         if dungeon.filled[self.ypos+1][self.xpos+1]=="i": return 2
         else:
-          self.ypos += moves
-          self.xpos += moves
+          self.ypos+=moves
+          self.xpos+=moves
           return 1
       else: return 0
     except IndexError: return 0
@@ -326,13 +304,12 @@ class player:
     while 1:
       self.secondary()
       common.version()
-      print self.name,"- Character sheet\n_____________________"
-      print "Level "+str(self.lv)+" "+self.race+" "+self.charclass
-      if self.lv==1: print str(self.exp)+"/5 xp,",self.points,"points"
-      if self.lv>1:  print str(self.exp)+"/"+str(3*self.lv+(2*(self.lv-1))),"xp,",self.points,"points"
-      print str(self.totalfl)+" floors explored\n"
+      print "%s - Character sheet\n"              %(self.name)
+      print "Level %i %s %s"                      %(self.lv,self.race,self.charclass)
+      if self.lv==1: print "%i/5 xp, %i points"   %(self.exp,self.points)
+      if self.lv>1:  print "%i/%i xp, %i points"  %(self.exp,3*self.lv+(2*(self.lv-1)),self.points)
+      print "%i floors explored \n\n"             %(self.totalfl)
       self.getatr()
-      print "_____________________\n"
       print "1.- Spend points"
       print "2.- Inventory"
       print "3.- Character options"
@@ -341,23 +318,17 @@ class player:
       print "\n0.- Exit"
       print "->",
       menu=common.getch()
-      #Spend exp
       if menu=="1": self.spend()
-      #Inventory menu
       elif menu=="2": self.invmenu()
-      #Character options menu
       elif menu=="3": self.optmenu()
-      #Save
       elif menu=="4":
         print "saving..."
         print self.save()
         common.getch()
-      #Load
       elif menu=="5":
         print "loading..."
         print self.load()
         common.getch()
-      #Exit
       elif menu=="0": break
       pass
 
@@ -370,15 +341,10 @@ class player:
     while choice!="0": 
       self.secondary()
       common.version()
-      print self.name,"- Character sheet"
-      print ""
+      print "%s - Character sheet \n"%(self.name)
       print "Spend points"
-      if self.points==0:
-        print "No points left!"
-        print ""
-      else:
-        print self.points,"points left"
-        print ""
+      if self.points==0:  print "No points left! \n"
+      else:               print "%i points left \n"%(self.points)
 
       #Determining cost of improving attributes (Based on AFMBE rules, sort of)  
       if self.STR<5:  coststr=5
@@ -397,17 +363,17 @@ class player:
       if self.CHA>=5: costcha=((self.CHA/5)+1)*5
 
       #printing menu
-      print "1.- ["+str(coststr)+"] STR "+str(self.STR)+" (+"+str(self.strboost)+")"
-      print "2.- ["+str(costint)+"] INT "+str(self.INT)+" (+"+str(self.intboost)+")"
-      print "3.- ["+str(costdex)+"] DEX "+str(self.DEX)+" (+"+str(self.dexboost)+")"
-      print "4.- ["+str(costcon)+"] CON "+str(self.CON)+" (+"+str(self.conboost)+")"
-      print "5.- ["+str(costper)+"] PER "+str(self.PER)+" (+"+str(self.perboost)+")"
-      print "6.- ["+str(costwil)+"] WIL "+str(self.WIL)+" (+"+str(self.wilboost)+")"
-      print "7.- ["+str(costcha)+"] CHA "+str(self.CHA)+" (+"+str(self.chaboost)+")"
+      print "1.- [%i] STR %i (+%i)"%(coststr,self.STR,self.strboost)
+      print "2.- [%i] INT %i (+%i)"%(costint,self.INT,self.intboost)
+      print "3.- [%i] DEX %i (+%i)"%(costdex,self.DEX,self.dexboost)
+      print "4.- [%i] CON %i (+%i)"%(costcon,self.CON,self.conboost)
+      print "5.- [%i] PER %i (+%i)"%(costper,self.PER,self.perboost)
+      print "6.- [%i] WIL %i (+%i)"%(costwil,self.WIL,self.wilboost)
+      print "7.- [%i] CHA %i (+%i)"%(costcha,self.CHA,self.chaboost)
       print "\nSecondary attributes:"
       print 'END:', self.END, '     SPD:', self.SPD
-      print 'Max. HP:',self.HP
-      print 'Max. MP:',self.MP
+      print "Max. HP: %i"%(self.HP)
+      print "Max. MP: %i"%(self.MP)
       print "---"
       print "0.- Exit"
       print "\n->",
@@ -455,7 +421,7 @@ class player:
     coptmen=-1
     while coptmen!="0": 
       common.version()
-      print self.name,"- Character sheet\n"
+      print "%s - Character sheet \n"%(self.name)
       print "1.- Change name"
       print "---"
       print "0.- Back"
@@ -506,8 +472,7 @@ class player:
     if item.type==0:
       hppool=int(item.hpr)
       mppool=int(item.mpr)
-      mpres=0
-      hpres=0
+      mpres=hpres=0
       nam=item.name
 
       #restore HP
@@ -545,7 +510,6 @@ class player:
       self.WIL+=item.wilbst
       self.CHA+=item.chabst
       self.STR+=item.strbst
-
       item.reset()
 
       #Message generation
@@ -569,31 +533,20 @@ class player:
 
     while 1: 
       common.version()
-      print self.name,"- Character sheet"
+      print "%s - Character sheet"%(self.name)
       print "\nEquipped\n"
-      bonusmsg=self.calcbonus(self.equiparr[0])
-      print "01 [+"+str(self.equiparr[0].atk)+"/+"+str(self.equiparr[0].defn)+"] Head: "+self.equiparr[0].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[1])
-      print "02 [+"+str(self.equiparr[1].atk)+"/+"+str(self.equiparr[1].defn)+"] Face: "+self.equiparr[1].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[2])
-      print "03 [+"+str(self.equiparr[2].atk)+"/+"+str(self.equiparr[2].defn)+"] Neck: "+self.equiparr[2].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[3])
-      print "04 [+"+str(self.equiparr[3].atk)+"/+"+str(self.equiparr[3].defn)+"] Shoulders: "+self.equiparr[3].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[4])
-      print "05 [+"+str(self.equiparr[4].atk)+"/+"+str(self.equiparr[4].defn)+"] Chest: "+self.equiparr[4].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[5])
-      print "06 [+"+str(self.equiparr[5].atk)+"/+"+str(self.equiparr[5].defn)+"] Left hand: "+self.equiparr[5].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[6])
-      print "07 [+"+str(self.equiparr[6].atk)+"/+"+str(self.equiparr[6].defn)+"] Right hand: "+self.equiparr[6].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[7])
-      print "08 [+"+str(self.equiparr[7].atk)+"/+"+str(self.equiparr[7].defn)+"] Ring: "+self.equiparr[7].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[8])
-      print "09 [+"+str(self.equiparr[8].atk)+"/+"+str(self.equiparr[8].defn)+"] Belt: "+self.equiparr[8].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[9])
-      print "10 [+"+str(self.equiparr[9].atk)+"/+"+str(self.equiparr[9].defn)+"] Legs: "+self.equiparr[9].name+bonusmsg
-      bonusmsg=self.calcbonus(self.equiparr[10])
-      print "11 [+"+str(self.equiparr[10].atk)+"/+"+str(self.equiparr[10].defn)+"] Feet: "+self.equiparr[10].name+bonusmsg
-      print "\n[+"+str(self.totatk)+"/+"+str(self.totdefn)+"]"
+      print "01 [+%i/+%i] Head: %s %s"       %(self.equiparr[0].atk,self.equiparr[0].defn,self.equiparr[0].name,self.calcbonus(self.equiparr[0]))
+      print "02 [+%i/+%i] Face: %s %s"       %(self.equiparr[1].atk,self.equiparr[1].defn,self.equiparr[1].name,self.calcbonus(self.equiparr[1]))
+      print "03 [+%i/+%i] Neck: %s %s"       %(self.equiparr[2].atk,self.equiparr[2].defn,self.equiparr[2].name,self.calcbonus(self.equiparr[2]))
+      print "04 [+%i/+%i] Shoulders: %s %s"  %(self.equiparr[3].atk,self.equiparr[3].defn,self.equiparr[3].name,self.calcbonus(self.equiparr[3]))
+      print "05 [+%i/+%i] Chest: %s %s"      %(self.equiparr[4].atk,self.equiparr[4].defn,self.equiparr[4].name,self.calcbonus(self.equiparr[4]))
+      print "06 [+%i/+%i] Left hand: %s %s"  %(self.equiparr[5].atk,self.equiparr[5].defn,self.equiparr[5].name,self.calcbonus(self.equiparr[5]))
+      print "07 [+%i/+%i] Right hand: %s %s" %(self.equiparr[6].atk,self.equiparr[6].defn,self.equiparr[6].name,self.calcbonus(self.equiparr[6]))
+      print "08 [+%i/+%i] Ring: %s %s"       %(self.equiparr[7].atk,self.equiparr[7].defn,self.equiparr[7].name,self.calcbonus(self.equiparr[7]))
+      print "09 [+%i/+%i] Belt: %s %s"       %(self.equiparr[8].atk,self.equiparr[8].defn,self.equiparr[8].name,self.calcbonus(self.equiparr[8]))
+      print "10 [+%i/+%i] Legs: %s %s"       %(self.equiparr[9].atk,self.equiparr[9].defn,self.equiparr[9].name,self.calcbonus(self.equiparr[9]))
+      print "11 [+%i/+%i] Feet: %s %s"       %(self.equiparr[10].atk,self.equiparr[10].defn,self.equiparr[10].name,self.calcbonus(self.equiparr[10]))
+      print "\n[+%i/+%i]"                    %(self.totatk,self.totdefn)
 
       #Print everything in the inventory array
       print "\nInventory (+"+str(self.pocket)+" G)\n"
@@ -601,9 +554,9 @@ class player:
 
       #Print the belt items
       print "\nBelt\n"
-      print "B1 - "+self.belt[0].name
-      print "B2 - "+self.belt[1].name
-      print "B3 - "+self.belt[2].name
+      print "B1 - %s" %(self.belt[0].name)
+      print "B2 - %s" %(self.belt[1].name)
+      print "B3 - %s" %(self.belt[2].name)
 
       #Print the inventory action menu
       print "\nq - destroy item"
@@ -791,34 +744,14 @@ class player:
     self.prestige=0
     self.prestigelv=1
 
-    self.INT=1
-    self.intboost=0
-    self.DEX=1
-    self.dexboost=0
-    self.PER=1
-    self.perboost=0
-    self.WIL=1
-    self.wilboost=0
-    self.STR=1
-    self.strboost=0
-    self.CON=1
-    self.conboost=0
-    self.CHA=1
-    self.chaboost=0
-
-    self.totatk=0
-    self.totdefn=0
-
-    self.HP=0
-    self.hp2=0
-    self.MP=0
-    self.mp2=0
-    self.END=0
-    self.SPD=0
+    self.INT     =self.DEX     =self.PER     =self.WIL     =self.STR     =self.CON     =self.CHA     =1
+    self.intboost=self.dexboost=self.perboost=self.wilboost=self.strboost=self.conboost=self.chaboost=0
+    self.totatk=self.totdefn=0
+    self.HP=self.hp2=0
+    self.MP=self.mp2=0
+    self.END=self.SPD=0
     
-    self.xpos=0
-    self.ypos=0
-    self.zpos=0
+    self.xpos=self.ypos=self.zpos=0
 
   def load(self):
     """
@@ -841,29 +774,31 @@ class player:
           for line in savefile:
             if not line.startswith("#"):
               #Load stats and player details
-              if line.partition(':')[0]=="Name":  self.name=(line.partition(':')[2]).strip()
-              if line.partition(':')[0]=="Level": self.lv=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Exp":   self.exp=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Money": self.pocket=int(line.partition(':')[2])
-              if line.partition(':')[0]=="INT":   self.INT=int(line.partition(':')[2])
-              if line.partition(':')[0]=="DEX":   self.DEX=int(line.partition(':')[2])
-              if line.partition(':')[0]=="PER":   self.PER=int(line.partition(':')[2])
-              if line.partition(':')[0]=="WIL":   self.WIL=int(line.partition(':')[2])
-              if line.partition(':')[0]=="STR":   self.STR=int(line.partition(':')[2])
-              if line.partition(':')[0]=="CON":   self.CON=int(line.partition(':')[2])
-              if line.partition(':')[0]=="CHA":   self.CHA=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Race":  self.race=(line.partition(':')[2]).strip()
-              if line.partition(':')[0]=="Class": self.charclass=(line.partition(':')[2]).strip()
-              if line.partition(':')[0]=="HP":    self.HP=int(line.partition(':')[2])
-              if line.partition(':')[0]=="hp2":   self.hp2=int(line.partition(':')[2])
-              if line.partition(':')[0]=="MP":    self.MP=int(line.partition(':')[2])
-              if line.partition(':')[0]=="mp2":   self.mp2=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Points":self.points=int(line.partition(':')[2])
-              if line.partition(':')[0]=="Floors":self.totalfl=int(line.partition(':')[2])
+              parA=line.partition(':')[0]
+              parB=line.strip().partition(':')[2]
+              if   parA=="Name":  self.name=      parB
+              elif parA=="Level": self.lv=        parB
+              elif parA=="Exp":   self.exp=       parB
+              elif parA=="Money": self.pocket=    parB
+              elif parA=="INT":   self.INT=       parB
+              elif parA=="DEX":   self.DEX=       parB
+              elif parA=="PER":   self.PER=       parB
+              elif parA=="WIL":   self.WIL=       parB
+              elif parA=="STR":   self.STR=       parB
+              elif parA=="CON":   self.CON=       parB
+              elif parA=="CHA":   self.CHA=       parB
+              elif parA=="Race":  self.race=      parB
+              elif parA=="Class": self.charclass= parB
+              elif parA=="HP":    self.HP=        parB
+              elif parA=="hp2":   self.hp2=       parB
+              elif parA=="MP":    self.MP=        parB
+              elif parA=="mp2":   self.mp2=       parB
+              elif parA=="Points":self.points=    parB
+              elif parA=="Floors":self.totalfl=   parB
 
               #Load equipped items
                                                                                                                                                               #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-              if line.startswith("E:"):
+              elif line.startswith("E:"):
                 if not line.rstrip("\n").partition(':')[2].partition(':')[0]==" ":
                   self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].name=           line.rstrip('\n').partition(':')[2].partition(':')[0]
                   self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].enchantlv=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
@@ -880,7 +815,7 @@ class player:
                   self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].price=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
 
               #Load inventory
-              if line.startswith("I:"):
+              elif line.startswith("I:"):
                 temp=item.item(0)
 
                 #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
@@ -900,7 +835,7 @@ class player:
                 self.inventory.append(copy.copy(temp))
 
               #Load belt items
-              if line.startswith("B:"):
+              elif line.startswith("B:"):
                 line=line.lstrip("B:")
                 if line.partition(':')[0]=="4": self.belt.append(item.consumable(4,0))
                 if line.partition(':')[0]=="0":

@@ -1,12 +1,10 @@
-#Kirino v0.0.11b
+#Kirino v0.0.12
   
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-I'm starting finals next week, so for the next month or so I'll only be updating kirino to fix minor bugs and add small details. If you have thought about trying it out this is going to be the best time. This release is the most stable so far and will be more or less unchanged for a long while, so you won't need to worry about downloading a new version every week
-
-Just as a reminder, you can report balance issues with mobs and items too. All suggestions and opinions will be considered.
+This last updates have introduced a few new new features, but have focused mainly on rewriting part of the code, which means there are probably going to be bugs where there weren't before. Keep an eye open for those ;)
 
 ##How to use
 
@@ -80,6 +78,17 @@ You may have some issues with the output formatting, but overall the game is pla
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.12** (2014-06-06):
+
+* New features:
+  * Custom game over message
+  * Individual module testing
+* Bugs fixed:
+  * Fixed formatting issues
+  * Fixed consumable generation crashes
+* Others:
+  * Cleaned code
 
 ####**v0.0.11** (2014-05-16):
 * New features:

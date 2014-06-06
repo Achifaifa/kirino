@@ -61,6 +61,8 @@ class mob:
     self.pres=1
     self.name="zombie"
 
+    #Load files
+
     #Select starting coordinates
     self.xpos=random.randrange(dungeon.xsize)
     self.ypos=random.randrange(dungeon.ysize)
@@ -68,8 +70,6 @@ class mob:
       self.xpos=random.randrange(dungeon.xsize)
       self.ypos=random.randrange(dungeon.ysize)
     self.zpos=0
-
-    #Load files
   
   def move(self,dungeon,direction,distance):
     """
@@ -88,11 +88,11 @@ class mob:
       try:
         if direction==1:
           if dungeon.dungarray[self.ypos-1][self.xpos]==".": self.ypos-=distance
-        if direction==2:
+        elif direction==2:
           if dungeon.dungarray[self.ypos][self.xpos-1]==".": self.xpos-=distance  
-        if direction==3:
+        elif direction==3:
           if dungeon.dungarray[self.ypos+1][self.xpos]==".": self.ypos+=distance
-        if direction==4:
+        elif direction==4:
           if dungeon.dungarray[self.ypos][self.xpos+1]==".": self.xpos+=distance
       except IndexError: pass
   
@@ -101,13 +101,8 @@ class mob:
     Moves the mob in a random direction a given number of tiles
     """
 
-    rand=0
-    rand=random.randint(1,4)
-    if   rand==1: self.move(dungeon,1,dist)
-    elif rand==2: self.move(dungeon,2,dist)
-    elif rand==3: self.move(dungeon,3,dist)
-    elif rand==0: self.move(dungeon,4,dist)
-
+    self.move(dungeon,random.randrange(1,5),dist)
+   
   def trandmove(self,dungeon):
     """
     Moves 1 tile in a random direction

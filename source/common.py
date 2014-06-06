@@ -9,7 +9,7 @@ def vern():
   Returns a string with the version number
   """
 
-  return "v0.0.11b"
+  return "v0.0.12"
 
 def version():
   """
@@ -17,7 +17,7 @@ def version():
   """
 
   os.system('clear')
-  print "Kirino - "+vern()
+  print "Kirino - %s"%(vern())
 
 def getch():
   """
@@ -34,3 +34,8 @@ def getch():
     return sys.stdin.read(1)
   finally:
     termios.tcsetattr(fd, termios.TCSADRAIN, old) 
+
+if __name__=="__main__":
+  version()
+  print "Common module test. Press any key to exit."
+  getch()

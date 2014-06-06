@@ -51,27 +51,25 @@ def menu():
   while 1:
     common.version()
     print "Main menu\n"
-    print "1.- Play"
-    print "2.- Quick play"
-    print "3.- Options"
-    print "4.- Credits"
-    print "\n8.- Test utilities"
+    print "%i.- Play"%(1)
+    print "%s.- Quick play"%(2)
+    print "%s.- Options"%(3)
+    print "%s.- Credits"%(4)
+    print "%s.- Test utilities"%(5)
     print "--"
-    print "9.- Help"
-    print "0.- Exit"
+    print "%s.- Help"%(9)
+    print "%s.- Exit"%(0)
     print "->",
     menu=common.getch()
-
     if menu=="1": crawl(0)
     if menu=="2": crawl(1)
     if menu=="3": cfg.options(0)
     if menu=="4": scroll(15)
-    if menu=="8": test.testm()
+    if menu=="5": test.testm()
     if menu=="9": help.help()
     if menu=="0":
       print "Close kirino (y/n)?"
-      ec=common.getch()
-      if ec=="y": 
+      if common.getch()=="y": 
         os.system('clear')
         exit()
 
@@ -153,15 +151,15 @@ def crawl(quick):
           trapdmg=1+random.randrange(1,5)
           hero.hp2-=trapdmg
           dung.dungarray[hero.ypos][hero.xpos]="_"
-          trapmsg="You stepped on a trap! Lost "+str(trapdmg)+" HP\n"
+          trapmsg="You stepped on a trap! Lost %i HP\n"%(trapdmg)
         if i[2]==2:
           trapdmg=int(round(hero.MP/random.randrange(5,10)))+1
           hero.mp2-=trapdmg
-          trapmsg="Something is sucking your soul! Lost "+str(trapdmg)+" MP\n"
+          trapmsg="Something is sucking your soul! Lost %i MP\n"%(trapdmg)
           if hero.mp2<0:
             hero.mp2=0
             hero.hp2-=trapdmg
-            trapmsg="You feel your life draining out. Lost "+str(trapdmg)+" HP\n"
+            trapmsg="You feel your life draining out. Lost %i HP\n"%(trapdmg)
           dung.dungarray[hero.ypos][hero.xpos]="_"
         if i[2]==3:    
           trapmsg="A trap door opens under you. \nYou fall to the next floor and lose 5HP"
@@ -191,15 +189,15 @@ def crawl(quick):
     dung.minimap(hero,cfg.fog)
 
     #Prit data
-    print 'HP: '+str(hero.hp2)+"/"+str(hero.HP)+", MP: "+str(hero.mp2)+"/"+str(hero.MP)
-    print "FL "+str(fl)+"  Lv "+str(hero.lv)
-    if hero.lv==1: print "("+str(hero.exp)+"/5 xp)",
-    if hero.lv>1:  print str(hero.exp)+"/"+str(3*hero.lv+(2*(hero.lv-1)))+" xp",
-    print str(hero.prestige)+" p"
-    print "\n"+cfg.quick1+" | "+hero.belt[0].name
-    print cfg.quick2+" | "+hero.belt[1].name
-    print cfg.quick3+" | "+hero.belt[2].name
-    print "\n"+cfg.showkeys+": key mapping help"
+    print "HP: %i/%i, MP: %i/%i"%(hero.hp2,hero.HP,hero.mp2,hero.MP)
+    print "FL %i  Lv %i"%(fl,hero.lv)
+    if hero.lv==1: print "(%i/5 xp)"%(hero.exp),
+    if hero.lv>1:  print "%i/%i xp"%(hero.exp,3*hero.lv+(2*(hero.lv-1))),
+    print "%i p \n"%(hero.prestige)
+    print "%c | %s"%(cfg.quick1,hero.belt[0].name)
+    print "%c | %s"%(cfg.quick2,hero.belt[1].name)
+    print "%c | %s"%(cfg.quick3,hero.belt[2].name)
+    print "\n%c: key mapping help"%(cfg.showkeys)
     print lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
     print "->",
 
@@ -338,7 +336,7 @@ def crawl(quick):
         with open ("../player/save","w+") as youdied:
           youdied.write("No character saved")
       except IOError: pass
-      raw_input("Game over")
+      raw_input(cfg.gomsg)
       break
   pass
 

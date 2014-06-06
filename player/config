@@ -23,5 +23,6 @@ Quick slot 3:f
 # 
 # Game options 
 # 
-Autosave:on 
+Game over msg:Thanks Obama
+Autosave:off 
 Fog:off
