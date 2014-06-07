@@ -265,6 +265,8 @@ def newkey(msg):
   else: raw_input("Invalid key")
 
 if __name__=="__main__":
+  try: os.chdir(os.path.dirname(__file__))
+  except OSError: pass 
   common.version()
   print "Config module test"
   cfg=config()

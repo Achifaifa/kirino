@@ -53,6 +53,7 @@ class mob:
     self.lv=1
     self.str=3
     self.HP=20
+    self.MP=0
     self.atk=4
     self.defn=3
     self.lock=0
@@ -124,3 +125,13 @@ class mob:
       if attackpow<=0: attackpow=1
       player.hp2-=attackpow
       return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!\n")
+
+if __name__=="__main__":
+  try: os.chdir(os.path.dirname(__file__))
+  except OSError: pass 
+  dun=dungeon.dungeon(0,0,0)
+  common.version()
+  print "Mob module test"
+  while 1:
+    new=mob(dun)
+    print "%s lv%i (%ihp,%imp): %ixp, %ipr"%(new.name,new.lv,new.HP,new.MP,new.exp,new.pres)

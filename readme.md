@@ -1,4 +1,4 @@
-#Kirino v0.0.12
+#Kirino v0.0.12b
   
 Basic console based dungeon crawler. 
 
@@ -83,7 +83,7 @@ You may have some issues with the output formatting, but overall the game is pla
 
 * New features:
   * Custom game over message
-  * Individual module testing
+  * [0.0.12+b] Individual module testing 
 * Bugs fixed:
   * Fixed formatting issues
   * Fixed consumable generation crashes

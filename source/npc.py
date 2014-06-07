@@ -390,3 +390,17 @@ def load():
   except IOError:
     print "error loading vendor data files"
     common.getch()
+
+if __name__=="__main__":
+  try: os.chdir(os.path.dirname(__file__))
+  except OSError: pass 
+  sanitize()
+  load()
+  common.version()
+  print "NPC module test"
+  while 1:
+    new=npc(0,0,0)
+    print "Name: %s %s"%(new.name,new.secondname)
+    print "Personality: %s"%(new.personality)
+    print "Appearance: %s"%(new.appearance)
+    print "Works as: %s \n\n---\n\n"%(new.job)
