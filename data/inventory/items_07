@@ -14,8 +14,8 @@
 #   11 - Feet
 10 foot pole:2:0:20
 massive sword:5:0:50
-massive axe:6:0:60
-ridiculously massive sword:7:0:70
+massive axe:6:-1:60
+ridiculously massive sword:7:-1:70
 claymore:6:0:60
 longsword:5:0:50
 baseball bat:2:0:20

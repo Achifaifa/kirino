@@ -1,4 +1,4 @@
-#Kirino v0.0.12b
+#Kirino v0.0.13
   
 Basic console based dungeon crawler. 
 
@@ -78,6 +78,14 @@ You may have some issues with the output formatting, but overall the game is pla
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.13** (2014-06-13):
+
+* New features:
+  * Loading mobs from files
+* Bugs fixed:
+* Others:
+  * Balanced zombies
 
 ####**v0.0.12** (2014-06-06):
 

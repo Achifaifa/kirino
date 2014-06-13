@@ -2,9 +2,10 @@ Name:zombie
 marker:i
 level:1
 prestige:1
+exp:1
 INT:-1
 DEX:-1
-STR:3
+STR:2
 PER:2
 CON:1
 WIL:0

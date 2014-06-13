@@ -42,27 +42,32 @@ class mob:
   hit=0       #Flags when the mob is hit (Does half damage)
   """
   
-  def __init__(self,dungeon):
+  def __init__(self,dungeon ):
     """
     Mob generator
 
     Receives a dungeon object and places the mob in a random spot that is not filled with rock.
     """
 
-    #Initialize attributes
-    self.lv=1
-    self.str=3
-    self.HP=20
-    self.MP=0
-    self.atk=4
-    self.defn=3
-    self.lock=0
-    self.exp=1
-    self.hit=0
-    self.pres=1
-    self.name="zombie"
-
-    #Load files
+    with open("../data/mobs/zombie","r") as mobfile:
+      for line in mobfile:
+        if not line.startswith('#'):
+          parA=line.partition(':')[0]
+          parB=line.partition('#')[2]
+            if parA==Name:      self.name=    parB
+          elif parA==marker:    self.marker=  parB
+          elif parA==level:     self.lv=      parB
+          elif parA==exp:       self.exp=     parB
+          elif parA==prestige:  self.pres=    parB
+          elif parA==INT:       self.INT=     parB
+          elif parA==DEX:       self.DEX=     parB
+          elif parA==STR:       self.STR=     parB
+          elif parA==PER:       self.PER=     parB
+          elif parA==WIL:       self.WIL=     parB
+          elif parA==CON:       self.CON=     parB
+          elif parA==CHA:       self.CHA=     parB
+          elif parA==atk:       self.atk=     parB
+          elif parA==def:       self.def=     parB
 
     #Select starting coordinates
     self.xpos=random.randrange(dungeon.xsize)
