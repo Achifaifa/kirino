@@ -1,4 +1,4 @@
-#Kirino v0.0.13
+#Kirino v0.0.13b
   
 Basic console based dungeon crawler. 
 
@@ -84,6 +84,7 @@ You may have some issues with the output formatting, but overall the game is pla
 * New features:
   * Loading mobs from files
 * Bugs fixed:
+  * [0.0.13b] Fixed crash when managing mobs
 * Others:
   * Balanced zombies
 

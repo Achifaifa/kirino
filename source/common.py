@@ -9,7 +9,7 @@ def vern():
   Returns a string with the version number
   """
 
-  return "v0.0.12b"
+  return "v0.0.13b"
 
 def version():
   """

@@ -53,21 +53,31 @@ class mob:
       for line in mobfile:
         if not line.startswith('#'):
           parA=line.partition(':')[0]
-          parB=line.partition('#')[2]
-            if parA==Name:      self.name=    parB
-          elif parA==marker:    self.marker=  parB
-          elif parA==level:     self.lv=      parB
-          elif parA==exp:       self.exp=     parB
-          elif parA==prestige:  self.pres=    parB
-          elif parA==INT:       self.INT=     parB
-          elif parA==DEX:       self.DEX=     parB
-          elif parA==STR:       self.STR=     parB
-          elif parA==PER:       self.PER=     parB
-          elif parA==WIL:       self.WIL=     parB
-          elif parA==CON:       self.CON=     parB
-          elif parA==CHA:       self.CHA=     parB
-          elif parA==atk:       self.atk=     parB
-          elif parA==def:       self.def=     parB
+          parB=line.partition(':')[2].strip()
+          if   parA=="Name":      self.name=    parB
+          elif parA=="marker":    self.marker=  parB
+          elif parA=="level":     self.lv=      int(parB)
+          elif parA=="exp":       self.exp=     int(parB)
+          elif parA=="prestige":  self.pres=    int(parB)
+          elif parA=="INT":       self.INT=     int(parB)
+          elif parA=="DEX":       self.DEX=     int(parB)
+          elif parA=="STR":       self.STR=     int(parB)
+          elif parA=="PER":       self.PER=     int(parB)
+          elif parA=="WIL":       self.WIL=     int(parB)
+          elif parA=="CON":       self.CON=     int(parB)
+          elif parA=="CHA":       self.CHA=     int(parB)
+          elif parA=="atk":       self.atk=     int(parB)
+          elif parA=="defn":      self.defn=    int(parB)
+
+    #Secondary attributes
+    self.HP=((self.CON+self.STR)*4)+10
+    self.MP=(self.INT+self.WIL)
+    self.END=((self.CON+self.STR+self.WIL)*3)+5
+    self.SPD=(self.CON+self.DEX)*3
+
+    #Status variables
+    self.lock=0
+    self.hit=0
 
     #Select starting coordinates
     self.xpos=random.randrange(dungeon.xsize)
@@ -125,7 +135,7 @@ class mob:
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
 
-      attackpow=((self.str*self.atk)-player.totdefn)
+      attackpow=((self.STR*self.atk)-player.totdefn)
       if self.hit: attackpow=attackpow/2
       if attackpow<=0: attackpow=1
       player.hp2-=attackpow
