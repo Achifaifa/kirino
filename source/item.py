@@ -111,6 +111,7 @@ class consumable:
     self.reset()
     self.subtype=subtype
     self.type=newtype
+    self.statusr=0
 
     #Process item arrays:
     if newtype==0:
@@ -389,6 +390,7 @@ class item:
       common.getch()
     if player.pocket>=enchantprice and self.enchantlv<10:
       player.pocket-=enchantprice
+      player.totalspn+=enchantprice
 
       # Calculate random number
       randint=random.randint(1,1000)
@@ -397,8 +399,8 @@ class item:
       if randint>51 and randint<=50: attboost=3
       if randint>50 and randint<=200: attboost=2
       if randint>200 and randint<=990: attboost=1
-      if randint>990:
-        print self.name+" broke during enchanting"
+      if randint>990:        
+        print "%s broke during enchanting" %(self.name)
         common.getch()
         self.reset()
         ex=1
@@ -440,6 +442,7 @@ class item:
 
         #Increase enchant level
         self.enchantlv+=1
+        if self.enchantlv>player.maxench: player.maxench=self.enchantlv
 
         #Display the enchanting level in the item name
         if "a"<=self.name[-1:]<="z": self.name=self.name+" +1"
@@ -449,6 +452,7 @@ class item:
           tempname=self.name.partition('+')[0]
           self.name=tempname+"+"+str(templv)
           #Remove the numbers after the + in the name, add 1, attack the numbers to name.
+        player.itemsenc+=1
         raw_input(self.name+" enchanted successfully")
     #If the player has no money, pass
     else: pass

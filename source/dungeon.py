@@ -220,7 +220,7 @@ class dungeon:
           if self.dungarray[i][j]==".":
             spacecounter+=1
       for i in range(spacecounter/60):
-        self.mobarray.append(mob.mob(self))
+        self.mobarray.append(mob.mob(self,1))
 
       #Adds the vendor
       #First, look for a pattern in which the shop can fit
@@ -399,13 +399,15 @@ class dungeon:
     mapstring=[]
     for i in range(ymapsize+1): mapstring.append([])
 
-    #Adjusting for deviation
+    #Centering minimap
     x -= xmapsize/2
     y -= ymapsize/2
 
     #Replaces the marker if the input is bad
     if x+xmapsize>=self.xsize: x=self.xsize-xmapsize
     if y+ymapsize>=self.ysize: y=self.ysize-ymapsize
+    if x<=0: x=0
+    if y<=0: y=0
 
     #Assign loop
     counter=0
@@ -448,10 +450,11 @@ class dungeon:
     Used in the constructor on this class, although it can be invoked anytime.
     """
 
-    #Making sure the dungeon is over the minimum size
+    #Make sure the dungeon is over the minimum size
     if self.xsize<40 or self.ysize<20: return(2)
-    else:
+
     #Checks if the entrance and exit are still there
+    else:
       entrance=exit=0
       for i in self.dungarray:
         for j in i:
@@ -471,11 +474,16 @@ class dungeon:
     This function should only be called when the fog is on
     """
 
+    #Calculate the explored tiles
     exploredtiles=0
     for i in self.explored:
       for j in i:
         if j!="~": exploredtiles+=1
+
+    #Calculate how many extra tiles are remembered
     extra=exploredtiles-((player.INT+player.intboost)*100)
+
+    #Delete tiles randomly until there are no extra tiles
     while extra>0:
       randx=random.randrange(len(self.explored[0]))
       randy=random.randrange(len(self.explored))
@@ -522,13 +530,13 @@ class dungeon:
           for k in self.mobarray:
             if player.ypos-viewy<k.ypos<player.ypos+viewy:
               if player.xpos-viewx<k.xpos<player.xpos+viewx:
-                self.filled[k.ypos][k.xpos]="i"
+                self.filled[k.ypos][k.xpos]=k.marker
 
         #If fog is not on, just generate a regular minimap
         if fog!=1:
           for k in range(len(self.mobarray)):
             if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
-              self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]="i"
+              self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]=self.mobarray[k].marker
             else: self.filled[i][j]=self.dungarray[i][j]
 
     #Places the player marker in the filled array

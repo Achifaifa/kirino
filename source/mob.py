@@ -42,14 +42,26 @@ class mob:
   hit=0       #Flags when the mob is hit (Does half damage)
   """
   
-  def __init__(self,dungeon ):
+  def __init__(self,dungeon,level):
     """
     Mob generator
 
     Receives a dungeon object and places the mob in a random spot that is not filled with rock.
     """
 
-    with open("../data/mobs/zombie","r") as mobfile:
+    #Load list of mobs in the dictionary
+    #Each dictionary contains the level as a key and an array of mobs at that level as value.
+    mobs=[]
+    with open("../data/mobs/_list","r") as moblist:
+      for line in moblist:
+        if not line.startswith("#"):
+          if line.partition(':')[0].strip()==str(level):
+            mobs.append(line.partition(':')[2].strip())
+
+    path="../data/mobs/"+random.choice(mobs)
+    self.zpos=0
+
+    with open(path,"r") as mobfile:
       for line in mobfile:
         if not line.startswith('#'):
           parA=line.partition(':')[0]
@@ -68,6 +80,7 @@ class mob:
           elif parA=="CHA":       self.CHA=     int(parB)
           elif parA=="atk":       self.atk=     int(parB)
           elif parA=="defn":      self.defn=    int(parB)
+          elif parA=="flying" and parB=="1": self.zpos=1
 
     #Secondary attributes
     self.HP=((self.CON+self.STR)*4)+10
@@ -85,7 +98,6 @@ class mob:
     while dungeon.dungarray[self.ypos][self.xpos]!=".":
       self.xpos=random.randrange(dungeon.xsize)
       self.ypos=random.randrange(dungeon.ysize)
-    self.zpos=0
   
   def move(self,dungeon,direction,distance):
     """
@@ -131,15 +143,20 @@ class mob:
     Attacks the player object passed to the function
     """
     
+    roll=random.randint(1,10)+self.DEX
     #Check if the player is in range
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
-        player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1):
+        player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1 and 
+        roll>3):
 
       attackpow=((self.STR*self.atk)-player.totdefn)
       if self.hit: attackpow=attackpow/2
       if attackpow<=0: attackpow=1
       player.hp2-=attackpow
-      return ("Mob attacks "+player.name+" for "+str(attackpow)+" damage!\n")
+      player.totalrcv+=attackpow
+      return (self.name+" attacks "+player.name+" for "+str(attackpow)+" damage!\n")
+    elif roll<=3:
+      return (self.name+" tries to hit you, but it misses\n")
 
 if __name__=="__main__":
   try: os.chdir(os.path.dirname(__file__))

@@ -135,6 +135,7 @@ def crawl(quick):
     if dung.dungarray[hero.ypos][hero.xpos]=="$":
       monies=random.randrange(1,5)
       hero.pocket+=monies
+      hero.totalgld+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."
       lootmsg=("\nYou find "+str(monies)+" gold\n")
 
@@ -146,10 +147,12 @@ def crawl(quick):
 
     #Action if player stepped on a trap
     for i in dung.traps:
-      if i[0]==hero.xpos and i[1]==hero.ypos:
+      if i[0]==hero.xpos and i[1]==hero.ypos:      
+        hero.totaltrp+=1
         if i[2]==1:
           trapdmg=1+random.randrange(1,5)
           hero.hp2-=trapdmg
+          hero.totalrcv+=trapdmg
           dung.dungarray[hero.ypos][hero.xpos]="_"
           trapmsg="You stepped on a trap! Lost %i HP\n"%(trapdmg)
         if i[2]==2:
@@ -159,11 +162,13 @@ def crawl(quick):
           if hero.mp2<0:
             hero.mp2=0
             hero.hp2-=trapdmg
+            hero.totalrcv+=trapdmg
             trapmsg="You feel your life draining out. Lost %i HP\n"%(trapdmg)
           dung.dungarray[hero.ypos][hero.xpos]="_"
         if i[2]==3:    
           trapmsg="A trap door opens under you. \nYou fall to the next floor and lose 5HP"
           hero.hp2-=5   
+          hero.totalrcv+=5
           flcounter+=1
           hero.totalfl+=1
           fl+=1
@@ -190,13 +195,12 @@ def crawl(quick):
 
     #Prit data
     print "HP: %i/%i, MP: %i/%i"%(hero.hp2,hero.HP,hero.mp2,hero.MP)
-    print "FL %i  Lv %i"%(fl,hero.lv)
-    if hero.lv==1: print "(%i/5 xp)"%(hero.exp),
-    if hero.lv>1:  print "%i/%i xp"%(hero.exp,3*hero.lv+(2*(hero.lv-1))),
-    print "%i p \n"%(hero.prestige)
-    print "%c | %s"%(cfg.quick1,hero.belt[0].name)
-    print "%c | %s"%(cfg.quick2,hero.belt[1].name)
-    print "%c | %s"%(cfg.quick3,hero.belt[2].name)
+    print "FL %i Lv %i"%(fl,hero.lv),
+    if hero.lv==1: print "(%i/5 xp)"%(hero.exp)
+    if hero.lv>1:  print "%i/%i xp"%(hero.exp,3*hero.lv+(2*(hero.lv-1)))
+    print "(%c) %s"%(cfg.quick1,hero.belt[0].name)
+    print "(%c) %s"%(cfg.quick2,hero.belt[1].name)
+    print "(%c) %s"%(cfg.quick3,hero.belt[2].name)
     print "\n%c: key mapping help"%(cfg.showkeys)
     print lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
     print "->",
@@ -300,6 +304,10 @@ def crawl(quick):
         allowvendor=0
         if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
         dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
+        #
+        # Modify the new dungeon 
+        # Add mobs according to the player level
+        #
         lload(hero)
         if not cfg.fog: dung.explored=dung.dungarray
         for i in range(len(dung.dungarray)):
@@ -397,12 +405,12 @@ def newgame(quick):
         for line in file:
           if not line.startswith('#'): #There must be a better way to do this
             racesarray.append(line.rstrip('\n').partition(':')[0])
-            strarray.append(line.rstrip('\n').partition(':')[2].partition(':')[0])
-            intarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-            dexarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-            perarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-            conarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-            chaarray.append(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
+            strarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[0]))
+            intarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0]))
+            dexarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
+            perarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
+            conarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
+            chaarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
     selected=0
 
     while 1:
@@ -411,12 +419,12 @@ def newgame(quick):
         print "New game [3/5] Race"
         print ""
         print "Select your race"
-        print "<["+cfg.west+"] "+racesarray[selected]+" ["+cfg.east+"]>"
-        print "STR +"+str(strarray[selected])+" INT +"+str(intarray[selected])+" DEX +"+str(dexarray[selected])
-        print "PER +"+str(perarray[selected])+" CON +"+str(conarray[selected])+" CHA +"+str(chaarray[selected])
-        print cfg.quit+": select"
+        print "<[%s] %s [%s]>"          %(cfg.west,racesarray[selected],cfg.east)
+        print "STR +%i INT +%i DEX +%i" %(strarray[selected],intarray[selected],dexarray[selected])
+        print "PER +%i CON +%i CHA +%i" %(perarray[selected],conarray[selected],chaarray[selected])
+        print "%s: select"              %cfg.quit
         np=common.getch()
-        if np==cfg.west: selected-=1
+        if np==cfg.west and selected>0: selected-=1
         if np==cfg.east: selected+=1
         if np==cfg.quit:
           hero.race=racesarray[selected]
@@ -428,7 +436,7 @@ def newgame(quick):
           if not strarray[selected]=="": hero.CHA+=int(chaarray[selected])
           break
       except IndexError:
-        if np==cfg.west: selected +=1
+        if np==cfg.west: selected+=1
         if np==cfg.east: selected-=1
     with open("../data/player/classes","r") as file:
       classesarray=[]
@@ -440,10 +448,10 @@ def newgame(quick):
         print "New game [4/5] Class"
         print ""
         print "Select your class"
-        print "<["+cfg.west+"] "+classesarray[selected]+" ["+cfg.east+"]>"
-        print cfg.quit+": select"
+        print "<[%s] %s [%s]>"  %(cfg.west,classesarray[selected],cfg.east)
+        print "%s: select"      %cfg.quit
         np=common.getch()
-        if np==cfg.west: selected-=1
+        if np==cfg.west and selected>0: selected-=1
         if np==cfg.east: selected+=1
         if np==cfg.quit:
           hero.charclass=classesarray[selected]

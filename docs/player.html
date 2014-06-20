@@ -55,7 +55,6 @@ charclass="_"&nbsp;#Class<br>
 inventory=[]&nbsp;&nbsp;#10&nbsp;slot&nbsp;inventory<br>
 equiparr=[]&nbsp;&nbsp;&nbsp;#Equipped&nbsp;item&nbsp;inventory<br>
 belt=[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Quick&nbsp;access&nbsp;consumable&nbsp;items<br>
-totalfl=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;floors&nbsp;explored<br>
 status=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Paralyzed,&nbsp;burned,&nbsp;bleeding,&nbsp;etc<br>
 prestige=0&nbsp;&nbsp;&nbsp;&nbsp;#Prestige&nbsp;points<br>
 prestigelv=1&nbsp;&nbsp;#Prestige&nbsp;level&nbsp;(unused)<br>
@@ -69,13 +68,13 @@ WIL=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Willpower<br>
 STR=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Strenght<br>
 CON=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Constitution<br>
 CHA=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Charisma<br>
-intboost=0<br>
-dexboost=0<br>
-perboost=0<br>
-wilboost=0<br>
-strboost=0<br>
-conboost=0<br>
-chaboost=0<br>
+intboost=0&nbsp;&nbsp;&nbsp;&nbsp;#<br>
+dexboost=0&nbsp;&nbsp;&nbsp;&nbsp;#<br>
+perboost=0&nbsp;&nbsp;&nbsp;&nbsp;#<br>
+wilboost=0&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Extra&nbsp;attributes&nbsp;given&nbsp;by&nbsp;equipped&nbsp;items<br>
+strboost=0&nbsp;&nbsp;&nbsp;&nbsp;#<br>
+conboost=0&nbsp;&nbsp;&nbsp;&nbsp;#<br>
+chaboost=0&nbsp;&nbsp;&nbsp;&nbsp;#<br>
 &nbsp;<br>
 totatk=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;attack&nbsp;power<br>
 totdefn=1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;defense&nbsp;power<br>
@@ -89,6 +88,27 @@ mp2=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Current&nbsp;mana&nb
 END=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Endurance<br>
 SPD=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Speed<br>
 &nbsp;<br>
+#Stats&nbsp;and&nbsp;achievements<br>
+&nbsp;<br>
+totalfl=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Floors&nbsp;explored<br>
+steps=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Steps<br>
+totalatks=0&nbsp;&nbsp;&nbsp;#Total&nbsp;attacks<br>
+totalhits=0&nbsp;&nbsp;&nbsp;#Total&nbsp;hits<br>
+totaldmg=0&nbsp;&nbsp;&nbsp;&nbsp;#Damage&nbsp;given<br>
+totalrcv=0&nbsp;&nbsp;&nbsp;&nbsp;#Damage&nbsp;taken<br>
+kills=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Enemies&nbsp;killed<br>
+totalgld=0&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;gold&nbsp;gained<br>
+totaltrp=0&nbsp;&nbsp;&nbsp;&nbsp;#Times&nbsp;stepped&nbsp;on&nbsp;traps<br>
+itemspck=0&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;items&nbsp;picked<br>
+itemsdst=0&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;items&nbsp;destroyed<br>
+itemsenc=0&nbsp;&nbsp;&nbsp;&nbsp;#Total&nbsp;enchants<br>
+totalpot=0&nbsp;&nbsp;&nbsp;&nbsp;#Potions&nbsp;taken<br>
+totalsll=0&nbsp;&nbsp;&nbsp;&nbsp;#Items&nbsp;sold<br>
+totalbuy=0&nbsp;&nbsp;&nbsp;&nbsp;#Items&nbsp;bought<br>
+totalspn=0&nbsp;&nbsp;&nbsp;&nbsp;#Money&nbsp;spent<br>
+maxdmg=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Maximum&nbsp;damage<br>
+maxench=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Maximum&nbsp;enchant&nbsp;lv<br>
+&nbsp;<br>
 #Position<br>
 xpos=0<br>
 ypos=0<br>
@@ -101,6 +121,10 @@ Receives&nbsp;a&nbsp;dungeon&nbsp;object,&nbsp;then&nbsp;sets&nbsp;the&nbsp;coor
 It&nbsp;also&nbsp;chooses&nbsp;a&nbsp;random&nbsp;race&nbsp;and&nbsp;class&nbsp;from&nbsp;the&nbsp;./data/races&nbsp;and&nbsp;./data/classes&nbsp;files<br>
 &nbsp;<br>
 Needs&nbsp;a&nbsp;random&nbsp;parameter.&nbsp;if&nbsp;1,&nbsp;the&nbsp;character&nbsp;is&nbsp;generated&nbsp;randomly.</tt></dd></dl>
+
+<dl><dt><a name="player-achievements"><strong>achievements</strong></a>(self)</dt><dd><tt>Shows&nbsp;a&nbsp;list&nbsp;of&nbsp;completed&nbsp;achievements.</tt></dd></dl>
+
+<dl><dt><a name="player-addbonuses"><strong>addbonuses</strong></a>(self, item)</dt><dd><tt>Adds&nbsp;bonuses&nbsp;from&nbsp;an&nbsp;item&nbsp;to&nbsp;the&nbsp;<a href="#player">player</a></tt></dd></dl>
 
 <dl><dt><a name="player-attack"><strong>attack</strong></a>(self, mob)</dt><dd><tt>attacks&nbsp;the&nbsp;mob&nbsp;object&nbsp;specified<br>
 &nbsp;<br>
@@ -149,7 +173,9 @@ Returns&nbsp;an&nbsp;integer:<br>
 This&nbsp;receives&nbsp;an&nbsp;item&nbsp;and&nbsp;adds&nbsp;it&nbsp;to&nbsp;the&nbsp;inventory&nbsp;if&nbsp;the&nbsp;inventory&nbsp;is&nbsp;not&nbsp;full.<br>
 Returns&nbsp;1&nbsp;and&nbsp;adds&nbsp;the&nbsp;object&nbsp;to&nbsp;the&nbsp;inventory&nbsp;if&nbsp;the&nbsp;object&nbsp;was&nbsp;correctly&nbsp;picked,&nbsp;returns&nbsp;0&nbsp;if&nbsp;it&nbsp;wasn't.</tt></dd></dl>
 
-<dl><dt><a name="player-reset"><strong>reset</strong></a>(self)</dt></dl>
+<dl><dt><a name="player-rembonuses"><strong>rembonuses</strong></a>(self, item)</dt><dd><tt>Removes&nbsp;bonuses&nbsp;from&nbsp;an&nbsp;item</tt></dd></dl>
+
+<dl><dt><a name="player-reset"><strong>reset</strong></a>(self)</dt><dd><tt>Changes&nbsp;all&nbsp;<a href="#player">player</a>&nbsp;variables&nbsp;to&nbsp;the&nbsp;default&nbsp;values</tt></dd></dl>
 
 <dl><dt><a name="player-save"><strong>save</strong></a>(self)</dt><dd><tt>Save&nbsp;function.&nbsp;Takes&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;attributes&nbsp;and&nbsp;saves&nbsp;them&nbsp;into&nbsp;a&nbsp;text&nbsp;file&nbsp;in&nbsp;../<a href="#player">player</a>/save<br>
 If&nbsp;the&nbsp;path&nbsp;or&nbsp;the&nbsp;file&nbsp;do&nbsp;not&nbsp;exist&nbsp;they&nbsp;are&nbsp;created.</tt></dd></dl>
@@ -160,6 +186,8 @@ Receives&nbsp;a&nbsp;<a href="#player">player</a>&nbsp;object&nbsp;and&nbsp;reca
 It&nbsp;also&nbsp;adds&nbsp;the&nbsp;extra&nbsp;HP&nbsp;and&nbsp;MP&nbsp;gained&nbsp;after&nbsp;adding&nbsp;an&nbsp;attribute&nbsp;point&nbsp;or&nbsp;leveling&nbsp;up.</tt></dd></dl>
 
 <dl><dt><a name="player-spend"><strong>spend</strong></a>(self)</dt><dd><tt>Point&nbsp;spending&nbsp;menu.</tt></dd></dl>
+
+<dl><dt><a name="player-statmenu"><strong>statmenu</strong></a>(self)</dt><dd><tt>Displays&nbsp;character&nbsp;stats&nbsp;on&nbsp;screen</tt></dd></dl>
 
 <dl><dt><a name="player-use"><strong>use</strong></a>(self, item)</dt><dd><tt>Takes&nbsp;an&nbsp;item&nbsp;object&nbsp;from&nbsp;the&nbsp;<a href="#player">player</a>&nbsp;belt&nbsp;and&nbsp;uses&nbsp;it.<br>
 &nbsp;<br>

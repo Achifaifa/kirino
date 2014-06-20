@@ -1,4 +1,4 @@
-#Kirino v0.0.13b
+#Kirino v0.0.14
   
 Basic console based dungeon crawler. 
 
@@ -53,7 +53,6 @@ You may have some issues with the output formatting, but overall the game is pla
     * `prestige`:         Prestige rank names
     * `races`:            Player races
   * tutorial:           Files for the tutorial (Maps, etc)
-    * `tutorial_1`
 * docs:               Documentation folder (pydoc generated html files)
 * info:               Information files
   * `bugs`:             List of bugs and weird behaviours to fix
@@ -79,8 +78,25 @@ You may have some issues with the output formatting, but overall the game is pla
 
 ##Changelog
 
-####**v0.0.13** (2014-06-13):
+####**v0.0.14** (2014-06-20):
+* New features:
+  * Stats
+  * Achievements
+  * Attack rolls for mobs and players
+  * Added extra mobs (Snakes and bats)
+* Bugs Fixed:
+  * Crash when loading characters
+  * Fixed NPCs selling empty items
+  * Minimap showing terrain outside dungeon
+  * Race and class selection menu showing twice
+  * Crash when accessing belt from inventory
+  * 1H and 2H weapons being used at the same time
+  * Crash when generating random characters
+* Others:
+  * Willpower tests have to be passed to attack
+  * Hitting flying enemies is now harder
 
+####**v0.0.13** (2014-06-13):
 * New features:
   * Loading mobs from files
 * Bugs fixed:
@@ -89,7 +105,6 @@ You may have some issues with the output formatting, but overall the game is pla
   * Balanced zombies
 
 ####**v0.0.12** (2014-06-06):
-
 * New features:
   * Custom game over message
   * [0.0.12+b] Individual module testing 

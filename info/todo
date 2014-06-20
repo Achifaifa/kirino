@@ -14,6 +14,7 @@ help.py
   Take tutorial and help text from files
 
 Launch.py
+  Mobs spawn according to the player level
 
 Mob.py:
   Add stats (Movement, damage, flying)

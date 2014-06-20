@@ -11,20 +11,20 @@ X 11-13: v0.0.6   - Saving items to inventory
 X 17-20: v0.0.7   - |Spring holidays
 X 21-27: v0.0.8   - |Code a very basic word parser that supports simple instructions
 May
-  01-04: v0.0.9   - Add different mobs and a random mob generator
+X 01-04: v0.0.9   - Add different mobs and a random mob generator
   09-11: v0.0.10  - Catch up with what I haven't done
   16-18: v0.0.11  - |
   23-25: v0.0.11  - |  FUCKING
   30-1J: v0.0.11  - |       FINALS  (Yes, 7 weeks)
 June                |
-  06-08: v0.0.12  - | General code depuration
-  13-15: v0.0.12  - | Light bug fixing, last-minute feature implementing
+  06-08: v0.0.12  - | X General code depuration
+  13-15: v0.0.12  - | X Light bug fixing, last-minute feature implementing
   20-22: v0.0.12  - | Testing and suggestion noting
-  27-29: v0.0.12  - | Cross-platform quality check
+  27-29: v0.0.12  - | X Cross-platform quality check
 July
   04-06: v0.0.13  - Implement mob AI
-  11-13: v0.0.14  - Nap and stuff
-  18-20: v0.0.14.2- Procastinate
+  11-13: v0.0.14  - X Nap and stuff
+  18-20: v0.0.14.2- X Procastinate
   24-27: v0.1.0   - Euskal encounter | Final quality check and testing, public presentation
   28-03: v0.1.1   - 
 August

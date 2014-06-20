@@ -44,6 +44,7 @@ If&nbsp;there&nbsp;is&nbsp;no&nbsp;data&nbsp;on&nbsp;the&nbsp;file&nbsp;with&nbs
 #Environment&nbsp;variables<br>
 autosave=0<br>
 fog=1<br>
+gomsg="Game&nbsp;Over"<br>
 &nbsp;<br>
 #Key&nbsp;mapping&nbsp;variables<br>
 north="n"<br>
@@ -77,6 +78,12 @@ This&nbsp;allows&nbsp;modification&nbsp;of&nbsp;the&nbsp;general&nbsp;options,&n
 &nbsp;<br>
 If&nbsp;the&nbsp;restricted&nbsp;parameter&nbsp;is&nbsp;1,&nbsp;it&nbsp;hides&nbsp;the&nbsp;options&nbsp;that&nbsp;should&nbsp;not&nbsp;be&nbsp;changed&nbsp;during&nbsp;the&nbsp;game&nbsp;(fog,&nbsp;etc)</tt></dd></dl>
 
+<dl><dt><a name="config-saveoptions"><strong>saveoptions</strong></a>(self)</dt><dd><tt>Option&nbsp;saving&nbsp;function.&nbsp;<br>
+&nbsp;<br>
+Takes&nbsp;all&nbsp;the&nbsp;configuration&nbsp;variables&nbsp;and&nbsp;writes&nbsp;them&nbsp;into&nbsp;a&nbsp;file.<br>
+&nbsp;<br>
+The&nbsp;file&nbsp;is&nbsp;../player/<a href="#config">config</a>,&nbsp;if&nbsp;the&nbsp;directory&nbsp;does&nbsp;not&nbsp;exist&nbsp;this&nbsp;creates&nbsp;the&nbsp;directory&nbsp;and&nbsp;the&nbsp;file.</tt></dd></dl>
+
 </td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
@@ -89,10 +96,5 @@ If&nbsp;the&nbsp;restricted&nbsp;parameter&nbsp;is&nbsp;1,&nbsp;it&nbsp;hides&nb
 Needs&nbsp;a&nbsp;message&nbsp;with&nbsp;the&nbsp;long&nbsp;name&nbsp;of&nbsp;the&nbsp;key&nbsp;(e.g.&nbsp;'go&nbsp;northwest'&nbsp;for&nbsp;the&nbsp;option&nbsp;variable&nbsp;northwest)<br>
 returns&nbsp;the&nbsp;new&nbsp;value&nbsp;of&nbsp;the&nbsp;option&nbsp;variable&nbsp;(e.g.&nbsp;"New&nbsp;key&nbsp;for&nbsp;'go&nbsp;northwest'"&nbsp;-&gt;4&nbsp;-&gt;&nbsp;returns&nbsp;4)<br>
 If&nbsp;the&nbsp;lenght&nbsp;of&nbsp;the&nbsp;key&nbsp;is&nbsp;not&nbsp;1,&nbsp;returns&nbsp;an&nbsp;error&nbsp;message.</tt></dd></dl>
- <dl><dt><a name="-saveoptions"><strong>saveoptions</strong></a>(self)</dt><dd><tt>Option&nbsp;saving&nbsp;function.&nbsp;<br>
-&nbsp;<br>
-Takes&nbsp;all&nbsp;the&nbsp;configuration&nbsp;variables&nbsp;and&nbsp;writes&nbsp;them&nbsp;into&nbsp;a&nbsp;file.<br>
-&nbsp;<br>
-The&nbsp;file&nbsp;is&nbsp;../player/<a href="#config">config</a>,&nbsp;if&nbsp;the&nbsp;directory&nbsp;does&nbsp;not&nbsp;exist&nbsp;this&nbsp;creates&nbsp;the&nbsp;directory&nbsp;and&nbsp;the&nbsp;file.</tt></dd></dl>
 </td></tr></table>
 </body></html>

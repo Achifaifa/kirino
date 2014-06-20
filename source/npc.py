@@ -116,7 +116,7 @@ class vendor:
     self.forsale=[]
     self.potforsale=[]
     for i in range(random.randrange(4,7)): self.forsale.append(item.item(random.randrange(1,11)))
-    for i in range(random.randrange(1,3)): self.potforsale.append(item.consumable(random.choice([1,1,1,2]),0))
+    for i in range(random.randrange(1,3)): self.potforsale.append(item.consumable(random.choice([0,0,0,1]),0))
 
   def commerce(self,player):
     while 1:
@@ -168,23 +168,29 @@ class vendor:
               if player.belt[0].name=="--EMPTY--":
                 player.belt[0]=copy.copy(self.potforsale[int(buypotmenu)-1])
                 player.pocket-=self.potforsale[int(buypotmenu)-1].price
+                player.totalspn+=self.potforsale[int(buypotmenu)-1].price
                 del self.potforsale[int(buypotmenu)-1]
                 self.keeper.rel+=1
                 print random.choice(vendordata["okmsg"])
+                player.totalbuy+=1
                 common.getch()
               elif player.belt[1].name=="--EMPTY--":
                 player.belt[1]=copy.copy(self.potforsale[int(buypotmenu)-1])
                 player.pocket-=self.potforsale[int(buypotmenu)-1].price
+                player.totalspn+=self.potforsale[int(buypotmenu)-1].price
                 del self.potforsale[int(buypotmenu)-1]
                 self.keeper.rel+=1
                 print random.choice(vendordata["okmsg"])
+                player.totalbuy+=1
                 common.getch()
               elif player.belt[2].name=="--EMPTY--":
                 player.belt[2]=copy.copy(self.potforsale[int(buypotmenu)-1])
                 player.pocket-=self.potforsale[int(buypotmenu)-1].price
+                player.totalspn+=self.potforsale[int(buypotmenu)-1].price
                 del self.potforsale[int(buypotmenu)-1]
                 self.keeper.rel+=1
                 print random.choice(vendordata["okmsg"])
+                player.totalbuy+=1
                 common.getch()
 
             else:
@@ -241,10 +247,12 @@ class vendor:
 
           if player.pocket>=round(self.pricecalc(player)*self.forsale[int(buymenuc)-1].price):
             player.pocket-=(round(self.pricecalc(player)*self.forsale[int(buymenuc)-1].price))
+            player.totalspn+=(round(self.pricecalc(player)*self.forsale[int(buymenuc)-1].price))
             if player.pickobject(self.forsale[int(buymenuc)-1]):
               print random.choice(vendordata["okmsg"])
               self.keeper.rel+=1
               del self.forsale[int(buymenuc)-1]
+              player.totalbuy+=1
               common.getch()
             else:
               print random.choice(vendordata["failmsg"])
@@ -274,6 +282,8 @@ class vendor:
             common.getch()
             break
           player.pocket+=round(player.inventory[int(sellmenuc)-1].price/self.pricecalc(player))
+          player.totalgld+=round(player.inventory[int(sellmenuc)-1].price/self.pricecalc(player))
+          player.totalsll+=1
           self.forsale.append(copy.copy(player.inventory[int(sellmenuc)-1]))
           del player.inventory[int(sellmenuc)-1]
           self.keeper.rel+=1

@@ -1,0 +1,15 @@
+Name:bat
+marker:w
+level:1
+prestige:1
+exp:1
+INT:-1
+DEX:0
+STR:1
+PER:3
+CON:1
+WIL:0
+CHA:0
+atk:2
+defn:2 
+flying:1
