@@ -1,4 +1,4 @@
-#Kirino v0.0.14
+#Kirino v0.0.14b
   
 Basic console based dungeon crawler. 
 
@@ -84,6 +84,7 @@ You may have some issues with the output formatting, but overall the game is pla
   * Achievements
   * Attack rolls for mobs and players
   * Added extra mobs (Snakes and bats)
+  * [0.0.14b] Mob IA
 * Bugs Fixed:
   * Crash when loading characters
   * Fixed NPCs selling empty items

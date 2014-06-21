@@ -138,6 +138,27 @@ class mob:
 
     self.randmove(dungeon,1)
 
+  def search(self,dungeon,player):
+    """
+    If the player is within the perception range of the mob, it chases. 
+    If not, it moves randomly within the dungeon.
+    """
+
+    if abs(self.xpos-player.xpos)<=self.PER and abs(self.ypos-player.ypos)<=self.PER:
+
+      #Choose vertical movement if there is more vertical than horizontal separation
+      vert=abs(self.xpos-player.xpos)<abs(self.ypos-player.ypos)
+      #Move vertically only if the mob is not in the vertical
+      if vert:
+        if self.ypos>player.ypos: self.move(dungeon,1,1)
+        else: self.move(dungeon,3,1)
+      else:
+        if self.xpos>player.xpos: self.move(dungeon,2,1)
+        else: self.move(dungeon,4,1)
+
+    else: self.trandmove(dungeon)
+
+
   def attack(self,player,dung):
     """
     Attacks the player object passed to the function

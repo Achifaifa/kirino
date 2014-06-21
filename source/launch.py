@@ -108,27 +108,26 @@ def crawl(quick):
     if cfg.fog: dung.remember(hero)
 
     #Move all the mobs, delete dead mobs from array
-    for i in range(len(dung.mobarray)):
+    for i in dung.mobarray:
       try:
-        if dung.mobarray[i].HP<=0: del dung.mobarray[i]
-        else: dung.mobarray[i].trandmove(dung)
-      except IndexError: pass
+        if i.HP<=0: del i
+        else: i.search(dung,hero)
+      except: pass
 
     #If any of the remaining mobs has locked on the player and the player is in range, attack
-    for j in range(len(dung.mobarray)):
-      if dung.mobarray[j].lock:
-        if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
-            dung.mobarray[j].xpos-1<=hero.xpos<=dung.mobarray[j].xpos+1 ):
-          atkmsg=dung.mobarray[j].attack(hero,dung)
-        else: dung.mobarray[j].lock=0
+    for j in dung.mobarray:
+      if j.lock:
+        if (j.ypos-1<=hero.ypos<=j.ypos+1 and j.xpos-1<=hero.xpos<=j.xpos+1 ):
+          atkmsg=j.attack(hero,dung)
+        else: j.lock=0
 
     #After attacking, reset the hit parameter
     for a in dung.mobarray: a.hit=0
         
     #If any of the mobs are near the player, lock them
     for k in range(len(dung.mobarray)):
-      if (dung.mobarray[j].ypos-1<=hero.ypos<=dung.mobarray[j].ypos+1 and 
-          dung.mobarray[j].xpos-1<=hero.xpos<=dung.mobarray[j].xpos+1 ):
+      if (j.ypos-1<=hero.ypos<=j.ypos+1 and 
+          j.xpos-1<=hero.xpos<=j.xpos+1 ):
         dung.mobarray[k].lock=1
 
     #Action if player has reached a money loot tile

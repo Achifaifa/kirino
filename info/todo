@@ -17,7 +17,6 @@ Launch.py
   Mobs spawn according to the player level
 
 Mob.py:
-  Add stats (Movement, damage, flying)
   """AI""" (move towards player if inside the perception range)
   Add random name generator from word files
 

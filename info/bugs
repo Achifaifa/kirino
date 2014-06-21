@@ -32,7 +32,6 @@ parser.py
 
 player.py
   H?> Not loading hp2 and mp2 correctly
-  H?> Crash when creating random character (Possible failure at array load)
 
 ???
   H?> Screen refreshing sometimes gets slower with each floor advanced
