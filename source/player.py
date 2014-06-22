@@ -106,14 +106,13 @@ class player:
     self.totaltrp=self.itemspck=self.itemsdst =self.itemsenc=self.totalpot =self.totalsll=self.totalbuy=self.totalspn=0 
     self.maxdmg  =self.maxench =0
 
-    #Initializing inventory arrays
+    #Initializing inventory arrays and items
     self.belt=[]
-    for i in range(3): self.belt.append(item.consumable(4,0))
-    self.inventory=[]
     self.equiparr=[]
-    for i in range(11):
-      new=item.item(0)
-      self.equiparr.append(new)
+    self.inventory=[]
+    for i in range(3):  self.belt.append(item.consumable(4,0))
+    for i in range(11): self.equiparr.append(item.item(0))
+    for i in range(2):  self.inventory.append(item.item(random.randint(1,11)))
 
     #Set attributes to 1, set secondary attributes
     self.STR=self.INT=self.CON=self.WIL=self.PER=self.DEX=self.CHA=1
@@ -186,9 +185,6 @@ class player:
         elif randstat==6: self.CHA+=1
         else: pass
 
-    #add two random items to the inventory
-    for i in range(2): self.inventory.append(item.item(random.randint(1,11)))
-
   def pickobject(self,object):
     """
     Pick item from the floor. 
@@ -247,7 +243,7 @@ class player:
     try:
       #Checks the direction and moves
       if direction==1:
-        if dungeon.dungarray[self.ypos-1][self.xpos]=="#" or dungeon.dungarray[self.ypos-1][self.xpos]=="|": return 0
+        if dungeon.dungarray[self.ypos-1][self.xpos] in ["#","|"]: return 0
         if dungeon.filled[self.ypos-1][self.xpos] in mobmarkers: return 2
         else:
           self.steps+=moves
@@ -262,7 +258,7 @@ class player:
           self.xpos-=moves
           return 1  
       elif direction==3:
-        if dungeon.dungarray[self.ypos+1][self.xpos]=="#" or dungeon.dungarray[self.ypos+1][self.xpos]=="|": return 0
+        if dungeon.dungarray[self.ypos+1][self.xpos] in ["#","|"]: return 0
         if dungeon.filled[self.ypos+1][self.xpos] in mobmarkers: return 2
         else:   
           self.steps+=moves  
@@ -277,7 +273,7 @@ class player:
           self.xpos+=moves
           return 1
       elif direction==5:
-        if dungeon.dungarray[self.ypos-1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos-1]=="|": return 0
+        if dungeon.dungarray[self.ypos-1][self.xpos-1] in ["#","|"]: return 0
         if dungeon.filled[self.ypos-1][self.xpos-1] in mobmarkers: return 2
         else:
           self.steps+=moves
@@ -285,7 +281,7 @@ class player:
           self.xpos-=moves
           return 1
       elif direction==6:
-        if dungeon.dungarray[self.ypos-1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos-1][self.xpos+1]=="|": return 0
+        if dungeon.dungarray[self.ypos-1][self.xpos+1] in ["#","|"]: return 0
         if dungeon.filled[self.ypos-1][self.xpos+1] in mobmarkers: return 2
         else:
           self.steps+=moves
@@ -293,7 +289,7 @@ class player:
           self.xpos+=moves
           return 1
       elif direction==7:
-        if dungeon.dungarray[self.ypos+1][self.xpos-1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos-1]=="|": return 0
+        if dungeon.dungarray[self.ypos+1][self.xpos-1] in ["#","|"]: return 0
         if dungeon.filled[self.ypos+1][self.xpos-1] in mobmarkers: return 2
         else:
           self.steps+=moves
@@ -301,7 +297,7 @@ class player:
           self.xpos-=moves
           return 1
       elif direction==8:
-        if dungeon.dungarray[self.ypos+1][self.xpos+1]=="#" or dungeon.dungarray[self.ypos+1][self.xpos+1]=="|": return 0
+        if dungeon.dungarray[self.ypos+1][self.xpos+1] in ["#","|"]: return 0
         if dungeon.filled[self.ypos+1][self.xpos+1] in mobmarkers: return 2
         else:
           self.steps+=moves
@@ -347,7 +343,7 @@ class player:
       print "Level %i %s %s"                      %(self.lv,self.race,self.charclass)
       if self.lv==1: print "%i/5 xp, %i points"   %(self.exp,self.points)
       if self.lv>1:  print "%i/%i xp, %i points"  %(self.exp,3*self.lv+(2*(self.lv-1)),self.points)
-      print "%i floors explored \n"             %(self.totalfl)
+      print "%i floors explored \n"               %(self.totalfl)
       self.getatr()
       print "\n1.- Spend points"
       print "2.- Inventory"
@@ -359,18 +355,16 @@ class player:
       print "\n0.- Exit"
       print "->",
       menu=common.getch()
-      if menu=="1": self.spend()
+      if   menu=="1": self.spend()
       elif menu=="2": self.invmenu()
       elif menu=="3": self.optmenu()
       elif menu=="4": self.statmenu()
       elif menu=="5": self.achievements()
       elif menu=="8":
-        print "saving..."
-        print self.save()
+        print "saving... "+self.save()
         common.getch()
       elif menu=="9":
-        print "loading..."
-        print self.load()
+        print "loading... "+self.load()
         common.getch()
       elif menu=="0": break
       pass
@@ -702,35 +696,27 @@ class player:
 
   def invmenu(self):
     """
-    Inventory menu. 
+    Inventory menu and managing. 
     """
 
     while 1: 
       common.version()
       print "%s - Character sheet"%(self.name)
+
+      #Print equipped items
       print "\nEquipped\n"
-      print "01 [+%i/+%i] Head:   %s %s"  %(self.equiparr[0].atk,self.equiparr[0].defn,self.equiparr[0].name,self.calcbonus(self.equiparr[0]))
-      print "02 [+%i/+%i] Face:   %s %s"  %(self.equiparr[1].atk,self.equiparr[1].defn,self.equiparr[1].name,self.calcbonus(self.equiparr[1]))
-      print "03 [+%i/+%i] Neck:   %s %s"  %(self.equiparr[2].atk,self.equiparr[2].defn,self.equiparr[2].name,self.calcbonus(self.equiparr[2]))
-      print "04 [+%i/+%i] Back:   %s %s"  %(self.equiparr[3].atk,self.equiparr[3].defn,self.equiparr[3].name,self.calcbonus(self.equiparr[3]))
-      print "05 [+%i/+%i] Chest:  %s %s"  %(self.equiparr[4].atk,self.equiparr[4].defn,self.equiparr[4].name,self.calcbonus(self.equiparr[4]))
-      print "06 [+%i/+%i] L hand: %s %s"  %(self.equiparr[5].atk,self.equiparr[5].defn,self.equiparr[5].name,self.calcbonus(self.equiparr[5]))
-      print "07 [+%i/+%i] R hand: %s %s"  %(self.equiparr[6].atk,self.equiparr[6].defn,self.equiparr[6].name,self.calcbonus(self.equiparr[6]))
-      print "08 [+%i/+%i] Ring:   %s %s"  %(self.equiparr[7].atk,self.equiparr[7].defn,self.equiparr[7].name,self.calcbonus(self.equiparr[7]))
-      print "09 [+%i/+%i] Belt:   %s %s"  %(self.equiparr[8].atk,self.equiparr[8].defn,self.equiparr[8].name,self.calcbonus(self.equiparr[8]))
-      print "10 [+%i/+%i] Legs:   %s %s"  %(self.equiparr[9].atk,self.equiparr[9].defn,self.equiparr[9].name,self.calcbonus(self.equiparr[9]))
-      print "11 [+%i/+%i] Feet:   %s %s"  %(self.equiparr[10].atk,self.equiparr[10].defn,self.equiparr[10].name,self.calcbonus(self.equiparr[10]))
+      parts=["Head","Face","Neck","Back","Chest","L hand","R hand","Ring","Belt","Legs","Feet"]
+      for i,it in enumerate(parts): print "%02i [+%i/+%i] %s:  %s %s" %(i+1,self.equiparr[i].atk,self.equiparr[i].defn,it,self.equiparr[i].name,self.calcbonus(self.equiparr[i]))
       print "\n[+%i/+%i]"                 %(self.totatk,self.totdefn)
 
       #Print everything in the inventory array
-      print "\nInventory (+"+str(self.pocket)+" G)\n"
+      print "\nInventory (%i G)\n" %(self.pocket)
       for i in range(len(self.inventory)): print "0%i [+%i/+%i] %s (%iG)[%i]" %(i+1,self.inventory[i].atk,self.inventory[i].defn,self.inventory[i].name,self.inventory[i].price,self.inventory[i].type)
 
       #Print the belt items
       print "\nBelt\n"
-      print "B1 - %s" %(self.belt[0].name)
-      print "B2 - %s" %(self.belt[1].name)
-      print "B3 - %s" %(self.belt[2].name)
+      parts=["B1","B2","B3"]
+      for i in range(3): print "%s - %s"%(parts[i],self.belt[i].name)
 
       #Print the inventory action menu
       print "\nq - destroy item"
@@ -781,6 +767,8 @@ class player:
             self.rembonuses(self.equiparr[int(unitem)-1])
             self.inventory.append(temp)
             self.equiparr[int(unitem)-1].reset()
+            for i in self.equiparr: 
+              if i.name=="--": i.reset()
         except ValueError: print "Invalid choice"
 
       #Exit from inventory menu
@@ -1196,8 +1184,8 @@ class player:
             self.conboost+=(a.conbonus)
             self.wilboost+=(a.wilbonus)
             self.chaboost+=(a.chabonus)
-            self.totatk+=(a.atk)
-            self.totdefn+=(a.defn)
+            self.totatk  +=(a.atk)
+            self.totdefn +=(a.defn)
 
           #Restore position values
           self.xpos=tempx

@@ -1,4 +1,4 @@
-#Kirino v0.0.14b
+#Kirino v0.0.14c
   
 Basic console based dungeon crawler. 
 
@@ -93,6 +93,8 @@ You may have some issues with the output formatting, but overall the game is pla
   * Crash when accessing belt from inventory
   * 1H and 2H weapons being used at the same time
   * Crash when generating random characters
+  * [0.0.14c] Inventory not updating with 2H weapons
+  * [0.0.14c] Mobs not disappearing after dying
 * Others:
   * Willpower tests have to be passed to attack
   * Hitting flying enemies is now harder

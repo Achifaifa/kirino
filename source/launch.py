@@ -110,7 +110,7 @@ def crawl(quick):
     #Move all the mobs, delete dead mobs from array
     for i in dung.mobarray:
       try:
-        if i.HP<=0: del i
+        if i.HP<=0: del dung.mobarray[dung.mobarray.index(i)]
         else: i.search(dung,hero)
       except: pass
 
