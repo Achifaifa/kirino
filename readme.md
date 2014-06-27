@@ -1,4 +1,4 @@
-#Kirino v0.0.14c
+#Kirino v0.0.15
   
 Basic console based dungeon crawler. 
 
@@ -77,6 +77,14 @@ You may have some issues with the output formatting, but overall the game is pla
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.15** (2014-06-27):
+* New features:
+* Bugs fixed:
+  * --EMPTY-- being shown as name when drinking potions
+* Others:
+  * Level increases whenever experience cap is reached.
+  * Changed attribute display layout
 
 ####**v0.0.14** (2014-06-20):
 * New features:

@@ -209,8 +209,8 @@ class player:
     """
 
     print "HP: %i/%i, MP: %i/%i      "  %(self.hp2,self.HP,self.mp2,self.MP)
-    print "INT: %i(+%i)  DEX: %i(+%i)"  %(self.INT,self.intboost,self.DEX,self.dexboost)
-    print "CON: %i(+%i)  STR: %i(+%i)"  %(self.CON,self.conboost,self.STR,self.strboost)
+    print "INT: %i(+%i)  DEX: %i(+%i)"  %(self.STR,self.strboost,self.DEX,self.dexboost)
+    print "CON: %i(+%i)  STR: %i(+%i)"  %(self.INT,self.intboost,self.CON,self.conboost)
     print "WIL: %i(+%i)  PER: %i(+%i)"  %(self.WIL,self.wilboost,self.PER,self.perboost)
     print "CHA: %i(+%i)              "  %(self.CHA,self.chaboost)
     print "END: %i SPD: %i           "  %(self.END,self.SPD)
@@ -627,9 +627,6 @@ class player:
       #restore status
       if item.statusr: self.status=0
 
-      #reset item
-      item.reset()
-
       #Message generation
       msg="You drank "+item.name+". "
       if hpres>0 or mpres>0: msg=msg+"You recovered "
@@ -638,6 +635,7 @@ class player:
       if mpres>0: msg=msg+str(mpres)+" MP"
       if hpres>0 or mpres>0: msg=msg+"."
       self.totalpot+=1
+      item.reset()
       return msg
 
     if item.type==1:
@@ -660,6 +658,8 @@ class player:
       if item.chabst>0: msg=msg+"CHA +"+str(item.chabst)+" "
       if item.strbst>0: msg=msg+"STR +"+str(item.strbst)+" "
       msg=msg+"\n"
+      item.reset()
+      return msg
 
     if item.type==4:
       return ""
@@ -693,6 +693,23 @@ class player:
     self.chaboost-=item.chabonus
     self.totatk  -=item.atk
     self.totdefn -=item.defn
+
+  def levelup(self):
+    """
+    Levels the player up
+    """
+
+    if self.lv==1:
+      if self.exp>=5:
+        self.lv+=1
+        self.exp-=5
+        self.points+=2
+    if self.lv>1:
+      lvlimit=3*self.lv+(2*(self.lv-1))
+      while self.exp>=lvlimit:
+        self.lv+=1
+        self.exp-=lvlimit
+        self.points+=2
 
   def invmenu(self):
     """

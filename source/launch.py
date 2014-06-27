@@ -114,6 +114,9 @@ def crawl(quick):
         else: i.search(dung,hero)
       except: pass
 
+    #Level the player up
+    hero.levelup()
+
     #If any of the remaining mobs has locked on the player and the player is in range, attack
     for j in dung.mobarray:
       if j.lock:
@@ -566,17 +569,7 @@ def lload(playa):
   playa.exp+=1
 
   #Levels the player up
-  if playa.lv==1:
-    if playa.exp>=5:
-      playa.lv+=1
-      playa.exp-=5
-      playa.points+=2
-  lvlimit=3*playa.lv+(2*(playa.lv-1))
-  if playa.lv>1:
-    while playa.exp>=lvlimit:
-      playa.lv+=1
-      playa.exp-=lvlimit
-      playa.points+=2
+  playa.levelup()
 
 def scroll(lines):
   """

@@ -1,1 +1,66 @@
-No character saved
+# 
+# Player 
+# 
+Name:test
+Race:tyranid
+Class:barbarian
+Money:3959
+Level:21
+Exp:73
+Points:0
+HP:53
+MP:15
+INT:1
+DEX:5
+PER:1
+WIL:2
+STR:6
+CON:5
+CHA:5
+#
+# Player stats 
+#
+Floors:584
+Steps:21032
+Attacks:518
+Hits:505
+Damage given:123940
+Damage taken:802
+Kills:501
+Gold earned:143926
+Traps:162
+Items picked:793
+Items erased:103
+Total enchants:142
+Potions taken:23
+Items sold:678
+Items bought:0
+Money spent:139967
+Max damage:322
+Max enchant:10
+#
+# Equipped items 
+#
+E:yelm +10:10:1:7:8:1:3:2:2:1:1:0:2046
+E:hockey mask +10:10:2:8:3:1:1:0:3:0:1:3:12286
+E:leader's necklace +8:8:3:3:5:1:2:1:1:1:1:3:5630
+E:leader's back shield +4:4:4:1:8:0:0:0:2:1:2:0:3230
+E:refined kevlar vest +6:6:5:3:14:0:2:1:1:2:1:0:7806
+E:hammer +8:8:6:7:3:0:1:0:3:1:1:2:5630
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E:ring +8:8:8:7:1:3:0:2:0:1:3:0:1790
+E:bat-belt +5:5:9:4:4:1:0:0:0:0:1:2:1022
+E:posh lead pants +7:7:10:3:6:3:2:1:1:1:1:2:5374
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+#
+# Inventory items 
+#
+I:armour:0:5:0:5:0:0:0:0:0:0:0:50
+I:invigorating strapon:0:9:1:0:0:0:0:0:1:0:0:20
+I:batman cape:0:4:0:2:0:0:0:0:0:0:0:20
+#
+# Belt items 
+#
+B:0:1:Huge HP potion:100:0:110
+B:0:1:Huge HP potion:100:0:110
+B:0:3:Huge recovery potion:100:100:300
