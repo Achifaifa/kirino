@@ -78,7 +78,7 @@ class player:
   zpos=0
   """
 
-  def __init__(self,dungeon,randomv):
+  def __init__(self,randomv):
     """
     Initialization of the player objects. 
 
@@ -129,13 +129,10 @@ class player:
     self.mp2=self.MP
     self.hp2=self.HP
     
-    #Initialize position at the entrance
-    for i in dungeon.dungarray:
-      for j in i:
-        if j=="A":
-          self.ypos=dungeon.dungarray.index(i)
-          self.xpos=i.index(j)
-          self.zpos=0
+    #Initialize position
+    self.ypos=0
+    self.xpos=0
+    self.zpos=0
 
     #Random race
     if randomv==1:
@@ -184,6 +181,33 @@ class player:
         elif randstat==5: self.WIL+=1
         elif randstat==6: self.CHA+=1
         else: pass
+
+  def enter(self,dungeon,fall):
+    """
+    Places the player object in a dungeon
+
+    if fall==0, the player is placed in the entrance tile
+    if fall==1, then a random tile is selected
+    """
+
+    if fall:
+      while 1:
+        randy=random.randint(len(dungeon.dungarray))
+        randx=random.randint(len(dungeon.dungarray[randy]))
+        if dungeon.dungarray[randy][randx]==".":
+          self.xpos=randx
+          self.ypos=randy
+          self.zpos=0
+          break
+      
+    else:
+      for i in range(len(dungeon.dungarray)):
+        for j in range(len(dungeon.dungarray[i])):
+          if dungeon.dungarray[i][j]=="A":
+            self.ypos=i
+            self.xpos=j
+            self.zpos=0
+
 
   def pickobject(self,object):
     """

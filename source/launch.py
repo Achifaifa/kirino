@@ -181,14 +181,7 @@ def crawl(quick):
           dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
           lload(hero)
           if not cfg.fog: dung.explored=dung.dungarray
-          while 1:
-            i=random.randrange(len(dung.dungarray))
-            j=random.randrange(len(dung.dungarray[i]))
-            if dung.dungarray[i][j]==".":
-              hero.ypos=i
-              hero.xpos=j
-              hero.zpos=0 
-              break
+          hero.enter(dung)
 
     #Print header and map
     common.version()
@@ -290,7 +283,6 @@ def crawl(quick):
           if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos+1):
             hitmsg=hero.attack(a)
 
-
     #Game option menu
     elif crawlmen==cfg.opt or action==5: cfg.options(1)
 
@@ -364,7 +356,8 @@ def newgame(quick):
   #If quick is 1, generate everything randomly
   if quick:
     dung=dungeon.dungeon(40,40,1)
-    hero=player.player(dung,1)
+    hero=player.player(1)
+    hero.enter(dung,0)
 
   #If not, go through the usual process
   else:
@@ -384,7 +377,8 @@ def newgame(quick):
 
     os.system('clear')
     dung=dungeon.dungeon(xsize,ysize,1)
-    hero=player.player(dung,0)
+    hero=player.player(0)
+    hero.enter(dung,0)
     common.version()
     print "New game [2/5] Name\n"
     hero.name=raw_input("What is your name? ")
