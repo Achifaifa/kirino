@@ -181,7 +181,7 @@ def crawl(quick):
           dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
           lload(hero)
           if not cfg.fog: dung.explored=dung.dungarray
-          hero.enter(dung)
+          hero.enter(dung,1)
 
     #Print header and map
     common.version()
@@ -355,7 +355,7 @@ def newgame(quick):
 
   #If quick is 1, generate everything randomly
   if quick:
-    dung=dungeon.dungeon(40,40,1)
+    dung=dungeon.dungeon(60,60,1)
     hero=player.player(1)
     hero.enter(dung,0)
 

@@ -1,4 +1,4 @@
-#Kirino v0.0.15b
+#Kirino v0.0.15c
   
 Basic console based dungeon crawler. 
 
@@ -82,10 +82,12 @@ You may have some issues with the output formatting, but overall the game is pla
 * New features:
 * Bugs fixed:
   * --EMPTY-- being shown as name when drinking potions
+  * [0.0.15c] Crash when falling through traps
 * Others:
   * Level increases whenever experience cap is reached.
   * Changed attribute display layout
   * [0.0.15b] Restructured classes
+  * [0.0.15c] Default dungeon size changed to 70x70
 
 ####**v0.0.14** (2014-06-20):
 * New features:
