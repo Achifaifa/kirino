@@ -1,4 +1,4 @@
-#Kirino v0.0.15c
+#Kirino v0.0.16
   
 Basic console based dungeon crawler. 
 
@@ -77,6 +77,14 @@ You may have some issues with the output formatting, but overall the game is pla
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.0.16** (2014-07-04):
+* New features:
+  * New mob: Dead dog
+* Bugs Fixed:
+  * Fixed attribute display showing wrong numbers.
+* Others:
+  * Default dungeon size changed to 50x50
 
 ####**v0.0.15** (2014-06-27):
 * New features:

@@ -233,8 +233,8 @@ class player:
     """
 
     print "HP: %i/%i, MP: %i/%i      "  %(self.hp2,self.HP,self.mp2,self.MP)
-    print "INT: %i(+%i)  DEX: %i(+%i)"  %(self.STR,self.strboost,self.DEX,self.dexboost)
-    print "CON: %i(+%i)  STR: %i(+%i)"  %(self.INT,self.intboost,self.CON,self.conboost)
+    print "STR: %i(+%i)  DEX: %i(+%i)"  %(self.STR,self.strboost,self.DEX,self.dexboost)
+    print "INT: %i(+%i)  CON: %i(+%i)"  %(self.INT,self.intboost,self.CON,self.conboost)
     print "WIL: %i(+%i)  PER: %i(+%i)"  %(self.WIL,self.wilboost,self.PER,self.perboost)
     print "CHA: %i(+%i)              "  %(self.CHA,self.chaboost)
     print "END: %i SPD: %i           "  %(self.END,self.SPD)

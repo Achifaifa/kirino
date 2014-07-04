@@ -355,7 +355,7 @@ def newgame(quick):
 
   #If quick is 1, generate everything randomly
   if quick:
-    dung=dungeon.dungeon(60,60,1)
+    dung=dungeon.dungeon(50,50,1)
     hero=player.player(1)
     hero.enter(dung,0)
 
