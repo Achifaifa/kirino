@@ -86,6 +86,8 @@ def crawl(quick):
   hitmsg=""
   usemsg=""
   wilmsg=""
+  hungmsg=""
+  hungsteps=0
 
   hero,dung=copy.copy(newgame(quick))
 
@@ -98,6 +100,20 @@ def crawl(quick):
   #Main crawling menu and interface
   crawlmen=-1
   while 1:
+
+    #Update hunger stats
+    hungsteps+=1
+    if hungsteps==10:
+      hungsteps=0
+      hero.stomach-=1
+      if hero.stomach<10:
+        hungmsg="Your stomach growls...\n"
+
+    #Act if hungry
+    if hero.stomach==0:
+      hero.hp2-=1
+      hungmsg="You feel hungry and weak\n"
+
     #Reset message strings
     atkmsg=""
     pickmsg=""
@@ -197,12 +213,12 @@ def crawl(quick):
     print "(%c) %s"%(cfg.quick2,hero.belt[1].name)
     print "(%c) %s"%(cfg.quick3,hero.belt[2].name)
     print "\n%c: key mapping help"%(cfg.showkeys)
-    print lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
+    print hungmsg+lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
     print "->",
 
     #Reset message strings after display
     action=0
-    parsemsg=hitmsg=usemsg=wilmsg=""
+    parsemsg=hitmsg=usemsg=wilmsg=hungmsg=""
     crawlmen=common.getch()
 
     #Willpower test

@@ -50,6 +50,7 @@ class player:
   mp2=0         #Current mana points
   END=0         #Endurance
   SPD=0         #Speed
+  stomach=10     #Hunger level
 
   #Stats and achievements
 
@@ -100,6 +101,7 @@ class player:
     self.status=0      #Paralyzed, burned, bleeding, etc
     self.prestige=0    #Prestige points
     self.prestigelv=1  #Prestige level (unused)
+    self.stomach=100
 
     #Initialize stat variables
     self.totalfl =self.steps   =self.totalatks=self.totalgld=self.totalhits=self.totaldmg=self.totalrcv=self.kills   =0  
@@ -367,7 +369,8 @@ class player:
       print "Level %i %s %s"                      %(self.lv,self.race,self.charclass)
       if self.lv==1: print "%i/5 xp, %i points"   %(self.exp,self.points)
       if self.lv>1:  print "%i/%i xp, %i points"  %(self.exp,3*self.lv+(2*(self.lv-1)),self.points)
-      print "%i floors explored \n"               %(self.totalfl)
+      print "%i floors explored"                  %(self.totalfl)
+      print "Stomach is %i%% full\n"              %(self.stomach)
       self.getatr()
       print "\n1.- Spend points"
       print "2.- Inventory"
@@ -634,7 +637,8 @@ class player:
       hppool=int(item.hpr)
       mppool=int(item.mpr)
       mpres=hpres=0
-      nam=item.name
+      nam=item.names
+      self.stomach+=10
 
       #restore HP
       while hppool>0 and self.hp2<self.HP:
@@ -944,6 +948,8 @@ class player:
               #Move the item to the equip and delete the inventory reference
               self.equiparr[6]=copy.copy(self.inventory[invmenu])
               del self.inventory[invmenu]
+              #Remove weapon bonus indicator in slot 5
+              self.equiparr[5].reset()
               #Show that the weapon is 2H
               self.equiparr[5].name="--"
 
@@ -1036,6 +1042,7 @@ class player:
       savefile.write("Money spent:"+str(int(self.totalspn))+"\n")
       savefile.write("Max damage:"+str(self.maxdmg)+"\n")
       savefile.write("Max enchant:"+str(self.maxench)+"\n")
+      savefile.write("Stomach:"+str(self.stomach)+"\n")
 
       savefile.write("#\n# Equipped items \n#\n")
       for a in self.equiparr: savefile.write("E:"+a.name+":"+str(a.enchantlv)+":"+str(a.type)+":"+str(a.atk)+":"+str(a.defn)+":"+str(a.strbonus)+":"+str(a.intbonus)+":"+str(a.dexbonus)+":"+str(a.perbonus)+":"+str(a.conbonus)+":"+str(a.wilbonus)+":"+str(a.chabonus)+":"+str(a.price)+"\n")
@@ -1078,6 +1085,7 @@ class player:
     self.points=0      
     self.race="_"
     self.charclass="_"
+    self.stomach=100
 
     self.inventory=[] 
     self.belt=[]
@@ -1161,6 +1169,7 @@ class player:
               elif parA=="Money spent":   self.totalspn=  int(parB)
               elif parA=="Max damage":    self.maxdmg=    int(parB)
               elif parA=="Max enchant":   self.maxench=   int(parB)
+              elif parA=="Stomach":       self.stomach=   int(parB)
 
               #Load equipped items
                                                                                                                                                               #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price

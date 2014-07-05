@@ -11,18 +11,18 @@ Item.py
 common.py
 
 help.py
-  Take tutorial and help text from files
 
 Launch.py
-  Mobs spawn according to the player level
+  food scarcely spawning in dungeons
 
 Mob.py:
-  """AI""" (move towards player if inside the perception range)
   Add random name generator from word files
 
+NPC.py:
+  npcs selling random food with potions
+
 Player.py
-  Unequip 1H weapons when equipping 2H ones.
-  Dual-wielding 1h weapons.
+  adapt use function to accept food consumable items
 
 Parser.py
   use nlp to control alternate actions

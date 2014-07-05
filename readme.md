@@ -81,8 +81,10 @@ You may have some issues with the output formatting, but overall the game is pla
 ####**v0.0.16** (2014-07-04):
 * New features:
   * New mob: Dead dog
+  * [0.0.16b] Hunger
 * Bugs Fixed:
-  * Fixed attribute display showing wrong numbers.
+  * Fixed attribute display showing wrong numbers
+  * [0.0.16b] Fixed weapon bonuses not disappearing when equipping 2Hs
 * Others:
   * Default dungeon size changed to 50x50
 
