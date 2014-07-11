@@ -36,15 +36,15 @@
 #       1:Occasional adverse effects
 #       2:Damage or adverse effects assured
 #
-3:Moldy bread:1:5
-3:Hard bread:0:7
-3:Bread:0:10
-3:Apple:0:10
-3:Suspicious sandwich:1:20
-3:Sandwich:0:30
-3:Wine:1:50
-3:Chocolate:0:100
-3:Golden Apple:2:500
+3:Moldy bread:15:1:5
+3:Hard bread:20:0:7
+3:Bread:50:0:10
+3:Apple:25:0:10
+3:Suspicious sandwich:20:1:20
+3:Sandwich:20:0:30
+3:Wine:10:1:50
+3:Chocolate:15:0:100
+3:Golden Apple:0:2:500
 #
 # Attack:
 #   2:name:area type:size:damage:damage per turn

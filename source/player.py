@@ -1,6 +1,6 @@
 #usr/bin/env python 
 import copy, os, random, sys
-import common, dungeon, item
+import common, copy, dungeon, item
 
 class player:
   """
@@ -112,7 +112,7 @@ class player:
     self.belt=[]
     self.equiparr=[]
     self.inventory=[]
-    for i in range(3):  self.belt.append(item.consumable(4,0))
+    for i in range(6):  self.belt.append(item.consumable(4,0))
     for i in range(11): self.equiparr.append(item.item(0))
     for i in range(2):  self.inventory.append(item.item(random.randint(1,11)))
 
@@ -194,8 +194,8 @@ class player:
 
     if fall:
       while 1:
-        randy=random.randint(len(dungeon.dungarray))
-        randx=random.randint(len(dungeon.dungarray[randy]))
+        randy=random.randrange(len(dungeon.dungarray))
+        randx=random.randrange(len(dungeon.dungarray[randy]))
         if dungeon.dungarray[randy][randx]==".":
           self.xpos=randx
           self.ypos=randy
@@ -228,7 +228,32 @@ class player:
       self.inventory.append(object)
       self.itemspck+=1
       return 1,("You picked %s\n"%object.name)
+
+  def pickconsumable(self,object):
+    """
+    Picks a consumable item from the floor.
+
+    It adds it to the consumable inventory, potions to slots 1-3 and food to slots 4-6.
+
+    Returns an interger if it has been picked (0:no, 1:yes) and a message.
+    """
     
+    if object.type in [0,1,2]:
+      pass
+
+    elif object.type in [3]:
+      if   self.belt[3].type==4:
+        self.belt[3]=copy.copy(object)
+        return 1,"You picked "+object.name+"."
+      elif self.belt[4].type==4:
+        self.belt[4]=copy.copy(object)
+        return 1,"You picked "+object.name+"."
+      elif self.belt[4].type==4:
+        self.belt[5]=copy.copy(object)
+        return 1,"You picked "+object.name+"."
+      else: 
+        return 0,"Your inventory is full!"
+
   def getatr(self):
     """
     Prints the player attributes on screen.
@@ -689,6 +714,19 @@ class player:
       item.reset()
       return msg
 
+    if item.type==3:
+      if self.stomach+item.hungrec>=110:
+        self.stomach-=10
+        return "Your can't eat anymore. \nYou feel like throwing up."
+      else:
+        self.stomach+=item.hungrec
+      if item.chance==1:
+        if random.choice[0,0,0,1]: self.hp2-=5
+        return "You filled your stomach with food in bad condition. \nLost 5HP"
+      if item.chance==2:
+        self.hp2-=7
+        return "That was clearly not edible. \nLost 7HP"
+
     if item.type==4:
       return ""
 
@@ -948,7 +986,7 @@ class player:
               #Move the item to the equip and delete the inventory reference
               self.equiparr[6]=copy.copy(self.inventory[invmenu])
               del self.inventory[invmenu]
-              #Remove weapon bonus indicator in slot 5
+              #Remove weapon bonus indicators in slot 5
               self.equiparr[5].reset()
               #Show that the weapon is 2H
               self.equiparr[5].name="--"

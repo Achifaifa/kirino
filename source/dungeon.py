@@ -230,7 +230,6 @@ class dungeon:
       #    #p|.     .|q#
       #    ####     ####
       #
-      #so it needs a 3x3 block near a room or a vertical hall.
 
       #Randomize iterator:
       pairs=[]
@@ -284,7 +283,16 @@ class dungeon:
         while self.dungarray[tempy][tempx]!=".":
           tempx=random.randrange(1,self.xsize)
           tempy=random.randrange(1,self.ysize)
-        self.dungarray[tempy][tempx]="/"        
+        self.dungarray[tempy][tempx]="/"
+
+      #Randomly adds food in every floor
+      if random.choice([0,1]):
+        while 1:
+          randx=random.randrange(x)
+          randy=random.randrange(y)
+          if self.dungarray[randy][randx]==".":
+            self.dungarray[randy][randx]="o"
+            break        
 
       #Dungeon should be done
 

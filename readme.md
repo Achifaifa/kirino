@@ -1,4 +1,4 @@
-#Kirino v0.0.16b
+#Kirino v0.0.17
   
 Basic console based dungeon crawler. 
 
@@ -78,10 +78,18 @@ You may have some issues with the output formatting, but overall the game is pla
 
 ##Changelog
 
+####**v0.0.17** (2014-07-11)
+* New features:
+* Bugs fixed:
+  * Crash when falling through trap
+* Others:
+  * Food appears randomly on dungeons
+
 ####**v0.0.16** (2014-07-04):
 * New features:
   * New mob: Dead dog
   * [0.0.16b] Hunger
+  * [0.0.16c] Food spawning in dungeons
 * Bugs Fixed:
   * Fixed attribute display showing wrong numbers
   * [0.0.16b] Fixed weapon bonuses not disappearing when equipping 2Hs

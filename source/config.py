@@ -29,9 +29,12 @@ class config:
   showkeys="k"
   showmap="m"
   console="/"
-  quick1="1"
-  quick2="2"
-  quick3="3"
+  quick1="q"
+  quick2="w"
+  quick3="f"
+  quick4="p"
+  quick5="g"
+  quick6="j"
   """ 
 
   def __init__(self):
@@ -54,6 +57,9 @@ class config:
     self.quick1="1"
     self.quick2="2"
     self.quick3="3"
+    self.quick4="p"
+    self.quick5="g"
+    self.quick6="j"
 
     #Checks if there is a config file. If it exists, loads the option variables from it
     if os.path.isfile("../player/config"):
@@ -80,6 +86,9 @@ class config:
             elif parA=="Quick slot 1":  self.quick1=    parB
             elif parA=="Quick slot 2":  self.quick2=    parB
             elif parA=="Quick slot 3":  self.quick3=    parB 
+            elif parA=="Quick slot 4":  self.quick1=    parB
+            elif parA=="Quick slot 5":  self.quick2=    parB
+            elif parA=="Quick slot 6":  self.quick3=    parB 
             elif parA=="Report":        self.report=    parB 
             elif parA=="Game over msg": self.gomsg=     parB     
             elif parA=="Autosave" and parB=="on":   self.autosave=1
@@ -195,8 +204,11 @@ class config:
               common.version()
               print "Options - Keyboard mapping 3/3"
               print "1.- Quick slot 3: %c"  %(self.quick3)
-              print "2.- Show map: %c"      %(self.showmap)
-              print "3.- Next floor: %c"    %(self.nextf)
+              print "2.- Quick slot 4: %c"  %(self.quick4)
+              print "3.- Quick slot 5: %c"  %(self.quick5)
+              print "4.- Quick slot 6: %c"  %(self.quick6)
+              print "5.- Show map: %c"      %(self.showmap)
+              print "6.- Next floor: %c"    %(self.nextf)
               print "---"
               print "9.- More keys"
               print "0.- Go back"
@@ -204,8 +216,11 @@ class config:
               keymenu3=common.getch()
 
               if keymenu3=="1": self.quick3=newkey("quick slot 3")
-              if keymenu3=="2": self.showmap=newkey("show map")
-              if keymenu3=="3": self.nextf=newkey("next floor")
+              if keymenu3=="2": self.quick3=newkey("quick slot 4")
+              if keymenu3=="3": self.quick3=newkey("quick slot 5")
+              if keymenu3=="4": self.quick3=newkey("quick slot 6")
+              if keymenu3=="5": self.showmap=newkey("show map")
+              if keymenu3=="6": self.nextf=newkey("next floor")
               if keymenu3=="0":
                 self.saveoptions()
                 break

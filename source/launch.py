@@ -88,6 +88,7 @@ def crawl(quick):
   wilmsg=""
   hungmsg=""
   hungsteps=0
+  quick=[cfg.quick1,cfg.quick2,cfg.quick3,cfg.quick4,cfg.quick5,cfg.quick6]
 
   hero,dung=copy.copy(newgame(quick))
 
@@ -151,7 +152,7 @@ def crawl(quick):
 
     #Action if player has reached a money loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="$":
-      monies=random.randrange(1,5)
+      monies=random.randrange(1,10)
       hero.pocket+=monies
       hero.totalgld+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."
@@ -161,6 +162,12 @@ def crawl(quick):
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
       loot=item.item(random.randrange(1,11))
       picked,pickmsg=hero.pickobject(loot)
+      if picked: dung.dungarray[hero.ypos][hero.xpos]="."
+
+    #Action if player has reached a food tile
+    if dung.dungarray[hero.ypos][hero.xpos]=="o":
+      loot=item.consumable(3,0)
+      picked,pickmsg=hero.pickconsumable(loot)
       if picked: dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Action if player stepped on a trap
@@ -209,9 +216,8 @@ def crawl(quick):
     print "FL %i Lv %i"%(fl,hero.lv),
     if hero.lv==1: print "(%i/5 xp)"%(hero.exp)
     if hero.lv>1:  print "%i/%i xp"%(hero.exp,3*hero.lv+(2*(hero.lv-1)))
-    print "(%c) %s"%(cfg.quick1,hero.belt[0].name)
-    print "(%c) %s"%(cfg.quick2,hero.belt[1].name)
-    print "(%c) %s"%(cfg.quick3,hero.belt[2].name)
+    for i in range(6):
+      print "(%c) %s" %(quick[i],hero.belt[i].name)
     print "\n%c: key mapping help"%(cfg.showkeys)
     print hungmsg+lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
     print "->",
@@ -244,9 +250,12 @@ def crawl(quick):
     elif (crawlmen==cfg.showkeys or action==61): help.keyhelp() 
 
     #Using belt items
-    if crawlmen==cfg.quick1: usemsg=hero.use(hero.belt[0])
-    if crawlmen==cfg.quick2: usemsg=hero.use(hero.belt[1])
-    if crawlmen==cfg.quick3: usemsg=hero.use(hero.belt[2])
+    if   crawlmen==cfg.quick1: usemsg=hero.use(hero.belt[0])
+    elif crawlmen==cfg.quick2: usemsg=hero.use(hero.belt[1])
+    elif crawlmen==cfg.quick3: usemsg=hero.use(hero.belt[2])
+    elif crawlmen==cfg.quick4: usemsg=hero.use(hero.belt[3])
+    elif crawlmen==cfg.quick5: usemsg=hero.use(hero.belt[4])
+    elif crawlmen==cfg.quick6: usemsg=hero.use(hero.belt[5])
 
     #Movement
     #Check if there are mobs. 

@@ -59,6 +59,10 @@ class consumable:
   chabst=0          #Charisma modifier
   strbst=0          #Strenght modifier
 
+  #Food propieties
+  hungrec=0         #Hunger recovery
+  chance=0          #Type of food (Good,risky,bad)
+
   #Attack propieties
   areatype=0        #Type of area affected
   areasize=0        #Size of the area
@@ -75,8 +79,7 @@ class consumable:
     """
 
     #Variable initialization
-    items0=[]
-    items1=[]
+    items0=items1=items2=items3=[]
 
     #Array loading
     try:
@@ -102,7 +105,12 @@ class consumable:
               items1.append(tempitem)
 
             if newtype==2: pass
-            if newtype==3: pass
+
+            #If the item is food, save array with [name,chance,price]
+            if newtype==3: 
+              tempitem=line.strip().split(':')
+              del tempitem[0]
+              items3.append(tempitem)
 
     except IOError:
       print "Could not load consumable data file"
@@ -132,6 +140,13 @@ class consumable:
       self.wilbst=int(data[6])
       self.chabst=int(data[7])
       self.price= int(data[8])
+
+    if newtype==3:
+      data=random.choice(items3)
+      self.name=    data[0]
+      self.hungrec= int(data[1])
+      self.chance=  int(data[2])
+      self.price=   int(data[3])
 
     #Generate empty object
     if newtype==4: self.name="--EMPTY--"
