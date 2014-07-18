@@ -17,10 +17,11 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
+</td><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
 </td><td width="25%" valign=top><a href="os.html">os</a><br>
 </td><td width="25%" valign=top><a href="random.html">random</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -77,7 +78,9 @@ hit=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Flags&nbsp;when&nbsp;the&nbsp;<a
 <td width="100%">Methods defined here:<br>
 <dl><dt><a name="mob-__init__"><strong>__init__</strong></a>(self, dungeon, level)</dt><dd><tt>Mob&nbsp;generator<br>
 &nbsp;<br>
-Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;and&nbsp;places&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;spot&nbsp;that&nbsp;is&nbsp;not&nbsp;filled&nbsp;with&nbsp;rock.</tt></dd></dl>
+Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;and&nbsp;places&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;spot&nbsp;that&nbsp;is&nbsp;not&nbsp;filled&nbsp;with&nbsp;rock.<br>
+&nbsp;<br>
+Needs&nbsp;the&nbsp;dungeon&nbsp;and&nbsp;the&nbsp;level.&nbsp;If&nbsp;the&nbsp;level&nbsp;is&nbsp;equal&nbsp;or&nbsp;less&nbsp;than&nbsp;0&nbsp;a&nbsp;random&nbsp;level&nbsp;is&nbsp;selected.</tt></dd></dl>
 
 <dl><dt><a name="mob-attack"><strong>attack</strong></a>(self, player, dung)</dt><dd><tt>Attacks&nbsp;the&nbsp;player&nbsp;object&nbsp;passed&nbsp;to&nbsp;the&nbsp;function</tt></dd></dl>
 

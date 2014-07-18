@@ -29,7 +29,6 @@ mob.py
 npc.py
 
 parser.py
-  Crash when testing or using parser
 
 player.py
   H?> Not loading hp2 and mp2 correctly

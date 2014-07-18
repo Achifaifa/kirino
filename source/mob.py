@@ -1,6 +1,6 @@
 #usr/bin/env python
 import os, random
-import dungeon
+import common, dungeon
 
 class mob:
   """
@@ -47,15 +47,22 @@ class mob:
     Mob generator
 
     Receives a dungeon object and places the mob in a random spot that is not filled with rock.
+
+    Needs the dungeon and the level. If the level is equal or less than 0 a random level is selected.
     """
 
     #Load list of mobs in the dictionary
     #Each dictionary contains the level as a key and an array of mobs at that level as value.
     mobs=[]
     with open("../data/mobs/_list","r") as moblist:
-      for line in moblist:
-        if not line.startswith("#"):
-          if line.partition(':')[0].strip()==str(level):
+      if level>0:
+        for line in moblist:
+          if not line.startswith("#"):
+            if line.partition(':')[0].strip()==str(level):
+              mobs.append(line.partition(':')[2].strip())
+      else:
+        for line in moblist:
+          if not line.startswith("#"):
             mobs.append(line.partition(':')[2].strip())
 
     path="../data/mobs/"+random.choice(mobs)
@@ -85,12 +92,13 @@ class mob:
     #Secondary attributes
     self.HP=((self.CON+self.STR)*4)+10
     self.MP=(self.INT+self.WIL)
+    if self.MP<0: self.MP=0
     self.END=((self.CON+self.STR+self.WIL)*3)+5
     self.SPD=(self.CON+self.DEX)*3
+    if self.SPD<1: self.SPD=1
 
     #Status variables
-    self.lock=0
-    self.hit=0
+    self.lock=self.hit=0
 
     #Select starting coordinates
     self.xpos=random.randrange(dungeon.xsize)
@@ -186,5 +194,5 @@ if __name__=="__main__":
   common.version()
   print "Mob module test"
   while 1:
-    new=mob(dun)
+    new=mob(dun,-1)
     print "%s lv%i (%ihp,%imp): %ixp, %ipr"%(new.name,new.lv,new.HP,new.MP,new.exp,new.pres)

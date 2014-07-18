@@ -4,9 +4,8 @@ Dungeon.py
   Complete debugger (Make sure the exit is reachable from the entrance)
 
 Item.py
-  Item tiers
+  Item tiers, Items needing a minimum level of dex or str
   Weighted random generator instead of if sentences (e.g. lines 115 to 136)
-  Items needing a minimum level of dex or str
 
 common.py
 
@@ -16,13 +15,11 @@ Launch.py
   food scarcely spawning in dungeons
 
 Mob.py:
-  Add random name generator from word files
+  Add random name generator from word files, with spec modifiers
 
 NPC.py:
-  npcs selling random food with potions
 
 Player.py
-  adapt use function to accept food consumable items
 
 Parser.py
   use nlp to control alternate actions

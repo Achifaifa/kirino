@@ -1,10 +1,10 @@
-#Kirino v0.0.17
-  
+#Kirino v0.0.18
+
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-This last updates have introduced a few new new features, but have focused mainly on rewriting part of the code, which means there are probably going to be bugs where there weren't before. Keep an eye open for those ;)
+I got a full time job for the summer, so the updates won't have much content until september, just minor additions and easy to implement features. This makes summer a very good time to test for bugs, since the code has already been restructured and the present bugs will be there for quite a long time. 
 
 ##How to use
 
@@ -17,6 +17,8 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 **Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them. Make sure you save your player folder and replace it when you download the next version.
 
 **Note on controls**: The default controls may not be totally logical for some players. If it's the first time you play, go to the options menu and make sure everything is left to your liking. 
+
+**Tip on linux systems: If you play this game a lot, save it in a fixed folder, open `~/bash_aliases` and add `alias kirino='python /path-to-folder/source/launch.py'`. Next time you want to play, just type `kirino` in your terminal.
 
 ##OS specific information
 
@@ -78,7 +80,18 @@ You may have some issues with the output formatting, but overall the game is pla
 
 ##Changelog
 
-####**v0.0.17** (2014-07-11)
+####**v0.0.18** (2014-07-18):
+* New features:
+* Bugs fixed:
+  * Crash in mob individual test
+  * Mobs having negative secondaries
+* Others:
+  * Potions appear (rarely) as drops
+  * NPCs sell food
+  * Mobs with a random level can be spawned
+  * Added food to item individual testing
+
+####**v0.0.17** (2014-07-11):
 * New features:
 * Bugs fixed:
   * Crash when falling through trap
@@ -89,7 +102,6 @@ You may have some issues with the output formatting, but overall the game is pla
 * New features:
   * New mob: Dead dog
   * [0.0.16b] Hunger
-  * [0.0.16c] Food spawning in dungeons
 * Bugs Fixed:
   * Fixed attribute display showing wrong numbers
   * [0.0.16b] Fixed weapon bonuses not disappearing when equipping 2Hs

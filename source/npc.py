@@ -116,7 +116,7 @@ class vendor:
     self.forsale=[]
     self.potforsale=[]
     for i in range(random.randrange(4,7)): self.forsale.append(item.item(random.randrange(1,11)))
-    for i in range(random.randrange(1,3)): self.potforsale.append(item.consumable(random.choice([0,0,0,1]),0))
+    for i in range(random.randrange(1,4)): self.potforsale.append(item.consumable(random.choice([0,0,3,1]),0))
 
   def commerce(self,player):
     while 1:
@@ -125,7 +125,7 @@ class vendor:
       print random.choice(vendordata["welcomemsg"])
       print "\n1.- Sell"
       print "2.- Buy items"
-      print "3.- Buy potions"
+      print "3.- Buy food and potions"
       print "4.- Chat"
       print "--"
       print "0.- Back"
@@ -410,7 +410,7 @@ if __name__=="__main__":
   print "NPC module test"
   while 1:
     new=npc(0,0,0)
-    print "Name: %s %s"%(new.name,new.secondname)
-    print "Personality: %s"%(new.personality)
-    print "Appearance: %s"%(new.appearance)
-    print "Works as: %s \n\n---\n\n"%(new.job)
+    print "Name: %s %s"               %(new.name,new.secondname)
+    print "Personality: %s"           %(new.personality)
+    print "Appearance: %s"            %(new.appearance)
+    print "Works as: %s \n\n---\n\n"  %(new.job)

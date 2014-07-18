@@ -485,6 +485,7 @@ if __name__=="__main__":
       if new.name!=" ": print "ITEM   --%s [+%i/%i] (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.atk,new.defn,new.strbonus,new.intbonus,new.dexbonus,new.perbonus,new.conbonus,new.wilbonus,new.chabonus,new.price)
   if var=="2":
     while 1:
-      new=consumable(random.choice([0,1]),0)
-      if new.type==0: print "POTION --%s (%i HP, %i MP), %iG"%(new.name,new.hpr,new.mpr,new.price)
-      if new.type==1: print "TOME   --%s (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.strbst,new.intbst,new.dexbst,new.perbst,new.conbst,new.wilbst,new.chabst,new.price)
+      new=consumable(random.choice([0,1,3]),0)
+      if new.type==0: print "POTION --%s (%i HP, %i MP), %iG"                                                   %(new.name,new.hpr,new.mpr,new.price)
+      if new.type==1: print "TOME   --%s (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"  %(new.name,new.strbst,new.intbst,new.dexbst,new.perbst,new.conbst,new.wilbst,new.chabst,new.price)
+      if new.type==3: print "FOOD   --%s (%i hunger recovery, disease %i), %iG"                                 %(new.name,new.hungrec,new.chance,new.price)
