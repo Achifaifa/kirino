@@ -1,31 +1,50 @@
-#Kirino v0.0.18
+#Kirino v0.0.18b
 
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-I got a full time job for the summer, so the updates won't have much content until september, just minor additions and easy to implement features. This makes summer a very good time to test for bugs, since the code has already been restructured and the present bugs will be there for quite a long time. 
+The next version, v0.1.0 will be presented to the open game compo at Euskal Encounter 22. Development will continue at a slower pace; but new features, mobs and other things will be added while fixing bugs and rewriting parts of the code. Needless to say, suggestions and bug reports are still welcome.
+
+**Note**: I got a full time job for the summer and I'll start a new project in September, so most of the future updates won't have much content. just minor additions and easy to implement features. This makes summer a very good time to test for bugs, since the code has already been restructured and the present bugs will be there for quite a long time. 
 
 ##How to use
 
-run launch.py
-
-Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu.
+run launch.py with python. Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu.
 
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
 
-**Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted. After downloading or cloning the repo, it's safe (And recommended) to delete them. Make sure you save your player folder and replace it when you download the next version.
+**Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted and contain my personal player data. After downloading or cloning the repo, it's safe (And recommended) to delete that folder. Make sure you save your player folder and replace it when you download the next version.
 
-**Note on controls**: The default controls may not be totally logical for some players. If it's the first time you play, go to the options menu and make sure everything is left to your liking. 
+**Note on controls**: The default controls may not be totally logical for some players since I'm not using a qwerty layout. If it's the first time you play, go to the options menu and make sure everything is left to your liking. 
 
-**Tip on linux systems: If you play this game a lot, save it in a fixed folder, open `~/bash_aliases` and add `alias kirino='python /path-to-folder/source/launch.py'`. Next time you want to play, just type `kirino` in your terminal.
+**Tip on linux systems**: If you play this game a lot, save it in a fixed folder, open `~/bash_aliases` and add `alias kirino='python /path-to-folder/source/launch.py'`. Next time you want to play, just type `kirino` in your terminal.
 
 ##OS specific information
 
-* Debian/Ubuntu: Works as is, just type `python launch.py` in the terminal.
+* Debian/Ubuntu: Works as is, just type `python /path/launch.py` in the terminal.
+* OpenBSD: Works with python 2.7 installed
 * Other linux distributions: Should work as long as python is installed (Untested).
 * Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like [MobaXterm](http://mobaxterm.mobatek.net/) with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first.  
-You may have some issues with the output formatting, but overall the game is playable.
+You may have some issues with the output formatting, but overall the game is playable. If you can't get any emulator working, I recommend using a Debian virtual machine.
+* OSX: It's essentially a very expensive FreeBSD, so it should work. Maybe. I don't really care. (Untested)
+
+##Testers
+
+@NesuMikuni [v0.0.8]
+@Seldan     [Since v0.0.2]
+Txapel      [Since v0.0.16]
+Valnar      [v0.0.1]
+
+#Aknowledgements and Thanks
+
+@disassemblyline
+@jdiezlopez
+joeyespo (GH: getch code)
+@klon     
+@marcan42
+@s7age
+stevenbird (GH: nltk source)
 
 ##List of files/folders:
 
@@ -38,6 +57,7 @@ You may have some issues with the output formatting, but overall the game is pla
   * misc:               Other files
     * `credits`:          Credit text for the scroller
   * mobs:               Mob files
+    * `_list`:            List of mob files with their level
   * npcs:               NPC data
     * `appearance`        Visual adjectives
     * `firstnames_female` Female names
@@ -79,6 +99,11 @@ You may have some issues with the output formatting, but overall the game is pla
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.1.0## (2014-07-25):
+* New features:
+* Bugs fixed:
+* Others:
 
 ####**v0.0.18** (2014-07-18):
 * New features:

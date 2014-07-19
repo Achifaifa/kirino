@@ -125,7 +125,7 @@ class vendor:
       print random.choice(vendordata["welcomemsg"])
       print "\n1.- Sell"
       print "2.- Buy items"
-      print "3.- Buy food and potions"
+      print "3.- Buy food/potions"
       print "4.- Chat"
       print "--"
       print "0.- Back"
