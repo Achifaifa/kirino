@@ -114,7 +114,7 @@ class player:
     self.inventory=[]
     for i in range(6):  self.belt.append(item.consumable(4,0))
     for i in range(11): self.equiparr.append(item.item(0))
-    for i in range(2):  self.inventory.append(item.item(random.randint(1,11)))
+    for i in range(2):  self.inventory.append(item.item(random.randint(1,12)))
 
     #Set attributes to 1, set secondary attributes
     self.STR=self.INT=self.CON=self.WIL=self.PER=self.DEX=self.CHA=1
@@ -238,21 +238,15 @@ class player:
     Returns an interger if it has been picked (0:no, 1:yes) and a message.
     """
     
-    if object.type in [0,1,2]:
+    if object.type in [1,2]:
       pass
 
-    elif object.type in [3]:
-      if   self.belt[3].type==4:
-        self.belt[3]=copy.copy(object)
-        return 1,"You picked "+object.name+"."
-      elif self.belt[4].type==4:
-        self.belt[4]=copy.copy(object)
-        return 1,"You picked "+object.name+"."
-      elif self.belt[4].type==4:
-        self.belt[5]=copy.copy(object)
-        return 1,"You picked "+object.name+"."
-      else: 
-        return 0,"Your inventory is full!"
+    if object.type in [0,3]:
+      for i in range(len(self.belt)):
+        if self.belt[i].type==4:
+          self.belt[i]=copy.copy(object)
+          return 1,"You picked "+object.name+"."
+      return 0,"Your belt is full"
 
   def getatr(self):
     """
@@ -662,7 +656,7 @@ class player:
       hppool=int(item.hpr)
       mppool=int(item.mpr)
       mpres=hpres=0
-      nam=item.names
+      name=item.name
       self.stomach+=10
 
       #restore HP
@@ -721,7 +715,7 @@ class player:
       else:
         self.stomach+=item.hungrec
       if item.chance==1:
-        if random.choice[0,0,0,1]: self.hp2-=5
+        if random.choice([0,0,0,1]): self.hp2-=5
         return "You filled your stomach with food in bad condition. \nLost 5HP"
       if item.chance==2:
         self.hp2-=7

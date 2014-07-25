@@ -50,7 +50,33 @@ def menu():
   #Main menu
   while 1:
     common.version()
-    print "Main menu\n"
+    print "         Main menu\n"
+    print "                     ..M:?7M            "  
+    print "                    ..N+?IM             "
+    print "       ......       ..M??Z..        ... "
+    print "      ..=,?8.       ..D?IN.        .N~I,"
+    print "      ..~,??M          ZM..      ..M?IM."
+    print "      . .=,?O .      . ....      ..~O+.."
+    print "         ..++$     ..?MMMMMMMMMM~  ,    "
+    print "         ..... .7MMMMMMZ~,,,,,:OMM.     "
+    print "          ..+MMMM,::=???????????+M8..   "
+    print ".         MMMI,:~????????????????NM,.   "
+    print "M$M...  .MD,,,????????????????????MM.   "
+    print ",??IM.  MM:,:?????????????????????DM~.  "
+    print "  .     MM,,??????INMMMNMMM$??????ZMM   "
+    print "        MM,:????I7MD  . . .MM?????IOM   "
+    print "        ?M,:????IM.. 8MMMM,.M??????ZMM  "
+    print "         M+,????M?. MMMM=.,OM$?????ZMM  "
+    print "         MM,????M:..: ... ..M??????ZDM.."
+    print "         8M:????$M...     :M$?????7ZZM. "
+    print "        . MM~????IMM, . NMM??????7ZZZM.."
+    print "         .MM:??????+8MMN????????ZZZZMM ."
+    print "          .MM~???????????????ZZZZ8MMM   "
+    print "            MM????????????ZZZZNMMM=..   "
+    print "           .,MZ???????ZZZMMMMMD..       "
+    print "             $MMMMMMMMMMMM~...          "
+    print "             ..~MM$,...                 "
+    print ""
     print "%i.- Play"%(1)
     print "%s.- Quick play"%(2)
     print "%s.- Options"%(3)
@@ -73,7 +99,7 @@ def menu():
         os.system('clear')
         exit()
 
-def crawl(quick):
+def crawl(quickvar):
   """
   Main crawling function. Displays the map, keys and different statistics.
   """
@@ -90,7 +116,7 @@ def crawl(quick):
   hungsteps=0
   quick=[cfg.quick1,cfg.quick2,cfg.quick3,cfg.quick4,cfg.quick5,cfg.quick6]
 
-  hero,dung=copy.copy(newgame(quick))
+  hero,dung=copy.copy(newgame(quickvar))
 
   #If there is no fog, load the map
   if not cfg.fog:
@@ -160,13 +186,14 @@ def crawl(quick):
 
     #Action if player has reached a gear loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
-      loot=item.item(random.randrange(1,11))
+      loot=item.item(random.randrange(1,12))
       picked,pickmsg=hero.pickobject(loot)
       if picked: dung.dungarray[hero.ypos][hero.xpos]="."
 
     #Action if player has reached a food tile
     if dung.dungarray[hero.ypos][hero.xpos]=="o":
-      loot=item.consumable(3,0)
+      if random.choice([0,0,0,1]): loot=item.consumable(3,0)
+      else: loot=item.consumable(0,0)
       picked,pickmsg=hero.pickconsumable(loot)
       if picked: dung.dungarray[hero.ypos][hero.xpos]="."
 
@@ -385,7 +412,7 @@ def newgame(quick):
     hero.enter(dung,0)
 
   #If not, go through the usual process
-  else:
+  elif not quick:
     while 1:
       purge()
       try:

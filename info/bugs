@@ -13,23 +13,17 @@ common.py
   L?> Space being randomly printed before the title and version 
 
 config.py
-
 dungeon.py
   L!> Generator is predictable
 
 help.py
-
 item.py
-
 launch.py 
   H?> Player generates trails under certain conditions (Mostly after killing a mob)
 
 mob.py
-
 npc.py
-
 parser.py
-
 player.py
   H?> Not loading hp2 and mp2 correctly
 

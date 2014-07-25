@@ -1,10 +1,10 @@
-#Kirino v0.0.18b
+#Kirino v0.1.0
 
 Basic console based dungeon crawler. 
 
 ##Release notes
 
-The next version, v0.1.0 will be presented to the open game compo at Euskal Encounter 22. Development will continue at a slower pace; but new features, mobs and other things will be added while fixing bugs and rewriting parts of the code. Needless to say, suggestions and bug reports are still welcome.
+First final release! v0.1.0 will be presented to the open game compo at Euskal Encounter 22. Development will continue at a slower pace; but new features, mobs and other things will be added while fixing bugs and rewriting parts of the code. Needless to say, suggestions and bug reports are still welcome.
 
 **Note**: I got a full time job for the summer and I'll start a new project in September, so most of the future updates won't have much content. just minor additions and easy to implement features. This makes summer a very good time to test for bugs, since the code has already been restructured and the present bugs will be there for quite a long time. 
 
@@ -31,20 +31,20 @@ You may have some issues with the output formatting, but overall the game is pla
 
 ##Testers
 
-@NesuMikuni [v0.0.8]
-@Seldan     [Since v0.0.2]
-Txapel      [Since v0.0.16]
-Valnar      [v0.0.1]
+@NesuMikuni [v0.0.8]  
+@Seldan     [Since v0.0.2]  
+Txapel      [Since v0.0.16]  
+Valnar      [v0.0.1]  
 
-#Aknowledgements and Thanks
+##Aknowledgements and Thanks
 
-@disassemblyline
-@jdiezlopez
-joeyespo (GH: getch code)
-@klon     
-@marcan42
-@s7age
-stevenbird (GH: nltk source)
+@disassemblyline  
+@jdiezlopez  
+joeyespo (GH: getch code)  
+@klon  
+@marcan42  
+@s7age  
+stevenbird (GH: nltk source)  
 
 ##List of files/folders:
 
@@ -100,10 +100,16 @@ stevenbird (GH: nltk source)
 
 ##Changelog
 
-####**v0.1.0## (2014-07-25):
+####**v0.1.0** (2014-07-25):
 * New features:
+  * Potions now spawn on dungeons
 * Bugs fixed:
+  * Fixed crash when using items
+  * Fixed crash when picking items up
+  * Fixed game starting only on quick mode
+  * Fixed footwear not generating
 * Others:
+  * Balanced armour
 
 ####**v0.0.18** (2014-07-18):
 * New features:

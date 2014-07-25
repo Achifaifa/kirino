@@ -115,7 +115,7 @@ class vendor:
     self.keeper=npc(0,0,0)
     self.forsale=[]
     self.potforsale=[]
-    for i in range(random.randrange(4,7)): self.forsale.append(item.item(random.randrange(1,11)))
+    for i in range(random.randrange(4,7)): self.forsale.append(item.item(random.randrange(1,12)))
     for i in range(random.randrange(1,4)): self.potforsale.append(item.consumable(random.choice([0,0,3,1]),0))
 
   def commerce(self,player):

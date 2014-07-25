@@ -8,19 +8,13 @@ Item.py
   Weighted random generator instead of if sentences (e.g. lines 115 to 136)
 
 common.py
-
 help.py
-
 Launch.py
-  food scarcely spawning in dungeons
-
 Mob.py:
   Add random name generator from word files, with spec modifiers
 
 NPC.py:
-
 Player.py
-
 Parser.py
   use nlp to control alternate actions
 
