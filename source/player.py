@@ -781,17 +781,17 @@ class player:
       print "%s - Character sheet"%(self.name)
 
       #Print equipped items
-      print "\nEquipped\n"
+      print "\nEquipped"
       parts=["Head","Face","Neck","Back","Chest","L hand","R hand","Ring","Belt","Legs","Feet"]
       for i,it in enumerate(parts): print "%02i [+%i/+%i] %s:  %s %s" %(i+1,self.equiparr[i].atk,self.equiparr[i].defn,it,self.equiparr[i].name,self.calcbonus(self.equiparr[i]))
-      print "\n[+%i/+%i]"                 %(self.totatk,self.totdefn)
+      print "   [+%i/+%i] Total"                 %(self.totatk,self.totdefn)
 
       #Print everything in the inventory array
-      print "\nInventory (%i G)\n" %(self.pocket)
+      print "\nInventory (%i G)" %(self.pocket)
       for i in range(len(self.inventory)): print "0%i [+%i/+%i] %s (%iG)[%i]" %(i+1,self.inventory[i].atk,self.inventory[i].defn,self.inventory[i].name,self.inventory[i].price,self.inventory[i].type)
 
       #Print the belt items
-      print "\nBelt\n"
+      print "\nBelt"
       parts=["B1","B2","B3"]
       for i in range(3): print "%s - %s"%(parts[i],self.belt[i].name)
 

@@ -1,4 +1,4 @@
-#Kirino v0.1.0
+#Kirino v0.1.1
 
 Basic console based dungeon crawler. 
 
@@ -110,6 +110,7 @@ stevenbird (GH: nltk source)
   * Fixed footwear not generating
 * Others:
   * Balanced armour
+  * [0.1.1] Corrected layout
 
 ####**v0.0.18** (2014-07-18):
 * New features:
