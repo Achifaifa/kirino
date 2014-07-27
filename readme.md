@@ -4,7 +4,9 @@ Basic console based dungeon crawler.
 
 ##Release notes
 
-First final release! v0.1.0 will be presented to the open game compo at Euskal Encounter 22. Development will continue at a slower pace; but new features, mobs and other things will be added while fixing bugs and rewriting parts of the code. Needless to say, suggestions and bug reports are still welcome.
+Kirino v0.1.1 was presented at the open game compo at Euskal Encounter 22 and, surprisingly, ended up in the third place. I am very satisfied with myself and very glad someone in the jury understood all the work behind this heap of crap. Thanks to all the testers and people who helped!!
+
+Development will continue at a slower pace; but new features, mobs and other things will be added while fixing bugs and rewriting parts of the code. Needless to say, suggestions and bug reports are still welcome.
 
 **Note**: I got a full time job for the summer and I'll start a new project in September, so most of the future updates won't have much content. just minor additions and easy to implement features. This makes summer a very good time to test for bugs, since the code has already been restructured and the present bugs will be there for quite a long time. 
 
@@ -43,6 +45,7 @@ Valnar      [v0.0.1]
 joeyespo (GH: getch code)  
 @klon  
 @marcan42  
+@Ninji_Folf (Helped a lot with the server) 
 @s7age  
 stevenbird (GH: nltk source)  
 
