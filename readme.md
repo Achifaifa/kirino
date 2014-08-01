@@ -1,4 +1,4 @@
-#Kirino v0.1.1
+#Kirino v0.1.1b
 
 Basic console based dungeon crawler. 
 
@@ -114,6 +114,7 @@ stevenbird (GH: nltk source)
 * Others:
   * Balanced armour
   * [0.1.1] Corrected layout
+  * [0.1.1b] Removed some files
 
 ####**v0.0.18** (2014-07-18):
 * New features:
