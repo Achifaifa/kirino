@@ -50,41 +50,15 @@ def menu():
   #Main menu
   while 1:
     common.version()
-    print "         Main menu\n"
-    print "                     ..M:?7M            "  
-    print "                    ..N+?IM             "
-    print "       ......       ..M??Z..        ... "
-    print "      ..=,?8.       ..D?IN.        .N~I,"
-    print "      ..~,??M          ZM..      ..M?IM."
-    print "      . .=,?O .      . ....      ..~O+.."
-    print "         ..++$     ..?MMMMMMMMMM~  ,    "
-    print "         ..... .7MMMMMMZ~,,,,,:OMM.     "
-    print "          ..+MMMM,::=???????????+M8..   "
-    print ".         MMMI,:~????????????????NM,.   "
-    print "M$M...  .MD,,,????????????????????MM.   "
-    print ",??IM.  MM:,:?????????????????????DM~.  "
-    print "  .     MM,,??????INMMMNMMM$??????ZMM   "
-    print "        MM,:????I7MD  . . .MM?????IOM   "
-    print "        ?M,:????IM.. 8MMMM,.M??????ZMM  "
-    print "         M+,????M?. MMMM=.,OM$?????ZMM  "
-    print "         MM,????M:..: ... ..M??????ZDM.."
-    print "         8M:????$M...     :M$?????7ZZM. "
-    print "        . MM~????IMM, . NMM??????7ZZZM.."
-    print "         .MM:??????+8MMN????????ZZZZMM ."
-    print "          .MM~???????????????ZZZZ8MMM   "
-    print "            MM????????????ZZZZNMMM=..   "
-    print "           .,MZ???????ZZZMMMMMD..       "
-    print "             $MMMMMMMMMMMM~...          "
-    print "             ..~MM$,...                 "
-    print ""
-    print "%i.- Play"%(1)
-    print "%s.- Quick play"%(2)
-    print "%s.- Options"%(3)
-    print "%s.- Credits"%(4)
-    print "%s.- Test utilities"%(5)
+    print "Main menu\n"
+    print "%i.- Play"           %(1)
+    print "%s.- Quick play"     %(2)
+    print "%s.- Options"        %(3)
+    print "%s.- Credits"        %(4)
+    print "%s.- Test utilities" %(5)
     print "--"
-    print "%s.- Help"%(9)
-    print "%s.- Exit"%(0)
+    print "%s.- Help"           %(9)
+    print "%s.- Exit"           %(0)
     print "->",
     menu=common.getch()
     if menu=="1": crawl(0)

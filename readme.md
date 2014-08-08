@@ -1,4 +1,4 @@
-#Kirino v0.1.1b
+#Kirino v0.1.2
 
 Basic console based dungeon crawler. 
 
@@ -102,6 +102,23 @@ stevenbird (GH: nltk source)
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.1.2** (2014-08-08):
+* New features:
+  * Removed the 110 stomach limit
+  * Added more food types
+* Bugs fixed:
+  * Fixed crash when eating inocuous food
+* Others:
+  * Removed schedule file
+  * Removed logo in main menu
+
+####**v0.1.1** (2014-08-01):
+* New features:
+* Bugs fixed:
+* Others:
+  * Removed spanish help file
+  * Corrected some code
 
 ####**v0.1.0** (2014-07-25):
 * New features:

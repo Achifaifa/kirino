@@ -709,17 +709,21 @@ class player:
       return msg
 
     if item.type==3:
-      if self.stomach+item.hungrec>=110:
+      if self.stomach+item.hungrec>=100:
         self.stomach-=10
-        return "Your can't eat anymore. \nYou feel like throwing up."
+        item.reset()
+        return "Your can't eat anymore. \nYou throw everything up."
       else:
         self.stomach+=item.hungrec
-      if item.chance==1:
-        if random.choice([0,0,0,1]): self.hp2-=5
-        return "You filled your stomach with food in bad condition. \nLost 5HP"
-      if item.chance==2:
-        self.hp2-=7
-        return "That was clearly not edible. \nLost 7HP"
+        if item.chance==1:
+          if random.choice([0,0,0,1]): self.hp2-=5
+          item.reset()
+          return "You filled your stomach with food in bad condition. \nLost 5HP"
+        if item.chance==2:
+          self.hp2-=5
+          item.reset()
+          return "That was clearly not edible. \nLost 5HP"
+        else: return "Om nom nom nom"
 
     if item.type==4:
       return ""

@@ -40,11 +40,15 @@
 3:Hard bread:20:0:7
 3:Bread:50:0:10
 3:Apple:25:0:10
+3:Moldy apple:20:1:5
 3:Suspicious sandwich:20:1:20
 3:Sandwich:20:0:30
 3:Wine:10:1:50
 3:Chocolate:15:0:100
+3:Moldy chocolate:10:1:30
 3:Golden Apple:0:2:500
+3:Moldy golden apple:0:2:250
+3:Moldy mold:0:2:1
 #
 # Attack:
 #   2:name:area type:size:damage:damage per turn
