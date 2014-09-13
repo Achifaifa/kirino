@@ -103,6 +103,14 @@ stevenbird (GH: nltk source)
 
 ##Changelog
 
+####**v0.1.3** (2014-09-13):
+* New features:
+* Bugs Fixed:
+  * Fixed crash while launching
+* Others:
+  * Fixed non-critical syntax issues
+
+
 ####**v0.1.2** (2014-08-08):
 * New features:
   * Removed the 110 stomach limit

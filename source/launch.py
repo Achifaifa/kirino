@@ -1,4 +1,4 @@
-#!/usr/bin/env pyton
+#! /usr/bin/env python
 """
 Main procedure file.
 

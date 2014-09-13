@@ -1,4 +1,4 @@
-#!/usr/bin/env pyton
+#! /usr/bin/env pyton
 
 import copy, os, random
 import item

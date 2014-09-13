@@ -1,4 +1,4 @@
-#usr/bin/env python 
+#! /usr/bin/env python 
 """
 Help function. Contains help menus and text for the functions in the game.
 """

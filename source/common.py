@@ -1,4 +1,4 @@
-#usr/bin/env python 
+#! /usr/bin/env python 
 """
 Common procedure file. Contains all the code used by most of the other modules.
 """
@@ -9,7 +9,7 @@ def vern():
   Returns a string with the version number
   """
 
-  return "v0.1.2" 
+  return "v0.1.3" 
 
 def version():
   """

@@ -1,4 +1,4 @@
-#usr/bin/env python 
+#! usr/bin/env python 
 import copy, os, random, sys
 import common, copy, dungeon, item
 
