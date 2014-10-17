@@ -125,11 +125,15 @@ def crawl(quickvar):
     if cfg.fog: dung.remember(hero)
 
     #Move all the mobs, delete dead mobs from array
+    #Sometimes it causes a mob to 'resurrect' somewhere else in the dungeon
+    #hack, critical, important, dangerous
+    #If you found this looking for security flaws I'm sorry, but now that you're here you could help me fix this.
     for i in dung.mobarray:
       try:
         if i.HP<=0: del dung.mobarray[dung.mobarray.index(i)]
         else: i.search(dung,hero)
       except: pass
+    #Thank you <3
 
     #Level the player up
     hero.levelup()
@@ -156,7 +160,7 @@ def crawl(quickvar):
       hero.pocket+=monies
       hero.totalgld+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."
-      lootmsg=("\nYou find "+str(monies)+" gold\n")
+      lootmsg=("\nYou find %i gold\n"%monies)
 
     #Action if player has reached a gear loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="/":
@@ -604,7 +608,7 @@ def scroll(lines):
   credstr=[]
 
   with open ("../data/misc/credits","r") as credits:
-    for line in credits:credstr.append(line.strip())
+    for line in credits:credstr.append(line.rstrip())
 
   while 1:
     os.system('clear')

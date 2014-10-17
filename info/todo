@@ -16,7 +16,6 @@ Mob.py:
 NPC.py:
 Player.py
 Parser.py
-  use nlp to control alternate actions
 
 ---
 

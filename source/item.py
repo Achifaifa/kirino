@@ -239,17 +239,20 @@ class item:
     else: pass
 
     #Open file containing the defined type weapons
-    with open (path,"r") as invfile:
-      inventory=[]
-      atkbarr=[]
-      defbarr=[]
-      pricearr=[]
-      for line in invfile:
-        if not line.startswith("#"):
-          inventory.append(line.strip().partition(':')[0].strip())
-          atkbarr.append(line.strip().partition(':')[2].partition(':')[0].strip())
-          defbarr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0].strip())
-          pricearr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].strip())
+    try:
+      with open (path,"r") as invfile:
+        inventory=[]
+        atkbarr=[]
+        defbarr=[]
+        pricearr=[]
+        for line in invfile:
+          if not line.startswith("#"):
+            inventory.append(line.strip().partition(':')[0].strip())
+            atkbarr.append(line.strip().partition(':')[2].partition(':')[0].strip())
+            defbarr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0].strip())
+            pricearr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].strip())
+    except IOError:
+      pass
 
     #Assign the attributes from a random item in the chosen file
     randitem=random.randrange(len(inventory))

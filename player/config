@@ -1,28 +1,31 @@
 # 
 # Keyboard options 
 # 
-North:8
-South:2
-East:6
-West:4
-Northeast:9
-Northwest:7
-Southeast:3
-Southwest:1
+North:x
+South:c
+East:v
+West:z
+Northeast:
+Northwest:
+Southeast:
+Southwest:
 Input mode:/
-Sheet:z
-Options:o
+Sheet:q
+Options:y
 Quit:;
-Report:c
+Report:u
 Next floor:b
 Show keys:k
 Show map:m
-Quick slot 1:q
-Quick slot 2:w
-Quick slot 3:f
+Quick slot 1:t
+Quick slot 2:d
+Quick slot 3:h
+Quick slot 4:t
+Quick slot 5:d
+Quick slot 6:h
 # 
 # Game options 
 # 
-Game over msg:Thanks Obama
+Game over msg:Game Over
 Autosave:off 
 Fog:off

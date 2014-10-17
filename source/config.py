@@ -13,28 +13,28 @@ class config:
   gomsg="Game Over"
 
   #Key mapping variables
-  north="n"
-  south="s"
-  east="e"
-  west="w"
+  north="x"
+  south="c"
+  east="v"
+  west="z"
   northeast=""
   northwest=""
   southeast=""
   southwest=""
-  charsh="c"
+  charsh="q"
   opt="o"
-  quit="q"
-  report="z"
+  quit=";"
+  report="y"
   nextf="b"
   showkeys="k"
   showmap="m"
   console="/"
-  quick1="q"
-  quick2="w"
-  quick3="f"
-  quick4="p"
-  quick5="g"
-  quick6="j"
+  quick1="a"
+  quick2="r"
+  quick3="s"
+  quick4="t"
+  quick5="d"
+  quick6="b"
   """ 
 
   def __init__(self):
@@ -45,21 +45,21 @@ class config:
 
     #Key mapping variables, initializing at default
     self.northeast=self.northwest=self.southeast=self.southwest=""
-    self.north,self.south,self.east,self.west="n","s","e","w"
-    self.charsh="c"
-    self.opt="o"
-    self.quit="q"
-    self.report="z"
+    self.north,self.south,self.east,self.west="x","c","v","z"
+    self.charsh="q"
+    self.opt="y"
+    self.quit=";"
+    self.report="u"
     self.nextf="b"
     self.showkeys="k"
     self.showmap="m"
     self.console="/"
-    self.quick1="1"
-    self.quick2="2"
-    self.quick3="3"
-    self.quick4="p"
-    self.quick5="g"
-    self.quick6="j"
+    self.quick1="a"
+    self.quick2="r"
+    self.quick3="s"
+    self.quick4="t"
+    self.quick5="d"
+    self.quick6="h"
 
     #Checks if there is a config file. If it exists, loads the option variables from it
     if os.path.isfile("../player/config"):
@@ -258,7 +258,10 @@ class config:
       configfile.write("Show map:"+self.showmap+"\n")
       configfile.write("Quick slot 1:"+self.quick1+"\n")
       configfile.write("Quick slot 2:"+self.quick2+"\n")
-      configfile.write("Quick slot 3:"+self.quick3+"\n")    
+      configfile.write("Quick slot 3:"+self.quick3+"\n")  
+      configfile.write("Quick slot 4:"+self.quick4+"\n")
+      configfile.write("Quick slot 5:"+self.quick5+"\n")
+      configfile.write("Quick slot 6:"+self.quick6+"\n")    
       configfile.write("# \n# Game options \n# \n")
       configfile.write("Game over msg:"+self.gomsg+"\n")
       if self.autosave==1: configfile.write("Autosave:on \n")

@@ -2,6 +2,7 @@
 """
 Common procedure file. Contains all the code used by most of the other modules.
 """
+
 import os, sys, tty, termios
 
 def vern():
@@ -9,7 +10,7 @@ def vern():
   Returns a string with the version number
   """
 
-  return "v0.1.3" 
+  return "v0.1.4" 
 
 def version():
   """
