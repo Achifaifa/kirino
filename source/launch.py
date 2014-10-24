@@ -111,7 +111,7 @@ def crawl(quickvar):
         hungmsg="Your stomach growls...\n"
 
     #Act if hungry
-    if hero.stomach==0:
+    if not hero.stomach:
       hero.hp2-=1
       hungmsg="You feel hungry and weak\n"
 
@@ -156,7 +156,7 @@ def crawl(quickvar):
 
     #Action if player has reached a money loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="$":
-      monies=random.randrange(1,10)
+      monies=random.randrange(1,player.lv*5)
       hero.pocket+=monies
       hero.totalgld+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."

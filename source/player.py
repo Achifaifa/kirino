@@ -114,7 +114,7 @@ class player:
     self.inventory=[]
     for i in range(6):  self.belt.append(item.consumable(4,0))
     for i in range(11): self.equiparr.append(item.item(0))
-    for i in range(2):  self.inventory.append(item.item(random.randint(1,12)))
+    for i in range(2):  self.inventory.append(item.item(random.randint(1,11)))
 
     #Set attributes to 1, set secondary attributes
     self.STR=self.INT=self.CON=self.WIL=self.PER=self.DEX=self.CHA=1
@@ -640,7 +640,7 @@ class player:
     """
 
     if self.hp2<=5:
-      roll=random.randint(1,21)+self.WIL+self.wilboost
+      roll=random.randint(1,20)+self.WIL+self.wilboost
       if self.hp2>0:
         if roll<20/self.hp2: return 0,"Your body refuses to move"
     return 1,""

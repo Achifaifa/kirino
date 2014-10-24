@@ -63,13 +63,7 @@ class npc:
     if total<1: total=16
     if gender not in [0,1]: gender=random.choice([0,1])
 
-    self.STR=1 
-    self.DEX=1 
-    self.CON=1 
-    self.INT=1 
-    self.PER=1 
-    self.WIL=1 
-    self.CHA=1 
+    self.STR=self.DEX=self.CON=self.INT=self.PER=self.WIL=self.CHA=1 
     self.rel=0
     
     for i in range(total-6):
@@ -167,31 +161,23 @@ class vendor:
             if player.pocket>=round(self.pricecalc(player)*self.potforsale[int(buypotmenu)-1].price):
               if player.belt[0].name=="--EMPTY--":
                 player.belt[0]=copy.copy(self.potforsale[int(buypotmenu)-1])
-                player.pocket-=self.potforsale[int(buypotmenu)-1].price
-                player.totalspn+=self.potforsale[int(buypotmenu)-1].price
-                del self.potforsale[int(buypotmenu)-1]
-                self.keeper.rel+=1
-                print random.choice(vendordata["okmsg"])
-                player.totalbuy+=1
-                common.getch()
               elif player.belt[1].name=="--EMPTY--":
                 player.belt[1]=copy.copy(self.potforsale[int(buypotmenu)-1])
-                player.pocket-=self.potforsale[int(buypotmenu)-1].price
-                player.totalspn+=self.potforsale[int(buypotmenu)-1].price
-                del self.potforsale[int(buypotmenu)-1]
-                self.keeper.rel+=1
-                print random.choice(vendordata["okmsg"])
-                player.totalbuy+=1
-                common.getch()
               elif player.belt[2].name=="--EMPTY--":
                 player.belt[2]=copy.copy(self.potforsale[int(buypotmenu)-1])
-                player.pocket-=self.potforsale[int(buypotmenu)-1].price
-                player.totalspn+=self.potforsale[int(buypotmenu)-1].price
-                del self.potforsale[int(buypotmenu)-1]
-                self.keeper.rel+=1
-                print random.choice(vendordata["okmsg"])
-                player.totalbuy+=1
-                common.getch()
+              elif player.belt[3].name=="--EMPTY--":
+                player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+              elif player.belt[3].name=="--EMPTY--":
+                player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+              elif player.belt[3].name=="--EMPTY--":
+                player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+              player.pocket-=self.potforsale[int(buypotmenu)-1].price
+              player.totalspn+=self.potforsale[int(buypotmenu)-1].price
+              del self.potforsale[int(buypotmenu)-1]
+              self.keeper.rel+=1
+              print random.choice(vendordata["okmsg"])
+              player.totalbuy+=1
+              common.getch()
 
             else:
               print random.choice(vendordata["failmsg"])
@@ -414,3 +400,4 @@ if __name__=="__main__":
     print "Personality: %s"           %(new.personality)
     print "Appearance: %s"            %(new.appearance)
     print "Works as: %s \n\n---\n\n"  %(new.job)
+    common.getch()

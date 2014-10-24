@@ -85,44 +85,28 @@ def parse(words,player,dungeon,config):
       if 2<insistor[keyw[0]]<=5:
         return 0,"Still trying to do that? \n"
       if insistor[keyw[0]]>5:
-        return 0,"Can't you stop talking about this "+keyw[0]+" thing? \n"
+        return 0,"Can't you stop talking about this %s thing? \n"%keyw[0]
     else:
       #Identified movement command, process rest of the string
       if action=="move":
-        if keyw[1]=="north" or keyw[1]=="n":
-          return 11,""
-        if keyw[1]=="south" or keyw[1]=="s":
-          return 12,""
-        if keyw[1]=="east" or keyw[1]=="e":
-          return 13,""
-        if keyw[1]=="west" or keyw[1]=="w":
-          return 14,""
-        if keyw[1]=="northeast" or keyw[1]=="north-east" or keyw[1]=="ne":
-          return 15,""
-        if keyw[1]=="northwest" or keyw[1]=="north-west" or keyw[1]=="nw":
-          return 16,""
-        if keyw[1]=="southeast" or keyw[1]=="south-east" or keyw[1]=="se":
-          return 17,""
-        if keyw[1]=="southwest" or keyw[1]=="south-west" or keyw[1]=="sw":
-          return 18,""
-        if keyw[1]=="down":
-          return 19,""
-      if action=="look":
-        return look(dungeon,player)
-      if action=="use":
-        return use()
-      if action=="equip":
-        return equip()
-      if action=="unequip":
-        return equip()
-      if action=="fight":
-        return fight()
-      if action=="cfg":
-        return 5,""
+        if keyw[1]=="north" or keyw[1]=="n":  return 11,""
+        if keyw[1]=="south" or keyw[1]=="s":  return 12,""
+        if keyw[1]=="east" or keyw[1]=="e": return 13,""
+        if keyw[1]=="west" or keyw[1]=="w": return 14,""
+        if keyw[1]=="northeast" or keyw[1]=="north-east" or keyw[1]=="ne":  return 15,""
+        if keyw[1]=="northwest" or keyw[1]=="north-west" or keyw[1]=="nw":  return 16,""
+        if keyw[1]=="southeast" or keyw[1]=="south-east" or keyw[1]=="se":  return 17,""
+        if keyw[1]=="southwest" or keyw[1]=="south-west" or keyw[1]=="sw":  return 18,""
+        if keyw[1]=="down": return 19,""
+      if action=="look":  return look(dungeon,player)
+      if action=="use": return use()
+      if action=="equip": return equip()
+      if action=="unequip": return equip()
+      if action=="fight": return fight()
+      if action=="cfg": return 5,""
       if action=="help":
         try:
-          if keyw[1]=="keys":
-            return 61,""
+          if keyw[1]=="keys": return 61,""
         except IndexError:
           help.help()
           return 62,""
@@ -266,7 +250,7 @@ def look(dungeon,player):
   if zombies==1:
     description=description+" You can see a zombie from your position."
   if 5>=zombies>1:
-    description=description+" There are "+str(zombies)+" zombies around."
+    description=description+" There are %i zombies around."%zombies
   if zombies>5:
     description=description+" You are surrounded by zombies!"
 

@@ -1,4 +1,4 @@
-#Kirino v0.1.4
+#Kirino v0.1.5
 
 Basic console based dungeon crawler. 
 
@@ -10,22 +10,23 @@ Development will continue at a slower pace; but new features, mobs and other thi
 
 ##How to use
 
-run launch.py with python. Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu.
+run launch.py. Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu.
 
 If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
 
-**Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted and contain my personal player data, saved games and other files. After downloading or cloning the repo, it's safe (And recommended) to delete that folder (Unless you want to play with my character). Make sure you save your player folder and replace it when you download the next version.
+**Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted and contain my personal player data, saved games and other files. After downloading or cloning the repo, it's safe (And recommended) to delete that folder (Unless you want to play with my character). Make sure you save your player folder and replace it when you download the next version. If a new feature is added the save file can be updated with the new player things simply by loading and saving.
 
-**Note on controls**: The default controls may not be totally logical for some players since I'm not using a qwerty layout. If it's the first time you play, go to the options menu and make sure everything is left to your liking. 
+**Note on controls**: The default controls may not be totally logical for some players since I'm not using a qwerty layout. I tried to make them as 'global' as possible using common keys (zxcv) for movement. If it's the first time you play, go to the options menu and make sure everything is left to your liking. 
 
 ##OS specific information
 
-* Debian/Ubuntu: Works as is, just type `python /path/launch.py` in the terminal.
-* OpenBSD: Works with python 2.7 installed
-* Other linux distributions: Should work as long as python is installed (Untested).
-* Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like putty with a python plugin. Different emulators may have different requirements to run python files, so read their documentation first. Alternatively, you can ssh into achi.se (user=kirino, pass=kirino) and try it remotely.   
-You may have some issues with the output formatting, but overall the game is playable. If you can't get any emulator working, I recommend using a Linux virtual machine.
+* Unix/Linux: Works as-is as long as python is installed.  
+  Tested in Debian, Gentoo, OpenBSD, Ubuntu.
+* Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like putty. Different emulators may have different requirements to run python files, so read their documentation first. If you can't get any emulator working, I recommend using a Linux virtual machine.
 * OSX: It's essentially a very expensive FreeBSD, so it should work. Maybe. I don't really care. (Untested)
+* SSH: To play via ssh you need a compatible terminal. The default unix/linux one works, and you can use putty in windows.  
+  Connect via ssh to achi.se (User `kirino`, pass `kirino`) and the game will launch automagically.  
+  Please note that until a ssh-specific fork is developed you can still change the configuration file and other options, so check that out first before playing.
 
 ##Testers
 
@@ -98,6 +99,16 @@ stevenbird (GH: nltk source)
 * `readme.md`:        This file
 
 ##Changelog
+
+####**v0.1.5** (2014-10-24):
+* New features:
+* Bugs fixed:
+  * Fixed bad call to item generator
+* Others:
+  * Money dropped now depends on player level
+  * Updated code
+  * Launch.py is now executable
+  * Adjusted will test rolls
 
 ####**v0.1.4** (2014-10-17):
 * New features:

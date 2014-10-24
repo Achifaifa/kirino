@@ -1,5 +1,5 @@
 #! /usr/bin/env python 
-import os, copy, random
+import os, copy, random, traceback
 import common
 
 class consumable:
@@ -239,20 +239,17 @@ class item:
     else: pass
 
     #Open file containing the defined type weapons
-    try:
-      with open (path,"r") as invfile:
-        inventory=[]
-        atkbarr=[]
-        defbarr=[]
-        pricearr=[]
-        for line in invfile:
-          if not line.startswith("#"):
-            inventory.append(line.strip().partition(':')[0].strip())
-            atkbarr.append(line.strip().partition(':')[2].partition(':')[0].strip())
-            defbarr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0].strip())
-            pricearr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].strip())
-    except IOError:
-      pass
+    with open (path,"r") as invfile:
+      inventory=[]
+      atkbarr=[]
+      defbarr=[]
+      pricearr=[]
+      for line in invfile:
+        if not line.startswith("#"):
+          inventory.append(line.strip().partition(':')[0].strip())
+          atkbarr.append(line.strip().partition(':')[2].partition(':')[0].strip())
+          defbarr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0].strip())
+          pricearr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].strip())
 
     #Assign the attributes from a random item in the chosen file
     randitem=random.randrange(len(inventory))
@@ -346,7 +343,7 @@ class item:
     perarray=["detecting","tracing","radar","omniscient"]         #line 4 
     conarray=["healing","invigorating","armoured","terminator"]   #line 5 
     wilarray=["determined","leader's","commanding","napoleonic"]  #line 6 
-    chaarray=["friendly","posh","diplomatic","respectable"]       #line 7 
+    chaarray=["friendly","posh","diplomatic","resceptable"]       #line 7 
 
     #Choose one name depending on what attribute boost is higher.
     if not self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus+self.strbonus==0:
@@ -361,7 +358,7 @@ class item:
     #Adjust price after attr boost
     self.price=(self.price*(1+self.strbonus+self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus))
 
-    #Avoiding negative prices 
+    #Avoid negative prices 
     if self.price<0: self.price=0
 
     #And, if the type selected was 0, set everything to 0 again
@@ -371,6 +368,7 @@ class item:
     """
     Sets all the attributes of the given item object to zero.
     """
+
     self.defn=self.strbonus=self.intbonus=self.dexbonus=self.perbonus=self.conbonus=self.wilbonus=self.chabonus=0
     self.name=" "
     self.price=0
@@ -403,10 +401,10 @@ class item:
     if player.pocket<enchantprice:
       print "You don't have enough money"
       common.getch()
-    if self.enchantlv>=10:
+    elif self.enchantlv>=10:
       print "Maximum enchant level reached"
       common.getch()
-    if player.pocket>=enchantprice and self.enchantlv<10:
+    elif player.pocket>=enchantprice and self.enchantlv<10:
       player.pocket-=enchantprice
       player.totalspn+=enchantprice
 
@@ -450,13 +448,13 @@ class item:
             print "+1 CHA"
 
         #double the price of the item
-        #Adding 1 to avoid enchanted item prices to stay at zero
-        self.price=((self.price+1)*2)
+        #Set price first to avoid enchanted item prices to stay at zero
+        if self.price<1: self.price=1
+        self.price*=2
 
         #Increase attack or defense
-        i=random.randint(0,1)
-        if i==0: self.atk+=1
-        if i==1: self.defn+=1
+        if random.choice([0,1]): self.atk+=1
+        else: self.defn+=1
 
         #Increase enchant level
         self.enchantlv+=1

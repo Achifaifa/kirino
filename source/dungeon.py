@@ -459,17 +459,16 @@ class dungeon:
     """
 
     #Make sure the dungeon is over the minimum size
-    if self.xsize<40 or self.ysize<20: return(2)
+    if self.xsize<40 or self.ysize<20: return 2
 
     #Checks if the entrance and exit are still there
     else:
       entrance=exit=0
       for i in self.dungarray:
         for j in i:
-          if j=="A": entrance+=1
-          if j=="X": exit+=1
-      if entrance!=1 or exit!=1:
-        return 1
+          if j=="A": entrance=1
+          if j=="X": exit=1
+      if not entrance or not exit: return 1
       else: return 0
 
   def remember(self,player):
@@ -492,12 +491,11 @@ class dungeon:
     extra=exploredtiles-((player.INT+player.intboost)*100)
 
     #Delete tiles randomly until there are no extra tiles
-    while extra>0:
+    for i in range(extra):
       randx=random.randrange(len(self.explored[0]))
       randy=random.randrange(len(self.explored))
       if self.explored[randy][randx]!="~":
         self.explored[randy][randx]="~"
-        extra-=1
 
 
   def fill(self,player,fog):
@@ -560,3 +558,4 @@ if __name__=="__main__":
     print "Dungeon module test"
     dung=dungeon(60,30,0)
     dung.map()
+    common.getch()
