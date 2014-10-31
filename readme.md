@@ -1,4 +1,4 @@
-#Kirino v0.1.5
+#Kirino v0.1.5b
 
 Basic console based dungeon crawler. 
 
@@ -98,17 +98,17 @@ stevenbird (GH: nltk source)
   * `test.py`:          Functions to test new implementations quickly
 * `readme.md`:        This file
 
-##Changelog
-
 ####**v0.1.5** (2014-10-24):
 * New features:
 * Bugs fixed:
   * Fixed bad call to item generator
+  * [0.1.5b] Fixed crash when picking money up
 * Others:
   * Money dropped now depends on player level
   * Updated code
   * Launch.py is now executable
   * Adjusted will test rolls
+  * [0.1.5b] Changed default controls
 
 ####**v0.1.4** (2014-10-17):
 * New features:

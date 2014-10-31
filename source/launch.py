@@ -156,7 +156,7 @@ def crawl(quickvar):
 
     #Action if player has reached a money loot tile
     if dung.dungarray[hero.ypos][hero.xpos]=="$":
-      monies=random.randrange(1,player.lv*5)
+      monies=random.randrange(1,hero.lv*5)
       hero.pocket+=monies
       hero.totalgld+=monies
       dung.dungarray[hero.ypos][hero.xpos]="."

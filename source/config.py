@@ -13,8 +13,8 @@ class config:
   gomsg="Game Over"
 
   #Key mapping variables
-  north="x"
-  south="c"
+  north="c"
+  south="x"
   east="v"
   west="z"
   northeast=""
@@ -45,7 +45,7 @@ class config:
 
     #Key mapping variables, initializing at default
     self.northeast=self.northwest=self.southeast=self.southwest=""
-    self.north,self.south,self.east,self.west="x","c","v","z"
+    self.north,self.south,self.east,self.west="c","x","v","z"
     self.charsh="q"
     self.opt="y"
     self.quit=";"

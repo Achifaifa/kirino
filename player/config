@@ -1,8 +1,8 @@
 # 
 # Keyboard options 
 # 
-North:x
-South:c
+North:c
+South:x
 East:v
 West:z
 Northeast:

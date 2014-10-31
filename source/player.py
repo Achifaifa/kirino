@@ -361,7 +361,6 @@ class player:
     """
 
     #This fails when saving and loading a character
-    
     temp=self.HP-self.hp2
     self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
     self.hp2=(self.HP-temp)
