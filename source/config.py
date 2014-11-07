@@ -7,6 +7,8 @@ class config:
   Configuration class. When instancing it it takes the variables from the configuration files and stores them in the instance.
   If there is no data on the file with a parameter, the default is taken
   
+  Default variable data:
+
   #Environment variables
   autosave=0
   fog=1
@@ -264,10 +266,10 @@ class config:
       configfile.write("Quick slot 6:"+self.quick6+"\n")    
       configfile.write("# \n# Game options \n# \n")
       configfile.write("Game over msg:"+self.gomsg+"\n")
-      if self.autosave==1: configfile.write("Autosave:on \n")
-      if self.autosave==0: configfile.write("Autosave:off \n")
-      if self.fog==1: configfile.write("Fog:on")
-      if self.fog==0: configfile.write("Fog:off")
+      if self.autosave: configfile.write("Autosave:on \n")
+      if not self.autosave: configfile.write("Autosave:off \n")
+      if self.fog: configfile.write("Fog:on")
+      if not self.fog: configfile.write("Fog:off")
 
 def newkey(msg):
   """
@@ -278,7 +280,7 @@ def newkey(msg):
   If the lenght of the key is not 1, returns an error message.
   """
 
-  tempk=raw_input("New key for '"+msg+"': ")
+  tempk=raw_input("New key for '%s': "%msg)
   if len(tempk)==1: return tempk 
   else: raw_input("Invalid key")
 

@@ -68,20 +68,13 @@ class npc:
     
     for i in range(total-6):
       rnd=random.randint(1,7)
-      if rnd==1:
-        if self.STR<stat: self.STR=self.STR+1
-      elif rnd==2:
-        if self.DEX<stat: self.DEX=self.DEX+1
-      elif rnd==3:
-        if self.CON<stat: self.CON=self.CON+1
-      elif rnd==4:
-        if self.INT<stat: self.INT=self.INT+1
-      elif rnd==5:
-        if self.PER<stat: self.PER=self.PER+1
-      elif rnd==6:
-        if self.WIL<stat: self.WIL=self.WIL+1
-      elif rnd==7:
-        if self.CHA<stat: self.CHA=self.CHA+1
+      if self.STR<stat and rnd==1: self.STR+=1
+      if self.DEX<stat and rnd==2: self.DEX+=1
+      if self.CON<stat and rnd==3: self.CON+=1
+      if self.INT<stat and rnd==4: self.INT+=1
+      if self.PER<stat and rnd==5: self.PER+=1
+      if self.WIL<stat and rnd==6: self.WIL+=1
+      if self.CHA<stat and rnd==7: self.CHA+=1
 
     if gender==0: self.name=random.choice(npcdata["namefemale"])
     if gender==1: self.name=random.choice(npcdata["namemale"])
@@ -143,7 +136,7 @@ class vendor:
     
     while 1:
       common.version()
-      print "Shop - Buy potions ("+str(player.pocket)+"G)\n"
+      print "Shop - Buy potions (%iG)\n"%player.pocket
       for i in range(len(self.potforsale)): print str(i+1)+".- "+self.potforsale[i].name+" ("+str(round(self.pricecalc(player)*self.potforsale[i].price))+"G)"
       print "--"
       print "0.- Back"

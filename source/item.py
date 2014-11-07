@@ -271,7 +271,6 @@ class item:
     #09 universal:200:200  -> 00.01%
     #10 no modifiers       -> 70.00%
 
-    randint=0
     randint=random.randint(1,10000)
     if randint<=7000: randint=9 #no modifiers
     if randint>7000 and randint<=7001: randint= 8 #universal
@@ -396,6 +395,7 @@ class item:
     Deleting the resetted item from the inventory is done in the player module after calling the enchant() function.
     """
 
+    oldname=self.name
     enchantprice=self.price
     ex=0 #Exception variable
     if player.pocket<enchantprice:
@@ -412,10 +412,10 @@ class item:
       randint=random.randint(1,1000)
       attboost=0
       if randint<5: attboost=4
-      if randint>51 and randint<=50: attboost=3
-      if randint>50 and randint<=200: attboost=2
-      if randint>200 and randint<=990: attboost=1
-      if randint>990:        
+      elif randint>51 and randint<=50: attboost=3
+      elif randint>50 and randint<=200: attboost=2
+      elif randint>200 and randint<=990: attboost=1
+      elif randint>990:        
         print "%s broke during enchanting" %(self.name)
         common.getch()
         self.reset()
@@ -424,28 +424,14 @@ class item:
       if not ex:
         #Randomly assign the bonus points available
         for i in range(1,attboost+1):
-          boosted=random.randint(1,7)
-          if boosted==1:
-            self.strbonus+=1
-            print "+1 STR"
-          if boosted==2:
-            self.intbonus+=1
-            print "+1 INT"
-          if boosted==3:
-            self.dexbonus+=1
-            print "+1 DEX"
-          if boosted==4:
-            self.perbonus+=1
-            print "+1 PER"
-          if boosted==5:
-            self.conbonus+=1
-            print "+1 CON"
-          if boosted==6:
-            self.wilbonus+=1
-            print "+1 WIL"
-          if boosted==7:
-            self.chabonus+=1
-            print "+1 CHA"
+          boosted=random.choice(["STR","INT","DEX","PER","CON","WIL","CHA"])
+          if boosted=="STR": self.strbonus+=1
+          if boosted=="INT": self.intbonus+=1
+          if boosted=="DEX": self.dexbonus+=1
+          if boosted=="PER": self.perbonus+=1
+          if boosted=="CON": self.conbonus+=1
+          if boosted=="WIL": self.wilbonus+=1
+          if boosted=="CHA": self.chabonus+=1
 
         #double the price of the item
         #Set price first to avoid enchanted item prices to stay at zero
@@ -469,7 +455,7 @@ class item:
           self.name=tempname+"+"+str(templv)
           #Remove the numbers after the + in the name, add 1, attack the numbers to name.
         player.itemsenc+=1
-        raw_input(self.name+" enchanted successfully")
+        raw_input("%s enchanted successfully (+1 %s)"%(oldname,boosted))
     #If the player has no money, pass
     else: pass
 
@@ -481,12 +467,18 @@ if __name__=="__main__":
   print "1.- Generate items \n2.- Generate consumables"
   var=common.getch()
   if var=="1":
-    while 1:
-      new=item(random.randrange(12))
-      if new.name!=" ": print "ITEM   --%s [+%i/%i] (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.atk,new.defn,new.strbonus,new.intbonus,new.dexbonus,new.perbonus,new.conbonus,new.wilbonus,new.chabonus,new.price)
+    try:
+      while 1:
+        new=item(random.randrange(12))
+        if new.name!=" ": print "ITEM   --%s [+%i/%i] (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.atk,new.defn,new.strbonus,new.intbonus,new.dexbonus,new.perbonus,new.conbonus,new.wilbonus,new.chabonus,new.price)
+        raw_input()
+    except KeyboardInterrupt: pass
   if var=="2":
-    while 1:
-      new=consumable(random.choice([0,1,3]),0)
-      if new.type==0: print "POTION --%s (%i HP, %i MP), %iG"                                                   %(new.name,new.hpr,new.mpr,new.price)
-      if new.type==1: print "TOME   --%s (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"  %(new.name,new.strbst,new.intbst,new.dexbst,new.perbst,new.conbst,new.wilbst,new.chabst,new.price)
-      if new.type==3: print "FOOD   --%s (%i hunger recovery, disease %i), %iG"                                 %(new.name,new.hungrec,new.chance,new.price)
+    try:
+      while 1:
+        new=consumable(random.choice([0,1,3]),0)
+        if new.type==0: print "POTION --%s (%i HP, %i MP), %iG"                                                   %(new.name,new.hpr,new.mpr,new.price)
+        if new.type==1: print "TOME   --%s (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"  %(new.name,new.strbst,new.intbst,new.dexbst,new.perbst,new.conbst,new.wilbst,new.chabst,new.price)
+        if new.type==3: print "FOOD   --%s (%i hunger recovery, disease %i), %iG"                                 %(new.name,new.hungrec,new.chance,new.price)
+        raw_input()
+    except KeyboardInterrupt: pass

@@ -1,4 +1,4 @@
-#Kirino v0.1.5b
+#Kirino v0.1.6
 
 Basic console based dungeon crawler. 
 
@@ -97,6 +97,14 @@ stevenbird (GH: nltk source)
   * `player.py`:        Player class
   * `test.py`:          Functions to test new implementations quickly
 * `readme.md`:        This file
+
+####**v0.1.6** (2014-11-07):
+* New features: 
+* Bugs fixed:
+  * Fixed mobs respawning in the dungeon
+  * Fixed item enchant displaying post-enchanting name
+* Others: 
+  * Rewrote code
 
 ####**v0.1.5** (2014-10-24):
 * New features:

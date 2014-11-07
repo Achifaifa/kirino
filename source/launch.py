@@ -10,31 +10,23 @@ import dungeon, item, mob, npc, parser, player
 import common, config, help, test
 
 #load/save global variables
-dex=0
-intv=0
-con=0
-per=0
-wil=0
-strv=0
-cha=0
-xp=0
+dex=con=per=wil=cha=0
+intv=strv=0
+xp=lv=1
 points=0
 pocket=0
-lv=1
-hp2=0
-mp2=0
+hp2=mp2=0
 name="empty"
 flcounter=1       #Floor counter
 fl=1              #Actual (total) floor (Displayed)
-tempinventory=[]
-tempequiparr=[]
-xsize=0
-ysize=0
+tempinventory=tempequiparr=[]
+xsize=ysize=0
 
 def loadfiles():
   """
   Loads the information from the data files into variables
   """
+
   npc.sanitize()
   npc.load()
   parser.load()
@@ -51,15 +43,13 @@ def menu():
   while 1:
     common.version()
     print "Main menu\n"
-    print "%i.- Play"           %(1)
-    print "%s.- Quick play"     %(2)
-    print "%s.- Options"        %(3)
-    print "%s.- Credits"        %(4)
-    print "%s.- Test utilities" %(5)
-    print "--"
-    print "%s.- Help"           %(9)
-    print "%s.- Exit"           %(0)
-    print "->",
+    print "%i.- Play"               %(1)
+    print "%s.- Quick play"         %(2)
+    print "%s.- Options"            %(3)
+    print "%s.- Credits"            %(4)
+    print "%s.- Test utilities\n--" %(5)
+    print "%s.- Help"               %(9)
+    print "%s.- Exit\n->"           %(0)
     menu=common.getch()
     if menu=="1": crawl(0)
     if menu=="2": crawl(1)
@@ -82,14 +72,9 @@ def crawl(quickvar):
   global flcounter
   global fl
   fl=1 #Initialize floor to 1
-  parsemsg=""
-  hitmsg=""
-  usemsg=""
-  wilmsg=""
-  hungmsg=""
+  parsemsg=hitmsg=usemsg=wilmsg=hungmsg=""
   hungsteps=0
   quick=[cfg.quick1,cfg.quick2,cfg.quick3,cfg.quick4,cfg.quick5,cfg.quick6]
-
   hero,dung=copy.copy(newgame(quickvar))
 
   #If there is no fog, load the map
@@ -116,24 +101,15 @@ def crawl(quickvar):
       hungmsg="You feel hungry and weak\n"
 
     #Reset message strings
-    atkmsg=""
-    pickmsg=""
-    trapmsg=""
+    atkmsg=pickmsg=trapmsg=""
     lootmsg="\n"
 
     #Update the explored map
     if cfg.fog: dung.remember(hero)
 
     #Move all the mobs, delete dead mobs from array
-    #Sometimes it causes a mob to 'resurrect' somewhere else in the dungeon
-    #hack, critical, important, dangerous
-    #If you found this looking for security flaws I'm sorry, but now that you're here you could help me fix this.
-    for i in dung.mobarray:
-      try:
-        if i.HP<=0: del dung.mobarray[dung.mobarray.index(i)]
-        else: i.search(dung,hero)
-      except: pass
-    #Thank you <3
+    dung.mobarray=[i for i in dung.mobarray if i.HP>0]
+    for i in dung.mobarray: i.search(dung,hero)
 
     #Level the player up
     hero.levelup()
@@ -195,14 +171,14 @@ def crawl(quickvar):
             hero.totalrcv+=trapdmg
             trapmsg="You feel your life draining out. Lost %i HP\n"%(trapdmg)
           dung.dungarray[hero.ypos][hero.xpos]="_"
-        if i[2]==3:    
+        if i[2]==3:
           trapmsg="A trap door opens under you. \nYou fall to the next floor and lose 5HP"
-          hero.hp2-=5   
+          hero.hp2-=5
           hero.totalrcv+=5
           flcounter+=1
           hero.totalfl+=1
           fl+=1
-          lsave(hero) 
+          lsave(hero)
           if cfg.autosave==1: hero.save()
           allowvendor=0
           if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
@@ -320,18 +296,14 @@ def crawl(quickvar):
     elif (crawlmen==cfg.nextf or action==19 or action==31) and wils: 
       #Double check if the player is in the exit tile
       if dung.dungarray[hero.ypos][hero.xpos]=="X":
-        flcounter+=1
-        hero.totalfl+=1
-        fl+=1
+        flcounter,hero.totalfl,fl=(i+1 for i in (flcounter,hero.totalfl,fl))
         lsave(hero) 
         if cfg.autosave==1: hero.save()
         allowvendor=0
         if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
         dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
-        #
         # Modify the new dungeon 
         # Add mobs according to the player level
-        #
         lload(hero)
         if not cfg.fog: dung.explored=dung.dungarray
         for i in range(len(dung.dungarray)):
@@ -400,7 +372,7 @@ def newgame(quick):
         ysize=int(raw_input("Vertical size: "))
         if xsize<40 or ysize<20: print "Minimum size 40x20"
         elif xsize>=40 and ysize>=20:
-          print str(xsize)+"x"+str(ysize)+" dungeon created",
+          print "%ix%i dungeon created"%(xsize,ysize)
           common.getch()
           break
       except ValueError: pass
@@ -421,13 +393,7 @@ def newgame(quick):
       hero.name=random.choice(namearray)
 
     with open("../data/player/races","r") as file:
-        racesarray=[]
-        strarray=[]
-        intarray=[]
-        dexarray=[]
-        perarray=[]
-        conarray=[]
-        chaarray=[]
+        racesarray=strarray=intarray=dexarray=perarray=conarray=chaarray=[]
         for line in file:
           if not line.startswith('#'): #There must be a better way to do this
             racesarray.append(line.rstrip('\n').partition(':')[0])
@@ -442,8 +408,7 @@ def newgame(quick):
     while 1:
       try:
         common.version()
-        print "New game [3/5] Race"
-        print ""
+        print "New game [3/5] Race\n"
         print "Select your race"
         print "<[%s] %s [%s]>"          %(cfg.west,racesarray[selected],cfg.east)
         print "STR +%i INT +%i DEX +%i" %(strarray[selected],intarray[selected],dexarray[selected])
@@ -471,8 +436,7 @@ def newgame(quick):
     while 1:
       try:
         common.version()
-        print "New game [4/5] Class"
-        print ""
+        print "New game [4/5] Class\n"
         print "Select your class"
         print "<[%s] %s [%s]>"  %(cfg.west,classesarray[selected],cfg.east)
         print "%s: select"      %cfg.quit

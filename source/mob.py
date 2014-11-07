@@ -183,9 +183,9 @@ class mob:
       if attackpow<=0: attackpow=1
       player.hp2-=attackpow
       player.totalrcv+=attackpow
-      return (self.name+" attacks "+player.name+" for "+str(attackpow)+" damage!\n")
+      return ("%s attacks %s for %i damage!\n"%(self.name,player.name,attackpow))
     elif roll<=3:
-      return (self.name+" tries to hit you, but it misses\n")
+      return ("%s tries to hit you, but it misses\n"%self.name)
 
 if __name__=="__main__":
   try: os.chdir(os.path.dirname(__file__))

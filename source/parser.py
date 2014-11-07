@@ -293,7 +293,7 @@ def equip():
   return 3,"you equip or unequip stuff"
 
 def fight():
-  return 4,"You miss"
+  return 4,"You miss haha"
 
 def load():
   """

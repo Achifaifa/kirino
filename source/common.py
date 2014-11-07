@@ -10,7 +10,7 @@ def vern():
   Returns a string with the version number
   """
 
-  return "v0.1.5b" 
+  return "v0.1.6" 
 
 def version():
   """
@@ -18,7 +18,7 @@ def version():
   """
 
   os.system('clear')
-  print "Kirino - %s"%(vern())
+  print "Kirino - %s"%vern()
 
 def getch():
   """

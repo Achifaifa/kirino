@@ -27,5 +27,5 @@ Quick slot 6:h
 # Game options 
 # 
 Game over msg:Game Over
-Autosave:off 
+Autosave:on 
 Fog:off

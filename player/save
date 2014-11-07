@@ -1,1 +1,71 @@
-No character saved
+# 
+# Player 
+# 
+Name:Ilermath
+Race:orc
+Class:gamemaster
+Money:22
+Level:1
+Exp:1
+Points:0
+HP:42
+MP:4
+INT:1
+DEX:2
+PER:1
+WIL:3
+STR:3
+CON:6
+CHA:0
+#
+# Player stats 
+#
+Floors:1
+Steps:256
+Attacks:1
+Hits:1
+Damage given:1
+Damage taken:4
+Kills:0
+Gold earned:22
+Traps:0
+Items picked:2
+Items erased:0
+Total enchants:0
+Potions taken:0
+Items sold:0
+Items bought:0
+Money spent:0
+Max damage:1
+Max enchant:0
+Stomach:73
+#
+# Equipped items 
+#
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+E: :0:0:0:0:0:0:0:0:0:0:0:0
+#
+# Inventory items 
+#
+I:rogue's bookworm's bermudas:0:10:0:0:0:1:1:0:0:0:0:30
+I:chainmail socks:0:11:0:3:0:0:0:0:0:0:0:30
+I:armour:0:5:0:5:0:0:0:0:0:0:0:50
+I:bermudas:0:10:0:0:0:0:0:0:0:0:0:10
+#
+# Belt items 
+#
+B:4:--EMPTY--
+B:4:--EMPTY--
+B:4:--EMPTY--
+B:4:--EMPTY--
+B:4:--EMPTY--
+B:4:--EMPTY--
