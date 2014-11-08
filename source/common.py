@@ -10,7 +10,7 @@ def vern():
   Returns a string with the version number
   """
 
-  return "v0.1.6" 
+  return "v0.1.6b" 
 
 def version():
   """
@@ -25,7 +25,7 @@ def getch():
   Reads a single key from the console input*. Code by Joeyespo:
   https://github.com/joeyespo/py-getch
 
-  *I can't fucking believe this is not in the os library
+  *I can't fucking believe this is not in the os library. Come on!
   """
 
   fd=sys.stdin.fileno()

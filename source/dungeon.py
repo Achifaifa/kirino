@@ -161,8 +161,7 @@ class dungeon:
             if self.dungarray[tempy][tempx+1]=="#" and self.dungarray[tempy][tempx+1]=="#" and self.dungarray[tempy][tempx]==".":
               leftxcoord=rightxcoord=tempx
               while lenght>0:
-                lor=random.choice([0,1])
-                if lor:
+                if random.choice([0,1]):
                   try:
                     if leftxcoord>0:
                       leftxcoord-=1
@@ -199,7 +198,7 @@ class dungeon:
       exitx=entrancex
       counter=0
       while abs(entrancex-exitx)<self.xsize/2 or abs(entrancey-exity)<self.ysize/2:
-        counter += 1
+        counter+=1
         if counter>100: break
         while self.dungarray[exity][exitx]!=".":
       	  exity=random.randrange(self.ysize)
@@ -212,14 +211,14 @@ class dungeon:
       	  if self.dungarray[i][j]=="D":
       	    self.dungarray[i][j]="."
 
-      #Adds a mob for every 60 free spaces:
+      #Adds a mob for every 50 free spaces:
       self.mobarray=[]
       spacecounter=0
       for i in range(self.ysize):
         for j in range(self.xsize):
           if self.dungarray[i][j]==".":
             spacecounter+=1
-      for i in range(spacecounter/60):
+      for i in range(spacecounter/50):
         self.mobarray.append(mob.mob(self,1))
 
       #Adds the vendor
@@ -278,15 +277,15 @@ class dungeon:
           tempy=random.randrange(1,self.ysize)
         self.dungarray[tempy][tempx]="$"
 
-      #Add objects (loot) in random places. 1 drop per 100 floor tiles
-      for i in range (1,counter/100):
+      #Add objects (loot) in random places. 1 drop per 200 floor tiles
+      for i in range (1,counter/200):
         while self.dungarray[tempy][tempx]!=".":
           tempx=random.randrange(1,self.xsize)
           tempy=random.randrange(1,self.ysize)
         self.dungarray[tempy][tempx]="/"
 
       #Randomly adds food in every floor
-      if random.choice([0,1]):
+      if random.choice([0,0,1]):
         while 1:
           randx=random.randrange(x)
           randy=random.randrange(y)
@@ -348,13 +347,13 @@ class dungeon:
         dump.write ("\n ###################### \n")
       	for i in self.dungarray:
       	  for j in i:
-            dump.write("("+str(i+1)+", "+str(j+1)+")")
+            dump.write("(%i, %i)"%(i+1,j+1))
       	    if   j=="#": dump.write(" Rock \n")
       	    elif j=="A": dump.write(" Entrance \n")
       	    elif j=="X": dump.write(" Exit \n")
       	    elif j==".": dump.write(" Hallway \n")
       	    elif j=="D": dump.write(" Undeleted room marker \n")
-      	    else: dump.write (" Unrecognised value ("+self.dungarray[i][j]+")")
+      	    else: dump.write (" Unrecognised value (%s)"%self.dungarray[i][j])
     else:
       #Dump to console
       for i in self.dungarray:
@@ -408,8 +407,8 @@ class dungeon:
     for i in range(ymapsize+1): mapstring.append([])
 
     #Centering minimap
-    x -= xmapsize/2
-    y -= ymapsize/2
+    x-=xmapsize/2
+    y-=ymapsize/2
 
     #Replaces the marker if the input is bad
     if x+xmapsize>=self.xsize: x=self.xsize-xmapsize
@@ -539,7 +538,7 @@ class dungeon:
                 self.filled[k.ypos][k.xpos]=k.marker
 
         #If fog is not on, just generate a regular minimap
-        if fog!=1:
+        if not fog:
           for k in range(len(self.mobarray)):
             if self.mobarray[k].ypos==i and self.mobarray[k].xpos==j:
               self.filled[self.mobarray[k].ypos][self.mobarray[k].xpos]=self.mobarray[k].marker

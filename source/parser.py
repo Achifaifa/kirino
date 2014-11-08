@@ -160,22 +160,18 @@ def parseconv(convstr,dude,player):
 
     #Answer for needs
     if (conv[0].lower()=="i" and (conv[1]=="need" or (conv[1]=="also" and conv[2]=="need"))):
-
       del conv[0]
-      while conv[0] in ["a","also","need"]:
-        del conv[0]
+      while conv[0] in ["a","also","need"]: del conv[0]
       if conv[0].lower() not in ["one","a"]:
         answer=random.choice(["Hey don't be greedy, I can only save one for you!","%?? What do you think this is, a supermarket?","% &? You gotta be kidding me","Absolutely no way"])
-        if "%" in answer:
-          answer=answer.partition('%')[0]+conv[0]+answer.partition('%')[2]
+        if "%" in answer: answer=answer.partition('%')[0]+conv[0]+answer.partition('%')[2]
         if "&" in answer:
           del conv[0]
           answer=answer.partition('&')[0]+" ".join(conv)+answer.partition('&')[2]
         return answer
       conv=" ".join(conv)
       answer=random.choice(["A $? Let me see...","Not sure if I had one, let me look around","$? Now that's something I haven't seen in a while","Maybe","You and your $ obsession..."])
-      if "$" in answer:
-        answer=answer.partition('$')[0]+conv+answer.partition('$')[2]
+      if "$" in answer: answer=answer.partition('$')[0]+conv+answer.partition('$')[2]
 
     #Answer for likes
     if (conv[0].lower()=="i" and (conv[1]=="like" or (conv[1]=="also" and conv[2]=="like"))):
@@ -184,23 +180,18 @@ def parseconv(convstr,dude,player):
         del conv[0]
       if " ".join(conv) in [dude.likes1,dude.likes2]:
         answer=random.choice(["$? I *LOVE* $!","Absolutely!","Damn right I like $","Of course, who doesn't?"])
-        if "$" in answer:
-          answer=answer.partition('$')[0]+" "+" ".join(conv)+" "+answer.partition('$')[2]
+        if "$" in answer: answer=answer.partition('$')[0]+" "+" ".join(conv)+" "+answer.partition('$')[2]
         dude.rel+=1
       elif " ".join(conv) in [dude.dislikes1,dude.dislikes2]:
         answer=random.choice(["How can you like $?","I hate that","Ugh, really?","Gross","Eeeeew, get away","You have issues man"])
-        if "$" in answer:
-          answer=answer.partition('$')[0]+" ".join(conv)+answer.partition('$')[2]
+        if "$" in answer: answer=answer.partition('$')[0]+" ".join(conv)+answer.partition('$')[2]
         dude.rel-=1
       else:
         answer=random.choice(["I don't really care about $","I'm neutral to be honest","Whatever","no one asked, you know?"])
         if "$" in answer:
           answer=answer.partition('$')[0]+" "+" ".join(conv)+" "+answer.partition('$')[2]
 
-
-    else:
-      answer="What?"
-
+    else: answer="What?"
   return answer
 
 def look(dungeon,player):
@@ -221,78 +212,73 @@ def look(dungeon,player):
   # Map analysis
   for i in range(player.ypos-5, player.ypos+5):
     for j in range(player.xpos-10, player.xpos+10):
-      if dungeon.filled[i][j]=="i":
-        zombies+=1
-      if dungeon.filled[i][j]=="p":
-        vendors+=1
-      if dungeon.filled[i][j]=="$":
-        piles+=1
-      if dungeon.filled[i][j]=="/":
-        objects+=1
-      if dungeon.filled[i][j]=="A":
-        entrance=1
-      if dungeon.filled[i][j]=="X":
-        exit=1
-      else:
-        pass
+      if dungeon.filled[i][j]=="i": zombies+=1
+      if dungeon.filled[i][j]=="p": vendors+=1
+      if dungeon.filled[i][j]=="$": piles+=1
+      if dungeon.filled[i][j]=="/": objects+=1
+      if dungeon.filled[i][j]=="A": entrance=1
+      if dungeon.filled[i][j]=="X": exit=1
+      else: pass
 
-  #Working on this
+  #Working on this (later means never haha)
   if (dungeon.filled[player.ypos+1][player.xpos]=="." and dungeon.filled[player.ypos-1][player.xpos]=="." and 
       dungeon.filled[player.ypos][player.xpos+1]=="#" and dungeon.filled[player.ypos][player.xpos-1]=="#" ):
-    description=description+"hall."
+    description+="hall."
   if (dungeon.filled[player.ypos+1][player.xpos]=="#"and dungeon.filled[player.ypos-1][player.xpos]=="#"and 
       dungeon.filled[player.ypos][player.xpos+1]=="." and dungeon.filled[player.ypos][player.xpos-1]=="." ):
-    description=description+"hall."
-  else:
-    description=description+"room."
+    description+="hall."
+  else: description+="room."
 
   #Enemies
-  if zombies==1:
-    description=description+" You can see a zombie from your position."
-  if 5>=zombies>1:
-    description=description+" There are %i zombies around."%zombies
-  if zombies>5:
-    description=description+" You are surrounded by zombies!"
+  if zombies==1:    description+=" You can see a zombie from your position."
+  if 5>=zombies>1:  description+=" There are %i zombies around."%zombies
+  if zombies>5:     description+=" You are surrounded by zombies!"
 
   #Gold  
-  if piles>1:
-    description=description+" There are also a few piles of gold."
-  if piles==1:
-    description=description+" There is also a pile of gold."
+  if piles>1:   description+=" There are also a few piles of gold."
+  if piles==1:  description+=" There is also a pile of gold."
 
   #Vendors
-  if vendors>0:
-    description=description+" There is a vendor near you."
+  if vendors>0: description+=" There is a vendor near you."
 
   #Objects
-  if objects>1:
-    description=description+" Some things are scattered around."
-  if objects==1:
-    description=description+" Something is lying on the floor."
+  if objects>1:   description+=" Some things are scattered around."
+  if objects==1:  description+=" Something is lying on the floor."
 
   #Entrance and exit
-  if not entrance and not exit:
-    description=description+" There are no signs of the exit nearby."
-  if entrance and exit:
-    description=description+" You can see both the entrance and the exit! They are quite close together."
-    return 0,description
-  if entrance:
-    description=description+" You can see the stairs you just used."
-  if exit:
-    description=description+" You can see the stairs to the next floor."
+  if not entrance and not exit: description+=" There are no signs of the exit nearby."
+  elif entrance and exit:       description+=" You can see both the entrance and the exit! They are quite close together."
+  elif entrance:                description+=" You can see the stairs you just used."
+  elif exit:                    description+=" You can see the stairs to the next floor."
 
   return 0,description
 
 def use(words):
-  if words[1]=="stairs":
-    return 31,""
-  else:
-    return 3,"you use stuff or do stuff with stuff"
+  """
+  Processes using actions
+
+  Only using stairs is implemented
+  """
+
+  if words[1]=="stairs":  return 31,""
+  else:                   return 3,"you use stuff or do stuff with stuff"
 
 def equip():
+  """
+  Processes equipping actions
+
+  Not implemented yet
+  """
+
   return 3,"you equip or unequip stuff"
 
 def fight():
+  """
+  Processes fighting actions
+
+  Not implemented yet
+  """
+
   return 4,"You miss haha"
 
 def load():
@@ -301,6 +287,7 @@ def load():
 
   Load the data in ../data/parser/words,errors to data structures
   """
+  
   global dictionary
   global errors
 
@@ -319,33 +306,15 @@ def load():
       for line in wordsfile:
         if not line.startswith('#'):
           line=line.strip()
-          if line.partition(':')[0]=="movement":
-            movewords=line.partition(':')[2].split()
-            dictionary["move"]=movewords
-          elif line.partition(':')[0]=="look":
-            lookwords=line.partition(':')[2].split()
-            dictionary["look"]=lookwords
-          elif line.partition(':')[0]=="use":
-            usewords=line.partition(':')[2].split()
-            dictionary["use"]=usewords
-          elif line.partition(':')[0]=="equip":
-            equipwords=line.partition(':')[2].split()
-            dictionary["equip"]=equipwords
-          elif line.partition(':')[0]=="unequip":
-            unequipwords=line.partition(':')[2].split()
-            dictionary["unequip"]=unequipwords
-          elif line.partition(':')[0]=="fight":
-            fightwords=line.partition(':')[2].split()
-            dictionary["fight"]=fightwords
-          elif line.partition(':')[0]=="cfg":
-            cfgwords=line.partition(':')[2].split()
-            dictionary["cfg"]=cfgwords
-          elif line.partition(':')[0]=="help":
-            helpwords=line.partition(':')[2].split()
-            dictionary["help"]=helpwords
-          elif line.partition(':')[0]=="quit":
-            quitwords=line.partition(':')[2].split()
-            dictionary["quit"]=quitwords
+          if   line.partition(':')[0]=="movement": dictionary["move"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="look":     dictionary["look"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="use":      dictionary["use"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="equip":    dictionary["equip"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="unequip":  dictionary["unequip"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="fight":    dictionary["fight"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="cfg":      dictionary["cfg"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="help":     dictionary["help"]=line.partition(':')[2].split()
+          elif line.partition(':')[0]=="quit":     dictionary["quit"]=line.partition(':')[2].split()
     print "done"
   except IOError:
     raw_input("error loading dictionary files")
@@ -353,9 +322,7 @@ def load():
     print "Loading messages...        ",
     with open ("../data/parser/errors","r") as errorsfile:
       for line in errorsfile:
-        if not line.startswith('#'):
-          line=line.strip()
-          errors.append(line)
+        if not line.startswith('#'): errors.append(line.strip())
     print "done."
     os.system('clear')
   except IOError:

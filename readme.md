@@ -1,4 +1,4 @@
-#Kirino v0.1.6
+#Kirino v0.1.6b
 
 Basic console based dungeon crawler. 
 
@@ -105,6 +105,8 @@ stevenbird (GH: nltk source)
   * Fixed item enchant displaying post-enchanting name
 * Others: 
   * Rewrote code
+  * [0.1.6b] Balanced mob and object generation
+  * [0.1.6b] Updated parsing algorithms and code
 
 ####**v0.1.5** (2014-10-24):
 * New features:
