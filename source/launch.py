@@ -5,7 +5,7 @@ Main procedure file.
 Contains menus and the main crawl procedure
 """
 
-import copy, os, random, sys, time
+import copy, os, random, time
 import dungeon, item, mob, npc, parser, player
 import common, config, help, test
 

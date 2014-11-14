@@ -1,5 +1,5 @@
 #! usr/bin/env python 
-import copy, os, random, sys
+import copy, os, random
 import common, copy, dungeon, item
 
 class player:

@@ -5,7 +5,7 @@ Test module
 The functions here allow the plyaer to test certain aspects of the game without having to go through dungeons to find it.
 """
 
-import copy, os, random, sys
+import copy, os, random
 import dungeon, item, mob, npc, parser, player
 import common, config, help
 

@@ -2,7 +2,7 @@
 """
 Help function. Contains help menus and text for the functions in the game.
 """
-import os, sys
+import os
 import dungeon, item, parser,player
 import common, config
 
@@ -11,7 +11,6 @@ def help():
   Help main menu. Gives access to the tutorial, descriptions and such
   """
   while 1:
-    sys.stdout.flush() 
     os.system('clear')
     common.version()
     print "Help\n"

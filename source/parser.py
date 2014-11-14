@@ -8,7 +8,7 @@ The parser, error and other data is located in ../data/parser/
 The data is loaded by default in this module, so it is also loaded automagically when importing it.
 To modify the data files, please read the instructions in these files.
 """
-import os, random, sys
+import os, random
 import common, config, help, npc
 
 dictionary={} #Dictionary with the verbs and action groups
