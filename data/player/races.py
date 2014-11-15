@@ -1,132 +1,132 @@
 # Each number indicates a positive or negative bonus
 # Implemented as a dict object with multiple dicts for each race's bonus
-# {<RACE>:{"str":<int>,"int":<int>,"dex":<int>,"per":<int>,"con":<int>,"wil":<int>,"cha":<int>}}
+# {<RACE>:{"str":<INT>,"INT":<INT>,"DEX":<INT>,"PER":<INT>,"CON":<INT>,"WIL":<INT>,"CHA":<INT>}}
 
 stats = {
   "human": {
-    "str": 0,
-    "int": 0,
-    "dex": 0,
-    "per": 0,
-    "con": 0,
-    "wil": 0,
-    "cha": 0
+    "STR": 0,
+    "INT": 0,
+    "DEX": 0,
+    "PER": 0,
+    "CON": 0,
+    "WIL": 0,
+    "CHA": 0
   },
   "elf": {
-    "str": 0,
-    "int": 0,
-    "dex": 2,
-    "per": 0,
-    "con": -2,
-    "wil": 0,
-    "cha": 0
+    "STR": 0,
+    "INT": 0,
+    "DEX": 2,
+    "PER": 0,
+    "CON": -2,
+    "WIL": 0,
+    "CHA": 0
   },
   "orc": {
-    "str": 2,
-    "int": -2,
-    "dex": 0,
-    "per": 0,
-    "con": 2,
-    "wil": 0,
-    "cha": -2
+    "STR": 2,
+    "INT": -2,
+    "DEX": 0,
+    "PER": 0,
+    "CON": 2,
+    "WIL": 0,
+    "CHA": -2
   },
   "dwarf": {
-    "str": 0,
-    "int": 0,
-    "dex": 0,
-    "per": 0,
-    "con": 2,
-    "wil": 0,
-    "cha": -2
+    "STR": 0,
+    "INT": 0,
+    "DEX": 0,
+    "PER": 0,
+    "CON": 2,
+    "WIL": 0,
+    "CHA": -2
   },
   "high elf": {
-    "str": -1,
-    "int": 0,
-    "dex": 3,
-    "per": 0,
-    "con": -2,
-    "wil": 0,
-    "cha": 0
+    "STR": -1,
+    "INT": 0,
+    "DEX": 3,
+    "PER": 0,
+    "CON": -2,
+    "WIL": 0,
+    "CHA": 0
   },
   "half elf": {
-    "str": 0,
-    "int": 0,
-    "dex": 1,
-    "per": 0,
-    "con": -1,
-    "wil": 0,
-    "cha": 0
+    "STR": 0,
+    "INT": 0,
+    "DEX": 1,
+    "PER": 0,
+    "CON": -1,
+    "WIL": 0,
+    "CHA": 0
   },
   "half orc": {
-    "str": 2,
-    "int": -2,
-    "dex": 0,
-    "per": 0,
-    "con": 0,
-    "wil": 0,
-    "cha": -2
+    "STR": 2,
+    "INT": -2,
+    "DEX": 0,
+    "PER": 0,
+    "CON": 0,
+    "WIL": 0,
+    "CHA": -2
   },
   "halfling": {
-    "str": -2,
-    "int": 0,
-    "dex": 2,
-    "per": 0,
-    "con": 0,
-    "wil": 0,
-    "cha": 0
+    "STR": -2,
+    "INT": 0,
+    "DEX": 2,
+    "PER": 0,
+    "CON": 0,
+    "WIL": 0,
+    "CHA": 0
   },
   "necron": {
-    "str": 0,
-    "int": 0,
-    "dex": 0,
-    "per": 0,
-    "con": 0,
-    "wil": 2,
-    "cha": -2
+    "STR": 0,
+    "INT": 0,
+    "DEX": 0,
+    "PER": 0,
+    "CON": 0,
+    "WIL": 2,
+    "CHA": -2
   },
   "tyranid": {
-    "str": 3,
-    "int": 0,
-    "dex": 0,
-    "per": 0,
-    "con": 3,
-    "wil": -3,
-    "cha": -3
+    "STR": 3,
+    "INT": 0,
+    "DEX": 0,
+    "PER": 0,
+    "CON": 3,
+    "WIL": -3,
+    "CHA": -3
   },
   "tau": {
-    "str": -2,
-    "int": 2,
-    "dex": 2,
-    "per": 0,
-    "con": -2,
-    "wil": 0,
-    "cha": 0
+    "STR": -2,
+    "INT": 2,
+    "DEX": 2,
+    "PER": 0,
+    "CON": -2,
+    "WIL": 0,
+    "CHA": 0
   },
   "ratling": {
-    "str": 1,
-    "int": -1,
-    "dex": 2,
-    "per": 0,
-    "con": 0,
-    "wil": 0,
-    "cha": -2
+    "STR": 1,
+    "INT": -1,
+    "DEX": 2,
+    "PER": 0,
+    "CON": 0,
+    "WIL": 0,
+    "CHA": -2
   },
   "cyborg": {
-    "str": 1,
-    "int": 2,
-    "dex": -3,
-    "per": 2,
-    "con": 3,
-    "wil": -3,
-    "cha": 0
+    "STR": 1,
+    "INT": 2,
+    "DEX": -3,
+    "PER": 2,
+    "CON": 3,
+    "WIL": -3,
+    "CHA": 0
   },
   "cat": {
-    "str": -1,
-    "int": 0,
-    "dex": 1,
-    "per": 1,
-    "con": -1,
-    "wil": -1,
-    "cha": 1
+    "STR": -1,
+    "INT": 0,
+    "DEX": 1,
+    "PER": 1,
+    "CON": -1,
+    "WIL": -1,
+    "CHA": 1
   }
 }

@@ -5,7 +5,7 @@ Main procedure file.
 Contains menus and the main crawl procedure
 """
 
-import copy, os, random, time
+import copy, os, random, sys, time
 import dungeon, item, mob, npc, parser, player
 import common, config, help, test
 
@@ -393,11 +393,16 @@ def newgame(quick):
       hero.name=random.choice(namearray)
 
     # setup stats arrays from dict saved in file
-    racesarray=strarray=intarray=dexarray=perarray=conarray=chaarray=[]
+    racesarray=[]
+    strarray=[]
+    intarray=[]
+    dexarray=[]
+    perarray=[]
+    conarray=[]
+    chaarray=[]
     sys.path.insert(0, "../data/player")
     from races import stats
-    for race in stats:
-      racesarray.append(race)
+    for race in stats: racesarray.append(race)
     
     selected=0
     while 1:
@@ -407,20 +412,20 @@ def newgame(quick):
         print "New game [3/5] Race\n"
         print "Select your race"
         print "<[%s] %s [%s]>"           %(cfg.west,race,cfg.east)
-        print "STR %s \tINT %s \tDEX %s" %(stats[race]["str"],stats[race]["int"],stats[race]["dex"])
-        print "PER %s \tCON %s \tCHA %s" %(stats[race]["per"],stats[race]["con"],stats[race]["cha"])
+        print "STR %s \tINT %s \tDEX %s" %(stats[race]["STR"],stats[race]["INT"],stats[race]["DEX"])
+        print "PER %s \tCON %s \tCHA %s" %(stats[race]["PER"],stats[race]["CON"],stats[race]["CHA"])
         print "%s: select"               %(cfg.quit)
         np=common.getch()
         if np==cfg.west and selected>0: selected-=1
         if np==cfg.east: selected+=1
         if np==cfg.quit:
           hero.race=racesarray[selected]
-          hero.STR+=int(stats[race]["str"])
-          hero.INT+=int(stats[race]["int"])
-          hero.DEX+=int(stats[race]["dex"])
-          hero.PER+=int(stats[race]["per"])
-          hero.CON+=int(stats[race]["con"])
-          hero.CHA+=int(stats[race]["str"])
+          hero.STR+=int(stats[race]["STR"])
+          hero.INT+=int(stats[race]["INT"])
+          hero.DEX+=int(stats[race]["DEX"])
+          hero.PER+=int(stats[race]["PER"])
+          hero.CON+=int(stats[race]["CON"])
+          hero.CHA+=int(stats[race]["STR"])
           break
       except IndexError:
         if np==cfg.west: selected+=1

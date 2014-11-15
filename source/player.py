@@ -1,5 +1,5 @@
 #! usr/bin/env python 
-import copy, os, random
+import copy, os, random, sys
 import common, copy, dungeon, item
 
 class player:
@@ -131,40 +131,29 @@ class player:
     self.mp2=self.MP
     self.hp2=self.HP
     
-    #Initialize position
+    # Initialize position
     self.ypos=0
     self.xpos=0
     self.zpos=0
 
-    #Random race
+    # Random choices
     if randomv==1:
+      # Name
       namearray=[]
       with open("../data/player/names","r") as names:
         for line in names: namearray.append(line.strip())
       self.name=random.choice(namearray)
-
-      with open("../data/player/races","r") as file:
-        races={}
-        for line in file:
-          if not line.startswith('#'):
-            temp=[]
-            temp.append(int(line.strip().partition(':')[2].partition(':')[0]))
-            temp.append(int(line.strip().partition(':')[2].partition(':')[2].partition(':')[0]))
-            temp.append(int(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            temp.append(int(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            temp.append(int(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            temp.append(int(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            temp.append(int(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2]))
-            races[line.strip().partition(':')[0]]=temp
-
-        self.race=random.choice(races.keys())
-        self.STR+=races[self.race][0]
-        self.INT+=races[self.race][1]
-        self.DEX+=races[self.race][2]
-        self.PER+=races[self.race][3]
-        self.CON+=races[self.race][4]
-        self.WIL+=races[self.race][5]
-        self.CHA+=races[self.race][6]
+      # Race
+      sys.path.insert(0, "../data/player")
+      from races import stats
+      self.race=random.choice(stats.items())[0]
+      self.STR+=stats[self.race]["STR"]
+      self.INT+=stats[self.race]["INT"]
+      self.DEX+=stats[self.race]["DEX"]
+      self.PER+=stats[self.race]["PER"]
+      self.CON+=stats[self.race]["CON"]
+      self.WIL+=stats[self.race]["WIL"]
+      self.CHA+=stats[self.race]["CHA"]
 
       #Random class
       with open("../data/player/classes","r") as file:

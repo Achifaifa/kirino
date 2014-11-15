@@ -1,4 +1,4 @@
-#Kirino v0.1.6c
+#Kirino v0.1.6d
 
 Basic console based dungeon crawler. 
 
@@ -108,6 +108,7 @@ stevenbird (GH: nltk source)
   * [0.1.6b] Balanced mob and object generation
   * [0.1.6b] Updated parsing algorithms and code
   * [0.1.16c] Removed unnecesary sys imports
+  * [0.1.16d] Merged a request and fixed crashes from request
 
 ####**v0.1.5** (2014-10-24):
 * New features:
