@@ -392,47 +392,45 @@ def newgame(quick):
         for line in names: namearray.append(line.strip())
       hero.name=random.choice(namearray)
 
-    with open("../data/player/races","r") as file:
-        racesarray=strarray=intarray=dexarray=perarray=conarray=chaarray=[]
-        for line in file:
-          if not line.startswith('#'): #There must be a better way to do this
-            racesarray.append(line.rstrip('\n').partition(':')[0])
-            strarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[0]))
-            intarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0]))
-            dexarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            perarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            conarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
-            chaarray.append(int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0]))
+    # setup stats arrays from dict saved in file
+    racesarray=strarray=intarray=dexarray=perarray=conarray=chaarray=[]
+    sys.path.insert(0, "../data/player")
+    from races import stats
+    for race in stats:
+      racesarray.append(race)
+    
     selected=0
-
     while 1:
       try:
         common.version()
+        race = racesarray[selected]
         print "New game [3/5] Race\n"
         print "Select your race"
-        print "<[%s] %s [%s]>"          %(cfg.west,racesarray[selected],cfg.east)
-        print "STR +%i INT +%i DEX +%i" %(strarray[selected],intarray[selected],dexarray[selected])
-        print "PER +%i CON +%i CHA +%i" %(perarray[selected],conarray[selected],chaarray[selected])
-        print "%s: select"              %cfg.quit
+        print "<[%s] %s [%s]>"           %(cfg.west,race,cfg.east)
+        print "STR %s \tINT %s \tDEX %s" %(stats[race]["str"],stats[race]["int"],stats[race]["dex"])
+        print "PER %s \tCON %s \tCHA %s" %(stats[race]["per"],stats[race]["con"],stats[race]["cha"])
+        print "%s: select"               %(cfg.quit)
         np=common.getch()
         if np==cfg.west and selected>0: selected-=1
         if np==cfg.east: selected+=1
         if np==cfg.quit:
           hero.race=racesarray[selected]
-          if not strarray[selected]=="": hero.STR+=int(strarray[selected])
-          if not strarray[selected]=="": hero.INT+=int(intarray[selected])
-          if not strarray[selected]=="": hero.DEX+=int(dexarray[selected])
-          if not strarray[selected]=="": hero.PER+=int(perarray[selected])
-          if not strarray[selected]=="": hero.CON+=int(conarray[selected])
-          if not strarray[selected]=="": hero.CHA+=int(chaarray[selected])
+          hero.STR+=int(stats[race]["str"])
+          hero.INT+=int(stats[race]["int"])
+          hero.DEX+=int(stats[race]["dex"])
+          hero.PER+=int(stats[race]["per"])
+          hero.CON+=int(stats[race]["con"])
+          hero.CHA+=int(stats[race]["str"])
           break
       except IndexError:
         if np==cfg.west: selected+=1
         if np==cfg.east: selected-=1
+    
     with open("../data/player/classes","r") as file:
       classesarray=[]
       for line in file: classesarray.append(line.rstrip('\n'))
     selected=0
+    
     while 1:
       try:
         common.version()
