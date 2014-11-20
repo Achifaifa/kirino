@@ -19,7 +19,8 @@ hp2=mp2=0
 name="empty"
 flcounter=1       #Floor counter
 fl=1              #Actual (total) floor (Displayed)
-tempinventory=tempequiparr=[]
+tempinventory=[]
+tempequiparr=[]
 xsize=ysize=0
 
 def loadfiles():
@@ -197,8 +198,7 @@ def crawl(quickvar):
     print "FL %i Lv %i"%(fl,hero.lv),
     if hero.lv==1: print "(%i/5 xp)"%(hero.exp)
     if hero.lv>1:  print "%i/%i xp"%(hero.exp,3*hero.lv+(2*(hero.lv-1)))
-    for i in range(6):
-      print "(%c) %s" %(quick[i],hero.belt[i].name)
+    for i in range(6): print "(%c) %s" %(quick[i],hero.belt[i].name)
     print "\n%c: key mapping help"%(cfg.showkeys)
     print hungmsg+lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
     print "->",
@@ -218,20 +218,20 @@ def crawl(quickvar):
       except: pass
 
     #Explored map
-    if crawlmen==cfg.showmap:
+    elif crawlmen==cfg.showmap:
       common.version()
       print "Map"
       for i in dung.explored: print "".join(i)
       common.getch()
 
     #Character sheet menu
-    if crawlmen==cfg.charsh: hero.charsheet()
+    elif crawlmen==cfg.charsh: hero.charsheet()
 
     #Show key help
     elif (crawlmen==cfg.showkeys or action==61): help.keyhelp() 
 
     #Using belt items
-    if   crawlmen==cfg.quick1: usemsg=hero.use(hero.belt[0])
+    elif crawlmen==cfg.quick1: usemsg=hero.use(hero.belt[0])
     elif crawlmen==cfg.quick2: usemsg=hero.use(hero.belt[1])
     elif crawlmen==cfg.quick3: usemsg=hero.use(hero.belt[2])
     elif crawlmen==cfg.quick4: usemsg=hero.use(hero.belt[3])
@@ -371,7 +371,7 @@ def newgame(quick):
         xsize=int(raw_input("Horizontal size: "))
         ysize=int(raw_input("Vertical size: "))
         if xsize<40 or ysize<20: print "Minimum size 40x20"
-        elif xsize>=40 and ysize>=20:
+        else:
           print "%ix%i dungeon created"%(xsize,ysize)
           common.getch()
           break
@@ -384,13 +384,10 @@ def newgame(quick):
     common.version()
     print "New game [2/5] Name\n"
     hero.name=raw_input("What is your name? ")
-
     #If name was left empty, pick a random one
     if len(hero.name)==0:
-      namearray=[]
       with open("../data/player/names","r") as names:
-        for line in names: namearray.append(line.strip())
-      hero.name=random.choice(namearray)
+        hero.name=random.choice(names.readlines()).strip()
 
     # setup stats arrays from dict saved in file
     racesarray=[]
@@ -432,8 +429,7 @@ def newgame(quick):
         if np==cfg.east: selected-=1
     
     with open("../data/player/classes","r") as file:
-      classesarray=[]
-      for line in file: classesarray.append(line.rstrip('\n'))
+      classesarray=[i.rstrip() for i in file]
     selected=0
     
     while 1:
@@ -570,40 +566,30 @@ def scroll(lines):
   """
 
   #Pending to implement music of some sort
-  height=lines
-  emptyheight=height
+  emptyheight=lines
+  count=head=0
   credstr=[]
 
   with open ("../data/misc/credits","r") as credits:
-    for line in credits:credstr.append(line.rstrip())
+    credstr=[i.rstrip() for i in credits]
 
   while 1:
     os.system('clear')
-
-    if emptyheight>0:
-      for i in range(emptyheight): print ""
-      for i in range(height-emptyheight):
-        try: print credstr[i]
-        except IndexError: pass
-      emptyheight-=1
-
-    if emptyheight==0:
-      try: del credstr[0]
-      except IndexError: break
-      for i in range(height):
-        try: print credstr[i]
-        except IndexError: pass
+    for i in range(emptyheight): print ""
+    for i in credstr[0 if emptyheight>0 else head:lines-emptyheight]: print i
+    emptyheight-=1
+    if count<=len(credstr)+lines: count+=1
+    else: break
+    if emptyheight<0: head+=1
     time.sleep(1/1.5)
 
-#Changes the directory to where the source files are
-try: os.chdir(os.path.dirname(__file__))
-#OSError is generated when os.path.dirname(__file__) is empty string. 
-#That is, when the path is already where the source files are.
-except OSError: pass 
-
-#Load data files and start the menu    
-loadfiles()
-try: menu()
-except KeyboardInterrupt:
-  print "Exit kirino? (y/n)"
-  if common.getch()=="y": exit()
+if __name__=="__main__":
+  #Changes the directory to where the source files are
+  try: os.chdir(os.path.dirname(__file__))
+  #OSError is generated when os.path.dirname(__file__) is empty string. 
+  #That is, when the path is already where the source files are.
+  except OSError: pass 
+  #Load data files and start the menu    
+  loadfiles()
+  try: menu()
+  except KeyboardInterrupt: exit()

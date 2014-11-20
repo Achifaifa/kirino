@@ -150,31 +150,25 @@ class vendor:
 
       try:
        
-          if len(self.potforsale)!=0:
-            if player.pocket>=round(self.pricecalc(player)*self.potforsale[int(buypotmenu)-1].price):
-              if player.belt[0].name=="--EMPTY--":
-                player.belt[0]=copy.copy(self.potforsale[int(buypotmenu)-1])
-              elif player.belt[1].name=="--EMPTY--":
-                player.belt[1]=copy.copy(self.potforsale[int(buypotmenu)-1])
-              elif player.belt[2].name=="--EMPTY--":
-                player.belt[2]=copy.copy(self.potforsale[int(buypotmenu)-1])
-              elif player.belt[3].name=="--EMPTY--":
-                player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
-              elif player.belt[3].name=="--EMPTY--":
-                player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
-              elif player.belt[3].name=="--EMPTY--":
-                player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
-              player.pocket-=self.potforsale[int(buypotmenu)-1].price
-              player.totalspn+=self.potforsale[int(buypotmenu)-1].price
-              del self.potforsale[int(buypotmenu)-1]
-              self.keeper.rel+=1
-              print random.choice(vendordata["okmsg"])
-              player.totalbuy+=1
-              common.getch()
+        if len(self.potforsale)!=0:
+          if player.pocket>=round(self.pricecalc(player)*self.potforsale[int(buypotmenu)-1].price):
+            if player.belt[0].name=="--EMPTY--": player.belt[0]=copy.copy(self.potforsale[int(buypotmenu)-1])
+            elif player.belt[1].name=="--EMPTY--": player.belt[1]=copy.copy(self.potforsale[int(buypotmenu)-1])
+            elif player.belt[2].name=="--EMPTY--": player.belt[2]=copy.copy(self.potforsale[int(buypotmenu)-1])
+            elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+            elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+            elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+            player.pocket-=self.potforsale[int(buypotmenu)-1].price
+            player.totalspn+=self.potforsale[int(buypotmenu)-1].price
+            del self.potforsale[int(buypotmenu)-1]
+            self.keeper.rel+=1
+            print random.choice(vendordata["okmsg"])
+            player.totalbuy+=1
+            common.getch()
 
-            else:
-              print random.choice(vendordata["failmsg"])
-              common.getch()
+          else:
+            print random.choice(vendordata["failmsg"])
+            common.getch()
 
       except (ValueError,IndexError): pass
         
@@ -199,9 +193,7 @@ class vendor:
 
     #Relationship modifiers
     modifier-=(self.keeper.rel/15)
-
     if modifier<0.5: modifier=0.5
-
     return modifier
 
   def buyit(self,player):
@@ -211,7 +203,7 @@ class vendor:
 
     while 1:
       common.version()
-      print "Shop - Buy items ("+str(player.pocket)+"G)\n"
+      print "Shop - Buy items (%iG)\n" %player.pocket
       for i in range(len(self.forsale)): print str(i+1)+".- "+self.forsale[i].name+" ("+str(round(self.pricecalc(player)*self.forsale[i].price))+"G)"
       print "--"
       print "0.- Back"
@@ -314,68 +306,33 @@ def load():
 
   try:
     print "Loading NPC data files...  ",
-    with open("../data/npcs/firstnames_male","r") as file:
-      namemale = []
-      for line in file: namemale.append(line.rstrip('\n'))
-    npcdata["namemale"]=namemale
-     
-    with open("../data/npcs/firstnames_female","r") as file:
-      namefemale = []
-      for line in file: namefemale.append(line.rstrip('\n'))
-    npcdata["namefemale"]=namefemale
-
-    with open("../data/npcs/secondnames","r") as file:
-      secondnames = []
-      for line in file: secondnames.append(line.rstrip('\n'))
-    npcdata["secondnames"]=secondnames
-
-    with open("../data/npcs/appearance","r") as file:
-      appearance = []
-      for line in file: appearance.append(line.rstrip('\n'))
-    npcdata["appearance"]=appearance
-
-    with open("../data/npcs/personality","r") as file:
-      personality = []
-      for line in file: personality.append(line.rstrip('\n'))
-    npcdata["personality"]=personality
-
-    with open("../data/npcs/things","r") as file:
-      things = []
-      for line in file: things.append(line.rstrip('\n'))
-    npcdata["things"]=things
-
-    with open("../data/npcs/jobs","r") as file:
-      jobs = []
-      for line in file: jobs.append(line.rstrip('\n'))
-    npcdata["jobs"]=jobs
-
+    with open("../data/npcs/firstnames_male","r") as file:    npcdata["namemale"]=    [i.rstrip() for i in file]
+    with open("../data/npcs/firstnames_female","r") as file:  npcdata["namefemale"]=  [i.rstrip() for i in file]
+    with open("../data/npcs/secondnames","r") as file:        npcdata["secondnames"]= [i.rstrip() for i in file]
+    with open("../data/npcs/appearance","r") as file:         npcdata["appearance"]=  [i.rstrip() for i in file]
+    with open("../data/npcs/personality","r") as file:        npcdata["personality"]= [i.rstrip() for i in file]
+    with open("../data/npcs/things","r") as file:             npcdata["things"]=      [i.rstrip() for i in file]
+    with open("../data/npcs/jobs","r") as file:               npcdata["jobs"]=        [i.rstrip() for i in file]
+    print "OK"
   except IOError:
     print "error loading NPC data files"
     common.getch()
 
+  print "Loading NPC messages...    ",
+  vendordata["welcomemsg"]=[]
+  vendordata["byemsg"]=[]
+  vendordata["okmsg"]=[]
+  vendordata["failmsg"]=[]
   try:
-    print "Loading NPC messages...    ",
     with open("../data/vendor/vendormsg","r") as file:
-      welcomemsg=[]
-      byemsg=[]
-      okmsg=[]
-      failmsg=[]
       for line in file:
         line=line.strip()
         if not line.startswith("#"):
-          if line.partition(':')[0]=="W":
-            welcomemsg.append(line.partition(':')[2])
-            vendordata["welcomemsg"]=welcomemsg
-          if line.partition(':')[0]=="G":
-            byemsg.append(line.partition(':')[2])
-            vendordata["byemsg"]=byemsg
-          if line.partition(':')[0]=="S":
-            okmsg.append(line.partition(':')[2])
-            vendordata["okmsg"]=okmsg
-          if line.partition(':')[0]=="F":
-            failmsg.append(line.partition(':')[2])
-            vendordata["failmsg"]=failmsg
-
+          if line.partition(':')[0]=="W": vendordata["welcomemsg"].append(line.partition(':')[2])
+          if line.partition(':')[0]=="G": vendordata["byemsg"].append(line.partition(':')[2])
+          if line.partition(':')[0]=="S": vendordata["okmsg"].append(line.partition(':')[2])
+          if line.partition(':')[0]=="F": vendordata["failmsg"].append(line.partition(':')[2])
+    print "OK"
   except IOError:
     print "error loading vendor data files"
     common.getch()
@@ -388,9 +345,11 @@ if __name__=="__main__":
   common.version()
   print "NPC module test"
   while 1:
-    new=npc(0,0,0)
-    print "Name: %s %s"               %(new.name,new.secondname)
-    print "Personality: %s"           %(new.personality)
-    print "Appearance: %s"            %(new.appearance)
-    print "Works as: %s \n\n---\n\n"  %(new.job)
-    common.getch()
+    try:
+      new=npc(0,0,0)
+      print "Name: %s %s"               %(new.name,new.secondname)
+      print "Personality: %s"           %(new.personality)
+      print "Appearance: %s"            %(new.appearance)
+      print "Works as: %s \n\n---\n\n"  %(new.job)
+      common.getch()
+    except: break

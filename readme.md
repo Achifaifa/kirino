@@ -1,4 +1,4 @@
-#Kirino v0.1.6d
+#Kirino v0.1.7
 
 Basic console based dungeon crawler. 
 
@@ -97,6 +97,14 @@ stevenbird (GH: nltk source)
   * `player.py`:        Player class
   * `test.py`:          Functions to test new implementations quickly
 * `readme.md`:        This file
+
+####**v0.1.7** (2014-11-21):
+* New features:
+* Bugs fixed:
+  * Fixed bug in credit scroll
+* Others:
+  * Code rewritten
+  * Removed useless exit prompt
 
 ####**v0.1.6** (2014-11-07):
 * New features: 
