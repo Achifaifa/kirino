@@ -1,4 +1,4 @@
-#Kirino v0.1.7
+#Kirino v0.1.7b
 
 Basic console based dungeon crawler. 
 
@@ -102,6 +102,7 @@ stevenbird (GH: nltk source)
 * New features:
 * Bugs fixed:
   * Fixed bug in credit scroll
+  * [0.1.7b] Fixed space appearing randomly before title
 * Others:
   * Code rewritten
   * Removed useless exit prompt
