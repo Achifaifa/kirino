@@ -196,3 +196,4 @@ if __name__=="__main__":
   while 1:
     new=mob(dun,-1)
     print "%s lv%i (%ihp,%imp): %ixp, %ipr"%(new.name,new.lv,new.HP,new.MP,new.exp,new.pres)
+    common.getch()

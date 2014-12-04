@@ -1,4 +1,4 @@
-#Kirino v0.1.7b
+#Kirino v0.1.7c
 
 Basic console based dungeon crawler. 
 

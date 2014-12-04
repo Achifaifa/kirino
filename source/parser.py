@@ -328,3 +328,6 @@ def load():
   except IOError:
     raw_input("error loading message files")
   os.system('clear')
+
+if __name__=="__main__":
+  print "Parser module. Use test function in test module."
