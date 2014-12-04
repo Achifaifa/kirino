@@ -518,20 +518,13 @@ class player:
       else:               print "%i points left \n"%(self.points)
 
       #Determining cost of improving attributes (Based on AFMBE rules, sort of)  
-      if self.STR<5:  coststr=5
-      if self.STR>=5: coststr=((self.STR/5)+1)*5
-      if self.INT<5:  costint=5
-      if self.INT>=5: costint=((self.INT/5)+1)*5
-      if self.DEX<5:  costdex=5
-      if self.DEX>=5: costdex=((self.DEX/5)+1)*5
-      if self.CON<5:  costcon=5
-      if self.CON>=5: costcon=((self.CON/5)+1)*5
-      if self.PER<5:  costper=5
-      if self.PER>=5: costper=((self.PER/5)+1)*5
-      if self.WIL<5:  costwil=5
-      if self.WIL>=5: costwil=((self.WIL/5)+1)*5
-      if self.CHA<5:  costcha=5
-      if self.CHA>=5: costcha=((self.CHA/5)+1)*5
+      coststr=5 if self.STR<5 else ((self.STR/5)+1)*5
+      costint=5 if self.INT<5 else ((self.INT/5)+1)*5
+      costdex=5 if self.DEX<5 else ((self.DEX/5)+1)*5
+      costper=5 if self.PER<5 else ((self.PER/5)+1)*5
+      costcon=5 if self.CON<5 else ((self.CON/5)+1)*5
+      costwil=5 if self.WIL<5 else ((self.WIL/5)+1)*5
+      costcha=5 if self.CHA<5 else ((self.CHA/5)+1)*5
 
       #printing menu
       print "1.- [%i] STR %i (+%i)"%(coststr,self.STR,self.strboost)
@@ -607,13 +600,13 @@ class player:
     """
 
     calcarray=[]
-    if item.strbonus>0: calcarray.append("+"+str(item.strbonus)+" STR")
-    if item.intbonus>0: calcarray.append("+"+str(item.intbonus)+" INT")
-    if item.dexbonus>0: calcarray.append("+"+str(item.dexbonus)+" DEX")
-    if item.perbonus>0: calcarray.append("+"+str(item.perbonus)+" PER")
-    if item.conbonus>0: calcarray.append("+"+str(item.conbonus)+" CON")
-    if item.wilbonus>0: calcarray.append("+"+str(item.wilbonus)+" WIL")
-    if item.chabonus>0: calcarray.append("+"+str(item.chabonus)+" CHA")
+    if item.strbonus>0: calcarray.append("+%s STR"%item.strbonus)
+    if item.intbonus>0: calcarray.append("+%s INT"%item.intbonus)
+    if item.dexbonus>0: calcarray.append("+%s DEX"%item.dexbonus)
+    if item.perbonus>0: calcarray.append("+%s PER"%item.perbonus)
+    if item.conbonus>0: calcarray.append("+%s CON"%item.conbonus)
+    if item.wilbonus>0: calcarray.append("+%s WIL"%item.wilbonus)
+    if item.chabonus>0: calcarray.append("+%s CHA"%item.chabonus)
     if len(calcarray)>0: return "("+(', '.join(map(str,calcarray)))+")"
     if len(calcarray)==0: return ""
 
