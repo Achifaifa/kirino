@@ -68,8 +68,8 @@ class config:
       with open("../player/config","r") as configfile:
         for line in configfile:
           if not line.startswith('#'):
-            parA=line.partition(':')[0]
-            parB=line.strip().partition(':')[2]
+            parA=line.split(':')[0]
+            parB=line.split(':')[1]
             if   parA=="North":         self.north=     parB          
             elif parA=="South":         self.south=     parB          
             elif parA=="East":          self.east=      parB         
@@ -111,8 +111,8 @@ class config:
     while 1: 
       common.version()
       print "Options \n"
-      if self.autosave==0:  print "1.- Autosave [off]"
-      if self.autosave==1:  print "1.- Autosave [on]"
+      if not self.autosave: print "1.- Autosave [off]"
+      if self.autosave:     print "1.- Autosave [on]"
       print "    Saves the character between floors"
       if not self.fog and not restricted:   print "2.- Fog [off]"
       if     self.fog and not restricted:   print "2.- Fog [on]"

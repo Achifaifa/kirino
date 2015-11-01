@@ -1147,8 +1147,7 @@ class player:
           for line in savefile:
             if not line.startswith("#"):
               #Load stats and player details
-              parA=line.partition(':')[0]
-              parB=line.strip().partition(':')[2]
+              parA,parB=line.split(':')
               if   parA=="Name":          self.name=      parB
               elif parA=="Level":         self.lv=        int(parB)
               elif parA=="Exp":           self.exp=       int(parB)
@@ -1188,54 +1187,56 @@ class player:
               elif parA=="Stomach":       self.stomach=   int(parB)
 
               #Load equipped items
-                                                                                                                                                              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
+              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
               elif line.startswith("E:"):
-                if not line.rstrip("\n").partition(':')[2].partition(':')[0]==" ":
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].name=           line.rstrip('\n').partition(':')[2].partition(':')[0]
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].enchantlv=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].type=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].atk=        int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].defn=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].strbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].intbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].dexbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].perbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].conbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].wilbonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].chabonus=   int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  self.equiparr[int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])-1].price=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                line=line.strip().split(':')
+                if line[1]!=" ":
+                  wtype=int(line[3])-1
+                  self.equiparr[wtype].name=           line[1]
+                  self.equiparr[wtype].enchantlv=  int(line[2])
+                  self.equiparr[wtype].type=       int(line[3])
+                  self.equiparr[wtype].atk=        int(line[4])
+                  self.equiparr[wtype].defn=       int(line[5])
+                  self.equiparr[wtype].strbonus=   int(line[6])
+                  self.equiparr[wtype].intbonus=   int(line[7])
+                  self.equiparr[wtype].dexbonus=   int(line[8])
+                  self.equiparr[wtype].perbonus=   int(line[9])
+                  self.equiparr[wtype].conbonus=   int(line[10])
+                  self.equiparr[wtype].wilbonus=   int(line[11])
+                  self.equiparr[wtype].chabonus=   int(line[12])
+                  self.equiparr[wtype].price=      int(line[12])
 
               #Load inventory
+              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
               elif line.startswith("I:"):
                 temp=item.item(0)
-
-                #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-                temp.name=          line.rstrip('\n').partition(':')[2].partition(':')[0]
-                temp.enchantlv= int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.type=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.atk=       int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.defn=      int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.strbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.intbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.dexbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.perbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.conbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.wilbonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.chabonus=  int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                temp.price=     int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                line=line.strip().split(':')
+                temp.name=          line[1]
+                temp.enchantlv= int(line[2])
+                temp.type=      int(line[3])
+                temp.atk=       int(line[4])
+                temp.defn=      int(line[5])
+                temp.strbonus=  int(line[6])
+                temp.intbonus=  int(line[7])
+                temp.dexbonus=  int(line[8])
+                temp.perbonus=  int(line[9])
+                temp.conbonus=  int(line[10])
+                temp.wilbonus=  int(line[11])
+                temp.chabonus=  int(line[12])
+                temp.price=     int(line[13])
                 self.inventory.append(copy.copy(temp))
 
               #Load belt items
               elif line.startswith("B:"):
-                line=line.lstrip("B:")
-                if line.partition(':')[0]=="4": self.belt.append(item.consumable(4,0))
-                if line.partition(':')[0]=="0":
+                line=line.lstrip("B:").rstrip().split()
+                if line.[0]=="4": self.belt.append(item.consumable(4,0))
+                if line.[0]=="0":
                   temp=item.consumable(0,0)
-                  temp.subtype=int(line.partition(':')[2].partition(':')[0])
-                  temp.name=line.partition(':')[2].partition(':')[2].partition(':')[0]
-                  temp.hpr=int(line.partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  temp.mpr=int(line.partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[0])
-                  temp.price=int(line.rstrip('\n').partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2].partition(':')[2])
+                  temp.subtype= int(line[1])
+                  temp.name=    line[2]
+                  temp.hpr=     int(line[3])
+                  temp.mpr=     int(line[4])
+                  temp.price=   int(line[5])
                   self.belt.append(copy.copy(temp))
 
           #Add empty items to belt until it's full
