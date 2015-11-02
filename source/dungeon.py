@@ -32,16 +32,14 @@ class dungeon:
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
 
-    if x<40:x=40
-    if y<20:y=20
-    self.xsize=x
-    self.ysize=y
+    self.xsize=x if x>=40 else 40
+    self.ysize=y if y>=20 else 20
     while self.debug(): 
       
-      #This creates and fills the dungeon with # (Rock)
+      # This creates and fills the dungeon with # (Rock)
       self.dungarray=[["#" for i in range(self.xsize)] for i in range(self.ysize)]
             
-      #Adds one big room  (minimum 4*4) per 40*40 space
+      # Adds one big room  (minimum 4*4) per 40*40 space
       for v in range(self.xsize*self.ysize/1600):
         roomy=random.randrange(self.ysize/3)+4
         roomx=random.randrange(self.xsize/3)+4
@@ -53,7 +51,7 @@ class dungeon:
         #Mark each room with a D on a random spot inside it
         self.dungarray[random.randrange(roomstarty,roomstarty+roomy)][random.randrange(roomstartx,roomstartx+roomx)]="D"
             
-      #Adds three small rooms (minimum 2*2) per 20x20 space
+      # Adds three small rooms (minimum 2*2) per 20x20 space
       for v in range(self.xsize*self.ysize/400):
         roomy=random.randrange(self.ysize/5)+2
         roomx=random.randrange(self.xsize/5)+2
@@ -65,7 +63,7 @@ class dungeon:
         #Mark each room with a D on a random spot inside it
         self.dungarray[random.randrange(roomstarty,roomstarty+roomy)][random.randrange(roomstartx,roomstartx+roomx)]="D"
             
-      #Random halls: add some random halls.
+      # Add some random halls.
       for t in range (self.ysize*self.xsize/800):      #Pending to be fixed
         randomy=random.randrange(1,self.ysize-1)
         randomx=random.randrange(1,self.xsize-1)
@@ -201,19 +199,11 @@ class dungeon:
       self.dungarray[exity][exitx]="X"
             
       #Removes any D from the rooms previously created
-      for i in range (len(self.dungarray)):
-      	for j in range (len(self.dungarray[i])):
-      	  if self.dungarray[i][j]=="D":
-      	    self.dungarray[i][j]="."
+      self.dungarray=[[j.replace("D",".") for j in i] for i in self.dungarray]      
 
-      #Adds a mob for every 50 free spaces:
-      self.mobarray=[]
-      spacecounter=0
-      for i in range(self.ysize):
-        for j in range(self.xsize):
-          if self.dungarray[i][j]==".":
-            spacecounter+=1
-      for i in range(spacecounter/50):
+      # Counts the free spaces in the dungarray and adds a mob for every 50 free spaces:
+      spaces=sum([i.count('.') for i in self.dungarray])
+      for i in range(spaces/50):
         self.mobarray.append(mob.mob(self,1))
 
       #Adds the vendor
@@ -259,21 +249,18 @@ class dungeon:
       #     self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
       #  	else: pass
 
-      #Add money (loot) in random places in the ground. 1 drop per 50 floor tiles
-      counter=0
+      # Add money (loot) in random places in the ground. 1 drop per 50 floor tiles
+      # Uses the 'spaces' variable calculated earlier
       tempx=0
       tempy=0
-      for i in range(self.ysize):
-        for j in range(self.xsize):
-          if self.dungarray[i][j]==".": counter+=1
-      for i in range(1,counter/75):
+      for i in range(spaces/75):
         while self.dungarray[tempy][tempx]!=".":
           tempx=random.randrange(1,self.xsize)
           tempy=random.randrange(1,self.ysize)
         self.dungarray[tempy][tempx]="$"
 
       #Add objects (loot) in random places. 1 drop per 200 floor tiles
-      for i in range (1,counter/200):
+      for i in range (spaces/200):
         while self.dungarray[tempy][tempx]!=".":
           tempx=random.randrange(1,self.xsize)
           tempy=random.randrange(1,self.ysize)
@@ -290,23 +277,11 @@ class dungeon:
 
       #Dungeon should be done
 
-      #Initializes the filled array so it has the same sizent content as the dungarray
-      self.filled=[]
-      for i in range (self.ysize):
-        secondary=[]
-        for j in range (self.xsize): secondary.append("~")
-        self.filled.append(secondary)
-      #Fills the filled array with the dungarray data
-      for i in range (self.ysize):
-        for j in range (self.xsize):
-          self.filled[i][j]=self.dungarray[i][j]
+      #Initializes the filled array so it has the same size and content as the dungarray
+      self.filled=copy.deepcopy(self.dungarray)
 
       #Initialize explored array
-      self.explored=[]
-      for i in range(self.ysize):
-        temp=[]
-        for j in range(self.xsize): temp.append("~")
-        self.explored.append(temp)
+      self.explored=[["~" for j in self.xsize] for i in self.ysize]
 
       #Add traps
       self.traps=[]
@@ -538,14 +513,4 @@ class dungeon:
     #Places the player marker in the filled array
     self.filled[player.ypos][player.xpos]="8"
 
-if __name__=="__main__":
-  try: os.chdir(os.path.dirname(__file__))
-  except OSError: pass 
-  npc.sanitize()
-  npc.load()
-  while 1:
-    common.version()
-    print "Dungeon module test"
-    dung=dungeon(60,30,0)
-    dung.map()
-    common.getch()
+if __name__=="__main__": pass
