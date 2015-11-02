@@ -2,9 +2,6 @@ import unittest
 
 class TestSuite(unittest.TestCase):
 
-  def test(self):
-    self.assertRaises(IndexError,[][1])
-
   def test2(self):
     self.assertEqual(range(10),range(10))
 

@@ -7,6 +7,10 @@ language: python
 python:
   - "2.7"
 
+# Create directories for test and coverage reports
+before_script:
+      - mkdir -p shippable/testresults
+
 # Launch the thing
 script:
-  - python -m unittest discover tests
+  - python -m unittest discover tests &> shippable/testresults/results.txt

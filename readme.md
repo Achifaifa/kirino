@@ -1,8 +1,10 @@
-#Kirino v0.1.7c
+#Kirino v0.2 (BETA)
 
 Basic console based dungeon crawler. 
 
 ##Release notes
+
+The current effort is to implement tests and some sort of CI solution, plus refactoring all the bad code and leaving it readable. 
 
 Kirino v0.1.1 was presented at the open game compo at Euskal Encounter 22 and, surprisingly, ended up in the third place. I am very satisfied with myself and very glad someone in the jury understood all the work behind this heap of crap. Thanks to all the testers and people who helped!!
 
@@ -20,7 +22,7 @@ If you experience a crash, bug or any weird or unexpected behaviour that is not 
 
 ##OS specific information
 
-* Unix/Linux: Works as-is as long as python is installed.  
+* Unix/Linux: Works as-is as long as python 2.7 is installed.  
   Tested in Debian, Gentoo, OpenBSD, Ubuntu.
 * Windows: Kirino can't be used in windows' command prompt. You can play it in this platform using a terminal emulator like putty. Different emulators may have different requirements to run python files, so read their documentation first. If you can't get any emulator working, I recommend using a Linux virtual machine.
 * OSX: It's essentially a very expensive FreeBSD, so it should work. Maybe. I don't really care. (Untested)
@@ -96,7 +98,14 @@ stevenbird (GH: nltk source)
   * `parser.py`:        Word parser module
   * `player.py`:        Player class
   * `test.py`:          Functions to test new implementations quickly
+* tests:              Tests for CI
 * `readme.md`:        This file
+* `shippable.yml`:    Configuration file for shippable CI
+
+####**v0.2** (Progress so far):
+* Code refactoring
+* Shippable CI integration
+* Unit tests
 
 ####**v0.1.7** (2014-11-21):
 * New features:
