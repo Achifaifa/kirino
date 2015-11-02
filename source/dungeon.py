@@ -203,6 +203,7 @@ class dungeon:
 
       # Counts the free spaces in the dungarray and adds a mob for every 50 free spaces:
       spaces=sum([i.count('.') for i in self.dungarray])
+      
       for i in range(spaces/50):
         self.mobarray.append(mob.mob(self,1))
 
