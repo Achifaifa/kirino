@@ -17,4 +17,4 @@ before_script:
       - mkdir -p shippable/codecoverage
 
 script:
-  - tests/test.py
+  - python -m unittest discover tests
