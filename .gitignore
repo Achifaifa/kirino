@@ -14,4 +14,3 @@ source/*.pyc
 
 #folders
 logs/*
-tests/*
