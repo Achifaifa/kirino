@@ -36,15 +36,10 @@ class dungeon:
     if y<20:y=20
     self.xsize=x
     self.ysize=y
-    self.dungarray=[]
-    while self.debug()!=0: 
+    while self.debug(): 
       
-      #This fills the dungeon with # (Rock)
-      for i in range (0,self.ysize):
-        secondary=[]
-        for j in range (0,self.xsize):
-          secondary.append("#")
-        self.dungarray.append(secondary)
+      #This creates and fills the dungeon with # (Rock)
+      self.dungarray=[["#" for i in range(self.xsize)] for i in range(self.ysize)]
             
       #Adds one big room  (minimum 4*4) per 40*40 space
       for v in range(self.xsize*self.ysize/1600):
@@ -403,9 +398,8 @@ class dungeon:
 
     if xmapsize<20: xmapsize=20
     if ymapsize<10: ymapsize=10
-    mapstring=[]
-    for i in range(ymapsize+1): mapstring.append([])
-
+    mapstring=[[] for i in range(ymapsize)]
+  
     #Centering minimap
     x-=xmapsize/2
     y-=ymapsize/2
@@ -508,10 +502,7 @@ class dungeon:
     """
 
     #Initialize filled array with fog
-    for i in range (self.ysize):
-      secondary=[]
-      for j in range (self.xsize): secondary.append("~")
-      self.filled.append(secondary)
+    self.filled=[["~" for i in range(self.xsize)] for i in range(self.ysize)]
 
     #Calculate how many tiles the player is allowed to see
     totper=player.PER+player.perboost   

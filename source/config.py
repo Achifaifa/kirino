@@ -68,8 +68,7 @@ class config:
       with open("../player/config","r") as configfile:
         for line in configfile:
           if not line.startswith('#'):
-            parA=line.split(':')[0]
-            parB=line.split(':')[1]
+            parA=,parB=line.split(':')
             if   parA=="North":         self.north=     parB          
             elif parA=="South":         self.south=     parB          
             elif parA=="East":          self.east=      parB         
