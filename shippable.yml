@@ -6,3 +6,15 @@ language: python
 # version numbers
 python:
   - "2.7"
+
+# The path for Xunit to output test reports
+env:
+      - XUNIT_FILE=shippable/testresults/result.xml
+
+# Create directories for test and coverage reports
+before_script:
+      - mkdir -p shippable/testresults
+      - mkdir -p shippable/codecoverage
+
+script:
+  - tests/test.py
