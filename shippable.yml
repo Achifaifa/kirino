@@ -7,6 +7,8 @@ language: python
 python:
   - "2.7"
 
+# Install
+
 # Create directories for test and coverage reports
 before_script:
       - mkdir -p shippable/testresults

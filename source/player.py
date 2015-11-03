@@ -1229,8 +1229,8 @@ class player:
               #Load belt items
               elif line.startswith("B:"):
                 line=line.lstrip("B:").rstrip().split()
-                if line.[0]=="4": self.belt.append(item.consumable(4,0))
-                if line.[0]=="0":
+                if line[0]=="4": self.belt.append(item.consumable(4,0))
+                if line[0]=="0":
                   temp=item.consumable(0,0)
                   temp.subtype= int(line[1])
                   temp.name=    line[2]

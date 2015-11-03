@@ -1,6 +1,6 @@
 #Kirino v0.2 (BETA)
 
-![](https://api.shippable.com/projects/5637d6041895ca44742262e6/badge/master)
+![](https://api.shippable.com/projects/5637d6041895ca44742262e6/badge/master)  
 Basic console based dungeon crawler. 
 
 ##Release notes
