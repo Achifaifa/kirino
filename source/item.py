@@ -30,7 +30,7 @@ class consumable:
   #
   # Attack items inflict extra damage. They can be direct things like bombs or extra strenght, or they can inflict extra damage over time.
   #
-  # 3.- Unidentified potions
+  # 3.- Unidentified potions/food
   #
   # Unidentified consumables can have totally random and unexpected effects. 
   # Vendors can identify them. When this happens, they are converted to a random type 0, 1 or 2 item.
@@ -63,7 +63,7 @@ class consumable:
   hungrec=0         #Hunger recovery
   chance=0          #Type of food (Good,risky,bad)
 
-  #Attack propieties
+  #Attack propieties #TO-DO
   areatype=0        #Type of area affected
   areasize=0        #Size of the area
   damage=0          #Damage caused
@@ -388,6 +388,12 @@ class item:
       04.5% chance of three attribute boost
       00.5% chance of four attribute boost
       01.0% chances of the item being destroyed
+
+    Enchanting an item costs the current item price, and doubles its price.
+    If the player has no money to pay for the enchant or the item is lv10, enchant() returns a message and passes.
+
+    If the item is destroyed all its attributes are set to 0. 
+    Deleting the resetted item from the inventory is done in the player module after calling the enchant() function.
     """
 
     # Calculate random number
