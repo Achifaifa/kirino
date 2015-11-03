@@ -201,9 +201,34 @@ class TestItems(unittest.TestCase):
     pass
 
 class TestFunctions(unittest.TestCase):
+  """
+  Test functions in the item module, such as reset and enchant
+  """
 
   def test_reset_consumable(self):
-    pass
+    """
+    Checks if the consumable reset function resets an objecct
+    """
+
+    it=item.consumable(0)
+    self.assertTrue(ti.type==4)
+    self.assertTrue(ti.price==0)
+    self.assertTrue(ti.name=="--EMPTY--")
+    self.assertTrue(ti.hpr==0)
+    self.assertTrue(ti.mpr==0)
+    self.assertIsInstance(ti.name,basestring)
+    self.assertTrue(ti.hungrec, int)
+    self.assertTrue(ti.chance, int)
+    self.assertTrue(ti.statusr, int)
+    self.assertTrue(ti.subtype, int)
+    self.assertTrue(item.strbst==0)
+    self.assertTrue(item.intbst==0)
+    self.assertTrue(item.chabst==0)
+    self.assertTrue(item.conbst==0)
+    self.assertTrue(item.dexbst==0)
+    self.assertTrue(item.perbst==0)
+    self.assertTrue(item.wilbst==0)
+
 
   def test_reset_item(self):
     pass
