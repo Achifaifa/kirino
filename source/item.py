@@ -373,12 +373,13 @@ class item:
     self.price=0
     self.atk=0
 
-  def enchant(self,player):
+  def enchant(self):
     """
     Enchants the item 
 
     Permanently adds attribute bonuses and increases either the attack or defense by 1.
-    Requires the player enchanting the object to be passed to alter the money balance.
+    Requires an item 
+    Returns 0 if the enchant failed and 1 if it succeeded.
     Items can only be enchanted up to lv10.
 
     Chances of attribute boosts:
@@ -387,98 +388,51 @@ class item:
       04.5% chance of three attribute boost
       00.5% chance of four attribute boost
       01.0% chances of the item being destroyed
-
-    Enchanting an item costs the current item price, and doubles its price.
-    If the player has no money to pay for the enchant or the item is lv10, enchant() returns a message and passes.
-
-    If the item is destroyed all its attributes are set to 0. 
-    Deleting the resetted item from the inventory is done in the player module after calling the enchant() function.
     """
 
-    oldname=self.name
-    enchantprice=self.price
-    ex=0 #Exception variable
-    if player.pocket<enchantprice:
-      print "You don't have enough money"
+    # Calculate random number
+    randint=random.randint(1,1000)
+    attboost=0
+    if randint<5: attboost=4
+    elif randint>51 and randint<=50: attboost=3
+    elif randint>50 and randint<=200: attboost=2
+    elif randint>200 and randint<=990: attboost=1
+    elif randint>990:        
       common.getch()
-    elif self.enchantlv>=10:
-      print "Maximum enchant level reached"
-      common.getch()
-    elif player.pocket>=enchantprice and self.enchantlv<10:
-      player.pocket-=enchantprice
-      player.totalspn+=enchantprice
+      self.reset()
+      return 0
 
-      # Calculate random number
-      randint=random.randint(1,1000)
-      attboost=0
-      if randint<5: attboost=4
-      elif randint>51 and randint<=50: attboost=3
-      elif randint>50 and randint<=200: attboost=2
-      elif randint>200 and randint<=990: attboost=1
-      elif randint>990:        
-        print "%s broke during enchanting" %(self.name)
-        common.getch()
-        self.reset()
-        ex=1
+    # If the item has not broken, enchant it
+    # Randomly assign the bonus points available
+    for i in range(1,attboost+1):
+      boosted=random.choice(["STR","INT","DEX","PER","CON","WIL","CHA"])
+      if boosted=="STR": self.strbonus+=1
+      if boosted=="INT": self.intbonus+=1
+      if boosted=="DEX": self.dexbonus+=1
+      if boosted=="PER": self.perbonus+=1
+      if boosted=="CON": self.conbonus+=1
+      if boosted=="WIL": self.wilbonus+=1
+      if boosted=="CHA": self.chabonus+=1
 
-      if not ex:
-        #Randomly assign the bonus points available
-        for i in range(1,attboost+1):
-          boosted=random.choice(["STR","INT","DEX","PER","CON","WIL","CHA"])
-          if boosted=="STR": self.strbonus+=1
-          if boosted=="INT": self.intbonus+=1
-          if boosted=="DEX": self.dexbonus+=1
-          if boosted=="PER": self.perbonus+=1
-          if boosted=="CON": self.conbonus+=1
-          if boosted=="WIL": self.wilbonus+=1
-          if boosted=="CHA": self.chabonus+=1
+    # Double the price of the item
+    # Set price first to avoid enchanted item prices to stay at zero
+    if self.price<1: self.price=1
+    self.price*=2
 
-        #double the price of the item
-        #Set price first to avoid enchanted item prices to stay at zero
-        if self.price<1: self.price=1
-        self.price*=2
+    # Increase attack or defense
+    if random.choice([0,1]): self.atk+=1
+    else: self.defn+=1
 
-        #Increase attack or defense
-        if random.choice([0,1]): self.atk+=1
-        else: self.defn+=1
+    # Increase enchant level
+    self.enchantlv+=1
 
-        #Increase enchant level
-        self.enchantlv+=1
-        if self.enchantlv>player.maxench: player.maxench=self.enchantlv
+    # Increase maximum enchanted level in the stats
+    if self.enchantlv>player.maxench: player.maxench=self.enchantlv
 
-        #Display the enchanting level in the item name
-        if "a"<=self.name[-1:]<="z": self.name=self.name+" +1"
-        else:
-          templv=int(self.name.partition('+')[2].strip())
-          templv+=1
-          tempname=self.name.partition('+')[0]
-          self.name=tempname+"+"+str(templv)
-          #Remove the numbers after the + in the name, add 1, attack the numbers to name.
-        player.itemsenc+=1
-        raw_input("%s enchanted successfully (+1 %s)"%(oldname,boosted))
-    #If the player has no money, pass
-    else: pass
+    #Display the enchanting level in the item name
+    if self.name[-1].isalpha(): self.name=self.name+" +1"
+    else: elf.name=self.name.split('+')[0]+str(int(self.name.split('+')[1])+1)
 
-if __name__=="__main__":
-  try: os.chdir(os.path.dirname(__file__))
-  except OSError: pass 
-  common.version()
-  print "Item module test"
-  print "1.- Generate items \n2.- Generate consumables"
-  var=common.getch()
-  if var=="1":
-    try:
-      while 1:
-        new=item(random.randrange(12))
-        if new.name!=" ": print "ITEM   --%s [+%i/%i] (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"%(new.name,new.atk,new.defn,new.strbonus,new.intbonus,new.dexbonus,new.perbonus,new.conbonus,new.wilbonus,new.chabonus,new.price)
-        raw_input()
-    except KeyboardInterrupt: pass
-  if var=="2":
-    try:
-      while 1:
-        new=consumable(random.choice([0,1,3]),0)
-        if new.type==0: print "POTION --%s (%i HP, %i MP), %iG"                                                   %(new.name,new.hpr,new.mpr,new.price)
-        if new.type==1: print "TOME   --%s (+%i STR, +%i INT, +%i DEX, +%i PER, +%i CON, +%i WIL, +%i CHA), %iG"  %(new.name,new.strbst,new.intbst,new.dexbst,new.perbst,new.conbst,new.wilbst,new.chabst,new.price)
-        if new.type==3: print "FOOD   --%s (%i hunger recovery, disease %i), %iG"                                 %(new.name,new.hungrec,new.chance,new.price)
-        raw_input()
-    except KeyboardInterrupt: pass
+    return 1
+
+if __name__=="__main__": pass
