@@ -135,7 +135,7 @@ class TestConsumables(unittest.TestCase):
     self.assertTrue(ti.type==4)
     self.assertTrue(ti.price==0)
     self.assertTrue(ti.name=="--EMPTY--")
-    self.assertIsInstance(ti.name,basestring)
+    self.assertIsInstance(ti.name, basestring)
     self.assertTrue(ti.hungrec==0)
     self.assertTrue(ti.chance==0)
     self.assertTrue(ti.statusr==0)
@@ -147,41 +147,39 @@ class TestItems(unittest.TestCase):
   Tests the regular items
   """
 
-  def test_head(self):
-    pass
+  def itemtest(self,ti):
+    self.assertTrue(ti.name!=" ")
+    self.assertIsInstance(ti.name, basestring)
+    self.assertTrue(ti.enchantlv==0)
+    self.assertIsInstance(ti.enchantlv, int)
+    self.assertTrue(ti.equip==0)
+    self.assertIsInstance(ti.equip, int)
+    self.assertIsInstance(ti.atk, int)
+    self.assertIsInstance(ti.defn, int)
+    self.assertTrue(ti.price>=0)
+    self.assertIsInstance(ti.price, int)
+    self.assertTrue(len(ti.bonuses)==7)
+    for i in ti.bonuses:
+      self.assertTrue(len(i)==8)
+      self.assertIsInstance(i, basestring)
+      self.assertTrue(getattr(ti,i)>=0)
+      self.assertIsInstance(getattr(ti,i), int)
 
-  def test_face(self):
-    pass
+  def test_item_generation(self):
+    """
+    Tests the item generation. 
+      -Creates a item in a random category
+      -Checks the type 
+      -Runs itemtest on it
+    
+    Since there is random generation involved, each category is tested 100 times
+    """
 
-  def test_neck(self):
-    pass
-
-  def test_shoulders(self):
-    pass
-
-  def test_chest(self):
-    pass
-
-  def test_onehand(self):
-    pass
-
-  def test_twohands(self):
-    pass
-
-  def test_ring(self):
-    pass
-
-  def test_belt(self):
-    pass
-
-  def test_legs(self):
-    pass
-
-  def test_feet(self):
-    pass
-
-  def test_empty(self):
-    pass
+    for j in range(100):
+      for i in range(12):
+        ti=item.item(i)
+        self.assertTrue(ti.type==i)
+        self.itemtest(ti)
 
 class TestFunctions(unittest.TestCase):
   """
@@ -215,13 +213,83 @@ class TestFunctions(unittest.TestCase):
 
 
   def test_reset_item(self):
-    pass
+    """
+    Tests item resetting with every item type
+    """
 
-  def test_enchant(self):
-    pass
+    for i in range(11):
+      ti=item.item(i+1)
+      ti.reset()
+      self.assertTrue(ti.name==" ")
+      self.assertIsInstance(ti.name, basestring)
+      self.assertTrue(ti.enchantlv==0)
+      self.assertIsInstance(ti.enchantlv, int)
+      self.assertTrue(ti.equip==0)
+      self.assertIsInstance(ti.equip, int)
+      self.assertTrue(ti.atk==0)
+      self.assertIsInstance(ti.atk, int)
+      self.assertTrue(ti.defn==0)
+      self.assertIsInstance(ti.defn, int)
+      self.assertTrue(ti.price==0)
+      self.assertIsInstance(ti.price, int)
+      self.assertTrue(len(ti.bonuses)==7)
+      for i in ti.bonuses:
+        self.assertTrue(len(i)==8)
+        self.assertIsInstance(i, basestring)
+        self.assertTrue(getattr(ti,i)==0)
+        self.assertIsInstance(getattr(ti,i), int)
 
-def main():
-  unittest.main()
+
+  def test_enchant_naming(self):
+    """
+    Tests item enchanting name modifier. 
+    """
+    
+    ti=item.item(1)
+    ti.name="test +1"
+    ti.enchant()
+    self.assertIn(ti.name,["test +2"," "])
+  
+  def test_enchant_atk_def(self):
+    """
+    Tests item enchanting attack and bonus raises
+    """
+
+    ti=item.item(1)
+    ti.atk=ti.defn=0
+    ti.enchant()
+    self.assertTrue(ti.atk+ti.defn>=0)
+
+  def test_enchant_pricing_fromzero(self):
+    """
+    Tests item enchanting price raises from 0 to 2
+    """
+
+    ti=item.item(1)
+    ti.price=0
+    ti.enchant()
+    self.assertTrue(ti.price==2)
+
+  def test_enchant_pricing_nonzero(self):
+    """
+    Tests item enchanting price raises from non-zero situations
+    """
+
+    ti=item.item(1)
+    ti.price=100
+    ti.enchant()
+    self.assertTrue(ti.price==200)
+
+  def test_enchant_level(self):
+    """
+    Checks if the enchantlv attribute is raised
+    """
+
+    for i in range(10):
+      ti=item.item(1)
+      ti.enchantlv=i
+      ti.enchant()
+      self.assertIn(ti.enchantlv,[i+1,0])
 
 if __name__ == "__main__":
-  main()
+  unittest.main()

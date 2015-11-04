@@ -30,6 +30,9 @@ def enchant(item,player):
     if item.enchant():
       player.itemsenc+=1
       raw_input("%s enchanted successfully"%(oldname))
+
+      # Increase maximum enchanted level in the stats
+    if item.enchantlv>player.maxench: player.maxench=item.enchantlv
     else: 
       raw_input("%s broke during enchanting"%(oldname))
 

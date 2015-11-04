@@ -1,7 +1,6 @@
 #! /usr/bin/env python 
 import os, copy, random, sys
-data="../data/"
-sys.path.append(os.path.abspath(data))
+sys.path.append(os.path.abspath("../data/"))
 from inventory import *
 
 class consumable:
@@ -142,15 +141,44 @@ class consumable:
 #Item class. Creates and manages items.
 class item:
   """
-  Creates and manages items
+  # Item types:
+  #
+  #   01 - Head
+  #   02 - Face
+  #   03 - Neck
+  #   04 - Shoulders
+  #   05 - Chest
+  #   06 - One hand
+  #   07 - Two hands
+  #   08 - Ring
+  #   09 - Belt
+  #   10 - Legs
+  #   11 - Feet
+  #   00 - Empty (Item with all the attributes set to zero)
+  #
+  # Attack/Defense modifiers and chance table
+  #
+  #   01 useless:-100:-100  -> 03.00%
+  #   02 rusty:-50:-50      -> 04.00%
+  #   03 cracked:-25:-25    -> 06.00%
+  #   04 bent:-10:-10       -> 07.00%
+  #   05 refined:10:10      -> 05.00%
+  #   06 masterful:25:25    -> 04.00%
+  #   07 perfect:50:50      -> 00.89%
+  #   08 celestial:100:100  -> 00.10%
+  #   09 universal:200:200  -> 00.01%
+  #   10 no modifiers       -> 70.00%
+  #
+  #
 
-  #Item attributes
-  ID=0          #Identifier
+  Default attributes
+
+  # Item attributes
   name="_"      #Item name
   type=00       #Item table. See any item_XX file or the table below
   equip=0       #Equipped. 1=yes, 2=no
 
-  #Item bonuses
+  # Item bonuses
   strbonus=0    #Intelligence boost
   intbonus=0    #Dexterity boost
   dexbonus=0    #Perception boost
@@ -159,7 +187,7 @@ class item:
   wilbonus=0    #Charisma boost
   chabonus=0    #Strenght boost
 
-  #Other
+  # Other
   atk=0         #Attack power
   defn=0        #Defense power
   enchantlv=0   #Enchant level
@@ -169,50 +197,30 @@ class item:
     """
     Item constructor. 
 
-    Takes random data from the inventory data files and sets the attributes
-    Needs an integer (type) to determine the item type
-
-    #   01 - Head
-    #   02 - Face
-    #   03 - Neck
-    #   04 - Shoulders
-    #   05 - Chest
-    #   06 - One hand
-    #   07 - Two hands
-    #   08 - Ring
-    #   09 - Belt
-    #   10 - Legs
-    #   11 - Feet
-    #   00 - Empty (Item with all the attributes set to zero)
+    Takes a random item from the inventory data file and sets the attributes of a new item with them
+    Needs an integer (type) to determine the item type (0 is random)
     """
 
-    self.enchantlv=self.equip=0
+    # generate array with bonus names
+    self.bonuses=["strbonus","intbonus","dexbonus","perbonus","conbonus","wilbonus","chabonus"]
+
+    # Initialize instance
+    self.reset()
     self.type=typev
 
-    #Assign path depending on item type
-    types=["items_%02i" for i in range(1,12)]
-    typev=random.randint(1,12) if not typev else typev
-    randitem=random.choice(eval("items."+types[typev]))
+    # Generate list of weapon types (Variables in the items module)
+    types=["items_%02i"%i for i in range(1,12)]
+
+    #Assign random item type if the passed type is 0
+    typev=random.randint(1,11) if not typev else typev
+
+    # Assign random item in that category
+    randitem=random.choice(eval("items.%s"%types[typev-1]))
 
     #Assign the attributes from a random item in the chosen section
-    self.name=  randitem[0]
-    self.atk=   randitem[1]
-    self.defn=  randitem[2]
-    self.price= randitem[3]
+    self.name, self.atk, self.defn, self.price=randitem
 
     #Add attack and defense modifiers and modifier naming.
-    #Modifiers are loaded 1-9 to the array. 
-    #01 useless:-100:-100  -> 03.00%
-    #02 rusty:-50:-50      -> 04.00%
-    #03 cracked:-25:-25    -> 06.00%
-    #04 bent:-10:-10       -> 07.00%
-    #05 refined:10:10      -> 05.00%
-    #06 masterful:25:25    -> 04.00%
-    #07 perfect:50:50      -> 00.89%
-    #08 celestial:100:100  -> 00.10%
-    #09 universal:200:200  -> 00.01%
-    #10 no modifiers       -> 70.00%
-
     randint=random.randint(1,10000)
     if   randint<=7000: randint=9 #no modifiers
     elif randint>7000 and randint<=7001:  randint= 8  #universal
@@ -231,7 +239,7 @@ class item:
       self.name=modifier[0]+" "+self.name
       self.atk+=  (self.atk*modifier[1]/100)
       self.defn+= (self.defn*modifier[2]/100)
-      self.price+=(self.price*(modifier[0]+modifier[1])/100)
+      self.price+=(self.price*(modifier[1]+modifier[2])/100)
 
     # Modifying attribute boosts
     # 20.0% chance of one attribute boost
@@ -247,27 +255,23 @@ class item:
     elif randint>60 and randint<=200: attboost=1
     else: pass
 
-    # generate array with bonus names and array with bonus values
-    bonuses=["strbonus","intbonus","dexbonus","perbonus","conbonus","wilbonus","chabonus"]
-    bonusvals=[getattr(self,i) for i in bonuses]
-
     #Initialize bonuses
-    for i in bonuses: setattr(self,i,0)
+    for i in self.bonuses: setattr(self,i,0)
 
     #Randomly assign the bonus points available
     for i in range(attboost):
-      randbonus=bonuses[random.randint(1,7)]
+      randbonus=self.bonuses[random.randint(0,6)]
       temp=getattr(self,randbonus)
       setattr(self,randbonus,temp+1)
 
     # Choose one name depending on what attribute boost is higher.
     # Only if the total sum of the values is over zero
     # It gets the names from the attr_modifiers module
+    bonusvals=[getattr(self,i) for i in self.bonuses]
     if sum(bonusvals):
       for i,v in enumerate(bonusvals):
-        temp=bonusvals.pop(i)
-        if temp>sum(bonusvals): self.name=attr_modifiers.mods[bonuses[i]]
-        bonusvals.insert(i,temp)
+        if v>sum(bonusvals)-v: self.name=attr_modifiers.mods[self.bonuses[i]][v]+" "+self.name
+
 
     #Adjust price after attr boost
     self.price*=(1+sum(bonusvals))
@@ -283,10 +287,11 @@ class item:
     Sets all the attributes of the given item object to zero.
     """
 
-    self.defn=self.strbonus=self.intbonus=self.dexbonus=self.perbonus=self.conbonus=self.wilbonus=self.chabonus=0
+    for i in self.bonuses: exec("self.%s=0"%i)
+    self.defn=self.atk=0
     self.name=" "
     self.price=0
-    self.atk=0
+    self.enchantlv=self.equip=0    
 
   def enchant(self):
     """
@@ -325,14 +330,9 @@ class item:
     # If the item has not broken, enchant it
     # Randomly assign the bonus points available
     for i in range(1,attboost+1):
-      boosted=random.choice(["STR","INT","DEX","PER","CON","WIL","CHA"])
-      if boosted=="STR": self.strbonus+=1
-      if boosted=="INT": self.intbonus+=1
-      if boosted=="DEX": self.dexbonus+=1
-      if boosted=="PER": self.perbonus+=1
-      if boosted=="CON": self.conbonus+=1
-      if boosted=="WIL": self.wilbonus+=1
-      if boosted=="CHA": self.chabonus+=1
+      boosted=random.randint(0,6)
+      t=getattr(self,self.bonuses[boosted])
+      setattr(self,self.bonuses[boosted],t+1)
 
     # Double the price of the item
     # Set price first to avoid enchanted item prices to stay at zero
@@ -346,12 +346,9 @@ class item:
     # Increase enchant level
     self.enchantlv+=1
 
-    # Increase maximum enchanted level in the stats
-    if self.enchantlv>player.maxench: player.maxench=self.enchantlv
-
     #Display the enchanting level in the item name
-    if self.name[-1].isalpha(): self.name=self.name+" +1"
-    else: elf.name=self.name.split('+')[0]+str(int(self.name.split('+')[1])+1)
+    if    self.name[-1].isalpha(): self.name=self.name+" +1"
+    else: self.name=self.name.split('+')[0]+"+"+str(int(self.name.split('+')[1])+1)
 
     return 1
 
