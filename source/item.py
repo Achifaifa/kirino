@@ -165,7 +165,7 @@ class item:
   enchantlv=0   #Enchant level
   """
 
-  def __init__(self,type):
+  def __init__(self,typev):
     """
     Item constructor. 
 
@@ -187,43 +187,18 @@ class item:
     """
 
     self.enchantlv=self.equip=0
-    self.type=type
+    self.type=typev
 
     #Assign path depending on item type
-    path="_"
-    if type==1:   path="../data/inventory/items_01"
-    if type==2:   path="../data/inventory/items_02"
-    if type==3:   path="../data/inventory/items_03"
-    if type==4:   path="../data/inventory/items_04"
-    if type==5:   path="../data/inventory/items_05"
-    if type==6:   path="../data/inventory/items_06"
-    if type==7:   path="../data/inventory/items_07"
-    if type==8:   path="../data/inventory/items_08"
-    if type==9:   path="../data/inventory/items_09"
-    if type==10:  path="../data/inventory/items_10"
-    if type==11:  path="../data/inventory/items_11"
-    if type==0:   path="../data/inventory/items_01" #Pick any of the files, it doesn't matter.
-    else: pass
+    types=["items_%02i" for i in range(1,12)]
+    typev=random.randint(1,12) if not typev else typev
+    randitem=random.choice(eval("items."+types[typev]))
 
-    #Open file containing the defined type weapons
-    with open (path,"r") as invfile:
-      inventory=[]
-      atkbarr=[]
-      defbarr=[]
-      pricearr=[]
-      for line in invfile:
-        if not line.startswith("#"):
-          inventory.append(line.strip().partition(':')[0].strip())
-          atkbarr.append(line.strip().partition(':')[2].partition(':')[0].strip())
-          defbarr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[0].strip())
-          pricearr.append(line.strip().partition(':')[2].partition(':')[2].partition(':')[2].strip())
-
-    #Assign the attributes from a random item in the chosen file
-    randitem=random.randrange(len(inventory))
-    self.name=inventory[randitem].rstrip()
-    self.atk=int(atkbarr[randitem])
-    self.defn=int(defbarr[randitem])
-    self.price=int(pricearr[randitem])
+    #Assign the attributes from a random item in the chosen section
+    self.name=  randitem[0]
+    self.atk=   randitem[1]
+    self.defn=  randitem[2]
+    self.price= randitem[3]
 
     #Add attack and defense modifiers and modifier naming.
     #Modifiers are loaded 1-9 to the array. 
@@ -239,96 +214,69 @@ class item:
     #10 no modifiers       -> 70.00%
 
     randint=random.randint(1,10000)
-    if randint<=7000: randint=9 #no modifiers
-    if randint>7000 and randint<=7001: randint= 8 #universal
-    if randint>7001 and randint<=7011: randint= 7 #celestial
-    if randint>7011 and randint<=7100: randint= 6 #perfect
-    if randint>7100 and randint<=7500: randint= 5 #masterful
-    if randint>7500 and randint<=8000: randint= 4 #refined
-    if randint>8000 and randint<=8700: randint= 3 #bent
-    if randint>8700 and randint<=9300: randint= 2 #cracked
-    if randint>9300 and randint<=9700: randint= 1 #rusty
-    if randint>9700 and randint<=10000: randint= 0 #useless
-      
-    #Open the file and load the data
-    with open ("../data/inventory/atk_def_modifiers","r") as modifile:
-      modifiers=[]
-      atkmod=[]
-      defmod=[]
-      for line in modifile:
-        if not line.startswith("#"):
-          modifiers.append(line.rstrip("\n").partition(':')[0].strip())
-          atkmod.append(line.rstrip("\n").partition(':')[2].partition(':')[0].strip())
-          defmod.append(line.rstrip("\n").partition(':')[2].partition(':')[2].strip())
+    if   randint<=7000: randint=9 #no modifiers
+    elif randint>7000 and randint<=7001:  randint= 8  #universal
+    elif randint>7001 and randint<=7011:  randint= 7  #celestial
+    elif randint>7011 and randint<=7100:  randint= 6  #perfect
+    elif randint>7100 and randint<=7500:  randint= 5  #masterful
+    elif randint>7500 and randint<=8000:  randint= 4  #refined
+    elif randint>8000 and randint<=8700:  randint= 3  #bent
+    elif randint>8700 and randint<=9300:  randint= 2  #cracked
+    elif randint>9300 and randint<=9700:  randint= 1  #rusty
+    elif randint>9700 and randint<=10000: randint= 0  #useless
 
     #Assign the data with the random values
     if randint!=9:
-      self.name=modifiers[randint]+" "+self.name
-      self.atk=self.atk+(self.atk*int(atkmod[randint])/100)
-      self.defn=self.defn+(self.defn*int(defmod[randint])/100)
-      self.price=(self.price+((self.price*int(atkmod[randint])/100)+(self.price*int(defmod[randint])/100)))
+      modifier=atk_def_modifiers.mods[randint]
+      self.name=modifier[0]+" "+self.name
+      self.atk+=  (self.atk*modifier[1]/100)
+      self.defn+= (self.defn*modifier[2]/100)
+      self.price+=(self.price*(modifier[0]+modifier[1])/100)
 
     # Modifying attribute boosts
     # 20.0% chance of one attribute boost
     # 05.0% chance of two attribute boost
     # 01.0% chance of three attribute boost
     # 00.1% chance of four attribute boost
+
     randint=random.randint(1,1000)
     attboost=0
-    if randint==1: attboost=4
-    if randint>1 and randint<=10: attboost=3
-    if randint>10 and randint<=60: attboost=2
-    if randint>60 and randint<=200: attboost=1
+    if   randint==1: attboost=4
+    elif randint>1  and randint<=10:  attboost=3
+    elif randint>10 and randint<=60:  attboost=2
+    elif randint>60 and randint<=200: attboost=1
     else: pass
 
+    # generate array with bonus names and array with bonus values
+    bonuses=["strbonus","intbonus","dexbonus","perbonus","conbonus","wilbonus","chabonus"]
+    bonusvals=[getattr(self,i) for i in bonuses]
+
     #Initialize bonuses
-    self.strbonus=0
-    self.intbonus=0
-    self.dexbonus=0
-    self.perbonus=0 
-    self.conbonus=0
-    self.wilbonus=0 
-    self.chabonus=0
+    for i in bonuses: setattr(self,i,0)
 
     #Randomly assign the bonus points available
-    for i in range(1,attboost+1):
-      boosted=random.randint(1,7)
-      if boosted==1: self.strbonus+=1
-      if boosted==2: self.intbonus+=1
-      if boosted==3: self.dexbonus+=1
-      if boosted==4: self.perbonus+=1
-      if boosted==5: self.conbonus+=1
-      if boosted==6: self.wilbonus+=1
-      if boosted==7: self.chabonus+=1
+    for i in range(attboost):
+      randbonus=bonuses[random.randint(1,7)]
+      temp=getattr(self,randbonus)
+      setattr(self,randbonus,temp+1)
 
-    #assigning prefix depending on attributes boosted
-    #This will be done from file in the future. Probably.
-    strarray=["tough","warrior's","knight's","berserker's"]       #line 1
-    intarray=["obscure","bookworm's","academic","grandmaster's"]  #line 2
-    dexarray=["swift","rogue's","ninja","shadow"]                 #line 3
-    perarray=["detecting","tracing","radar","omniscient"]         #line 4 
-    conarray=["healing","invigorating","armoured","terminator"]   #line 5 
-    wilarray=["determined","leader's","commanding","napoleonic"]  #line 6 
-    chaarray=["friendly","posh","diplomatic","resceptable"]       #line 7 
-
-    #Choose one name depending on what attribute boost is higher.
-    if not self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus+self.strbonus==0:
-      if self.strbonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=strarray[self.strbonus]+" "+self.name
-      if self.intbonus>=self.strbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=intarray[self.intbonus]+" "+self.name
-      if self.dexbonus>=self.intbonus+self.strbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=dexarray[self.dexbonus]+" "+self.name
-      if self.perbonus>=self.intbonus+self.dexbonus+self.strbonus+self.conbonus+self.wilbonus+self.chabonus: self.name=perarray[self.perbonus]+" "+self.name
-      if self.conbonus>=self.intbonus+self.dexbonus+self.perbonus+self.strbonus+self.wilbonus+self.chabonus: self.name=conarray[self.conbonus]+" "+self.name
-      if self.wilbonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.strbonus+self.chabonus: self.name=wilarray[self.wilbonus]+" "+self.name
-      if self.chabonus>=self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.strbonus: self.name=chaarray[self.chabonus]+" "+self.name
+    # Choose one name depending on what attribute boost is higher.
+    # Only if the total sum of the values is over zero
+    # It gets the names from the attr_modifiers module
+    if sum(bonusvals):
+      for i,v in enumerate(bonusvals):
+        temp=bonusvals.pop(i)
+        if temp>sum(bonusvals): self.name=attr_modifiers.mods[bonuses[i]]
+        bonusvals.insert(i,temp)
 
     #Adjust price after attr boost
-    self.price=(self.price*(1+self.strbonus+self.intbonus+self.dexbonus+self.perbonus+self.conbonus+self.wilbonus+self.chabonus))
+    self.price*=(1+sum(bonusvals))
 
     #Avoid negative prices 
-    if self.price<0: self.price=0
+    self.price=0 if self.price<0 else self.price
 
     #And, if the type selected was 0, set everything to 0 again
-    if type==0: self.reset()
+    if not typev: self.reset()
 
   def reset(self):
     """
