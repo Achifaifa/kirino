@@ -1,6 +1,9 @@
 #! /usr/bin/env python 
 import os, copy, random, traceback
 import common
+data="../data/"
+sys.path.append(os.path.abspath(scriptpath))
+from data.inventory import *
 
 class consumable:
   """
