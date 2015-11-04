@@ -9,7 +9,7 @@ class TestConsumables(unittest.TestCase):
   Test the consumable class items 
   """
 
-  def boostzero(item):
+  def boostzero(self,item):
     """
     Checks that all the boosters in an item are zero
     """
@@ -28,7 +28,7 @@ class TestConsumables(unittest.TestCase):
 
     Specific tests: HPR, MPR and subtype
     """
-    ti=item.consumable(0,1)
+    ti=item.consumable(0,subtype=1)
     self.assertTrue(ti.type==0)
     self.assertTrue(ti.price>0)
     self.assertTrue(ti.name!="--EMPTY--")
@@ -46,7 +46,7 @@ class TestConsumables(unittest.TestCase):
 
     Specific tests: HPR, MPR and subtype
     """
-    ti=item.consumable(0,2)
+    ti=item.consumable(0,subtype=2)
     self.assertTrue(ti.type==0)
     self.assertTrue(ti.price>0)
     self.assertTrue(ti.name!="--EMPTY--")
@@ -63,7 +63,7 @@ class TestConsumables(unittest.TestCase):
 
     Specific tests: HPR, MPR and subtype
     """
-    ti=item.consumable(0,3)
+    ti=item.consumable(0,subtype=3)
     self.assertTrue(ti.type==0)
     self.assertTrue(ti.price>0)
     self.assertTrue(ti.name!="--EMPTY--")
@@ -76,27 +76,17 @@ class TestConsumables(unittest.TestCase):
 
   def test_status_potions(self):
     """
-    Checks status potion proprieties
-
-    Specific tests: HPR, MPR, statusr and subtype
+    Status potions not implemented
     """
-    ti=item.consumable(0,4)
-    self.assertTrue(ti.type==0)
-    self.assertTrue(ti.price>0)
-    self.assertTrue(ti.name!="--EMPTY--")
-    self.assertIsInstance(ti.name,basestring)
-    self.assertTrue(ti.hpr>0)
-    self.assertTrue(ti.mpr>0)
-    self.assertTrue(ti.statusr==1)
-    self.assertTrue(ti.subtype==4)
-    self.boostzero(ti)
+
+    pass
 
   def test_tomes(self):
     """
     Checks tome proprieties
     """
 
-    ty=item.consumable(1,0)
+    ti=item.consumable(1)
     self.assertTrue(ti.type==1)
     self.assertTrue(ti.price>0)
     self.assertTrue(ti.name!="--EMPTY--")
@@ -116,27 +106,16 @@ class TestConsumables(unittest.TestCase):
   def test_attack(self):
     """
     Attack consumable class not implemented.
-
-    Checks if the instance resets properly
     """
 
-    ty=item.consumable(2,0)
-    self.assertTrue(ti.type==3)
-    self.assertTrue(ti.price==0)
-    self.assertTrue(ti.name=="--EMPTY--")
-    self.assertIsInstance(ti.name,basestring)
-    self.assertTrue(ti.hpr==0)
-    self.assertTrue(ti.mpr==0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==0)
-    self.boostzero(ti)
+    pass
 
-  def test_unidentified(self):
-  """
-  Tests attributes in unidentified type consumables
-  """
+  def test_food(self):
+    """
+    Tests attributes in unidentified/food type consumables
+    """
 
-    ty=item.consumable(3,0)
+    ti=item.consumable(3)
     self.assertTrue(ti.type==3)
     self.assertTrue(ti.price>0)
     self.assertTrue(ti.name!="--EMPTY--")
@@ -148,15 +127,19 @@ class TestConsumables(unittest.TestCase):
     self.boostzero(ti)
 
   def test_empty(self):
-    ty=item.consumable(4,0)
+    """
+    Tests the generation of empty items
+    """
+
+    ti=item.consumable(4)
     self.assertTrue(ti.type==4)
     self.assertTrue(ti.price==0)
     self.assertTrue(ti.name=="--EMPTY--")
     self.assertIsInstance(ti.name,basestring)
-    self.assertTrue(ti.hungrec, int)
-    self.assertTrue(ti.chance, int)
-    self.assertTrue(ti.statusr, int)
-    self.assertTrue(ti.subtype, int)
+    self.assertTrue(ti.hungrec==0)
+    self.assertTrue(ti.chance==0)
+    self.assertTrue(ti.statusr==0)
+    self.assertTrue(ti.subtype==0)
     self.boostzero(ti)
 
 class TestItems(unittest.TestCase):
@@ -210,24 +193,25 @@ class TestFunctions(unittest.TestCase):
     Checks if the consumable reset function resets an objecct
     """
 
-    it=item.consumable(0)
+    ti=item.consumable(0)
+    ti.reset()
     self.assertTrue(ti.type==4)
     self.assertTrue(ti.price==0)
     self.assertTrue(ti.name=="--EMPTY--")
     self.assertTrue(ti.hpr==0)
     self.assertTrue(ti.mpr==0)
     self.assertIsInstance(ti.name,basestring)
-    self.assertTrue(ti.hungrec, int)
-    self.assertTrue(ti.chance, int)
-    self.assertTrue(ti.statusr, int)
-    self.assertTrue(ti.subtype, int)
-    self.assertTrue(item.strbst==0)
-    self.assertTrue(item.intbst==0)
-    self.assertTrue(item.chabst==0)
-    self.assertTrue(item.conbst==0)
-    self.assertTrue(item.dexbst==0)
-    self.assertTrue(item.perbst==0)
-    self.assertTrue(item.wilbst==0)
+    self.assertTrue(ti.hungrec==0)
+    self.assertTrue(ti.chance==0)
+    self.assertTrue(ti.statusr==0)
+    self.assertTrue(ti.subtype==0)
+    self.assertTrue(ti.strbst==0)
+    self.assertTrue(ti.intbst==0)
+    self.assertTrue(ti.chabst==0)
+    self.assertTrue(ti.conbst==0)
+    self.assertTrue(ti.dexbst==0)
+    self.assertTrue(ti.perbst==0)
+    self.assertTrue(ti.wilbst==0)
 
 
   def test_reset_item(self):

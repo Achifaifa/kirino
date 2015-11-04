@@ -4,18 +4,18 @@
 # Potions:
 #   potion type:name:HP:MP:price
 #
-potions=[ [1, "Basic HP potion",        10,   0,    10],
-          [1, "HP potion",              20,   0,    25],
-          [1, "Big HP potion",          50,   0,    60],
-          [1, "Huge HP potion",         100,  0,    110],
-          [2, "Basic MP potion",        0,    10,   10],
-          [2, "MP potion",              0,    20,   25],
-          [2, "Big MP potion",          0,    50,   60],
-          [2, "Huge MP potion",         0,    100,  110],
-          [3, "Basic recovery potion",  10,   10,   30],
-          [3, "Recovery potion",        20,   20,   60 ],
-          [3, "Big recovery potion",    50,   50,   150],
-          [3, "Huge recovery potion",   100,  100,  300]]
+hp_potions=[  ["Basic HP potion",        10,   0,    10],
+              ["HP potion",              20,   0,    25],
+              ["Big HP potion",          50,   0,    60],
+              ["Huge HP potion",         100,  0,    110]]
+mp_potions=[  ["Basic MP potion",        0,    10,   10],
+              ["MP potion",              0,    20,   25],
+              ["Big MP potion",          0,    50,   60],
+              ["Huge MP potion",         0,    100,  110]]
+rec_potions=[ ["Basic recovery potion",  10,   10,   30],
+              ["Recovery potion",        20,   20,   60 ],
+              ["Big recovery potion",    50,   50,   150],
+              ["Huge recovery potion",   100,  100,  300]]
 #
 # Tomes:
 #   name:STR:INT:DEX:PER:CON:WIL:CHA:price

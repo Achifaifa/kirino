@@ -1,9 +1,8 @@
 #! /usr/bin/env python 
-import os, copy, random, traceback
-import common
+import os, copy, random, sys
 data="../data/"
-sys.path.append(os.path.abspath(scriptpath))
-from data.inventory import *
+sys.path.append(os.path.abspath(data))
+from inventory import *
 
 class consumable:
   """
@@ -18,7 +17,7 @@ class consumable:
   #   01 - HP potion
   #   02 - MP potion
   #   03 - Recovery potion (HP&MP)
-  #   04 - Status potions
+  #   04 - Status potions #TO-DO
   #   00 - Random (except status potions)
   #
   # Potions regenerate a certain amout of HP or MP in a single turn.
@@ -36,7 +35,7 @@ class consumable:
   # 3.- Unidentified potions/food
   #
   # Unidentified consumables can have totally random and unexpected effects. 
-  # Vendors can identify them. When this happens, they are converted to a random type 0, 1 or 2 item.
+  # Vendors can identify them. When this happens, they are converted to a random type 0, 1 or 2 item. (#TO-DO)
   #
   # 4.- Empty 
   #
@@ -73,51 +72,13 @@ class consumable:
   dps=0             #Damage over time
   """
 
-  def __init__(self,newtype,subtype):
+  def __init__(self,newtype,subtype=0):
     """
     Class constructor. Creates a consumable item of the specified type. Needs a subtype parameter for the potions, which is ignored in the rest of the items.
 
     Consumable items can only be bought from vendors. They can't be found in the ground.
-    Requires type and subtype:
+    Requires a type integer. It also accepts a subtype keyword argument for potions (Defaults to 0 - Random)
     """
-
-    #Variable initialization
-    items0=items1=items2=items3=[]
-
-    #Array loading
-    try:
-      with open ("../data/inventory/items_CI","r") as consumables:
-        for line in consumables:
-
-          #Only check the lines that contain items of the selected class.
-          if line.startswith(str(newtype)):
-
-            #If the item is a potion, save arrays with [name,HP,MP,price]
-            if newtype==0:
-              if subtype==0: subtype=random.randint(1,3)
-              if int(line.strip().partition(':')[2].partition(':')[0])==subtype:
-                tempitem=line.strip().split(':')
-                del tempitem[0]
-                del tempitem[0]
-                items0.append(tempitem)
-
-            #If the item is a scroll/tome, save array with [name, STR, INT, DEX, PER, CON, WIL, CHA, price]
-            if newtype==1:
-              tempitem=line.strip().split(':')
-              del tempitem[0]
-              items1.append(tempitem)
-
-            if newtype==2: pass
-
-            #If the item is food, save array with [name,chance,price]
-            if newtype==3: 
-              tempitem=line.strip().split(':')
-              del tempitem[0]
-              items3.append(tempitem)
-
-    except IOError:
-      print "Could not load consumable data file"
-      common.getch()
 
     self.reset()
     self.subtype=subtype
@@ -126,26 +87,29 @@ class consumable:
 
     #Process item arrays:
     if newtype==0:
-      data=random.choice(items0)
-      self.name=     data[0]
-      self.hpr=  int(data[1])
-      self.mpr=  int(data[2])
-      self.price=int(data[3])
+      if subtype!=4: # Status potions are not implemented yet
+        typelist=["hp_potions","mp_potions","rec_potions"]
+        subtype=random.randrange(1,4) if not subtype else subtype
+        data=random.choice(eval("consumables."+typelist[subtype-1]))
+        self.name=   data[0]
+        self.hpr=    data[1]
+        self.mpr=    data[2]
+        self.price=  data[3]
 
     if newtype==1:
-      data=random.choice(items1)
+      data=random.choice(consumables.tomes)
       self.name=      data[0]
-      self.strbst=int(data[1])
-      self.intbst=int(data[2])
-      self.dexbst=int(data[3])
-      self.perbst=int(data[4])
-      self.conbst=int(data[5])
-      self.wilbst=int(data[6])
-      self.chabst=int(data[7])
-      self.price= int(data[8])
+      self.strbst=    data[1]
+      self.intbst=    data[2]
+      self.dexbst=    data[3]
+      self.perbst=    data[4]
+      self.conbst=    data[5]
+      self.wilbst=    data[6]
+      self.chabst=    data[7]
+      self.price=     data[8]
 
     if newtype==3:
-      data=random.choice(items3)
+      data=random.choice(consumables.food)
       self.name=    data[0]
       self.hungrec= int(data[1])
       self.chance=  int(data[2])
@@ -167,7 +131,7 @@ class consumable:
     self.price=0
 
     #Potion propieties
-    self.hpr=self.mpr=0
+    self.hpr=self.mpr=self.hungrec=self.chance=0
 
     #Tome propieties
     self.intbst=self.dexbst=self.perbst=self.conbst=self.wilbst=self.chabst=self.strbst=0
@@ -407,7 +371,6 @@ class item:
     elif randint>50 and randint<=200: attboost=2
     elif randint>200 and randint<=990: attboost=1
     elif randint>990:        
-      common.getch()
       self.reset()
       return 0
 

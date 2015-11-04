@@ -19,7 +19,7 @@ items_01=[["cap",             0, 1, 10],
 #
 #   02 - Face
 #
-items_02[ ["glasses",         0, 0, 5],
+items_02=[["glasses",         0, 0, 5],
           ["balaklava",       0, 0, 5],
           ["hockey mask",     0, 1, 10],
           ["eyepatch",        0, 0, 5],
@@ -97,7 +97,7 @@ items_07=[["10 foot pole",    2, 0, 20],
 #
 items_08=[["ring",            0, 0, 5],
           ["fake finger",     0, 0, 1],
-          ["seal ring,"       0, 0, 10],
+          ["seal ring",       0, 0, 10],
           ["ultrasonic ring", 1, 0, 20],
           ["fake stump",      0, 0, 1]]
 #
