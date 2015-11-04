@@ -15,4 +15,4 @@ before_script:
 
 # Launch the thing
 script:
-  - python -m unittest discover tests &> shippable/testresults/results.txt
+  - python -m unittest discover tests

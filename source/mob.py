@@ -1,6 +1,8 @@
 #! /usr/bin/env python
-import os, random
-import common, dungeon
+import os, random, sys
+import common
+sys.path.append(os.path.abspath("../data/"))
+import mobs
 
 class mob:
   """
@@ -42,52 +44,30 @@ class mob:
   hit=0       #Flags when the mob is hit (Does half damage)
   """
   
-  def __init__(self,dungeon,level):
+  def __init__(self,level=0):
     """
     Mob generator
 
-    Receives a dungeon object and places the mob in a random spot that is not filled with rock.
-
-    Needs the dungeon and the level. If the level is equal or less than 0 a random level is selected.
+    Receives the level of the mob as an optional argument
+    If the level is equal or less than 0, a random level is returned
+    The starting coordinates are set outside the construction, after calling.
     """
 
-    #Load list of mobs in the dictionary
-    #Each dictionary contains the level as a key and an array of mobs at that level as value.
-    mobs=[]
-    with open("../data/mobs/_list","r") as moblist:
-      if level>0:
-        for line in moblist:
-          if not line.startswith("#"):
-            if line.partition(':')[0].strip()==str(level):
-              mobs.append(line.partition(':')[2].strip())
-      else:
-        for line in moblist:
-          if not line.startswith("#"):
-            mobs.append(line.partition(':')[2].strip())
+    # Initialize level and position
+    self.level=random.randint(1,mobs.maxlevel) if not level else level
+    self.xpos=self.ypos=self.zpos=0
 
-    path="../data/mobs/"+random.choice(mobs)
-    self.zpos=0
+    # Load all the mobs at the selected level
+    moblist=eval("mobs.level%i.moblist"%self.level)
 
-    with open(path,"r") as mobfile:
-      for line in mobfile:
-        if not line.startswith('#'):
-          parA=line.partition(':')[0]
-          parB=line.partition(':')[2].strip()
-          if   parA=="Name":      self.name=    parB
-          elif parA=="marker":    self.marker=  parB
-          elif parA=="level":     self.lv=      int(parB)
-          elif parA=="exp":       self.exp=     int(parB)
-          elif parA=="prestige":  self.pres=    int(parB)
-          elif parA=="INT":       self.INT=     int(parB)
-          elif parA=="DEX":       self.DEX=     int(parB)
-          elif parA=="STR":       self.STR=     int(parB)
-          elif parA=="PER":       self.PER=     int(parB)
-          elif parA=="WIL":       self.WIL=     int(parB)
-          elif parA=="CON":       self.CON=     int(parB)
-          elif parA=="CHA":       self.CHA=     int(parB)
-          elif parA=="atk":       self.atk=     int(parB)
-          elif parA=="defn":      self.defn=    int(parB)
-          elif parA=="flying" and parB=="1": self.zpos=1
+    # Pick a random mob
+    tmob=eval("mobs.level%i.%s"%(self.level, random.choice(moblist)))
+
+    # Iterate over the stored attributes and assign them to self
+    for attr, value in tmob.iteritems():
+      if isinstance(value, basestring): value="'%s'"%value
+      exec("self.%s=%s"%(attr, value))
+    self.zpos=tmob["flying"]
 
     #Secondary attributes
     self.HP=((self.CON+self.STR)*4)+10
@@ -99,13 +79,6 @@ class mob:
 
     #Status variables
     self.lock=self.hit=0
-
-    #Select starting coordinates
-    self.xpos=random.randrange(dungeon.xsize)
-    self.ypos=random.randrange(dungeon.ysize)
-    while dungeon.dungarray[self.ypos][self.xpos]!=".":
-      self.xpos=random.randrange(dungeon.xsize)
-      self.ypos=random.randrange(dungeon.ysize)
   
   def move(self,dungeon,direction,distance):
     """
@@ -187,13 +160,4 @@ class mob:
     elif roll<=3:
       return ("%s tries to hit you, but it misses\n"%self.name)
 
-if __name__=="__main__":
-  try: os.chdir(os.path.dirname(__file__))
-  except OSError: pass 
-  dun=dungeon.dungeon(0,0,0)
-  common.version()
-  print "Mob module test"
-  while 1:
-    new=mob(dun,-1)
-    print "%s lv%i (%ihp,%imp): %ixp, %ipr"%(new.name,new.lv,new.HP,new.MP,new.exp,new.pres)
-    common.getch()
+if __name__=="__main__": pass

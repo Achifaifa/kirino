@@ -270,7 +270,8 @@ class item:
     bonusvals=[getattr(self,i) for i in self.bonuses]
     if sum(bonusvals):
       for i,v in enumerate(bonusvals):
-        if v>sum(bonusvals)-v: self.name=attr_modifiers.mods[self.bonuses[i]][v]+" "+self.name
+        if v>sum(bonusvals)-v: 
+          self.name=attr_modifiers.mods[self.bonuses[i]][v]+" "+self.name
 
 
     #Adjust price after attr boost
@@ -323,7 +324,8 @@ class item:
     elif randint>51 and randint<=50: attboost=3
     elif randint>50 and randint<=200: attboost=2
     elif randint>200 and randint<=990: attboost=1
-    elif randint>990:        
+    # If item breaks
+    else:        
       self.reset()
       return 0
 
