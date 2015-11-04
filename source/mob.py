@@ -65,8 +65,8 @@ class mob:
 
     # Iterate over the stored attributes and assign them to self
     for attr, value in tmob.iteritems():
-      if isinstance(value, basestring): value="'%s'"%value
-      exec("self.%s=%s"%(attr, value))
+      #exec("self.%s=%s"%(attr, value))
+      setattr(self,attr,value)
     self.zpos=tmob["flying"]
 
     #Secondary attributes
