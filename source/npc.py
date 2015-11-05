@@ -57,22 +57,27 @@ class npc:
     Total attribute points
       A number smaller than 1 is corrected to 16
       defaults to 16
+
+    The NPC will get 1 base point on every attribute even if the 'total' parameter passed is less than 6
     """
 
-    #Sanitize input
     if stat<1: stat=5
     if total<1: total=16
     if gender not in [1,2]: gender=random.choice([1,2])
 
+    # Initialite attributes 
     self.attrs=["STR", "DEX", "CON", "INT", "PER", "WIL", "CHA"]
     for i in self.attrs: setattr(self,i,1)
+
     self.rel=0
     
+    # Assign remaining points.
     for i in range(total-6):
       rnd=random.randint(1,7)
       current=getattr(self,self.attrs[rnd])
       if current<stat: setattr(self,self.attrs[rnd],current+1)
 
+    # Assign other data
     namel=naming.firstnames_f if gender==1 else naming.firstnames_m
     self.name=random.choice(namel)
     self.secondname=random.choice(naming.secondnames)

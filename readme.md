@@ -5,7 +5,7 @@ Basic console based dungeon crawler.
 
 ##Release notes
 
-The current effort is to implement tests and some sort of CI solution, plus refactoring all the bad code and leaving it readable. 
+The current effort is to implement tests and some sort of CI solution, plus refactoring all the bad code and leaving it readable. Until that gets done, there are chances the master branch won't work at all. Check one of the previous versions (0.1.1a for the first presentation of the project, 0.1.7 for the last working version) if you want to play. 
 
 Kirino v0.1.1 was presented at the open game compo at Euskal Encounter 22 and, surprisingly, ended up in the third place. I am very satisfied with myself and very glad someone in the jury understood all the work behind this heap of crap. Thanks to all the testers and people who helped!!
 
@@ -15,7 +15,7 @@ Development will continue at a slower pace; but new features, mobs and other thi
 
 run launch.py. Grab loot, kill zombies, explore dungeons. Help provided in game via the help menu.
 
-If you experience a crash, bug or any weird or unexpected behaviour that is not in the bugs file (`./info/bugs`), please consider reporting it. Suggestions and opinions are also welcome.
+If you experience a crash, bug or any weird or unexpected behaviour, please consider reporting it by opening a github issue. Suggestions and opinions are also welcome.
 
 **Note on player files**: All the files in the `./player` folder are just examples to show how are those files structured and formatted and contain my personal player data, saved games and other files. After downloading or cloning the repo, it's safe (And recommended) to delete that folder (Unless you want to play with my character). Make sure you save your player folder and replace it when you download the next version. If a new feature is added the save file can be updated with the new player things simply by loading and saving.
 
@@ -53,60 +53,28 @@ stevenbird (GH: nltk source)
 
 * data:               Files containing data for generators
   * inventory:          Inventory files
-    * `atk_def_mod`:      Attack/def modifiers
-    * `attr_mod`:         Basic attribute modifiers
-    * `items_CI`:         Consumable items 
-    * `items_XX`:         Items and basic stats
   * misc:               Other files
-    * `credits`:          Credit text for the scroller
   * mobs:               Mob files
-    * `_list`:            List of mob files with their level
   * npcs:               NPC data
-    * `appearance`        Visual adjectives
-    * `firstnames_female` Female names
-    * `firstnames_male`   Male names
-    * `jobs`              Jobs
-    * `personality`       Psychological adjectives
-    * `secondnames`       Second names
-    * `things`            Things
   * parser:             Data filer for the word parser
-    * `errors`:           Generic error messages
-    * `words`:            Word data for the parser
   * player:             Player files
-    * `classes`:          Player classes
-    * `names`:            Names
-    * `prestige`:         Prestige rank names
-    * `races`:            Player races
   * tutorial:           Files for the tutorial (Maps, etc)
 * docs:               Documentation folder (pydoc generated html files)
 * info:               Information files
-  * `bugs`:             List of bugs and weird behaviours to fix
-  * `todo`:             Ideas and stuff
-  * `schedule`:         Orientative proposed deadlines
 * player:             Player files
-  * `cemetery`:         Example cemetery file
-  * `config`:           Example configuration file
-  * `save`:             Example save file
 * source:             Source file folder
-  * `common.py`:        Common functions and procedures
-  * `config.py`:        Configuration class
-  * `dungeon.py`:       Dungeon class
-  * `help.py`:          Help and tutorial
-  * `item.py`:          Item classes
-  * `launch.py`:        Main menus and procedures.
-  * `mob.py`:           Giant enemy class
-  * `npc.py`:           NPC classes
-  * `parser.py`:        Word parser module
-  * `player.py`:        Player class
-  * `test.py`:          Functions to test new implementations quickly
 * tests:              Tests for CI
 * `readme.md`:        This file
 * `shippable.yml`:    Configuration file for shippable CI
 
 ####**v0.2** (Progress so far):
-* Code refactoring
-* Shippable CI integration
-* Unit tests
+* New features:
+* Bugs Fixed:
+* Others:
+  * Code refactoring
+  * Shippable CI integration
+  * Unit tests
+  * Moved user interaction to single module
 
 ####**v0.1.7** (2014-11-21):
 * New features:
