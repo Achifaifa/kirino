@@ -180,7 +180,7 @@ class player:
     if fall==0, the player is placed in the entrance tile
     if fall==1, then a random tile is selected
 
-    fall defaults to 0
+    fall is optional and defaults to 0
     """
 
     if fall:
@@ -188,19 +188,17 @@ class player:
         randy=random.randrange(len(dungeon.dungarray))
         randx=random.randrange(len(dungeon.dungarray[randy]))
         if dungeon.dungarray[randy][randx]==".":
-          self.xpos=randx
-          self.ypos=randy
-          self.zpos=0
-          break
+          self.xpos, self.ypos=randx, randy
+          return 0
       
     else:
       for i in range(len(dungeon.dungarray)):
         for j in range(len(dungeon.dungarray[i])):
           if dungeon.dungarray[i][j]=="A":
-            self.ypos=i
-            self.xpos=j
-            self.zpos=0
+            self.ypos, self.xpos=i, j
+            return 0
 
+    return 1
 
   def pickobject(self,object):
     """
@@ -392,106 +390,6 @@ class player:
         common.getch()
       elif menu=="0": break
       pass
-
-  def achievements(self):
-    """
-    Shows a list of completed achievements.
-    """
-
-    common.version()
-    print "%s - Character sheet - Achievements\n" %(self.name)
-
-    print "Exploration"
-    if      self.totalfl>=500:    print "Elevator 4/4"
-    elif    self.totalfl>=250:    print "Elevator 3/4"
-    elif    self.totalfl>=100:    print "Elevator 2/4"
-    elif    self.totalfl>=10:     print "Elevator 1/4"
-    elif    self.totalfl<10:      print "????     0/4"
-
-    if      self.steps>=10000:    print "Explorer 4/4"
-    elif    self.steps>=5000:     print "Explorer 3/4"
-    elif    self.steps>=1000:     print "Explorer 2/4"
-    elif    self.steps>=500:      print "Explorer 1/4"
-    elif    self.steps<500:       print "????     0/4"
-
-    print "\nCombat"
-    if      self.kills>=500:      print "Warrior  4/4"
-    elif    self.kills>=250:      print "Warrior  3/4"
-    elif    self.kills>=100:      print "Warrior  2/4"
-    elif    self.kills>=10:       print "Warrior  1/4"
-    elif    self.kills<10:        print "????     0/4"
-
-    if      self.totaltrp>=100:   print "Bad luck 4/4"
-    elif    self.totaltrp>=50:    print "Bad luck 3/4"
-    elif    self.totaltrp>=20:    print "Bad luck 2/4"
-    elif    self.totaltrp>=5:     print "Bad luck 1/4"
-    elif    self.totaltrp<5:      print "????     0/4"
-
-    print "\nItems"
-    if      self.itemspck>=100:   print "Hoarder  4/4"
-    elif    self.itemspck>=50:    print "Hoarder  3/4"
-    elif    self.itemspck>=20:    print "Hoarder  2/4"
-    elif    self.itemspck>=5:     print "Hoarder  1/4"
-    elif    self.itemspck<5:      print "????     0/4"
-
-    if      self.itemsdst>=100:   print "Cleaning 4/4"
-    elif    self.itemsdst>=50:    print "Cleaning 3/4"
-    elif    self.itemsdst>=20:    print "Cleaning 2/4"
-    elif    self.itemsdst>=5:     print "Cleaning 1/4"
-    elif    self.itemsdst<5:      print "????     0/4"
-
-    if      self.itemsenc>=100:   print "Wizard   4/4"
-    elif    self.itemsenc>=50:    print "Wizard   3/4"
-    elif    self.itemsenc>=20:    print "Wizard   2/4"
-    elif    self.itemsenc>=5:     print "Wizard   1/4"
-    elif    self.itemsenc<5:      print "????     0/4"
-
-    print "\nEconomy"
-    if      self.totalgld>=10000: print "Gold!!   4/4"
-    elif    self.totalgld>=5000:  print "Gold!!   3/4"
-    elif    self.totalgld>=2500:  print "Gold!!   2/4"
-    elif    self.totalgld>=1000:  print "Gold!!   1/4"
-    elif    self.totalgld<1000:   print "????     0/4"
-
-    common.getch()
-
-  def statmenu(self):
-    """
-    Displays character stats on screen
-    """
-
-    common.version()
-    print "%s - Character sheet - Stats\n"  %(self.name)
-
-    print "Exploration"
-    print "Floors explored:     %i"       %(self.totalfl)
-    print "Steps:               %i"       %(self.steps)
-
-    print "\nCombat"
-    print "Attacks launched:    %i"       %(self.totalatks)
-    try:     print "Hits:                %i (%i%%)"   %(self.totalhits,int(round((100*self.totalhits)/self.totalatks)))
-    except : print "Hits:                %i (--%%)"   %(self.totalhits)
-    print "Total damage:        %i"       %(self.totaldmg)
-    try:     print "Average damage:      %i"          %(round(self.totaldmg/self.totalhits))
-    except : print "Average damage:      0"
-    print "Total damage taken:  %i"       %(self.totalrcv)
-    print "Traps stepped on:    %i"       %(self.totaltrp)
-    print "Mobs killed:         %i"       %(self.kills)
-    print "Max hit damage:      %i"       %(self.maxdmg)
-
-    print "\nItems"
-    print "Items picked:        %i"       %(self.itemspck)
-    print "Items destroyed:     %i"       %(self.itemsdst)
-    print "Items enchanted:     %i"       %(self.itemsenc)
-    print "Maximum enchant lv:  %i"       %(self.maxench)    
-    print "Potions taken:       %i"       %(self.totalpot)
-
-    print "\nEconomy"
-    print "Gold earned:         %i"       %(self.totalgld)
-    print "Gold spent:          %i"       %(self.totalspn)
-    print "Items sold:          %i"       %(self.totalsll)
-    print "Items bought:        %i"       %(self.totalbuy)
-    common.getch()
 
   def spend(self):
     """
@@ -1012,7 +910,7 @@ class player:
 
     # Generate dictionary with all player attributes 
     attrs=[i for i in dir(self) if not a.startswith('__') and not callable(getattr(self,i))]
-    datadict={i,getattr(self,i) for i in attrs}
+    datadict={i:getattr(self,i) for i in attrs}
 
     # Create/open save file
     if not os.path.exists("../player/"): os.makedirs("../player/")
@@ -1079,21 +977,19 @@ class player:
     """
 
     #Save current position
-    tempx=self.xpos
-    tempy=self.ypos
-    tempz=self.zpos
-
+    tempx, tempy, tempz=self.xpos, self.ypos, self.zpos
     #Reset all the variables to the defaults
     self.reset()
-
-    #Restore position values
-    self.xpos=tempx
-    self.ypos=tempy
-    self.zpos=tempz
-
+    
+    #Load file
     try:
       with open("../player/save","r") as savefile:
         attrdict=json.load(savefile)
-    except IOError: return "Error loading character"
+    except IOError: 
+        pass
 
+    #Restore player attributes
     for key,value in attrdict.iteritems(): setattr(self,key,value)
+
+    #Restore position values
+    self.xpos, self.ypos, self.zpos=tempx, tempy, tempz

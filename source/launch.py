@@ -23,15 +23,6 @@ tempinventory=[]
 tempequiparr=[]
 xsize=ysize=0
 
-def loadfiles():
-  """
-  Loads the information from the data files into variables
-  """
-
-  npc.sanitize()
-  npc.load()
-  parser.load()
-
 def menu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
@@ -590,6 +581,5 @@ if __name__=="__main__":
   #That is, when the path is already where the source files are.
   except OSError: pass 
   #Load data files and start the menu    
-  loadfiles()
   try: menu()
   except KeyboardInterrupt: exit()
