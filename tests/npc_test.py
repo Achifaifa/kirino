@@ -14,6 +14,7 @@ class npctestsuit(unittest.TestCase):
     Tests that the NPC constructor correctly chooses elements
     """
 
+    pass
 
 
 if __name__ == "__main__":

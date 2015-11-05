@@ -1,6 +1,6 @@
 #! /usr/bin/env pyton
 
-import copy, os, random
+import copy, os, random, sys
 import item
 import common, parser
 sys.path.append(os.path.abspath("../data/"))
