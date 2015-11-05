@@ -12,6 +12,17 @@ class testdungeon():
              ["#", ".", "#"],
              ["#", "#", "#"]]
 
+class testplayer():
+  """
+  Sample player with just enough attributes for testing
+  """
+
+  totdefn=0
+  xpos=0
+  ypos=0
+  hp2=0
+  totalrcv=0
+
 class Mobtestsuit(unittest.TestCase):
   """
   tests mob class
@@ -129,10 +140,39 @@ class Mobtestsuit(unittest.TestCase):
 
   def test_mob_attack(self):
     """
-    #TO-DO chreate scenario for attacking
+    # Creates a fakey scenario for attack tests
     """
 
-    pass
+    tp=testplayer
+    tm=mob.mob()
+    tm.xpos=1
+    tm.ypos=1
+    tm.lock=1
+    tm.name="##MOB##"
+    tp.xpos=1
+    tp.ypos=2
+    tp.name="##PLAYER##"
+    tm.STR=5
+    tm.DEX=4 #Makes sure the roll always pass
+    tm.atk=5
+    tp.totdefn=10
+    tp.totalrcv=0
+    tp.hp2=100
+    out=tm.attack(tp)
+    self.assertTrue(tp.totalrcv==15)
+    self.assertIsInstance(tp.totalrcv, int)
+    self.assertTrue(tp.hp2==85)
+    self.assertIsInstance(tp.hp2, int)
+    self.assertIn("##MOB##", out)
+    self.assertIn("##PLAYER##", out)
+    self.assertIsInstance(out, basestring)
+    self.assertTrue(tm.xpos==1)
+    self.assertTrue(tm.ypos==1)
+    self.assertTrue(tp.xpos==1)
+    self.assertTrue(tp.ypos==2)
+
+
+
 
 if __name__ == "__main__":
   unittest.main()

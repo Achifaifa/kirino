@@ -163,7 +163,7 @@ class mob:
     else: self.trandmove(dungeon)
 
 
-  def attack(self,player,dung):
+  def attack(self,player):
     """
     Attacks the player object passed to the function
     """
@@ -181,6 +181,6 @@ class mob:
       player.totalrcv+=attackpow
       return ("%s attacks %s for %i damage!\n"%(self.name,player.name,attackpow))
     elif roll<=3:
-      return ("%s tries to hit you, but it misses\n"%self.name)
+      return ("%s tries to hit %s, but it misses\n"%(self.name, player.name))
 
 if __name__=="__main__": pass
