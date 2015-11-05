@@ -34,5 +34,17 @@ def enchant(item,player):
     else: 
       raw_input("%s broke during enchanting"%(oldname))
 
+def playerattrs(player):
+  """
+  Prints the player attributes on screen.
+  """
+
+  print "HP: %i/%i, MP: %i/%i      "  %(player.hp2,player.HP,player.mp2,player.MP)
+  print "STR: %i(+%i)  DEX: %i(+%i)"  %(player.STR,player.strboost,player.DEX,player.dexboost)
+  print "INT: %i(+%i)  CON: %i(+%i)"  %(player.INT,player.intboost,player.CON,player.conboost)
+  print "WIL: %i(+%i)  PER: %i(+%i)"  %(player.WIL,player.wilboost,player.PER,player.perboost)
+  print "CHA: %i(+%i)              "  %(player.CHA,player.chaboost)
+  print "END: %i SPD: %i           "  %(player.END,player.SPD)
+
 
 if __name__=="__main__": pass

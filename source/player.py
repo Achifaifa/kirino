@@ -1,5 +1,5 @@
 #! usr/bin/env python 
-import copy, os, random, sys
+import copy, json, os, random, sys
 import common, copy, dungeon, item
 
 class player:
@@ -112,7 +112,7 @@ class player:
     self.belt=[]
     self.equiparr=[]
     self.inventory=[]
-    for i in range(6):  self.belt.append(item.consumable(4,0))
+    for i in range(6):  self.belt.append(item.consumable(4))
     for i in range(11): self.equiparr.append(item.item(0))
     for i in range(2):  self.inventory.append(item.item(random.randint(1,11)))
 
@@ -173,12 +173,14 @@ class player:
         elif randstat==6: self.CHA+=1
         else: pass
 
-  def enter(self,dungeon,fall):
+  def enter(self,dungeon,fall=0):
     """
     Places the player object in a dungeon
 
     if fall==0, the player is placed in the entrance tile
     if fall==1, then a random tile is selected
+
+    fall defaults to 0
     """
 
     if fall:
@@ -236,18 +238,6 @@ class player:
           self.belt[i]=copy.copy(object)
           return 1,"You picked "+object.name+"."
       return 0,"Your belt is full"
-
-  def getatr(self):
-    """
-    Prints the player attributes on screen.
-    """
-
-    print "HP: %i/%i, MP: %i/%i      "  %(self.hp2,self.HP,self.mp2,self.MP)
-    print "STR: %i(+%i)  DEX: %i(+%i)"  %(self.STR,self.strboost,self.DEX,self.dexboost)
-    print "INT: %i(+%i)  CON: %i(+%i)"  %(self.INT,self.intboost,self.CON,self.conboost)
-    print "WIL: %i(+%i)  PER: %i(+%i)"  %(self.WIL,self.wilboost,self.PER,self.perboost)
-    print "CHA: %i(+%i)              "  %(self.CHA,self.chaboost)
-    print "END: %i SPD: %i           "  %(self.END,self.SPD)
     
   def move(self,dungeon,direction):
     """
@@ -1020,57 +1010,14 @@ class player:
     If the path or the file do not exist they are created.
     """
 
+    # Generate dictionary with all player attributes 
+    attrs=[i for i in dir(self) if not a.startswith('__') and not callable(getattr(self,i))]
+    datadict={i,getattr(self,i) for i in attrs}
+
+    # Create/open save file
     if not os.path.exists("../player/"): os.makedirs("../player/")
-    with open("../player/save","w+") as savefile:
-      savefile.write("# \n# Player \n# \n")
-      savefile.write("Name:%s\n"    %self.name)
-      savefile.write("Race:%s\n"    %self.race)
-      savefile.write("Class:%s\n"   %self.charclass)
-      savefile.write("Money:%i\n"   %self.pocket)
-      savefile.write("Level:%i\n"   %self.lv)
-      savefile.write("Exp:%i\n"     %self.exp)
-      savefile.write("Points:%i\n"  %self.points)
-      savefile.write("HP:%i\n"      %self.hp2)
-      savefile.write("MP:%i\n"      %self.mp2)
-      savefile.write("INT:%i\n"     %self.INT)
-      savefile.write("DEX:%i\n"     %self.DEX)
-      savefile.write("PER:%i\n"     %self.PER)
-      savefile.write("WIL:%i\n"     %self.WIL)
-      savefile.write("STR:%i\n"     %self.STR)
-      savefile.write("CON:%i\n"     %self.CON)
-      savefile.write("CHA:%i\n"     %self.CHA)
-
-      savefile.write("#\n# Player stats \n#\n")
-      savefile.write("Floors:%i\n"        %self.totalfl)
-      savefile.write("Steps:%i\n"         %self.steps)
-      savefile.write("Attacks:%i\n"       %self.totalatks)
-      savefile.write("Hits:%i\n"          %self.totalhits)
-      savefile.write("Damage given:%i\n"  %self.totaldmg)
-      savefile.write("Damage taken:%i\n"  %self.totalrcv)
-      savefile.write("Kills:%i\n"         %self.kills)
-      savefile.write("Gold earned:%i\n"   %self.totalgld)
-      savefile.write("Traps:%i\n"         %self.totaltrp)
-      savefile.write("Items picked:%i\n"  %self.itemspck)
-      savefile.write("Items erased:%i\n"  %self.itemsdst)
-      savefile.write("Total enchants:%i\n"%self.itemsenc)
-      savefile.write("Potions taken:%i\n" %self.totalpot)
-      savefile.write("Items sold:%i\n"    %self.totalsll)
-      savefile.write("Items bought:%i\n"  %self.totalbuy)
-      savefile.write("Money spent:%i\n"   %self.totalspn)
-      savefile.write("Max damage:%i\n"    %self.maxdmg)
-      savefile.write("Max enchant:%i\n"   %self.maxench)
-      savefile.write("Stomach:%i\n"       %self.stomach)
-
-      savefile.write("#\n# Equipped items \n#\n")
-      for a in self.equiparr: savefile.write("E:%s:%i:%i:%i:%i:%i:%i:%i:%i:%i:%i:%i:%i\n"%(a.name,a.enchantlv,a.type,a.atk,a.defn,a.strbonus,a.intbonus,a.dexbonus,a.perbonus,a.conbonus,a.wilbonus,a.chabonus,a.price))
-      savefile.write("#\n# Inventory items \n#\n")
-      for a in self.inventory: savefile.write("I:%s:%i:%i:%i:%i:%i:%i:%i:%i:%i:%i:%i:%i\n"%(a.name,a.enchantlv,a.type,a.atk,a.defn,a.strbonus,a.intbonus,a.dexbonus,a.perbonus,a.conbonus,a.wilbonus,a.chabonus,a.price))
-
-      savefile.write("#\n# Belt items \n#\n")
-      for a in self.belt:
-        if a.type==4: savefile.write("B:%i:%s\n"%(a.type,a.name))
-        if a.type==0: savefile.write("B:%i:%i:%s:%i:%i:%i\n"%(a.type,a.subtype,a.name,a.hpr,a.mpr,a.price))
-    return "Player saved" 
+    with open("../player/save.json","w+") as savefile:
+      json.dump(datadict,savefile,indent=2)
 
   def bury(self):
     """
@@ -1131,134 +1078,22 @@ class player:
     Takes the information from the save file stored in ../player/save and loads it into the player object.
     """
 
+    #Save current position
+    tempx=self.xpos
+    tempy=self.ypos
+    tempz=self.zpos
+
+    #Reset all the variables to the defaults
+    self.reset()
+
+    #Restore position values
+    self.xpos=tempx
+    self.ypos=tempy
+    self.zpos=tempz
+
     try:
       with open("../player/save","r") as savefile:
-        if not savefile.readline().startswith("No character"):
-
-          #Save current position
-          tempx=self.xpos
-          tempy=self.ypos
-          tempz=self.zpos
-
-          #Reset all the variables to the defaults
-          self.reset()
-
-          #Load values from file
-          for line in savefile:
-            if not line.startswith("#"):
-              #Load stats and player details
-              parA,parB=line.split(':')
-              if   parA=="Name":          self.name=      parB
-              elif parA=="Level":         self.lv=        int(parB)
-              elif parA=="Exp":           self.exp=       int(parB)
-              elif parA=="Money":         self.pocket=    int(parB)
-              elif parA=="INT":           self.INT=       int(parB)
-              elif parA=="DEX":           self.DEX=       int(parB)
-              elif parA=="PER":           self.PER=       int(parB)
-              elif parA=="WIL":           self.WIL=       int(parB)
-              elif parA=="STR":           self.STR=       int(parB)
-              elif parA=="CON":           self.CON=       int(parB)
-              elif parA=="CHA":           self.CHA=       int(parB)
-              elif parA=="Race":          self.race=      parB
-              elif parA=="Class":         self.charclass= parB
-              elif parA=="HP":            self.HP=        int(parB)
-              elif parA=="hp2":           self.hp2=       int(parB)
-              elif parA=="MP":            self.MP=        int(parB)
-              elif parA=="mp2":           self.mp2=       int(parB)
-              elif parA=="Points":        self.points=    int(parB)
-              elif parA=="Floors":        self.totalfl=   int(parB)
-              elif parA=="Steps":         self.steps=     int(parB)
-              elif parA=="Attacks":       self.totalatks= int(parB)
-              elif parA=="Hits":          self.totalhits= int(parB)
-              elif parA=="Damage given":  self.totaldmg=  int(parB)
-              elif parA=="Damage taken":  self.totalrcv=  int(parB)
-              elif parA=="Kills":         self.kills=     int(parB)
-              elif parA=="Gold earned":   self.totalgld=  int(parB)
-              elif parA=="Traps":         self.totaltrp=  int(parB)
-              elif parA=="Items picked":  self.itemspck=  int(parB)
-              elif parA=="Items erased":  self.itemsdst=  int(parB)
-              elif parA=="Total enchants":self.itemsenc=  int(parB)
-              elif parA=="Potions taken": self.totalpot=  int(parB)
-              elif parA=="Items sold":    self.totalsll=  int(parB)
-              elif parA=="Itembs bought": self.totalbuy=  int(parB)
-              elif parA=="Money spent":   self.totalspn=  int(parB)
-              elif parA=="Max damage":    self.maxdmg=    int(parB)
-              elif parA=="Max enchant":   self.maxench=   int(parB)
-              elif parA=="Stomach":       self.stomach=   int(parB)
-
-              #Load equipped items
-              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-              elif line.startswith("E:"):
-                line=line.strip().split(':')
-                if line[1]!=" ":
-                  wtype=int(line[3])-1
-                  self.equiparr[wtype].name=           line[1]
-                  self.equiparr[wtype].enchantlv=  int(line[2])
-                  self.equiparr[wtype].type=       int(line[3])
-                  self.equiparr[wtype].atk=        int(line[4])
-                  self.equiparr[wtype].defn=       int(line[5])
-                  self.equiparr[wtype].strbonus=   int(line[6])
-                  self.equiparr[wtype].intbonus=   int(line[7])
-                  self.equiparr[wtype].dexbonus=   int(line[8])
-                  self.equiparr[wtype].perbonus=   int(line[9])
-                  self.equiparr[wtype].conbonus=   int(line[10])
-                  self.equiparr[wtype].wilbonus=   int(line[11])
-                  self.equiparr[wtype].chabonus=   int(line[12])
-                  self.equiparr[wtype].price=      int(line[12])
-
-              #Load inventory
-              #E:name:enchantlv:type:atk:defn:strbonus:intbonus:dexbonus:perbonus:conbonus:wilbonus:chabonus:price
-              elif line.startswith("I:"):
-                temp=item.item(0)
-                line=line.strip().split(':')
-                temp.name=          line[1]
-                temp.enchantlv= int(line[2])
-                temp.type=      int(line[3])
-                temp.atk=       int(line[4])
-                temp.defn=      int(line[5])
-                temp.strbonus=  int(line[6])
-                temp.intbonus=  int(line[7])
-                temp.dexbonus=  int(line[8])
-                temp.perbonus=  int(line[9])
-                temp.conbonus=  int(line[10])
-                temp.wilbonus=  int(line[11])
-                temp.chabonus=  int(line[12])
-                temp.price=     int(line[13])
-                self.inventory.append(copy.copy(temp))
-
-              #Load belt items
-              elif line.startswith("B:"):
-                line=line.lstrip("B:").rstrip().split()
-                if line[0]=="4": self.belt.append(item.consumable(4,0))
-                if line[0]=="0":
-                  temp=item.consumable(0,0)
-                  temp.subtype= int(line[1])
-                  temp.name=    line[2]
-                  temp.hpr=     int(line[3])
-                  temp.mpr=     int(line[4])
-                  temp.price=   int(line[5])
-                  self.belt.append(copy.copy(temp))
-
-          #Add empty items to belt until it's full
-          while len(self.belt)<3: self.belt.append(item.consumable(4,0))
-
-          #Update player bonuses
-          for a in self.equiparr:
-            self.strboost+=(a.strbonus)
-            self.intboost+=(a.intbonus)
-            self.dexboost+=(a.dexbonus)
-            self.perboost+=(a.perbonus)
-            self.conboost+=(a.conbonus)
-            self.wilboost+=(a.wilbonus)
-            self.chaboost+=(a.chabonus)
-            self.totatk  +=(a.atk)
-            self.totdefn +=(a.defn)
-
-          #Restore position values
-          self.xpos=tempx
-          self.ypos=tempy
-          self.zpos=tempz
-
-          return "Player loaded"
-        else:return "Save file is empty"
+        attrdict=json.load(savefile)
     except IOError: return "Error loading character"
+
+    for key,value in attrdict.iteritems(): setattr(self,key,value)
