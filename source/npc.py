@@ -3,9 +3,8 @@
 import copy, os, random
 import item
 import common, parser
-
-npcdata={}
-vendordata={}
+sys.path.append(os.path.abspath("../data/"))
+from npcs import *
 
 class npc:
   """
@@ -39,53 +38,52 @@ class npc:
                     # >10     - good
   """
   
-  def __init__(self,gender,stat,total):
+  def __init__(self,gender=0,stat=5,total=16):
     """
     Constructor. Generates an NPC, as in the standalone NPC generator:
     https://github.com/Achifaifa/GM-Tools/tree/master/npcgenerator
 
-    Needs:
+    Options:
 
     Gender
-      0 female
-      1 male
-      Anything else defaults at a random genre
+      1 female
+      2 male
+      Defaults at a random genre
 
     Maximum stat level
-      A number smaller than 1 defaults to 5
+      A number smaller than 1 is corrected to 5
+      defaults to 5
 
     Total attribute points
-      A number smaller than 1 defaults to 16
+      A number smaller than 1 is corrected to 16
+      defaults to 16
     """
 
     #Sanitize input
     if stat<1: stat=5
     if total<1: total=16
-    if gender not in [0,1]: gender=random.choice([0,1])
+    if gender not in [1,2]: gender=random.choice([1,2])
 
-    self.STR=self.DEX=self.CON=self.INT=self.PER=self.WIL=self.CHA=1 
+    self.attrs=["STR", "DEX", "CON", "INT", "PER", "WIL", "CHA"]
+    for i in self.attrs: setattr(self,i,1)
     self.rel=0
     
     for i in range(total-6):
       rnd=random.randint(1,7)
-      if self.STR<stat and rnd==1: self.STR+=1
-      if self.DEX<stat and rnd==2: self.DEX+=1
-      if self.CON<stat and rnd==3: self.CON+=1
-      if self.INT<stat and rnd==4: self.INT+=1
-      if self.PER<stat and rnd==5: self.PER+=1
-      if self.WIL<stat and rnd==6: self.WIL+=1
-      if self.CHA<stat and rnd==7: self.CHA+=1
+      current=getattr(self,self.attrs[rnd])
+      if current<stat: setattr(self,self.attrs[rnd],current+1)
 
-    if gender==0: self.name=random.choice(npcdata["namefemale"])
-    if gender==1: self.name=random.choice(npcdata["namemale"])
-    self.secondname=random.choice(npcdata["secondnames"])
-    self.personality=random.choice(npcdata["personality"])
-    self.appearance=random.choice(npcdata["appearance"])
-    self.job=random.choice(npcdata["jobs"])
-    self.likes1=random.choice(npcdata["things"])
-    self.likes2=random.choice(npcdata["things"])
-    self.dislikes1=random.choice(npcdata["things"])
-    self.dislikes2=random.choice(npcdata["things"])
+    namel=naming.firstnames_f if gender==1 else naming.firstnames_m
+    self.name=random.choice(namel)
+    self.secondname=random.choice(naming.secondnames)
+    self.personality=random.choice(psych.personality)
+    self.appearance=random.choice(physical.appearance)
+    self.job=random.choice(jobs.jobs)
+    t=things.things
+    self.likes1=random.choice(t)
+    self.likes2=random.choice(t)
+    self.dislikes1=random.choice(t)
+    self.dislikes2=random.choice(t)
 
 class vendor:
   """
@@ -262,94 +260,4 @@ class vendor:
           common.getch()
       except (ValueError, IndexError): pass
 
-def sanitize(): 
-  """
-  Rewrite the NPC data files to follow formatting standards.
-  """
-
-  try:
-    print "Sanitizing NPC files...    ",
-    with open("../data/npcs/firstnames_male","r+") as firstnamesmale:
-      lines=firstnamesmale.readlines()
-      firstnamesmale.seek(0,0)
-      for line in lines: firstnamesmale.write(line.title())
-       
-    with open("../data/npcs/firstnames_female","r+") as firstnamesfemale:
-      lines=firstnamesfemale.readlines()
-      firstnamesfemale.seek(0,0)
-      for line in lines: firstnamesfemale.write(line.title())
-
-    with open("../data/npcs/secondnames","r+") as secondnames:
-      lines=secondnames.readlines()
-      secondnames.seek(0,0)
-      for line in lines: secondnames.write(line.title())
-
-    #First letter on the first selected thing will be capped later.
-    with open("../data/npcs/things","r+") as things:
-      lines=things.readlines()
-      things.seek(0,0)
-      for line in lines: things.write(line.lower())
-
-  except IOError:
-    print "error sanitizing NPC data files"
-    common.getch()
-
-def load(): 
-  """
-  Load the data from the files into a dictionary. 
-  The arrays with the data is stored in a dictionary.
-  The dictionary is global in the module and is used by default in the NPC class.
-  """
-
-  global npcdata
-  global vendordata
-
-  try:
-    print "Loading NPC data files...  ",
-    with open("../data/npcs/firstnames_male","r") as file:    npcdata["namemale"]=    [i.rstrip() for i in file]
-    with open("../data/npcs/firstnames_female","r") as file:  npcdata["namefemale"]=  [i.rstrip() for i in file]
-    with open("../data/npcs/secondnames","r") as file:        npcdata["secondnames"]= [i.rstrip() for i in file]
-    with open("../data/npcs/appearance","r") as file:         npcdata["appearance"]=  [i.rstrip() for i in file]
-    with open("../data/npcs/personality","r") as file:        npcdata["personality"]= [i.rstrip() for i in file]
-    with open("../data/npcs/things","r") as file:             npcdata["things"]=      [i.rstrip() for i in file]
-    with open("../data/npcs/jobs","r") as file:               npcdata["jobs"]=        [i.rstrip() for i in file]
-    print "OK"
-  except IOError:
-    print "error loading NPC data files"
-    common.getch()
-
-  print "Loading NPC messages...    ",
-  vendordata["welcomemsg"]=[]
-  vendordata["byemsg"]=[]
-  vendordata["okmsg"]=[]
-  vendordata["failmsg"]=[]
-  try:
-    with open("../data/vendor/vendormsg","r") as file:
-      for line in file:
-        line=line.strip()
-        if not line.startswith("#"):
-          if line.partition(':')[0]=="W": vendordata["welcomemsg"].append(line.partition(':')[2])
-          if line.partition(':')[0]=="G": vendordata["byemsg"].append(line.partition(':')[2])
-          if line.partition(':')[0]=="S": vendordata["okmsg"].append(line.partition(':')[2])
-          if line.partition(':')[0]=="F": vendordata["failmsg"].append(line.partition(':')[2])
-    print "OK"
-  except IOError:
-    print "error loading vendor data files"
-    common.getch()
-
-if __name__=="__main__":
-  try: os.chdir(os.path.dirname(__file__))
-  except OSError: pass 
-  sanitize()
-  load()
-  common.version()
-  print "NPC module test"
-  while 1:
-    try:
-      new=npc(0,0,0)
-      print "Name: %s %s"               %(new.name,new.secondname)
-      print "Personality: %s"           %(new.personality)
-      print "Appearance: %s"            %(new.appearance)
-      print "Works as: %s \n\n---\n\n"  %(new.job)
-      common.getch()
-    except: break
+if __name__=="__main__": pass

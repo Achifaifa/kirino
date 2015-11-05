@@ -8,8 +8,6 @@ def enchant(item,player):
   All the success/error messages are returned in this function. The enchant function in item.py doesn't do that.
   """
 
-  
-
   oldname=item.name
   enchantprice=item.price
 
