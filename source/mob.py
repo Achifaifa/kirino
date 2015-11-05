@@ -68,16 +68,23 @@ class mob:
       setattr(self,attr,value)
     self.zpos=tmob["flying"]
 
-    #Secondary attributes
+    #Add secondary attributes
+    self.secondary()
+
+    #Status variables
+    self.lock=self.hit=0
+
+  def secondary(self):
+    """
+    Calculates secondary attributes
+    """
+
     self.HP=((self.CON+self.STR)*4)+10
     self.MP=(self.INT+self.WIL)
     if self.MP<0: self.MP=0
     self.END=((self.CON+self.STR+self.WIL)*3)+5
     self.SPD=(self.CON+self.DEX)*3
     if self.SPD<1: self.SPD=1
-
-    #Status variables
-    self.lock=self.hit=0
   
   def move(self,dungeon,direction,distance):
     """
@@ -90,26 +97,43 @@ class mob:
       4 east
 
     If the mob is locked the function does nothing
+
+    #TO-DO: it only checks the initial and final position. Pending: Check if the path is clear to avoid noclipping
     """
     
     if not self.lock:
       try:
         if direction==1:
-          if dungeon.dungarray[self.ypos-1][self.xpos]==".": self.ypos-=distance
+          if dungeon.dungarray[self.ypos-1][self.xpos]=="." and \
+             dungeon.dungarray[self.ypos-1][self.xpos]==".": 
+            self.ypos-=distance
+          else: return 1
         elif direction==2:
-          if dungeon.dungarray[self.ypos][self.xpos-1]==".": self.xpos-=distance  
+          if dungeon.dungarray[self.ypos][self.xpos-1]=="." and \
+             dungeon.dungarray[self.ypos][self.xpos-1]==".": 
+            self.xpos-=distance  
+          else: return 1
         elif direction==3:
-          if dungeon.dungarray[self.ypos+1][self.xpos]==".": self.ypos+=distance
+          if dungeon.dungarray[self.ypos+1][self.xpos]=="." and \
+             dungeon.dungarray[self.ypos+1][self.xpos]==".": 
+            self.ypos+=distance
+          else: return 1
         elif direction==4:
-          if dungeon.dungarray[self.ypos][self.xpos+1]==".": self.xpos+=distance
-      except IndexError: pass
+          if dungeon.dungarray[self.ypos][self.xpos+1]=="." and \
+             dungeon.dungarray[self.ypos][self.xpos+1]==".": 
+            self.xpos+=distance
+          else: return 1
+        else: return 1
+      except IndexError: return -1
+    else: return 1
+    return 0
   
   def randmove(self,dungeon,dist):
     """
     Moves the mob in a random direction a given number of tiles
     """
 
-    self.move(dungeon,random.randrange(1,5),dist)
+    self.move(dungeon,random.randint(1,4),dist)
    
   def trandmove(self,dungeon):
     """
