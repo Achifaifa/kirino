@@ -69,6 +69,7 @@ class config:
         for line in configfile:
           if not line.startswith('#'):
             parA,parB=line.split(':')
+            parB=parB.strip()
             if   parA=="North":         self.north=     parB          
             elif parA=="South":         self.south=     parB          
             elif parA=="East":          self.east=      parB         

@@ -54,7 +54,7 @@ class mob:
     """
 
     # Initialize level and position
-    self.level=random.randint(1,mobs.maxlevel) if not level else level
+    self.level=random.randint(1,mobs.maxlevel) if level<1 or level>mobs.maxlevel else level
     self.xpos=self.ypos=self.zpos=0
 
     # Load all the mobs at the selected level
@@ -65,7 +65,6 @@ class mob:
 
     # Iterate over the stored attributes and assign them to self
     for attr, value in tmob.iteritems():
-      #exec("self.%s=%s"%(attr, value))
       setattr(self,attr,value)
     self.zpos=tmob["flying"]
 

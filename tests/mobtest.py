@@ -8,14 +8,24 @@ class Mobtestsuit(unittest.TestCase):
   tests mob class
   """
 
-  def test_mob_constructor(self):
+  def test_mob_constructor_primary(self):
     """
     Tests the mob constructor through existing levels
     """
 
-    tm=mob.mob()
-    self.assertTrue(tm.lock==0)
-    self.assertTrue(tm.hit==0)
+    for j in range(50):
+      for i in range(10):
+        tm=mob.mob(i)
+        self.assertTrue(tm.lock==0)
+        self.assertTrue(tm.hit==0)
+        self.assertTrue(tm.xpos==0)
+        self.assertTrue(tm.ypos==0)
+
+  def test_mob_constructor_secondary(self):
+    """
+    """
+
+    pass
 
   def test_mob_movement(self):
     """

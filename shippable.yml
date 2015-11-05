@@ -15,4 +15,4 @@ before_script:
 
 # Launch the thing
 script:
-  - python -m unittest discover tests
+  - cd tests && python -m unittest discover -p '*.py'
