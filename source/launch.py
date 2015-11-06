@@ -55,6 +55,83 @@ def setup(quickvavr=0):
       for j in range(len(dung.dungarray[0])):
         dung.explored[i][j]=dung.dungarray[i][j]
 
+def pickthings(dungeon,player):
+  """
+  Makes the player pick whatever is on the floor up and updates stats
+  """
+
+  tile=dungeon.dungarray[player.ypos][player.xpos]
+
+  #Action if player has reached a money loot tile
+  if tile=="$":
+    monies=random.randrange(1,player.lv*5)
+    player.pocket+=monies
+    player.totalgld+=monies
+    dungeon.dungarray[player.ypos][player.xpos]="."
+    lootmsg=("\nYou find %i gold\n"%monies)
+
+  #Action if player has reached a gear loot tile
+  elif tile=="/":
+    loot=item.item(random.randrange(1,12))
+    picked,pickmsg=player.pickobject(loot)
+    if picked: dungeon.dungarray[player.ypos][player.xpos]="."
+
+  #Action if player has reached a food tile
+  elif tile=="o":
+    if random.choice([0,0,0,1]): loot=item.consumable(3,0)
+    else: loot=item.consumable(0,0)
+    picked,pickmsg=player.pickconsumable(loot)
+    if picked: dungeon.dungarray[player.ypos][player.xpos]="."
+
+def atrap(dungeon, player):
+  """
+  Checks if the player has stepped on a trap
+  """
+
+  #Action if player stepped on a trap
+  for i in dung.traps:
+    if (i[0],i[1])==(hero.ypos,hero.xpos):      
+      hero.totaltrp+=1
+
+      # Normal trap
+      if i[2]==1:
+        trapdmg=1+random.randrange(1,5)
+        hero.hp2-=trapdmg
+        hero.totalrcv+=trapdmg
+        dung.dungarray[hero.ypos][hero.xpos]="_"
+        return "You stepped on a trap! Lost %i HP\n"%(trapdmg)
+
+      # Mana trap
+      if i[2]==2:
+        trapdmg=1+random.randrange(1,5)
+        hero.mp2-=trapdmg
+        dung.dungarray[hero.ypos][hero.xpos]="_"
+          
+        # If there is no mana, drain life instead
+        if hero.mp2<0:
+          hero.mp2=0
+          hero.hp2-=trapdmg
+          hero.totalrcv+=trapdmg
+          return "You feel your life draining out. Lost %i HP\n"%(trapdmg)
+        return "Something is sucking your soul! Lost %i MP\n"%(trapdmg)
+
+      # Trap to next floor
+      if i[2]==3:
+         return "A trap door opens under you. \nYou fall to the next floor and lose 5HP"
+        hero.hp2-=5
+        hero.totalrcv+=5
+        gl.flcounter+=1
+        hero.totalfl+=1
+        gl.fl+=1
+        lsave(hero)
+        if cfg.autosave==1: hero.save()
+        allowvendor=0
+        if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
+        dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
+        lload(hero)
+        if not cfg.fog: dung.explored=dung.dungarray
+        hero.enter(dung,1)
+
 def crawl(quickvar=0):
   """
   Main crawling function. Displays the map, keys and different statistics.
@@ -63,18 +140,8 @@ def crawl(quickvar=0):
   crawlmen=-1
   while 1:
 
-    #Update hunger stats
-    hungsteps+=1
-    if hungsteps==10:
-      hungsteps=0
-      hero.stomach-=1
-      if hero.stomach<10:
-        hungmsg="Your stomach growls...\n"
-
-    #Act if hungry
-    if not hero.stomach:
-      hero.hp2-=1
-      hungmsg="You feel hungry and weak\n"
+    # Process hunger
+    hungmsg=hero.hunger()
 
     #Reset message strings
     atkmsg=pickmsg=trapmsg=""
@@ -90,93 +157,26 @@ def crawl(quickvar=0):
     #Level the player up
     hero.levelup()
 
-    #If any of the remaining mobs has locked on the player and the player is in range, attack
-    for j in dung.mobarray:
-      if j.lock:
-        if (j.ypos-1<=hero.ypos<=j.ypos+1 and j.xpos-1<=hero.xpos<=j.xpos+1 ):
-          atkmsg=j.attack(hero,dung)
-        else: j.lock=0
+    #Attack with all the mobs. Range/conditoins check in mob.attack()
+    atkmsg="".join([j.attack(hero,dung) for j in dung.mobarray])
 
     #After attacking, reset the hit parameter
-    for a in dung.mobarray: a.hit=0
-        
     #If any of the mobs are near the player, lock them
-    for k in range(len(dung.mobarray)):
-      if (j.ypos-1<=hero.ypos<=j.ypos+1 and 
-          j.xpos-1<=hero.xpos<=j.xpos+1 ):
-        dung.mobarray[k].lock=1
+    for i in dung.mobarray: 
+      i.hit=0
+      i.lock()
+        
+    # Pick things from floor
+    pickthings(dung,hero)
 
-    #Action if player has reached a money loot tile
-    if dung.dungarray[hero.ypos][hero.xpos]=="$":
-      monies=random.randrange(1,hero.lv*5)
-      hero.pocket+=monies
-      hero.totalgld+=monies
-      dung.dungarray[hero.ypos][hero.xpos]="."
-      lootmsg=("\nYou find %i gold\n"%monies)
-
-    #Action if player has reached a gear loot tile
-    if dung.dungarray[hero.ypos][hero.xpos]=="/":
-      loot=item.item(random.randrange(1,12))
-      picked,pickmsg=hero.pickobject(loot)
-      if picked: dung.dungarray[hero.ypos][hero.xpos]="."
-
-    #Action if player has reached a food tile
-    if dung.dungarray[hero.ypos][hero.xpos]=="o":
-      if random.choice([0,0,0,1]): loot=item.consumable(3,0)
-      else: loot=item.consumable(0,0)
-      picked,pickmsg=hero.pickconsumable(loot)
-      if picked: dung.dungarray[hero.ypos][hero.xpos]="."
-
-    #Action if player stepped on a trap
-    for i in dung.traps:
-      if i[0]==hero.xpos and i[1]==hero.ypos:      
-        hero.totaltrp+=1
-        if i[2]==1:
-          trapdmg=1+random.randrange(1,5)
-          hero.hp2-=trapdmg
-          hero.totalrcv+=trapdmg
-          dung.dungarray[hero.ypos][hero.xpos]="_"
-          trapmsg="You stepped on a trap! Lost %i HP\n"%(trapdmg)
-        if i[2]==2:
-          trapdmg=int(round(hero.MP/random.randrange(5,10)))+1
-          hero.mp2-=trapdmg
-          trapmsg="Something is sucking your soul! Lost %i MP\n"%(trapdmg)
-          if hero.mp2<0:
-            hero.mp2=0
-            hero.hp2-=trapdmg
-            hero.totalrcv+=trapdmg
-            trapmsg="You feel your life draining out. Lost %i HP\n"%(trapdmg)
-          dung.dungarray[hero.ypos][hero.xpos]="_"
-        if i[2]==3:
-          trapmsg="A trap door opens under you. \nYou fall to the next floor and lose 5HP"
-          hero.hp2-=5
-          hero.totalrcv+=5
-          flcounter+=1
-          hero.totalfl+=1
-          fl+=1
-          lsave(hero)
-          if cfg.autosave==1: hero.save()
-          allowvendor=0
-          if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
-          dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
-          lload(hero)
-          if not cfg.fog: dung.explored=dung.dungarray
-          hero.enter(dung,1)
+    # Check if the player has stepped on a trap
+    trapmsg=atrap(dung,hero)
 
     #Print header and map
     common.version()
     dung.fill(hero,cfg.fog)
     dung.minimap(hero,cfg.fog)
-
-    #Prit data
-    print "HP: %i/%i, MP: %i/%i"%(hero.hp2,hero.HP,hero.mp2,hero.MP)
-    print "FL %i Lv %i"%(fl,hero.lv),
-    if hero.lv==1: print "(%i/5 xp)"%(hero.exp)
-    if hero.lv>1:  print "%i/%i xp"%(hero.exp,3*hero.lv+(2*(hero.lv-1)))
-    for i in range(6): print "(%c) %s" %(quick[i],hero.belt[i].name)
-    print "\n%c: key mapping help"%(cfg.showkeys)
-    print hungmsg+lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
-    print "->",
+    menus.printpldata(hero)
 
     #Reset message strings after display
     action=0
@@ -299,7 +299,7 @@ def crawl(quickvar=0):
     #Report dungeon
     elif crawlmen==cfg.report:
       rc=-1
-      print "Report dungeon? (y/n)"
+      print "Report dungeon? (y/[n])"
       print "This will add the current floor to the ./logs/report file"
       print "Please consider sending this file when you are done playing"
       print "->",
@@ -311,10 +311,6 @@ def crawl(quickvar=0):
     #If the player health is EL0, game over
     if hero.hp2<=0:
       hero.bury()
-      try:
-        with open ("../player/save","w+") as youdied:
-          youdied.write("No character saved")
-      except IOError: pass
       raw_input(cfg.gomsg)
       break
 
@@ -325,38 +321,22 @@ def purge():
   Used when exiting a game so the data is not carried to the next one.
   """
 
-  global dex
-  global intv
-  global con
-  global per
-  global wil
-  global strv
-  global cha
-  global xp
-  global pocket 
-  global name
-  global lv
-  global hp2
-  global mp2
-  global tempinventory
-  global tempequiparr
-  global points
-  dex=0
-  intv=0 
-  con=0
-  per=0
-  wil=0 
-  strv=0
-  cha=0
-  xp=0
-  pocket=0
-  name="_"
-  lv=0  
-  hp2=0
-  mp2=0
-  tempinventory=[]
+  gl.dex=0
+  gl.intv=0 
+  gl.con=0
+  gl.per=0
+  gl.wil=0 
+  gl.strv=0
+  gl.cha=0
+  gl.xp=0
+  gl.pocket=0
+  gl.name="_"
+  gl.lv=0  
+  gl.hp2=0
+  gl.mp2=0
+  gl.tempinventory=[]
   for i in tempequiparr: i.reset()
-  points=0
+  gl.points=0
 
 def lsave(pl,g):
   """
@@ -387,8 +367,6 @@ def lload(pl,g):
   This is used when going to the next floor, so it also adds one experience and levels up if possible.
   """
 
-  global flcounter
-  global lv
   pl.DEX=g.dex
   pl.INT=g.intv
   pl.CON=g.con

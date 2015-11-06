@@ -75,6 +75,7 @@ stevenbird (GH: nltk source)
   * Shippable CI integration
   * Unit tests
   * Moved user interaction to single module
+  * Nerfed mana traps
 
 ####**v0.1.7** (2014-11-21):
 * New features:

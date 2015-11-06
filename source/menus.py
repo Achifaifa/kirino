@@ -312,6 +312,20 @@ def menu():
         os.system('clear')
         exit()
 
+def printpldata(player):
+  """
+  Displays the player data on screen
+  """
+
+  print "HP: %i/%i, MP: %i/%i"%(player.hp2,player.HP,player.mp2,player.MP)
+  print "FL %i Lv %i"%(fl,player.lv),
+  if player.lv==1: print "(%i/5 xp)"%(player.exp)
+  if player.lv>1:  print "%i/%i xp"%(player.exp,3*player.lv+(2*(player.lv-1)))
+  for i in range(6): print "(%c) %s" %(quick[i],player.belt[i].name)
+  print "\n%c: key mapping help"%(cfg.showkeys)
+  print hungmsg+lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
+  print "->",
+
 def newgame(quick=0):
   """
   This function displays the menu to create a new character.

@@ -104,7 +104,7 @@ class mob:
     direction=random.randint(1,4) if not direction else direction
     
     if self.lock: return 1
-    
+
     try:
       if direction==1:
         if dungeon.dungarray[self.ypos-1][self.xpos]==".":
@@ -153,6 +153,7 @@ class mob:
     Attacks the player object passed to the function
     """
     
+    if not self.lock: return ""
     roll=random.randint(1,10)+self.DEX
     #Check if the player is in range
     if (player.ypos<=self.ypos+1 and player.ypos>=self.ypos-1 and 
@@ -167,5 +168,13 @@ class mob:
       return ("%s attacks %s for %i damage!\n"%(self.name,player.name,attackpow))
     elif roll<=3:
       return ("%s tries to hit %s, but it misses\n"%(self.name, player.name))
+
+  def lock(self,player):
+    """
+    If the player is within range, lock the mob so it attacks in the next turn
+    """
+
+    if (self.ypos-1<=player.ypos<=self.ypos+1 and self.xpos-1<=player.xpos<=self.xpos+1):
+      self.lock=1
 
 if __name__=="__main__": pass

@@ -102,6 +102,7 @@ class player:
     self.prestige=0    #Prestige points
     self.prestigelv=1  #Prestige level (unused)
     self.stomach=100
+    self.hungsteps=0
 
     #Initialize stat variables
     self.totalfl =self.steps   =self.totalatks=self.totalgld=self.totalhits=self.totaldmg=self.totalrcv=self.kills   =0  
@@ -217,6 +218,24 @@ class player:
       self.inventory.append(object)
       self.itemspck+=1
       return 1,("You picked %s\n"%object.name)
+
+  def hunger(self):
+    """
+    Processes the current hunger state 
+    """
+
+    #Update hunger stats
+    self.hungsteps+=1
+    if self.hungsteps==10:
+      self.hungsteps=0
+      self..stomach-=1
+      if self..stomach<10:
+        return "Your stomach growls...\n"
+
+    #Act if hungry
+    if not self..stomach:
+      self..hp2-=1
+      return "You feel hungry and weak\n"
 
   def pickconsumable(self,object):
     """
