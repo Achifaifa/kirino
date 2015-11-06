@@ -322,9 +322,6 @@ def printpldata(player):
   if player.lv==1: print "(%i/5 xp)"%(player.exp)
   if player.lv>1:  print "%i/%i xp"%(player.exp,3*player.lv+(2*(player.lv-1)))
   for i in range(6): print "(%c) %s" %(quick[i],player.belt[i].name)
-  print "\n%c: key mapping help"%(cfg.showkeys)
-  print hungmsg+lootmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
-  print "->",
 
 def newgame(quick=0):
   """

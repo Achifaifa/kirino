@@ -184,6 +184,10 @@ class player:
     fall is optional and defaults to 0
     """
 
+    self.totalfl+=1
+    self.exp+=1
+    self.levelup()
+
     if fall:
       while 1:
         randy=random.randrange(len(dungeon.dungarray))
