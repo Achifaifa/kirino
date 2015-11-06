@@ -335,11 +335,11 @@ def crawl(quickvar):
       break
   pass
 
-def newgame(quick):
+def newgame(quick=0):
   """
   This function displays the menu to create a new character.
 
-  Receives a quick parameter. if 1, it generates a 40x40 dungeon and a random player.
+  Receives an optionanl quick parameter. if 1, it generates a 40x40 dungeon and a random player.
   """
 
   global xsize
@@ -350,7 +350,7 @@ def newgame(quick):
   if quick:
     dung=dungeon.dungeon(50,50,1)
     hero=player.player(1)
-    hero.enter(dung,0)
+    hero.enter(dung)
 
   #If not, go through the usual process
   elif not quick:

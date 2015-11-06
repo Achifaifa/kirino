@@ -73,7 +73,7 @@ class npc:
     
     # Assign remaining points.
     for i in range(total-6):
-      rnd=random.randint(1,7)
+      rnd=random.randint(0,6)
       current=getattr(self,self.attrs[rnd])
       if current<stat: setattr(self,self.attrs[rnd],current+1)
 

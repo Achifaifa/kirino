@@ -1,5 +1,5 @@
 #! /usr/bin/env python
-import math, os, random
+import copy, math, os, random
 import common, mob, npc, player
 
 class dungeon:
@@ -21,24 +21,25 @@ class dungeon:
   vendorvar=0   #If 1, a vendor is generated in the floor
   """
   
-  def __init__(self,x,y,vendor):
+  def __init__(self,x,y,vendor=0):
     """
     Class constructor. 
 
     Receives two integers (x,y) that define the horizontal and vertical size.
 
-    It also receives a vendor variable. If set to 1 it generates a shop in a random position inside the dungeon.
+    (Optional, defaults to 0) Aeceives a vendor variable. If set to 1 it generates a shop in a random position inside the dungeon.
 
     Minimum size is 40x20. If something smaller is given, defaults at the minimum.
     """
 
     self.xsize=x if x>=40 else 40
     self.ysize=y if y>=20 else 20
+
+    # This creates and fills the dungeon with # (Rock)
+    self.dungarray=[["#" for j in range(self.xsize)] for i in range(self.ysize)]
+
     while self.debug(): 
-      
-      # This creates and fills the dungeon with # (Rock)
-      self.dungarray=[["#" for i in range(self.xsize)] for i in range(self.ysize)]
-            
+       
       # Adds one big room  (minimum 4*4) per 40*40 space
       for v in range(self.xsize*self.ysize/1600):
         roomy=random.randrange(self.ysize/3)+4
@@ -204,8 +205,8 @@ class dungeon:
       # Counts the free spaces in the dungarray and adds a mob for every 50 free spaces:
       spaces=sum([i.count('.') for i in self.dungarray])
       
-      for i in range(spaces/50):
-        self.mobarray.append(mob.mob(self,1))
+      # Fill dungeon with mobs
+      self.mobarray=[mob.mob() for i in range(spaces/50)]
 
       #Adds the vendor
       #First, look for a pattern in which the shop can fit
@@ -282,7 +283,7 @@ class dungeon:
       self.filled=copy.deepcopy(self.dungarray)
 
       #Initialize explored array
-      self.explored=[["~" for j in self.xsize] for i in self.ysize]
+      self.explored=[["~" for j in range(self.xsize)] for i in range(self.ysize)]
 
       #Add traps
       self.traps=[]
@@ -359,7 +360,7 @@ class dungeon:
 
     for i in self.dungarray: print ''.join(map(str,i))
       
-  def advmap(self,x,y,xmapsize,ymapsize):
+  def advmap(self,x,y,xmapsize=20,ymapsize=10):
     """
     Advanced map function. 
 
@@ -374,33 +375,19 @@ class dungeon:
 
     if xmapsize<20: xmapsize=20
     if ymapsize<10: ymapsize=10
-    mapstring=[[] for i in range(ymapsize)]
-  
+    
     #Centering minimap
     x-=xmapsize/2
     y-=ymapsize/2
-
     #Replaces the marker if the input is bad
-    if x+xmapsize>=self.xsize: x=self.xsize-xmapsize
-    if y+ymapsize>=self.ysize: y=self.ysize-ymapsize
-    if x<=0: x=0
-    if y<=0: y=0
+    x=self.xsize-xmapsize if x+xmapsize>=self.xsize else 0 if x<=0 else x
+    y=self.ysize-ymapsize if y+ymapsize>=self.ysize else 0 if y<=0 else y
 
-    #Assign loop
-    counter=0
-    for i in range(y,y+ymapsize):
-      counter+=1
-      for j in range(x,x+xmapsize): mapstring[counter].append(self.filled[i][j])
-         
+    # Assigning
+    mapstring=[i[x:x+xmapsize] for i in self.dungarray[y:y+ymapsize]]
+    
     #Print loop
     for i in mapstring: print ''.join(map(str,i))
-     
-  def advmapcoords(self,x,y):
-    """
-    Generates an advanced map (20x10) centered on the position (x,y)
-    """
-
-    self.advmap(x,y,20,10)
 
   def minimap(self,player,fog):
     """
@@ -411,7 +398,7 @@ class dungeon:
     """
 
     self.fill(player,fog)
-    self.advmapcoords(player.xpos,player.ypos)
+    self.advmap(player.xpos,player.ypos)
     
   def debug(self):
     """
@@ -434,11 +421,9 @@ class dungeon:
     else:
       entrance=exit=0
       for i in self.dungarray:
-        for j in i:
-          if j=="A": entrance=1
-          if j=="X": exit=1
-      if not entrance or not exit: return 1
-      else: return 0
+        if "A" in i: entrance=1
+        if "X" in i: exit=1
+      return not (entrance and exit)
 
   def remember(self,player):
     """
