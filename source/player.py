@@ -632,11 +632,10 @@ class player:
     Levels the player up
     """
 
-    if self.lv==1:
-      if self.exp>=5:
-        self.lv+=1
-        self.exp-=5
-        self.points+=2
+    if self.lv==1 and self.exp>=5:
+      self.lv+=1
+      self.exp-=5
+      self.points+=2
     if self.lv>1:
       lvlimit=3*self.lv+(2*(self.lv-1))
       while self.exp>=lvlimit:

@@ -5,6 +5,7 @@ import item
 import common, parser
 sys.path.append(os.path.abspath("../data/"))
 from npcs import *
+import vendor.vendormsg as msg
 
 class npc:
   """
@@ -112,7 +113,7 @@ class vendor:
     while 1:
       common.version()
       print "Shop\n"
-      print random.choice(vendordata["welcomemsg"])
+      print random.choice(msg.welcome)
       print "\n1.- Sell"
       print "2.- Buy items"
       print "3.- Buy food/potions"
@@ -127,7 +128,7 @@ class vendor:
       if commenu=="3":self.buypot(player)
       if commenu=="4":parser.chat(self.keeper,player)
       if commenu=="0":
-        print random.choice(vendordata["byemsg"])
+        print random.choice(msg.goodbye)
         common.getch()
         break
       else: pass
@@ -165,12 +166,12 @@ class vendor:
             player.totalspn+=self.potforsale[int(buypotmenu)-1].price
             del self.potforsale[int(buypotmenu)-1]
             self.keeper.rel+=1
-            print random.choice(vendordata["okmsg"])
+            print random.choice(msg.success)
             player.totalbuy+=1
             common.getch()
 
           else:
-            print random.choice(vendordata["failmsg"])
+            print random.choice(msg.fail)
             common.getch()
 
       except (ValueError,IndexError): pass
@@ -223,16 +224,16 @@ class vendor:
             player.pocket-=(round(self.pricecalc(player)*self.forsale[int(buymenuc)-1].price))
             player.totalspn+=(round(self.pricecalc(player)*self.forsale[int(buymenuc)-1].price))
             if player.pickobject(self.forsale[int(buymenuc)-1]):
-              print random.choice(vendordata["okmsg"])
+              print random.choice(msg.okay)
               self.keeper.rel+=1
               del self.forsale[int(buymenuc)-1]
               player.totalbuy+=1
               common.getch()
             else:
-              print random.choice(vendordata["failmsg"])
+              print random.choice(msg.fail)
               common.getch()
           else:
-            print random.choice(vendordata["failmsg"])
+            print random.choice(msg.fail)
             common.getch()
       except (ValueError, IndexError): pass
 
@@ -261,7 +262,7 @@ class vendor:
           self.forsale.append(copy.copy(player.inventory[int(sellmenuc)-1]))
           del player.inventory[int(sellmenuc)-1]
           self.keeper.rel+=1
-          print random.choice(vendordata["okmsg"])
+          print random.choice(msg.okay)
           common.getch()
       except (ValueError, IndexError): pass
 

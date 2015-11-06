@@ -452,14 +452,14 @@ class dungeon:
         self.explored[randy][randx]="~"
 
 
-  def fill(self,player,fog):
+  def fill(self,player,fog=0):
     """
     Fills the dungeon temporarily with PC and NPC object and mob markers. 
 
     Needs a player and the fog parameter
 
     Does not return anything, but modifies the filled array
-    if the parameter fog is 1, it displays a fogged minimap. 
+    if the parameter fog is 1 (Defaults to 0), it displays a fogged minimap. 
     """
 
     #Initialize filled array with fog
