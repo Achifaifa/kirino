@@ -113,7 +113,7 @@ class Mobtestsuit(unittest.TestCase):
     tm.xpos=1
     tm.ypos=1
     for i in range(100):
-      tm.randmove(td,1)
+      tm.move(td,1)
       self.assertTrue(tm.xpos==1)
       self.assertIn(tm.ypos, [1,2])
 
@@ -127,16 +127,55 @@ class Mobtestsuit(unittest.TestCase):
     tm.xpos=1
     tm.ypos=1
     for i in range(100):
-      tm.trandmove(td)
+      tm.move(td)
       self.assertTrue(tm.xpos==1)
       self.assertIn(tm.ypos, [1,2])
 
   def test_mob_search(self):
     """
-    #TO-DO: search for test automation
+    Search for player test automation
+
+    Checks that the mob can detect player and determine course correctly
     """
 
-    pass
+    tp=testplayer
+    tm=mob.mob()
+    tm.PER=999
+
+    # South (Should return 3)
+    tm.xpos, tm.ypos=0, 0
+    tp.xpos, tp.ypos=0, 10
+    res=tm.search(tp)
+    self.assertEqual(res, 3)
+
+    # East (Should return 4)
+    tp.xpos, tp.ypos=10, 0
+    res=tm.search(tp)
+    self.assertEqual(res, 4)
+
+    # North (Should return 1)
+    tm.xpos, tm.ypos=0, 10
+    tp.xpos, tp.ypos=0, 0
+    res=tm.search(tp)
+    self.assertEqual(res, 1)
+
+    # West (Should return 2)
+    tm.xpos, tm.ypos=10, 0
+    res=tm.search(tp)
+    self.assertEqual(res, 2)
+
+  def test_mob_search_failure(self):
+    """
+    Checks if the search function fails properly
+    """
+
+    tp=testplayer
+    tm=mob.mob()
+    tm.PER=0
+    tm.xpos, tm.ypos=0, 0
+    tp.xpos, tp.ypos=0, 10
+    res=tm.search(tp)
+    self.assertEqual(res, 0)
 
   def test_mob_attack(self):
     """
