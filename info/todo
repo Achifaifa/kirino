@@ -7,15 +7,8 @@ Item.py
   Item tiers, Items needing a minimum level of dex or str
   Weighted random generator instead of if sentences (e.g. lines 115 to 136)
 
-common.py
-help.py
-Launch.py
-Mob.py:
+Mob.py: 
   Add random name generator from word files, with spec modifiers
-
-NPC.py:
-Player.py
-Parser.py
 
 ---
 

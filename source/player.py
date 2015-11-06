@@ -232,13 +232,13 @@ class player:
     self.hungsteps+=1
     if self.hungsteps==10:
       self.hungsteps=0
-      self..stomach-=1
-      if self..stomach<10:
+      self.stomach-=1
+      if self.stomach<10:
         return "Your stomach growls...\n"
 
     #Act if hungry
-    if not self..stomach:
-      self..hp2-=1
+    if not self.stomach:
+      self.hp2-=1
       return "You feel hungry and weak\n"
 
   def pickconsumable(self,object):

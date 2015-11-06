@@ -338,8 +338,8 @@ class item:
 
     # Double the price of the item
     # Set price first to avoid enchanted item prices to stay at zero
-    if self.price<1: self.price=1
-    self.price*=2
+    self.price=1 if self.price<1 else self.price*2
+    
 
     # Increase attack or defense
     if random.choice([0,1]): self.atk+=1

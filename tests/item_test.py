@@ -268,7 +268,7 @@ class TestFunctions(unittest.TestCase):
     ti=item.item(1)
     ti.price=0
     ti.enchant()
-    self.assertTrue(ti.price==2)
+    self.assertTrue(ti.price==1)
 
   def test_enchant_pricing_nonzero(self):
     """
