@@ -280,4 +280,142 @@ def commerce(self,player):
       break
     else: pass
 
+def menu():
+  """
+  Main menu function. Loads the configuration file and enters the menu loop.
+  """ 
+
+  #loads configuration
+  cfg=config.config()
+
+  #Main menu
+  while 1:
+    common.version()
+    print "Main menu\n"
+    print "%i.- Play"               %(1)
+    print "%s.- Quick play"         %(2)
+    print "%s.- Options"            %(3)
+    print "%s.- Credits"            %(4)
+    print "%s.- Test utilities\n--" %(5)
+    print "%s.- Help"               %(9)
+    print "%s.- Exit\n->"           %(0)
+    menu=common.getch()
+    if menu=="1": crawl(0)
+    if menu=="2": crawl(1)
+    if menu=="3": cfg.options(0)
+    if menu=="4": scroll(15)
+    if menu=="5": test.testm()
+    if menu=="9": help.help()
+    if menu=="0":
+      print "Close kirino (y/n)?"
+      if common.getch()=="y": 
+        os.system('clear')
+        exit()
+
+def newgame(quick=0):
+  """
+  This function displays the menu to create a new character.
+
+  Receives an optionanl quick parameter. if 1, it generates a 40x40 dungeon and a random player.
+  """
+
+  global xsize
+  global ysize
+  cfg=config.config()
+
+  #If quick is 1, generate everything randomly
+  if quick:
+    dung=dungeon.dungeon(50,50,1)
+    hero=player.player(1)
+    hero.enter(dung)
+
+  #If not, go through the usual process
+  elif not quick:
+    while 1:
+      purge()
+      try:
+        common.version()
+        print "New game [1/5] Dungeon size\n~40x40 recommended\n"
+        xsize=int(raw_input("Horizontal size: "))
+        ysize=int(raw_input("Vertical size: "))
+        if xsize<40 or ysize<20: print "Minimum size 40x20"
+        else:
+          print "%ix%i dungeon created"%(xsize,ysize)
+          common.getch()
+          break
+      except ValueError: pass
+
+    os.system('clear')
+    dung=dungeon.dungeon(xsize,ysize,1)
+    hero=player.player(0)
+    hero.enter(dung,0)
+    common.version()
+    print "New game [2/5] Name\n"
+    hero.name=raw_input("What is your name? ")
+    #If name was left empty, pick a random one
+    if len(hero.name)==0:
+      with open("../data/player/names","r") as names:
+        hero.name=random.choice(names.readlines()).strip()
+
+    # setup stats arrays from dict saved in file
+    racesarray=[]
+    strarray=[]
+    intarray=[]
+    dexarray=[]
+    perarray=[]
+    conarray=[]
+    chaarray=[]
+    sys.path.insert(0, "../data/player")
+    from races import stats
+    for race in stats: racesarray.append(race)
+    
+    selected=0
+    while 1:
+      try:
+        common.version()
+        race = racesarray[selected]
+        print "New game [3/5] Race\n"
+        print "Select your race"
+        print "<[%s] %s [%s]>"           %(cfg.west,race,cfg.east)
+        print "STR %s \tINT %s \tDEX %s" %(stats[race]["STR"],stats[race]["INT"],stats[race]["DEX"])
+        print "PER %s \tCON %s \tCHA %s" %(stats[race]["PER"],stats[race]["CON"],stats[race]["CHA"])
+        print "%s: select"               %(cfg.quit)
+        np=common.getch()
+        if np==cfg.west and selected>0: selected-=1
+        if np==cfg.east: selected+=1
+        if np==cfg.quit:
+          hero.race=racesarray[selected]
+          hero.STR+=int(stats[race]["STR"])
+          hero.INT+=int(stats[race]["INT"])
+          hero.DEX+=int(stats[race]["DEX"])
+          hero.PER+=int(stats[race]["PER"])
+          hero.CON+=int(stats[race]["CON"])
+          hero.CHA+=int(stats[race]["STR"])
+          break
+      except IndexError:
+        if np==cfg.west: selected+=1
+        if np==cfg.east: selected-=1
+    
+    with open("../data/player/classes","r") as file:
+      classesarray=[i.rstrip() for i in file]
+    selected=0
+    
+    while 1:
+      try:
+        common.version()
+        print "New game [4/5] Class\n"
+        print "Select your class"
+        print "<[%s] %s [%s]>"  %(cfg.west,classesarray[selected],cfg.east)
+        print "%s: select"      %cfg.quit
+        np=common.getch()
+        if np==cfg.west and selected>0: selected-=1
+        if np==cfg.east: selected+=1
+        if np==cfg.quit:
+          hero.charclass=classesarray[selected]
+          break
+      except IndexError:
+        if np==cfg.west: selected +=1
+        if np==cfg.east: selected-=1
+  return hero,dung
+
 if __name__=="__main__": pass

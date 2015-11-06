@@ -9,55 +9,35 @@ import copy, os, random, sys, time
 import dungeon, item, mob, npc, parser, player
 import common, config, help, test
 
-#load/save global variables
-dex=con=per=wil=cha=0
-intv=strv=0
-xp=lv=1
-points=0
-pocket=0
-hp2=mp2=0
-name="empty"
-flcounter=1       #Floor counter
-fl=1              #Actual (total) floor (Displayed)
-tempinventory=[]
-tempequiparr=[]
-xsize=ysize=0
-
-def menu():
+class gv():
   """
-  Main menu function. Loads the configuration file and enters the menu loop.
-  """ 
-
-  #loads configuration
-  cfg=config.config()
-
-  #Main menu
-  while 1:
-    common.version()
-    print "Main menu\n"
-    print "%i.- Play"               %(1)
-    print "%s.- Quick play"         %(2)
-    print "%s.- Options"            %(3)
-    print "%s.- Credits"            %(4)
-    print "%s.- Test utilities\n--" %(5)
-    print "%s.- Help"               %(9)
-    print "%s.- Exit\n->"           %(0)
-    menu=common.getch()
-    if menu=="1": crawl(0)
-    if menu=="2": crawl(1)
-    if menu=="3": cfg.options(0)
-    if menu=="4": scroll(15)
-    if menu=="5": test.testm()
-    if menu=="9": help.help()
-    if menu=="0":
-      print "Close kirino (y/n)?"
-      if common.getch()=="y": 
-        os.system('clear')
-        exit()
-
-def crawl(quickvar):
+  Class that stores global variables
   """
-  Main crawling function. Displays the map, keys and different statistics.
+
+  dex=con=per=wil=cha=0
+  intv=strv=0
+  xp=lv=1
+  points=0
+  pocket=0
+  hp2=mp2=0
+  name="empty"
+  flcounter=1       #Floor counter
+  fl=1              #Actual (total) floor (Displayed)
+  tempinventory=[]
+  tempequiparr=[]
+  xsize=ysize=0
+
+class world():
+  """
+  Class that stores the current state of the world
+  """
+
+  dung=None
+  hero=None
+
+def setup(quickvavr=0):
+  """
+  Creates dungeons, mobs, worlds, etc to be used in game
   """
 
   cfg=config.config()
@@ -75,7 +55,11 @@ def crawl(quickvar):
       for j in range(len(dung.dungarray[0])):
         dung.explored[i][j]=dung.dungarray[i][j]
 
-  #Main crawling menu and interface
+def crawl(quickvar=0):
+  """
+  Main crawling function. Displays the map, keys and different statistics.
+  """
+
   crawlmen=-1
   while 1:
 
@@ -333,113 +317,6 @@ def crawl(quickvar):
       except IOError: pass
       raw_input(cfg.gomsg)
       break
-  pass
-
-def newgame(quick=0):
-  """
-  This function displays the menu to create a new character.
-
-  Receives an optionanl quick parameter. if 1, it generates a 40x40 dungeon and a random player.
-  """
-
-  global xsize
-  global ysize
-  cfg=config.config()
-
-  #If quick is 1, generate everything randomly
-  if quick:
-    dung=dungeon.dungeon(50,50,1)
-    hero=player.player(1)
-    hero.enter(dung)
-
-  #If not, go through the usual process
-  elif not quick:
-    while 1:
-      purge()
-      try:
-        common.version()
-        print "New game [1/5] Dungeon size\n~40x40 recommended\n"
-        xsize=int(raw_input("Horizontal size: "))
-        ysize=int(raw_input("Vertical size: "))
-        if xsize<40 or ysize<20: print "Minimum size 40x20"
-        else:
-          print "%ix%i dungeon created"%(xsize,ysize)
-          common.getch()
-          break
-      except ValueError: pass
-
-    os.system('clear')
-    dung=dungeon.dungeon(xsize,ysize,1)
-    hero=player.player(0)
-    hero.enter(dung,0)
-    common.version()
-    print "New game [2/5] Name\n"
-    hero.name=raw_input("What is your name? ")
-    #If name was left empty, pick a random one
-    if len(hero.name)==0:
-      with open("../data/player/names","r") as names:
-        hero.name=random.choice(names.readlines()).strip()
-
-    # setup stats arrays from dict saved in file
-    racesarray=[]
-    strarray=[]
-    intarray=[]
-    dexarray=[]
-    perarray=[]
-    conarray=[]
-    chaarray=[]
-    sys.path.insert(0, "../data/player")
-    from races import stats
-    for race in stats: racesarray.append(race)
-    
-    selected=0
-    while 1:
-      try:
-        common.version()
-        race = racesarray[selected]
-        print "New game [3/5] Race\n"
-        print "Select your race"
-        print "<[%s] %s [%s]>"           %(cfg.west,race,cfg.east)
-        print "STR %s \tINT %s \tDEX %s" %(stats[race]["STR"],stats[race]["INT"],stats[race]["DEX"])
-        print "PER %s \tCON %s \tCHA %s" %(stats[race]["PER"],stats[race]["CON"],stats[race]["CHA"])
-        print "%s: select"               %(cfg.quit)
-        np=common.getch()
-        if np==cfg.west and selected>0: selected-=1
-        if np==cfg.east: selected+=1
-        if np==cfg.quit:
-          hero.race=racesarray[selected]
-          hero.STR+=int(stats[race]["STR"])
-          hero.INT+=int(stats[race]["INT"])
-          hero.DEX+=int(stats[race]["DEX"])
-          hero.PER+=int(stats[race]["PER"])
-          hero.CON+=int(stats[race]["CON"])
-          hero.CHA+=int(stats[race]["STR"])
-          break
-      except IndexError:
-        if np==cfg.west: selected+=1
-        if np==cfg.east: selected-=1
-    
-    with open("../data/player/classes","r") as file:
-      classesarray=[i.rstrip() for i in file]
-    selected=0
-    
-    while 1:
-      try:
-        common.version()
-        print "New game [4/5] Class\n"
-        print "Select your class"
-        print "<[%s] %s [%s]>"  %(cfg.west,classesarray[selected],cfg.east)
-        print "%s: select"      %cfg.quit
-        np=common.getch()
-        if np==cfg.west and selected>0: selected-=1
-        if np==cfg.east: selected+=1
-        if np==cfg.quit:
-          hero.charclass=classesarray[selected]
-          break
-      except IndexError:
-        if np==cfg.west: selected +=1
-        if np==cfg.east: selected-=1
-  return hero,dung
 
 def purge():
   """
@@ -481,45 +358,29 @@ def purge():
   for i in tempequiparr: i.reset()
   points=0
 
-def lsave(playa):
+def lsave(pl,g):
   """
-  Takes a player object and saves all its attributes into global variables. 
+  Takes a player object and saves all its attributes into the global class 
   """
 
-  global dex
-  global intv
-  global con
-  global per
-  global wil
-  global strv
-  global cha
-  global xp
-  global pocket 
-  global name
-  global lv
-  global hp2
-  global mp2
-  global tempinventory
-  global tempequiparr
-  global points
-  dex=playa.DEX
-  intv=playa.INT 
-  con=playa.CON
-  per=playa.PER
-  wil=playa.WIL 
-  strv=playa.STR
-  cha=playa.CHA
-  xp=playa.exp
-  pocket=playa.pocket
-  name=playa.name
-  lv=playa.lv
-  hp2=playa.hp2
-  mp2=playa.mp2
-  tempinventory=playa.inventory
-  tempequiparr=playa.equiparr
-  points=playa.points
+  g.dex=pl.DEX
+  g.intv=pl.INT 
+  g.con=pl.CON
+  g.per=pl.PER
+  g.wil=pl.WIL 
+  g.strv=pl.STR
+  g.cha=pl.CHA
+  g.xp=pl.exp
+  g.pocket=pl.pocket
+  g.name=pl.name
+  g.lv=pl.lv
+  g.hp2=pl.hp2
+  g.mp2=pl.mp2
+  g.tempinventory=pl.inventory
+  g.tempequiparr=pl.equiparr
+  g.points=pl.points
 
-def lload(playa):
+def lload(pl,g):
   """
   Loads all the global variables into a player object and then purges the temporal variables.
 
@@ -528,26 +389,26 @@ def lload(playa):
 
   global flcounter
   global lv
-  playa.DEX=dex
-  playa.INT=intv
-  playa.CON=con
-  playa.PER=per
-  playa.WIL=wil 
-  playa.STR=strv
-  playa.CHA=cha
-  playa.pocket=pocket
-  playa.name=name
-  playa.hp2=hp2
-  playa.mp2=mp2
-  playa.inventory=tempinventory
-  playa.equiparr=tempequiparr
-  playa.points=points
+  pl.DEX=g.dex
+  pl.INT=g.intv
+  pl.CON=g.con
+  pl.PER=g.per
+  pl.WIL=g.wil 
+  pl.STR=g.strv
+  pl.CHA=g.cha
+  pl.pocket=g.pocket
+  pl.name=g.name
+  pl.hp2=g.hp2
+  pl.mp2=g.mp2
+  pl.inventory=g.tempinventory
+  pl.equiparr=g.tempequiparr
+  pl.points=g.points
 
   #Adds 1 xp 
-  playa.exp+=1
+  pl.exp+=1
 
   #Levels the player up
-  playa.levelup()
+  pl.levelup()
 
 def scroll(lines):
   """
@@ -577,9 +438,7 @@ def scroll(lines):
 if __name__=="__main__":
   #Changes the directory to where the source files are
   try: os.chdir(os.path.dirname(__file__))
-  #OSError is generated when os.path.dirname(__file__) is empty string. 
-  #That is, when the path is already where the source files are.
   except OSError: pass 
-  #Load data files and start the menu    
+
   try: menu()
   except KeyboardInterrupt: exit()
