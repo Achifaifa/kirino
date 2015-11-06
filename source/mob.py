@@ -86,11 +86,11 @@ class mob:
     self.SPD=(self.CON+self.DEX)*3
     if self.SPD<1: self.SPD=1
   
-  def move(self,dungeon,direction,distance):
+  def move(self,dungeon,direction=0,distance=1):
     """
     Move function. Needs a dungeon object.
 
-    Accepts direction and distance
+    Accepts direction (OPtional, defaults to random) and distance (Optional, defaults to 1)
       1 north
       2 west
       3 south
@@ -98,69 +98,54 @@ class mob:
 
     If the mob is locked the function does nothing
 
-    #TO-DO: it only checks the initial and final position. Pending: Check if the path is clear to avoid noclipping
+    #TO-DO: it only checks the initial position. Pending: Check if the path is clear to avoid noclipping
     """
+
+    direction=random.randint(1,4) if not direction else direction
     
-    if not self.lock:
-      try:
-        if direction==1:
-          if dungeon.dungarray[self.ypos-1][self.xpos]=="." and \
-             dungeon.dungarray[self.ypos-1][self.xpos]==".": 
-            self.ypos-=distance
-          else: return 1
-        elif direction==2:
-          if dungeon.dungarray[self.ypos][self.xpos-1]=="." and \
-             dungeon.dungarray[self.ypos][self.xpos-1]==".": 
-            self.xpos-=distance  
-          else: return 1
-        elif direction==3:
-          if dungeon.dungarray[self.ypos+1][self.xpos]=="." and \
-             dungeon.dungarray[self.ypos+1][self.xpos]==".": 
-            self.ypos+=distance
-          else: return 1
-        elif direction==4:
-          if dungeon.dungarray[self.ypos][self.xpos+1]=="." and \
-             dungeon.dungarray[self.ypos][self.xpos+1]==".": 
-            self.xpos+=distance
-          else: return 1
+    if self.lock: return 1
+    
+    try:
+      if direction==1:
+        if dungeon.dungarray[self.ypos-1][self.xpos]==".":
+          self.ypos-=distance
         else: return 1
-      except IndexError: return -1
-    else: return 1
+      elif direction==2:
+        if dungeon.dungarray[self.ypos][self.xpos-1]==".":
+          self.xpos-=distance  
+        else: return 1
+      elif direction==3:
+        if dungeon.dungarray[self.ypos+1][self.xpos]==".":
+          self.ypos+=distance
+        else: return 1
+      elif direction==4:
+        if dungeon.dungarray[self.ypos][self.xpos+1]==".":
+          self.xpos+=distance
+        else: return 1
+      else: return 1
+    except IndexError: return -1
     return 0
-  
-  def randmove(self,dungeon,dist):
+
+  def search(self,player):
     """
-    Moves the mob in a random direction a given number of tiles
+    Search for the player
+
+    Returns the direction the mob has to move in.
+
+    If the mob can't detect the player, returns 0 (Random direction)
     """
 
-    self.move(dungeon,random.randint(1,4),dist)
-   
-  def trandmove(self,dungeon):
-    """
-    Moves 1 tile in a random direction
-    """
+    # The mob detects a player if the total horizontal and vertical difference 
+    # is less than 2*perception
+    if abs((self.xpos-player.xpos)+(self.ypos-player.ypos))<=2*self.PER:
 
-    self.randmove(dungeon,1)
-
-  def search(self,dungeon,player):
-    """
-    If the player is within the perception range of the mob, it chases. 
-    If not, it moves randomly within the dungeon.
-    """
-
-    if abs(self.xpos-player.xpos)<=self.PER and abs(self.ypos-player.ypos)<=self.PER:
-
-      #Choose vertical movement if there is more vertical than horizontal separation
+      # Choose vertical movement if there is more vertical than horizontal separation
       vert=abs(self.xpos-player.xpos)<abs(self.ypos-player.ypos)
-      #Move vertically only if the mob is not in the vertical
-      if vert:
-        if self.ypos>player.ypos: self.move(dungeon,1,1)
-        else: self.move(dungeon,3,1)
-      else:
-        if self.xpos>player.xpos: self.move(dungeon,2,1)
-        else: self.move(dungeon,4,1)
 
-    else: self.trandmove(dungeon)
+      # Choose left/right or up/down depending on the coord difference
+      if vert: return 1 if self.ypos>player.ypos else 3 
+      else:    return 2 if self.xpos>player.xpos else 4
+    else: return 0
 
 
   def attack(self,player):
@@ -174,9 +159,9 @@ class mob:
         player.xpos<=self.xpos+1 and player.xpos>=self.xpos-1 and 
         roll>3):
 
-      attackpow=((self.STR*self.atk)-player.totdefn)
-      if self.hit: attackpow=attackpow/2
-      if attackpow<=0: attackpow=1
+      attackpow=(self.STR*self.atk)-player.totdefn
+      attackpow=attackpow/2 if self.hit else attackpow
+      if attackpow<=0: attackpow=0
       player.hp2-=attackpow
       player.totalrcv+=attackpow
       return ("%s attacks %s for %i damage!\n"%(self.name,player.name,attackpow))
