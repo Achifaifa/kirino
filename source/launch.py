@@ -6,7 +6,7 @@ Contains menus and the main crawl procedure
 """
 
 import copy, os, random, sys, time
-import dungeon, item, mob, npc, parser, player
+import dungeon, item, mob, menus, npc, parser, player
 import common, config, help, test
 
 class gl():
@@ -26,7 +26,7 @@ class gl():
   tempinventory=[]
   tempequiparr=[]
   xsize=ysize=0
-  config=None
+  cfg=config.config()
   
   def resetmsg():
 
@@ -121,18 +121,17 @@ def atrap(dungeon, player):
 
       # Trap to next floor
       elif i[2]==3:
-         return "A trap door opens under you. \nYou fall to the next floor and lose 5HP"
         hero.hp2-=5
         hero.totalrcv+=5
         gl.flcounter+=1
         hero.totalfl+=1
         gl.fl+=1
         if cfg.autosave==1: hero.save()
-
         allowvendor=1 if not hero.totalfl%random.randrange(5,9) else 0
         world.dung=dungeon.dungeon(world.dung.xsize,world.dung.ysize,allowvendor)
         if not cfg.fog: world.dung.explored=world.dung.dungarray
         hero.enter(world.dung,1)
+        return "A trap door opens under you. \nYou fall to the next floor and lose 5HP"
 
 def crawl(quickvar=0):
   """
@@ -218,7 +217,7 @@ def crawl(quickvar=0):
       #Movement
       #Check if there are mobs. 
       #If there are attack them, if there are not move.
-      elif (crawlmen==cfg.north or action==11):
+      if (crawlmen==cfg.north or action==11):
         if hero.move(dung,1)==2:
           for a in dung.mobarray:
             if (a.xpos==hero.xpos and a.ypos==hero.ypos-1):
@@ -348,5 +347,5 @@ if __name__=="__main__":
   try: os.chdir(os.path.dirname(__file__))
   except OSError: pass 
 
-  try: menu()
+  try: menus.mainmenu()
   except KeyboardInterrupt: exit()

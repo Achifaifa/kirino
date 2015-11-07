@@ -169,7 +169,7 @@ class mob:
     elif roll<=3:
       return ("%s tries to hit %s, but it misses\n"%(self.name, player.name))
 
-  def lock(self,player):
+  def flock(self,player):
     """
     If the player is within range, lock the mob so it attacks in the next turn
     """

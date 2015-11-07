@@ -1,5 +1,7 @@
 #! /usr/bin/env python
 
+import common
+
 def enchant(item,player):
   """
   Menu for enchanting items
@@ -280,13 +282,10 @@ def commerce(self,player):
       break
     else: pass
 
-def menu():
+def mainmenu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
   """ 
-
-  #loads configuration
-  cfg=config.config()
 
   #Main menu
   while 1:

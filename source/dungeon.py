@@ -242,19 +242,10 @@ class dungeon:
             self.dungarray[i[0]+1][i[1]+1]="p"
             self.dungarray[i[0]+1][i[1]+2]="|"
             break
-         
-      #Adds spaces in random positions with rocks, one for every 3x3 zone.
-      # for i in range(0,self.xsize*self.ysize/9):
-      #   randx=random.randrange(self.xsize)
-      #  	randy=random.randrange(self.ysize)
-      #  	if self.dungarray[randy][randx]=="#":
-      #     self.dungarray[random.randrange(self.ysize)][random.randrange(self.xsize)]="."
-      #  	else: pass
 
       # Add money (loot) in random places in the ground. 1 drop per 50 floor tiles
       # Uses the 'spaces' variable calculated earlier
-      tempx=0
-      tempy=0
+      tempx=tempy=0
       for i in range(spaces/75):
         while self.dungarray[tempy][tempx]!=".":
           tempx=random.randrange(1,self.xsize)

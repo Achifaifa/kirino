@@ -351,7 +351,7 @@ class item:
     #Display the enchanting level in the item name
     if    self.name[-1].isalpha(): self.name=self.name+" +1"
     else: self.name=self.name.split('+')[0]+"+"+str(int(self.name.split('+')[1])+1)
-
+    
     return 1
 
 if __name__=="__main__": pass

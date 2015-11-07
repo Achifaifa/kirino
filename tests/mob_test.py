@@ -177,6 +177,22 @@ class Mobtestsuit(unittest.TestCase):
     res=tm.search(tp)
     self.assertEqual(res, 0)
 
+  def test_mob_lock(self):
+    """
+    Tests if the mob successfully locks to a player 
+    """
+
+    tp=testplayer
+    tm=mob.mob()
+    self.assertEqual(tm.lock, 0)
+    tm.xpos, tm.ypos=0, 0
+    tp.xpos, tp.ypos=0, 10
+    tm.flock(tp)
+    self.assertEqual(tm.lock, 0)
+    tp.xpos, tp.ypos=0, 1
+    tm.flock(tp)
+    self.assertEqual(tm.lock, 1)
+
   def test_mob_attack(self):
     """
     # Creates a fakey scenario for attack tests
@@ -209,9 +225,6 @@ class Mobtestsuit(unittest.TestCase):
     self.assertTrue(tm.ypos==1)
     self.assertTrue(tp.xpos==1)
     self.assertTrue(tp.ypos==2)
-
-
-
-
+    
 if __name__ == "__main__":
   unittest.main()
