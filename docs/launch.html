@@ -26,15 +26,97 @@ Contains&nbsp;menus&nbsp;and&nbsp;the&nbsp;main&nbsp;crawl&nbsp;procedure</tt></
 <a href="dungeon.html">dungeon</a><br>
 </td><td width="25%" valign=top><a href="help.html">help</a><br>
 <a href="item.html">item</a><br>
+<a href="menus.html">menus</a><br>
 <a href="mob.html">mob</a><br>
-<a href="npc.html">npc</a><br>
-</td><td width="25%" valign=top><a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="npc.html">npc</a><br>
+<a href="os.html">os</a><br>
 <a href="parser.html">parser</a><br>
 <a href="player.html">player</a><br>
-<a href="random.html">random</a><br>
-</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+<a href="sys.html">sys</a><br>
 <a href="test.html">test</a><br>
 <a href="time.html">time</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="launch.html#gl">gl</a>
+</font></dt><dt><font face="helvetica, arial"><a href="launch.html#world">world</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="gl">class <strong>gl</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Class&nbsp;that&nbsp;stores&nbsp;global&nbsp;variables<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="gl-resetmsg"><strong>resetmsg</strong></a>()</dt></dl>
+
+<hr>
+Data and other attributes defined here:<br>
+<dl><dt><strong>cfg</strong> = &lt;config.config instance&gt;</dl>
+
+<dl><dt><strong>cha</strong> = 0</dl>
+
+<dl><dt><strong>con</strong> = 0</dl>
+
+<dl><dt><strong>dex</strong> = 0</dl>
+
+<dl><dt><strong>fl</strong> = 1</dl>
+
+<dl><dt><strong>flcounter</strong> = 1</dl>
+
+<dl><dt><strong>hp2</strong> = 0</dl>
+
+<dl><dt><strong>intv</strong> = 0</dl>
+
+<dl><dt><strong>lv</strong> = 1</dl>
+
+<dl><dt><strong>mp2</strong> = 0</dl>
+
+<dl><dt><strong>name</strong> = 'empty'</dl>
+
+<dl><dt><strong>per</strong> = 0</dl>
+
+<dl><dt><strong>pocket</strong> = 0</dl>
+
+<dl><dt><strong>points</strong> = 0</dl>
+
+<dl><dt><strong>strv</strong> = 0</dl>
+
+<dl><dt><strong>tempequiparr</strong> = []</dl>
+
+<dl><dt><strong>tempinventory</strong> = []</dl>
+
+<dl><dt><strong>wil</strong> = 0</dl>
+
+<dl><dt><strong>xp</strong> = 1</dl>
+
+<dl><dt><strong>xsize</strong> = 0</dl>
+
+<dl><dt><strong>ysize</strong> = 0</dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="world">class <strong>world</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>Class&nbsp;that&nbsp;stores&nbsp;the&nbsp;current&nbsp;state&nbsp;of&nbsp;the&nbsp;<a href="#world">world</a><br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Data and other attributes defined here:<br>
+<dl><dt><strong>dung</strong> = None</dl>
+
+<dl><dt><strong>hero</strong> = None</dl>
+
 </td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#eeaa77">
@@ -42,47 +124,12 @@ Contains&nbsp;menus&nbsp;and&nbsp;the&nbsp;main&nbsp;crawl&nbsp;procedure</tt></
 <font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
     
 <tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-crawl"><strong>crawl</strong></a>(quickvar)</dt><dd><tt>Main&nbsp;crawling&nbsp;function.&nbsp;Displays&nbsp;the&nbsp;map,&nbsp;keys&nbsp;and&nbsp;different&nbsp;statistics.</tt></dd></dl>
- <dl><dt><a name="-lload"><strong>lload</strong></a>(playa)</dt><dd><tt>Loads&nbsp;all&nbsp;the&nbsp;global&nbsp;variables&nbsp;into&nbsp;a&nbsp;player&nbsp;object&nbsp;and&nbsp;then&nbsp;purges&nbsp;the&nbsp;temporal&nbsp;variables.<br>
-&nbsp;<br>
-This&nbsp;is&nbsp;used&nbsp;when&nbsp;going&nbsp;to&nbsp;the&nbsp;next&nbsp;floor,&nbsp;so&nbsp;it&nbsp;also&nbsp;adds&nbsp;one&nbsp;experience&nbsp;and&nbsp;levels&nbsp;up&nbsp;if&nbsp;possible.</tt></dd></dl>
- <dl><dt><a name="-loadfiles"><strong>loadfiles</strong></a>()</dt><dd><tt>Loads&nbsp;the&nbsp;information&nbsp;from&nbsp;the&nbsp;data&nbsp;files&nbsp;into&nbsp;variables</tt></dd></dl>
- <dl><dt><a name="-lsave"><strong>lsave</strong></a>(playa)</dt><dd><tt>Takes&nbsp;a&nbsp;player&nbsp;object&nbsp;and&nbsp;saves&nbsp;all&nbsp;its&nbsp;attributes&nbsp;into&nbsp;global&nbsp;variables.</tt></dd></dl>
- <dl><dt><a name="-menu"><strong>menu</strong></a>()</dt><dd><tt>Main&nbsp;menu&nbsp;function.&nbsp;Loads&nbsp;the&nbsp;configuration&nbsp;file&nbsp;and&nbsp;enters&nbsp;the&nbsp;menu&nbsp;loop.</tt></dd></dl>
- <dl><dt><a name="-newgame"><strong>newgame</strong></a>(quick)</dt><dd><tt>This&nbsp;function&nbsp;displays&nbsp;the&nbsp;menu&nbsp;to&nbsp;create&nbsp;a&nbsp;new&nbsp;character.<br>
-&nbsp;<br>
-Receives&nbsp;a&nbsp;quick&nbsp;parameter.&nbsp;if&nbsp;1,&nbsp;it&nbsp;generates&nbsp;a&nbsp;40x40&nbsp;dungeon&nbsp;and&nbsp;a&nbsp;random&nbsp;player.</tt></dd></dl>
- <dl><dt><a name="-purge"><strong>purge</strong></a>()</dt><dd><tt>Sets&nbsp;to&nbsp;zero&nbsp;all&nbsp;the&nbsp;global&nbsp;temporal&nbsp;variables&nbsp;used&nbsp;to&nbsp;store&nbsp;player&nbsp;data.<br>
-&nbsp;<br>
-Used&nbsp;when&nbsp;exiting&nbsp;a&nbsp;game&nbsp;so&nbsp;the&nbsp;data&nbsp;is&nbsp;not&nbsp;carried&nbsp;to&nbsp;the&nbsp;next&nbsp;one.</tt></dd></dl>
+<td width="100%"><dl><dt><a name="-atrap"><strong>atrap</strong></a>(dungeon, player)</dt><dd><tt>Checks&nbsp;if&nbsp;the&nbsp;player&nbsp;has&nbsp;stepped&nbsp;on&nbsp;a&nbsp;trap</tt></dd></dl>
+ <dl><dt><a name="-crawl"><strong>crawl</strong></a>(quickvar<font color="#909090">=0</font>)</dt><dd><tt>Main&nbsp;crawling&nbsp;function.&nbsp;Displays&nbsp;the&nbsp;map,&nbsp;keys&nbsp;and&nbsp;different&nbsp;statistics.</tt></dd></dl>
+ <dl><dt><a name="-pickthings"><strong>pickthings</strong></a>(dungeon, player)</dt><dd><tt>Makes&nbsp;the&nbsp;player&nbsp;pick&nbsp;whatever&nbsp;is&nbsp;on&nbsp;the&nbsp;floor&nbsp;up&nbsp;and&nbsp;updates&nbsp;stats</tt></dd></dl>
  <dl><dt><a name="-scroll"><strong>scroll</strong></a>(lines)</dt><dd><tt>Scrolls&nbsp;the&nbsp;text&nbsp;from&nbsp;the&nbsp;./data/misc/credits<br>
 &nbsp;<br>
 lines&nbsp;is&nbsp;the&nbsp;height&nbsp;in&nbsp;lines&nbsp;of&nbsp;the&nbsp;visible&nbsp;text</tt></dd></dl>
-</td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#55aa55">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
-    
-<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>cha</strong> = 0<br>
-<strong>con</strong> = 0<br>
-<strong>dex</strong> = 0<br>
-<strong>fl</strong> = 1<br>
-<strong>flcounter</strong> = 1<br>
-<strong>hp2</strong> = 0<br>
-<strong>intv</strong> = 0<br>
-<strong>lv</strong> = 1<br>
-<strong>mp2</strong> = 0<br>
-<strong>name</strong> = 'empty'<br>
-<strong>per</strong> = 0<br>
-<strong>pocket</strong> = 0<br>
-<strong>points</strong> = 0<br>
-<strong>strv</strong> = 0<br>
-<strong>tempequiparr</strong> = []<br>
-<strong>tempinventory</strong> = []<br>
-<strong>wil</strong> = 0<br>
-<strong>xp</strong> = 1<br>
-<strong>xsize</strong> = 0<br>
-<strong>ysize</strong> = 0</td></tr></table>
+ <dl><dt><a name="-setup"><strong>setup</strong></a>(quickvavr<font color="#909090">=0</font>)</dt><dd><tt>Creates&nbsp;dungeons,&nbsp;mobs,&nbsp;worlds,&nbsp;etc&nbsp;to&nbsp;be&nbsp;used&nbsp;in&nbsp;game</tt></dd></dl>
+</td></tr></table>
 </body></html>

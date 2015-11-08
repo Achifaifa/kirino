@@ -18,12 +18,15 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="inventory.atk_def_modifiers.html">inventory.atk_def_modifiers</a><br>
+<a href="inventory.attr_modifiers.html">inventory.attr_modifiers</a><br>
+</td><td width="25%" valign=top><a href="inventory.consumables.html">inventory.consumables</a><br>
 <a href="copy.html">copy</a><br>
-</td><td width="25%" valign=top><a href="os.html">os</a><br>
-<a href="random.html">random</a><br>
-</td><td width="25%" valign=top><a href="traceback.html">traceback</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+</td><td width="25%" valign=top><a href="inventory.items.html">inventory.items</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="random.html">random</a><br>
+<a href="sys.html">sys</a><br>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -52,7 +55,7 @@ type=4<br>
 #&nbsp;&nbsp;&nbsp;01&nbsp;-&nbsp;HP&nbsp;potion<br>
 #&nbsp;&nbsp;&nbsp;02&nbsp;-&nbsp;MP&nbsp;potion<br>
 #&nbsp;&nbsp;&nbsp;03&nbsp;-&nbsp;Recovery&nbsp;potion&nbsp;(HP&amp;MP)<br>
-#&nbsp;&nbsp;&nbsp;04&nbsp;-&nbsp;Status&nbsp;potions<br>
+#&nbsp;&nbsp;&nbsp;04&nbsp;-&nbsp;Status&nbsp;potions&nbsp;#TO-DO<br>
 #&nbsp;&nbsp;&nbsp;00&nbsp;-&nbsp;Random&nbsp;(except&nbsp;status&nbsp;potions)<br>
 #<br>
 #&nbsp;Potions&nbsp;regenerate&nbsp;a&nbsp;certain&nbsp;amout&nbsp;of&nbsp;HP&nbsp;or&nbsp;MP&nbsp;in&nbsp;a&nbsp;single&nbsp;turn.<br>
@@ -67,10 +70,10 @@ type=4<br>
 #<br>
 #&nbsp;Attack&nbsp;items&nbsp;inflict&nbsp;extra&nbsp;damage.&nbsp;They&nbsp;can&nbsp;be&nbsp;direct&nbsp;things&nbsp;like&nbsp;bombs&nbsp;or&nbsp;extra&nbsp;strenght,&nbsp;or&nbsp;they&nbsp;can&nbsp;inflict&nbsp;extra&nbsp;damage&nbsp;over&nbsp;time.<br>
 #<br>
-#&nbsp;3.-&nbsp;Unidentified&nbsp;potions<br>
+#&nbsp;3.-&nbsp;Unidentified&nbsp;potions/food<br>
 #<br>
 #&nbsp;Unidentified&nbsp;consumables&nbsp;can&nbsp;have&nbsp;totally&nbsp;random&nbsp;and&nbsp;unexpected&nbsp;effects.&nbsp;<br>
-#&nbsp;Vendors&nbsp;can&nbsp;identify&nbsp;them.&nbsp;When&nbsp;this&nbsp;happens,&nbsp;they&nbsp;are&nbsp;converted&nbsp;to&nbsp;a&nbsp;random&nbsp;type&nbsp;0,&nbsp;1&nbsp;or&nbsp;2&nbsp;<a href="#item">item</a>.<br>
+#&nbsp;Vendors&nbsp;can&nbsp;identify&nbsp;them.&nbsp;When&nbsp;this&nbsp;happens,&nbsp;they&nbsp;are&nbsp;converted&nbsp;to&nbsp;a&nbsp;random&nbsp;type&nbsp;0,&nbsp;1&nbsp;or&nbsp;2&nbsp;<a href="#item">item</a>.&nbsp;(#TO-DO)<br>
 #<br>
 #&nbsp;4.-&nbsp;Empty&nbsp;<br>
 #<br>
@@ -100,17 +103,17 @@ strbst=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Strenght&nb
 hungrec=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Hunger&nbsp;recovery<br>
 chance=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Type&nbsp;of&nbsp;food&nbsp;(Good,risky,bad)<br>
 &nbsp;<br>
-#Attack&nbsp;propieties<br>
+#Attack&nbsp;propieties&nbsp;#TO-DO<br>
 areatype=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Type&nbsp;of&nbsp;area&nbsp;affected<br>
 areasize=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Size&nbsp;of&nbsp;the&nbsp;area<br>
 damage=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Damage&nbsp;caused<br>
 dps=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Damage&nbsp;over&nbsp;time<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="consumable-__init__"><strong>__init__</strong></a>(self, newtype, subtype)</dt><dd><tt>Class&nbsp;constructor.&nbsp;Creates&nbsp;a&nbsp;<a href="#consumable">consumable</a>&nbsp;<a href="#item">item</a>&nbsp;of&nbsp;the&nbsp;specified&nbsp;type.&nbsp;Needs&nbsp;a&nbsp;subtype&nbsp;parameter&nbsp;for&nbsp;the&nbsp;potions,&nbsp;which&nbsp;is&nbsp;ignored&nbsp;in&nbsp;the&nbsp;rest&nbsp;of&nbsp;the&nbsp;items.<br>
+<dl><dt><a name="consumable-__init__"><strong>__init__</strong></a>(self, newtype, subtype<font color="#909090">=0</font>)</dt><dd><tt>Class&nbsp;constructor.&nbsp;Creates&nbsp;a&nbsp;<a href="#consumable">consumable</a>&nbsp;<a href="#item">item</a>&nbsp;of&nbsp;the&nbsp;specified&nbsp;type.&nbsp;Needs&nbsp;a&nbsp;subtype&nbsp;parameter&nbsp;for&nbsp;the&nbsp;potions,&nbsp;which&nbsp;is&nbsp;ignored&nbsp;in&nbsp;the&nbsp;rest&nbsp;of&nbsp;the&nbsp;items.<br>
 &nbsp;<br>
 Consumable&nbsp;items&nbsp;can&nbsp;only&nbsp;be&nbsp;bought&nbsp;from&nbsp;vendors.&nbsp;They&nbsp;can't&nbsp;be&nbsp;found&nbsp;in&nbsp;the&nbsp;ground.<br>
-Requires&nbsp;type&nbsp;and&nbsp;subtype:</tt></dd></dl>
+Requires&nbsp;a&nbsp;type&nbsp;integer.&nbsp;It&nbsp;also&nbsp;accepts&nbsp;a&nbsp;subtype&nbsp;keyword&nbsp;argument&nbsp;for&nbsp;potions&nbsp;(Defaults&nbsp;to&nbsp;0&nbsp;-&nbsp;Random)</tt></dd></dl>
 
 <dl><dt><a name="consumable-reset"><strong>reset</strong></a>(self)</dt><dd><tt>resets&nbsp;an&nbsp;<a href="#item">item</a>&nbsp;so&nbsp;all&nbsp;the&nbsp;attributes&nbsp;are&nbsp;set&nbsp;to&nbsp;zero.</tt></dd></dl>
 
@@ -121,34 +124,8 @@ Requires&nbsp;type&nbsp;and&nbsp;subtype:</tt></dd></dl>
 <font color="#000000" face="helvetica, arial"><a name="item">class <strong>item</strong></a></font></td></tr>
     
 <tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
-<td colspan=2><tt>Creates&nbsp;and&nbsp;manages&nbsp;items<br>
-&nbsp;<br>
-#Item&nbsp;attributes<br>
-ID=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Identifier<br>
-name="_"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Item&nbsp;name<br>
-type=00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Item&nbsp;table.&nbsp;See&nbsp;any&nbsp;item_XX&nbsp;file&nbsp;or&nbsp;the&nbsp;table&nbsp;below<br>
-equip=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Equipped.&nbsp;1=yes,&nbsp;2=no<br>
-&nbsp;<br>
-#Item&nbsp;bonuses<br>
-strbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Intelligence&nbsp;boost<br>
-intbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Dexterity&nbsp;boost<br>
-dexbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Perception&nbsp;boost<br>
-perbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Constitution&nbsp;boost<br>
-conbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Willpower&nbsp;boost<br>
-wilbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Charisma&nbsp;boost<br>
-chabonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Strenght&nbsp;boost<br>
-&nbsp;<br>
-#Other<br>
-atk=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Attack&nbsp;power<br>
-defn=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Defense&nbsp;power<br>
-enchantlv=0&nbsp;&nbsp;&nbsp;#Enchant&nbsp;level<br>&nbsp;</tt></td></tr>
-<tr><td>&nbsp;</td>
-<td width="100%">Methods defined here:<br>
-<dl><dt><a name="item-__init__"><strong>__init__</strong></a>(self, type)</dt><dd><tt>Item&nbsp;constructor.&nbsp;<br>
-&nbsp;<br>
-Takes&nbsp;random&nbsp;data&nbsp;from&nbsp;the&nbsp;inventory&nbsp;data&nbsp;files&nbsp;and&nbsp;sets&nbsp;the&nbsp;attributes<br>
-Needs&nbsp;an&nbsp;integer&nbsp;(type)&nbsp;to&nbsp;determine&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;type<br>
-&nbsp;<br>
+<td colspan=2><tt>#&nbsp;Item&nbsp;types:<br>
+#<br>
 #&nbsp;&nbsp;&nbsp;01&nbsp;-&nbsp;Head<br>
 #&nbsp;&nbsp;&nbsp;02&nbsp;-&nbsp;Face<br>
 #&nbsp;&nbsp;&nbsp;03&nbsp;-&nbsp;Neck<br>
@@ -160,12 +137,55 @@ Needs&nbsp;an&nbsp;integer&nbsp;(type)&nbsp;to&nbsp;determine&nbsp;the&nbsp;<a h
 #&nbsp;&nbsp;&nbsp;09&nbsp;-&nbsp;Belt<br>
 #&nbsp;&nbsp;&nbsp;10&nbsp;-&nbsp;Legs<br>
 #&nbsp;&nbsp;&nbsp;11&nbsp;-&nbsp;Feet<br>
-#&nbsp;&nbsp;&nbsp;00&nbsp;-&nbsp;Empty&nbsp;(Item&nbsp;with&nbsp;all&nbsp;the&nbsp;attributes&nbsp;set&nbsp;to&nbsp;zero)</tt></dd></dl>
+#&nbsp;&nbsp;&nbsp;00&nbsp;-&nbsp;Empty&nbsp;(Item&nbsp;with&nbsp;all&nbsp;the&nbsp;attributes&nbsp;set&nbsp;to&nbsp;zero)<br>
+#<br>
+#&nbsp;Attack/Defense&nbsp;modifiers&nbsp;and&nbsp;chance&nbsp;table<br>
+#<br>
+#&nbsp;&nbsp;&nbsp;01&nbsp;useless:-100:-100&nbsp;&nbsp;-&gt;&nbsp;03.00%<br>
+#&nbsp;&nbsp;&nbsp;02&nbsp;rusty:-50:-50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;04.00%<br>
+#&nbsp;&nbsp;&nbsp;03&nbsp;cracked:-25:-25&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;06.00%<br>
+#&nbsp;&nbsp;&nbsp;04&nbsp;bent:-10:-10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;07.00%<br>
+#&nbsp;&nbsp;&nbsp;05&nbsp;refined:10:10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;05.00%<br>
+#&nbsp;&nbsp;&nbsp;06&nbsp;masterful:25:25&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;04.00%<br>
+#&nbsp;&nbsp;&nbsp;07&nbsp;perfect:50:50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;00.89%<br>
+#&nbsp;&nbsp;&nbsp;08&nbsp;celestial:100:100&nbsp;&nbsp;-&gt;&nbsp;00.10%<br>
+#&nbsp;&nbsp;&nbsp;09&nbsp;universal:200:200&nbsp;&nbsp;-&gt;&nbsp;00.01%<br>
+#&nbsp;&nbsp;&nbsp;10&nbsp;no&nbsp;modifiers&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;70.00%<br>
+#<br>
+#<br>
+&nbsp;<br>
+Default&nbsp;attributes<br>
+&nbsp;<br>
+#&nbsp;Item&nbsp;attributes<br>
+name="_"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Item&nbsp;name<br>
+type=00&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Item&nbsp;table.&nbsp;See&nbsp;any&nbsp;item_XX&nbsp;file&nbsp;or&nbsp;the&nbsp;table&nbsp;below<br>
+equip=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Equipped.&nbsp;1=yes,&nbsp;2=no<br>
+&nbsp;<br>
+#&nbsp;Item&nbsp;bonuses<br>
+strbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Intelligence&nbsp;boost<br>
+intbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Dexterity&nbsp;boost<br>
+dexbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Perception&nbsp;boost<br>
+perbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Constitution&nbsp;boost<br>
+conbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Willpower&nbsp;boost<br>
+wilbonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Charisma&nbsp;boost<br>
+chabonus=0&nbsp;&nbsp;&nbsp;&nbsp;#Strenght&nbsp;boost<br>
+&nbsp;<br>
+#&nbsp;Other<br>
+atk=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Attack&nbsp;power<br>
+defn=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Defense&nbsp;power<br>
+enchantlv=0&nbsp;&nbsp;&nbsp;#Enchant&nbsp;level<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="item-__init__"><strong>__init__</strong></a>(self, typev)</dt><dd><tt>Item&nbsp;constructor.&nbsp;<br>
+&nbsp;<br>
+Takes&nbsp;a&nbsp;random&nbsp;<a href="#item">item</a>&nbsp;from&nbsp;the&nbsp;inventory&nbsp;data&nbsp;file&nbsp;and&nbsp;sets&nbsp;the&nbsp;attributes&nbsp;of&nbsp;a&nbsp;new&nbsp;<a href="#item">item</a>&nbsp;with&nbsp;them<br>
+Needs&nbsp;an&nbsp;integer&nbsp;(type)&nbsp;to&nbsp;determine&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;type&nbsp;(0&nbsp;is&nbsp;random)</tt></dd></dl>
 
-<dl><dt><a name="item-enchant"><strong>enchant</strong></a>(self, player)</dt><dd><tt>Enchants&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;<br>
+<dl><dt><a name="item-enchant"><strong>enchant</strong></a>(self)</dt><dd><tt>Enchants&nbsp;the&nbsp;<a href="#item">item</a>&nbsp;<br>
 &nbsp;<br>
 Permanently&nbsp;adds&nbsp;attribute&nbsp;bonuses&nbsp;and&nbsp;increases&nbsp;either&nbsp;the&nbsp;attack&nbsp;or&nbsp;defense&nbsp;by&nbsp;1.<br>
-Requires&nbsp;the&nbsp;player&nbsp;enchanting&nbsp;the&nbsp;object&nbsp;to&nbsp;be&nbsp;passed&nbsp;to&nbsp;alter&nbsp;the&nbsp;money&nbsp;balance.<br>
+Requires&nbsp;an&nbsp;<a href="#item">item</a>&nbsp;<br>
+Returns&nbsp;0&nbsp;if&nbsp;the&nbsp;enchant&nbsp;failed&nbsp;and&nbsp;1&nbsp;if&nbsp;it&nbsp;succeeded.<br>
 Items&nbsp;can&nbsp;only&nbsp;be&nbsp;enchanted&nbsp;up&nbsp;to&nbsp;lv10.<br>
 &nbsp;<br>
 Chances&nbsp;of&nbsp;attribute&nbsp;boosts:<br>

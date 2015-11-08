@@ -196,23 +196,27 @@ class player:
 
     return 1
 
-  def pickobject(self,object):
+  def pickobject(self,picked):
     """
     Pick item from the floor. 
 
     This receives an item and adds it to the inventory if the inventory is not full.
-    Returns 1 and adds the object to the inventory if the object was correctly picked, returns 0 if it wasn't.
+
+    Returns 0 and adds the item to the inventory if the item was correctly picked
+    Returns 0 if it wasn't
     """
 
-    #If the inventory is not full, it adds it. 
+    
+    #If the inventory is full, passes.
     if len(self.inventory)>=9:
       pass
-      return 0,("Your inventory is full!\n")
-    #If the inventory is full, passes.
+      return 1, "Your inventory is full!\n"
+    
+    #If the inventory is not full, it adds it. 
     if len(self.inventory)<9:
-      self.inventory.append(object)
+      self.inventory.append(picked)
       self.itemspck+=1
-      return 1,("You picked %s\n"%object.name)
+      return 0, "You picked %s\n"%picked.name
 
   def hunger(self):
     """
@@ -889,7 +893,7 @@ class player:
     if self.willtest() and roll>3:
       #Calculate damage
       atkpow=(self.totatk*self.STR)-mob.defn
-      if atkpow<=0: atkpow=1
+      if atkpow<0: atkpow=0
       #Change life and hit variables
       mob.HP-=atkpow
       mob.hit=1
@@ -898,7 +902,7 @@ class player:
       self.totaldmg+=atkpow
       if atkpow>self.maxdmg: self.maxdmg=atkpow
 
-      #Actions if themob has been killed
+      #Actions if the mob has been killed
       if mob.HP<=0:
         #Increase kill stat
         self.kills+=1
@@ -907,8 +911,8 @@ class player:
         #Add prestige only if the player is 3 levels or less over the mob
         if self.lv<=mob.lv+3: self.prestige+=mob.pres
         #Return attack string
-        return "You attack %s for %i damage!\nYou killed %s for %i experience!\nYou earn %i prestige points.\n" %(mob.name,atkpow,mob.name,mob.exp,mob.pres)
-      else: return "You attack %s for %i damage!\n"%(mob.name,atkpow)
+        return "You attack %s for %i damage\nYou killed %s for %i experience\nYou earn %i prestige points\n" %(mob.name,atkpow,mob.name,mob.exp,mob.pres)
+      else: return "You attack %s for %i damage\n"%(mob.name,atkpow)
     elif roll<=3:
       return "You try to hit %s, but miss" %(mob.name)
 

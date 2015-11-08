@@ -18,13 +18,17 @@
 <font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
-<a href="copy.html">copy</a><br>
-</td><td width="25%" valign=top><a href="item.html">item</a><br>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="item.html">item</a><br>
+<a href="npcs.jobs.html">npcs.jobs</a><br>
+<a href="vendor.vendormsg.html">vendor.vendormsg</a><br>
+</td><td width="25%" valign=top><a href="npcs.naming.html">npcs.naming</a><br>
 <a href="os.html">os</a><br>
-</td><td width="25%" valign=top><a href="parser.html">parser</a><br>
+<a href="npcs.physical.html">npcs.physical</a><br>
+</td><td width="25%" valign=top><a href="npcs.psych.html">npcs.psych</a><br>
 <a href="random.html">random</a><br>
-</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top><a href="npcs.things.html">npcs.things</a><br>
+</td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -72,21 +76,25 @@ rel=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;&gt;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;good<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="npc-__init__"><strong>__init__</strong></a>(self, gender, stat, total)</dt><dd><tt>Constructor.&nbsp;Generates&nbsp;an&nbsp;NPC,&nbsp;as&nbsp;in&nbsp;the&nbsp;standalone&nbsp;NPC&nbsp;generator:<br>
+<dl><dt><a name="npc-__init__"><strong>__init__</strong></a>(self, gender<font color="#909090">=0</font>, stat<font color="#909090">=5</font>, total<font color="#909090">=16</font>)</dt><dd><tt>Constructor.&nbsp;Generates&nbsp;an&nbsp;NPC,&nbsp;as&nbsp;in&nbsp;the&nbsp;standalone&nbsp;NPC&nbsp;generator:<br>
 https://github.com/Achifaifa/GM-Tools/tree/master/npcgenerator<br>
 &nbsp;<br>
-Needs:<br>
+Options:<br>
 &nbsp;<br>
 Gender<br>
-&nbsp;&nbsp;0&nbsp;female<br>
-&nbsp;&nbsp;1&nbsp;male<br>
-&nbsp;&nbsp;Anything&nbsp;else&nbsp;defaults&nbsp;at&nbsp;a&nbsp;random&nbsp;genre<br>
+&nbsp;&nbsp;1&nbsp;female<br>
+&nbsp;&nbsp;2&nbsp;male<br>
+&nbsp;&nbsp;Defaults&nbsp;at&nbsp;a&nbsp;random&nbsp;genre<br>
 &nbsp;<br>
 Maximum&nbsp;stat&nbsp;level<br>
-&nbsp;&nbsp;A&nbsp;number&nbsp;smaller&nbsp;than&nbsp;1&nbsp;defaults&nbsp;to&nbsp;5<br>
+&nbsp;&nbsp;A&nbsp;number&nbsp;smaller&nbsp;than&nbsp;1&nbsp;is&nbsp;corrected&nbsp;to&nbsp;5<br>
+&nbsp;&nbsp;defaults&nbsp;to&nbsp;5<br>
 &nbsp;<br>
 Total&nbsp;attribute&nbsp;points<br>
-&nbsp;&nbsp;A&nbsp;number&nbsp;smaller&nbsp;than&nbsp;1&nbsp;defaults&nbsp;to&nbsp;16</tt></dd></dl>
+&nbsp;&nbsp;A&nbsp;number&nbsp;smaller&nbsp;than&nbsp;1&nbsp;is&nbsp;corrected&nbsp;to&nbsp;16<br>
+&nbsp;&nbsp;defaults&nbsp;to&nbsp;16<br>
+&nbsp;<br>
+The&nbsp;NPC&nbsp;will&nbsp;get&nbsp;1&nbsp;base&nbsp;point&nbsp;on&nbsp;every&nbsp;attribute&nbsp;even&nbsp;if&nbsp;the&nbsp;'total'&nbsp;parameter&nbsp;passed&nbsp;is&nbsp;less&nbsp;than&nbsp;6</tt></dd></dl>
 
 </td></tr></table> <p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
@@ -102,13 +110,7 @@ Total&nbsp;attribute&nbsp;points<br>
 &nbsp;<br>
 Generates&nbsp;a&nbsp;random&nbsp;NPC&nbsp;(The&nbsp;shopkeeper)&nbsp;and&nbsp;generates&nbsp;items&nbsp;to&nbsp;be&nbsp;sold.</tt></dd></dl>
 
-<dl><dt><a name="vendor-buyit"><strong>buyit</strong></a>(self, player)</dt><dd><tt>Display&nbsp;the&nbsp;list&nbsp;of&nbsp;items&nbsp;available&nbsp;for&nbsp;buying&nbsp;from&nbsp;the&nbsp;<a href="#vendor">vendor</a></tt></dd></dl>
-
-<dl><dt><a name="vendor-buypot"><strong>buypot</strong></a>(self, player)</dt><dd><tt>Sells&nbsp;potions&nbsp;to&nbsp;the&nbsp;player.&nbsp;Three&nbsp;random&nbsp;potions&nbsp;are&nbsp;generated&nbsp;by&nbsp;the&nbsp;<a href="#vendor">vendor</a>.</tt></dd></dl>
-
-<dl><dt><a name="vendor-commerce"><strong>commerce</strong></a>(self, player)</dt></dl>
-
-<dl><dt><a name="vendor-pricecalc"><strong>pricecalc</strong></a>(self, player)</dt><dd><tt>Calculates&nbsp;the&nbsp;trading&nbsp;multiplier&nbsp;based&nbsp;on&nbsp;the&nbsp;player&nbsp;charisma&nbsp;and&nbsp;the&nbsp;player-NPC&nbsp;relationship<br>
+<dl><dt><a name="vendor-pricecalc"><strong>pricecalc</strong></a>(self, cha)</dt><dd><tt>Calculates&nbsp;the&nbsp;trading&nbsp;multiplier&nbsp;based&nbsp;on&nbsp;the&nbsp;total&nbsp;charisma&nbsp;and&nbsp;the&nbsp;player-NPC&nbsp;relationship<br>
 &nbsp;<br>
 Base&nbsp;multiplier:&nbsp;2<br>
 &nbsp;<br>
@@ -117,26 +119,5 @@ Additional&nbsp;multipliers:&nbsp;<br>
 Charisma:&nbsp;+-&nbsp;0.1&nbsp;for&nbsp;each&nbsp;point<br>
 Relationship&nbsp;with&nbsp;<a href="#vendor">vendor</a>:&nbsp;+-0.5&nbsp;for&nbsp;every&nbsp;10&nbsp;points</tt></dd></dl>
 
-<dl><dt><a name="vendor-sell"><strong>sell</strong></a>(self, player)</dt><dd><tt>Display&nbsp;the&nbsp;list&nbsp;of&nbsp;items&nbsp;in&nbsp;the&nbsp;inventory&nbsp;to&nbsp;sell</tt></dd></dl>
-
-</td></tr></table></td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#eeaa77">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
-    
-<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><dl><dt><a name="-load"><strong>load</strong></a>()</dt><dd><tt>Load&nbsp;the&nbsp;data&nbsp;from&nbsp;the&nbsp;files&nbsp;into&nbsp;a&nbsp;dictionary.&nbsp;<br>
-The&nbsp;arrays&nbsp;with&nbsp;the&nbsp;data&nbsp;is&nbsp;stored&nbsp;in&nbsp;a&nbsp;dictionary.<br>
-The&nbsp;dictionary&nbsp;is&nbsp;global&nbsp;in&nbsp;the&nbsp;module&nbsp;and&nbsp;is&nbsp;used&nbsp;by&nbsp;default&nbsp;in&nbsp;the&nbsp;NPC&nbsp;class.</tt></dd></dl>
- <dl><dt><a name="-sanitize"><strong>sanitize</strong></a>()</dt><dd><tt>Rewrite&nbsp;the&nbsp;NPC&nbsp;data&nbsp;files&nbsp;to&nbsp;follow&nbsp;formatting&nbsp;standards.</tt></dd></dl>
-</td></tr></table><p>
-<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
-<tr bgcolor="#55aa55">
-<td colspan=3 valign=bottom>&nbsp;<br>
-<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
-    
-<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
-<td width="100%"><strong>npcdata</strong> = {}<br>
-<strong>vendordata</strong> = {}</td></tr></table>
+</td></tr></table></td></tr></table>
 </body></html>

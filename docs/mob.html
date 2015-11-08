@@ -19,10 +19,11 @@
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
-</td><td width="25%" valign=top><a href="dungeon.html">dungeon</a><br>
+<a href="mobs.html">mobs</a><br>
 </td><td width="25%" valign=top><a href="os.html">os</a><br>
-</td><td width="25%" valign=top><a href="random.html">random</a><br>
-</td></tr></table></td></tr></table><p>
+<a href="random.html">random</a><br>
+</td><td width="25%" valign=top><a href="sys.html">sys</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
 <td colspan=3 valign=bottom>&nbsp;<br>
@@ -77,30 +78,35 @@ lock=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Locked&nbsp;onto&nbsp;a&nbsp;target&n
 hit=0&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#Flags&nbsp;when&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;is&nbsp;hit&nbsp;(Does&nbsp;half&nbsp;damage)<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="mob-__init__"><strong>__init__</strong></a>(self, dungeon, level)</dt><dd><tt>Mob&nbsp;generator<br>
+<dl><dt><a name="mob-__init__"><strong>__init__</strong></a>(self, level<font color="#909090">=0</font>)</dt><dd><tt>Mob&nbsp;generator<br>
 &nbsp;<br>
-Receives&nbsp;a&nbsp;dungeon&nbsp;object&nbsp;and&nbsp;places&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;spot&nbsp;that&nbsp;is&nbsp;not&nbsp;filled&nbsp;with&nbsp;rock.<br>
-&nbsp;<br>
-Needs&nbsp;the&nbsp;dungeon&nbsp;and&nbsp;the&nbsp;level.&nbsp;If&nbsp;the&nbsp;level&nbsp;is&nbsp;equal&nbsp;or&nbsp;less&nbsp;than&nbsp;0&nbsp;a&nbsp;random&nbsp;level&nbsp;is&nbsp;selected.</tt></dd></dl>
+Receives&nbsp;the&nbsp;level&nbsp;of&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;as&nbsp;an&nbsp;optional&nbsp;argument<br>
+If&nbsp;the&nbsp;level&nbsp;is&nbsp;equal&nbsp;or&nbsp;less&nbsp;than&nbsp;0,&nbsp;a&nbsp;random&nbsp;level&nbsp;is&nbsp;returned<br>
+The&nbsp;starting&nbsp;coordinates&nbsp;are&nbsp;set&nbsp;outside&nbsp;the&nbsp;construction,&nbsp;after&nbsp;calling.</tt></dd></dl>
 
-<dl><dt><a name="mob-attack"><strong>attack</strong></a>(self, player, dung)</dt><dd><tt>Attacks&nbsp;the&nbsp;player&nbsp;object&nbsp;passed&nbsp;to&nbsp;the&nbsp;function</tt></dd></dl>
+<dl><dt><a name="mob-attack"><strong>attack</strong></a>(self, player)</dt><dd><tt>Attacks&nbsp;the&nbsp;player&nbsp;object&nbsp;passed&nbsp;to&nbsp;the&nbsp;function</tt></dd></dl>
 
-<dl><dt><a name="mob-move"><strong>move</strong></a>(self, dungeon, direction, distance)</dt><dd><tt>Move&nbsp;function.&nbsp;Needs&nbsp;a&nbsp;dungeon&nbsp;object.<br>
+<dl><dt><a name="mob-flock"><strong>flock</strong></a>(self, player)</dt><dd><tt>If&nbsp;the&nbsp;player&nbsp;is&nbsp;within&nbsp;range,&nbsp;lock&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;so&nbsp;it&nbsp;attacks&nbsp;in&nbsp;the&nbsp;next&nbsp;turn</tt></dd></dl>
+
+<dl><dt><a name="mob-move"><strong>move</strong></a>(self, dungeon, direction<font color="#909090">=0</font>, distance<font color="#909090">=1</font>)</dt><dd><tt>Move&nbsp;function.&nbsp;Needs&nbsp;a&nbsp;dungeon&nbsp;object.<br>
 &nbsp;<br>
-Accepts&nbsp;direction&nbsp;and&nbsp;distance<br>
+Accepts&nbsp;direction&nbsp;(OPtional,&nbsp;defaults&nbsp;to&nbsp;random)&nbsp;and&nbsp;distance&nbsp;(Optional,&nbsp;defaults&nbsp;to&nbsp;1)<br>
 &nbsp;&nbsp;1&nbsp;north<br>
 &nbsp;&nbsp;2&nbsp;west<br>
 &nbsp;&nbsp;3&nbsp;south<br>
 &nbsp;&nbsp;4&nbsp;east<br>
 &nbsp;<br>
-If&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;is&nbsp;locked&nbsp;the&nbsp;function&nbsp;does&nbsp;nothing</tt></dd></dl>
+If&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;is&nbsp;locked&nbsp;the&nbsp;function&nbsp;does&nbsp;nothing<br>
+&nbsp;<br>
+#TO-DO:&nbsp;it&nbsp;only&nbsp;checks&nbsp;the&nbsp;initial&nbsp;position.&nbsp;Pending:&nbsp;Check&nbsp;if&nbsp;the&nbsp;path&nbsp;is&nbsp;clear&nbsp;to&nbsp;avoid&nbsp;noclipping</tt></dd></dl>
 
-<dl><dt><a name="mob-randmove"><strong>randmove</strong></a>(self, dungeon, dist)</dt><dd><tt>Moves&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;in&nbsp;a&nbsp;random&nbsp;direction&nbsp;a&nbsp;given&nbsp;number&nbsp;of&nbsp;tiles</tt></dd></dl>
+<dl><dt><a name="mob-search"><strong>search</strong></a>(self, player)</dt><dd><tt>Search&nbsp;for&nbsp;the&nbsp;player<br>
+&nbsp;<br>
+Returns&nbsp;the&nbsp;direction&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;has&nbsp;to&nbsp;move&nbsp;in.<br>
+&nbsp;<br>
+If&nbsp;the&nbsp;<a href="#mob">mob</a>&nbsp;can't&nbsp;detect&nbsp;the&nbsp;player,&nbsp;returns&nbsp;0&nbsp;(Random&nbsp;direction)</tt></dd></dl>
 
-<dl><dt><a name="mob-search"><strong>search</strong></a>(self, dungeon, player)</dt><dd><tt>If&nbsp;the&nbsp;player&nbsp;is&nbsp;within&nbsp;the&nbsp;perception&nbsp;range&nbsp;of&nbsp;the&nbsp;<a href="#mob">mob</a>,&nbsp;it&nbsp;chases.&nbsp;<br>
-If&nbsp;not,&nbsp;it&nbsp;moves&nbsp;randomly&nbsp;within&nbsp;the&nbsp;dungeon.</tt></dd></dl>
-
-<dl><dt><a name="mob-trandmove"><strong>trandmove</strong></a>(self, dungeon)</dt><dd><tt>Moves&nbsp;1&nbsp;tile&nbsp;in&nbsp;a&nbsp;random&nbsp;direction</tt></dd></dl>
+<dl><dt><a name="mob-secondary"><strong>secondary</strong></a>(self)</dt><dd><tt>Calculates&nbsp;secondary&nbsp;attributes</tt></dd></dl>
 
 </td></tr></table></td></tr></table>
 </body></html>

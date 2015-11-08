@@ -19,12 +19,13 @@
     
 <tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
 <td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="common.html">common</a><br>
-<a href="math.html">math</a><br>
-</td><td width="25%" valign=top><a href="mob.html">mob</a><br>
-<a href="npc.html">npc</a><br>
-</td><td width="25%" valign=top><a href="os.html">os</a><br>
-<a href="player.html">player</a><br>
-</td><td width="25%" valign=top><a href="random.html">random</a><br>
+<a href="copy.html">copy</a><br>
+</td><td width="25%" valign=top><a href="math.html">math</a><br>
+<a href="mob.html">mob</a><br>
+</td><td width="25%" valign=top><a href="npc.html">npc</a><br>
+<a href="os.html">os</a><br>
+</td><td width="25%" valign=top><a href="player.html">player</a><br>
+<a href="random.html">random</a><br>
 </td></tr></table></td></tr></table><p>
 <table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
 <tr bgcolor="#ee77aa">
@@ -59,15 +60,15 @@ mobarray=[]&nbsp;&nbsp;&nbsp;#Array&nbsp;of&nbsp;mobs&nbsp;walking&nbsp;through&
 vendorvar=0&nbsp;&nbsp;&nbsp;#If&nbsp;1,&nbsp;a&nbsp;vendor&nbsp;is&nbsp;generated&nbsp;in&nbsp;the&nbsp;floor<br>&nbsp;</tt></td></tr>
 <tr><td>&nbsp;</td>
 <td width="100%">Methods defined here:<br>
-<dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y, vendor)</dt><dd><tt>Class&nbsp;constructor.&nbsp;<br>
+<dl><dt><a name="dungeon-__init__"><strong>__init__</strong></a>(self, x, y, vendor<font color="#909090">=0</font>)</dt><dd><tt>Class&nbsp;constructor.&nbsp;<br>
 &nbsp;<br>
 Receives&nbsp;two&nbsp;integers&nbsp;(x,y)&nbsp;that&nbsp;define&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;vertical&nbsp;size.<br>
 &nbsp;<br>
-It&nbsp;also&nbsp;receives&nbsp;a&nbsp;vendor&nbsp;variable.&nbsp;If&nbsp;set&nbsp;to&nbsp;1&nbsp;it&nbsp;generates&nbsp;a&nbsp;shop&nbsp;in&nbsp;a&nbsp;random&nbsp;position&nbsp;inside&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>.<br>
+(Optional,&nbsp;defaults&nbsp;to&nbsp;0)&nbsp;Aeceives&nbsp;a&nbsp;vendor&nbsp;variable.&nbsp;If&nbsp;set&nbsp;to&nbsp;1&nbsp;it&nbsp;generates&nbsp;a&nbsp;shop&nbsp;in&nbsp;a&nbsp;random&nbsp;position&nbsp;inside&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>.<br>
 &nbsp;<br>
 Minimum&nbsp;size&nbsp;is&nbsp;40x20.&nbsp;If&nbsp;something&nbsp;smaller&nbsp;is&nbsp;given,&nbsp;defaults&nbsp;at&nbsp;the&nbsp;minimum.</tt></dd></dl>
 
-<dl><dt><a name="dungeon-advmap"><strong>advmap</strong></a>(self, x, y, xmapsize, ymapsize)</dt><dd><tt>Advanced&nbsp;map&nbsp;function.&nbsp;<br>
+<dl><dt><a name="dungeon-advmap"><strong>advmap</strong></a>(self, x, y, xmapsize<font color="#909090">=20</font>, ymapsize<font color="#909090">=10</font>)</dt><dd><tt>Advanced&nbsp;map&nbsp;function.&nbsp;<br>
 &nbsp;<br>
 Displays&nbsp;a&nbsp;small&nbsp;area&nbsp;of&nbsp;the&nbsp;map.&nbsp;<br>
 &nbsp;<br>
@@ -77,16 +78,14 @@ xmapsize&nbsp;and&nbsp;ymapsize&nbsp;are&nbsp;the&nbsp;horizontal&nbsp;and&nbsp;
 minimum&nbsp;size&nbsp;is&nbsp;20x10.&nbsp;If&nbsp;something&nbsp;smaller&nbsp;is&nbsp;entered,&nbsp;it&nbsp;defaults&nbsp;at&nbsp;the&nbsp;smallest&nbsp;value.&nbsp;<br>
 If&nbsp;the&nbsp;coordinates&nbsp;are&nbsp;too&nbsp;close&nbsp;to&nbsp;the&nbsp;edge,&nbsp;they&nbsp;are&nbsp;replaced&nbsp;so&nbsp;the&nbsp;map&nbsp;does&nbsp;not&nbsp;show&nbsp;anything&nbsp;outside&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;array.</tt></dd></dl>
 
-<dl><dt><a name="dungeon-advmapcoords"><strong>advmapcoords</strong></a>(self, x, y)</dt><dd><tt>Generates&nbsp;an&nbsp;advanced&nbsp;map&nbsp;(20x10)&nbsp;centered&nbsp;on&nbsp;the&nbsp;position&nbsp;(x,y)</tt></dd></dl>
-
 <dl><dt><a name="dungeon-debug"><strong>debug</strong></a>(self)</dt><dd><tt>Debug&nbsp;<a href="#dungeon">dungeon</a>&nbsp;<br>
 &nbsp;<br>
 Returns&nbsp;an&nbsp;integer&nbsp;as&nbsp;error&nbsp;condition&nbsp;code:<br>
 &nbsp;&nbsp;EC0:&nbsp;(Not&nbsp;actually&nbsp;an&nbsp;error,&nbsp;everything&nbsp;is&nbsp;fine)<br>
 &nbsp;&nbsp;EC1:&nbsp;There&nbsp;is&nbsp;no&nbsp;entrance&nbsp;or&nbsp;exit<br>
 &nbsp;&nbsp;EC2:&nbsp;It's&nbsp;below&nbsp;the&nbsp;minimum&nbsp;size<br>
-&nbsp;&nbsp;EC3:&nbsp;Can't&nbsp;reach&nbsp;the&nbsp;exit&nbsp;from&nbsp;the&nbsp;entrance&nbsp;(pending)<br>
-&nbsp;&nbsp;EC4:&nbsp;There&nbsp;are&nbsp;halls&nbsp;unconnected&nbsp;or&nbsp;unreachable&nbsp;(pending)<br>
+&nbsp;&nbsp;#TO-DO&nbsp;-&gt;&nbsp;EC3:&nbsp;Can't&nbsp;reach&nbsp;the&nbsp;exit&nbsp;from&nbsp;the&nbsp;entrance&nbsp;<br>
+&nbsp;&nbsp;#TO-DO&nbsp;-&gt;&nbsp;EC4:&nbsp;There&nbsp;are&nbsp;halls&nbsp;unconnected&nbsp;or&nbsp;unreachable&nbsp;<br>
 &nbsp;<br>
 Used&nbsp;in&nbsp;the&nbsp;constructor&nbsp;on&nbsp;this&nbsp;class,&nbsp;although&nbsp;it&nbsp;can&nbsp;be&nbsp;invoked&nbsp;anytime.</tt></dd></dl>
 
@@ -96,12 +95,12 @@ Needs&nbsp;a&nbsp;Place&nbsp;parameter&nbsp;indicatis&nbsp;where.&nbsp;0&nbsp;is
 &nbsp;<br>
 Avoid&nbsp;dumping&nbsp;to&nbsp;console&nbsp;with&nbsp;big&nbsp;dungeons,&nbsp;output&nbsp;turns&nbsp;out&nbsp;unreadable</tt></dd></dl>
 
-<dl><dt><a name="dungeon-fill"><strong>fill</strong></a>(self, player, fog)</dt><dd><tt>Fills&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;temporarily&nbsp;with&nbsp;PC&nbsp;and&nbsp;NPC&nbsp;object&nbsp;and&nbsp;mob&nbsp;markers.&nbsp;<br>
+<dl><dt><a name="dungeon-fill"><strong>fill</strong></a>(self, player, fog<font color="#909090">=0</font>)</dt><dd><tt>Fills&nbsp;the&nbsp;<a href="#dungeon">dungeon</a>&nbsp;temporarily&nbsp;with&nbsp;PC&nbsp;and&nbsp;NPC&nbsp;object&nbsp;and&nbsp;mob&nbsp;markers.&nbsp;<br>
 &nbsp;<br>
 Needs&nbsp;a&nbsp;player&nbsp;and&nbsp;the&nbsp;fog&nbsp;parameter<br>
 &nbsp;<br>
 Does&nbsp;not&nbsp;return&nbsp;anything,&nbsp;but&nbsp;modifies&nbsp;the&nbsp;filled&nbsp;array<br>
-if&nbsp;the&nbsp;parameter&nbsp;fog&nbsp;is&nbsp;1,&nbsp;it&nbsp;displays&nbsp;a&nbsp;fogged&nbsp;minimap.</tt></dd></dl>
+if&nbsp;the&nbsp;parameter&nbsp;fog&nbsp;is&nbsp;1&nbsp;(Defaults&nbsp;to&nbsp;0),&nbsp;it&nbsp;displays&nbsp;a&nbsp;fogged&nbsp;minimap.</tt></dd></dl>
 
 <dl><dt><a name="dungeon-map"><strong>map</strong></a>(self)</dt><dd><tt>Map&nbsp;generator.&nbsp;<br>
 &nbsp;<br>
