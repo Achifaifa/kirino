@@ -241,7 +241,7 @@ class player:
       self.hp2-=1
       return "You feel hungry and weak\n"
 
-  def pickconsumable(self,object):
+  def pickconsumable(self,item):
     """
     Picks a consumable item from the floor.
 
@@ -250,14 +250,11 @@ class player:
     Returns an interger if it has been picked (0:no, 1:yes) and a message.
     """
     
-    if object.type in [1,2]:
-      pass
-
     if object.type in [0,3]:
-      for i in range(len(self.belt)):
-        if self.belt[i].type==4:
-          self.belt[i]=copy.copy(object)
-          return 1,"You picked "+object.name+"."
+      for i in self.belt:
+        if i.type==4:
+          i=copy.copy(item)
+          return 1,"You picked %s."%item.name
       return 0,"Your belt is full"
     
   def move(self,dungeon,direction):

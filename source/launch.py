@@ -147,9 +147,6 @@ def crawl(quickvar=0):
     #Reset message strings
     atkmsg=pickmsg=trapmsg=""
 
-    #Update the explored map
-    if cfg.fog: dung.remember(hero)
-
     #Move all the mobs, delete dead mobs from array
     dung.mobarray=[i for i in dung.mobarray if i.HP>0]
     for i in dung.mobarray: i.search(dung,hero)
@@ -198,6 +195,9 @@ def crawl(quickvar=0):
 
     #Explored map
     elif crawlmen==cfg.showmap:
+      # Update map only now to avoid doing it in every step
+      if cfg.fog: dung.remember(hero)
+      # Show the updated map
       common.version()
       print "Map"
       for i in dung.explored: print "".join(i)

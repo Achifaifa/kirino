@@ -115,7 +115,7 @@ class dungeon:
       for i in range(self.xsize/20):
         count=0
         #Calculate lenght of the hall
-        lenght=random.randrange(int(round(self.ysize/3)))
+        lenght=random.randrange(self.ysize/3)
         while count<1000:
           tempx=random.randrange(self.xsize)
           tempy=random.randrange(self.ysize)
@@ -278,7 +278,7 @@ class dungeon:
 
       #Add traps
       self.traps=[]
-      for i in range(int(round((self.xsize*self.ysize)/600))):
+      for i in range(self.xsize*self.ysize/600):
         while 1:
           randx=random.randrange(len(self.dungarray[0]))
           randy=random.randrange(len(self.dungarray))
@@ -286,13 +286,9 @@ class dungeon:
             #Generate random type of trap
             # 10%: Trap to next floor
             # 90%: HP or MP trap
-            randtrap=random.randrange(10)
-            if randtrap==0:
-              self.traps.append([randx,randy,3])
-              break
-            else:
-              self.traps.append([randx,randy,random.randint(1,2)])
-              break
+            randtrap=3 if not random.randrange(10) else random.randint(1,2)
+            self.traps.append([randx,randy,randtrap])
+            break
       
   def dumpdung(self,place): 
     """
@@ -399,8 +395,8 @@ class dungeon:
       EC0: (Not actually an error, everything is fine)
       EC1: There is no entrance or exit
       EC2: It's below the minimum size
-      EC3: Can't reach the exit from the entrance (pending)
-      EC4: There are halls unconnected or unreachable (pending)
+      #TO-DO -> EC3: Can't reach the exit from the entrance 
+      #TO-DO -> EC4: There are halls unconnected or unreachable 
 
     Used in the constructor on this class, although it can be invoked anytime.
     """
@@ -429,18 +425,19 @@ class dungeon:
     #Calculate the explored tiles
     exploredtiles=0
     for i in self.explored:
-      for j in i:
-        if j!="~": exploredtiles+=1
+      exploredtiles+=(len(i)-i.count("~"))
 
-    #Calculate how many extra tiles are remembered
+    #Calculate how many excess tiles are remembered
     extra=exploredtiles-((player.INT+player.intboost)*100)
 
     #Delete tiles randomly until there are no extra tiles
     for i in range(extra):
-      randx=random.randrange(len(self.explored[0]))
-      randy=random.randrange(len(self.explored))
-      if self.explored[randy][randx]!="~":
-        self.explored[randy][randx]="~"
+      while 1:
+        randx=random.randrange(len(self.explored[0]))
+        randy=random.randrange(len(self.explored))
+        if self.explored[randy][randx]!="~":
+          self.explored[randy][randx]="~"
+          break
 
 
   def fill(self,player,fog=0):
