@@ -1,1 +1,1 @@
-__all__=["inventory", "misc", "mobs", "npcs", "parser", "player", "tutorial", "vendor"]
+__all__=["inventory", "misc", "mobs", "npcs", "parser", "playerd", "tutorial", "vendor"]

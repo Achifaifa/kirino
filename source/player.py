@@ -1,6 +1,8 @@
 #! usr/bin/env python 
 import copy, json, os, random, sys
 import common, copy, dungeon, item
+sys.path.append(os.path.abspath("../data/"))
+import playerd
 
 class player:
   """
@@ -79,14 +81,13 @@ class player:
   zpos=0
   """
 
-  def __init__(self,randomv):
+  def __init__(self):
     """
     Initialization of the player objects. 
 
-    Receives a dungeon object, then sets the coordinates of the player object in the entrance tile
-    It also chooses a random race and class from the ./data/races and ./data/classes files
+    Generates a random player. Coordinate setting must be done through enter()
 
-    Needs a random parameter. if 1, the character is generated randomly.
+    Attribute setting for manual player creation must be done externally
     """
 
     #Main characteristics
@@ -137,42 +138,32 @@ class player:
     self.xpos=0
     self.zpos=0
 
-    # Random choices
-    if randomv==1:
-      # Name
-      namearray=[]
-      with open("../data/player/names","r") as names:
-        for line in names: namearray.append(line.strip())
-      self.name=random.choice(namearray)
-      # Race
-      sys.path.insert(0, "../data/player")
-      from races import stats
-      self.race=random.choice(stats.items())[0]
-      self.STR+=stats[self.race]["STR"]
-      self.INT+=stats[self.race]["INT"]
-      self.DEX+=stats[self.race]["DEX"]
-      self.PER+=stats[self.race]["PER"]
-      self.CON+=stats[self.race]["CON"]
-      self.WIL+=stats[self.race]["WIL"]
-      self.CHA+=stats[self.race]["CHA"]
+    # Name
+    self.name=random.choice(playerd.names.names)
+    # Race
+    self.race=random.choice(playerd.races.stats)
+    self.STR+=stats[self.race]["STR"]
+    self.INT+=stats[self.race]["INT"]
+    self.DEX+=stats[self.race]["DEX"]
+    self.PER+=stats[self.race]["PER"]
+    self.CON+=stats[self.race]["CON"]
+    self.WIL+=stats[self.race]["WIL"]
+    self.CHA+=stats[self.race]["CHA"]
 
-      #Random class
-      with open("../data/player/classes","r") as file:
-        classesarray=[]
-        for line in file: classesarray.append(line.rstrip('\n'))
-      self.charclass=random.choice(classesarray) 
+    #Random class
+    self.charclass=random.choice(playerd.classes.classes) 
 
-      #Random initial attributes
-      for i in range(9):
-        randstat=random.randrange(7)
-        if   randstat==0: self.STR+=1
-        elif randstat==1: self.INT+=1
-        elif randstat==2: self.DEX+=1
-        elif randstat==3: self.PER+=1
-        elif randstat==4: self.CON+=1
-        elif randstat==5: self.WIL+=1
-        elif randstat==6: self.CHA+=1
-        else: pass
+    #Random initial attributes
+    for i in range(9):
+      randstat=random.randrange(7)
+      if   randstat==0: self.STR+=1
+      elif randstat==1: self.INT+=1
+      elif randstat==2: self.DEX+=1
+      elif randstat==3: self.PER+=1
+      elif randstat==4: self.CON+=1
+      elif randstat==5: self.WIL+=1
+      elif randstat==6: self.CHA+=1
+      else: pass
 
   def enter(self,dungeon,fall=0):
     """
