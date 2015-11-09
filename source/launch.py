@@ -14,7 +14,6 @@ class gl():
   Class that stores global variables
   """
 
-  dex=con=per=wil=cha=0
   intv=strv=0
   xp=lv=1
   points=0
@@ -26,37 +25,50 @@ class gl():
   tempinventory=[]
   tempequiparr=[]
   xsize=ysize=0
-  cfg=config.config()
   
-  def resetmsg():
+  
+  
 
-    parsemsg=hitmsg=usemsg=wilmsg=hungmsg=""
-
-class world():
+class w():
   """
   Class that stores the current state of the world
   """
 
+  @staticmethod
+  def resetmsg():
+    """
+    Resets all the feedback strings
+    """
+
+    parsemsg=hitmsg=usemsg=wilmsg=hungmsg=""
+
   dung=None
   hero=None
+  cfg=None
 
-def setup(quickvavr=0):
+
+
+def setup(quickvar=0):
   """
   Creates dungeons, mobs, worlds, etc to be used in game
   """
 
-  glcfg=config.config()
+  w.cfg=config.config()
   gl.fl=1 #Initialize floor to 1
-  gl.resetmsg()
+  w.resetmsg()
   gl.hungsteps=0
-  quick=[cfg.quick1,cfg.quick2,cfg.quick3,cfg.quick4,cfg.quick5,cfg.quick6]
-  hero,dung=copy.copy(newgame(quickvar))
+  quick=[w.cfg.quick1,w.cfg.quick2,w.cfg.quick3,w.cfg.quick4,w.cfg.quick5,w.cfg.quick6]
+  hero,dung=copy.copy(menus.newgame(quickvar))
 
   #If there is no fog, load the map
   if not cfg.fog:
     for i in range(len(dung.dungarray)):
       for j in range(len(dung.dungarray[0])):
         dung.explored[i][j]=dung.dungarray[i][j]
+
+  w.cfg=config.config()
+  w.dung=dung
+  w.hero=hero
 
 def pickthings(dungeon,player):
   """
@@ -145,7 +157,7 @@ def crawl(quickvar=0):
     hungmsg=hero.hunger()
 
     #Reset message strings
-    atkmsg=pickmsg=trapmsg=""
+    w.resetmsg()
 
     #Move all the mobs, delete dead mobs from array
     dung.mobarray=[i for i in dung.mobarray if i.HP>0]
@@ -155,7 +167,7 @@ def crawl(quickvar=0):
     hero.levelup()
 
     #Attack with all the mobs. Range/conditoins check in mob.attack()
-    atkmsg="".join([j.attack(hero,dung) for j in dung.mobarray])
+    w.atkmsg="".join([j.attack(hero,dung) for j in dung.mobarray])
 
     #After attacking, reset the hit parameter
     #If any of the mobs are near the player, lock them
@@ -167,7 +179,7 @@ def crawl(quickvar=0):
     pickthings(dung,hero)
 
     # Check if the player has stepped on a trap
-    trapmsg=atrap(dung,hero)
+    w.trapmsg=atrap(dung,hero)
 
     #Print header and map
     common.version()
@@ -176,21 +188,21 @@ def crawl(quickvar=0):
     menus.printpldata(hero)
 
     print "\n%c: key mapping help"%(cfg.showkeys)
-    print hungmsg+atkmsg+hitmsg+pickmsg+str(parsemsg)+trapmsg+wilmsg+usemsg
+    print w.hungmsg+w.atkmsg+w.hitmsg+w.pickmsg+w.parsemsg+w.trapmsg+w.wilmsg+w.usemsg
     print "->",
 
     #Reset message strings after display
     action=0
-    parsemsg=hitmsg=usemsg=wilmsg=hungmsg=""
+    w.resetmsg()
     crawlmen=common.getch()
 
     #Willpower test
-    wils,wilmsg=hero.willtest()
+    wils,w.wilmsg=hero.willtest()
     
     #Action choice block
     #Input mode
     if crawlmen==cfg.console:
-      try: action,parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
+      try: action,w.parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
       except: pass
 
     #Explored map
@@ -211,7 +223,7 @@ def crawl(quickvar=0):
 
     #Using belt items
     elif crawlmen in cfg.quick:
-      usemsg=hero.use(hero.belt[cfg.quick.index(crawlmen)])
+      w.usemsg=hero.use(hero.belt[cfg.quick.index(crawlmen)])
 
     if wils:
       #Movement
@@ -271,22 +283,14 @@ def crawl(quickvar=0):
       elif (crawlmen==cfg.nextf or action==19 or action==31): 
         #Double check if the player is in the exit tile
         if dung.dungarray[hero.ypos][hero.xpos]=="X":
+          # Increase floor counters
           flcounter,hero.totalfl,fl=(i+1 for i in (flcounter,hero.totalfl,fl))
-          lsave(hero) 
           if cfg.autosave==1: hero.save()
-          allowvendor=0
-          if hero.totalfl%random.randrange(5,9)==0: allowvendor=1
+          # Generate new dungeon
+          allowvendor=1 if not hero.totalfl%random.randrange(5,9) else 0
           dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
-          # Modify the new dungeon 
-          # Add mobs according to the player level
-          lload(hero)
-          if not cfg.fog: dung.explored=dung.dungarray
-          for i in range(len(dung.dungarray)):
-            for j in range(len(dung.dungarray[i])):
-              if dung.dungarray[i][j]=="A":
-                hero.ypos=i
-                hero.xpos=j
-                hero.zpos=0 
+          # Enter new dungeon
+          hero.enter(dung)
 
     #Game option menu
     elif crawlmen==cfg.opt or action==5: cfg.options(1)

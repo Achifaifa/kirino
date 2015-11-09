@@ -1,6 +1,6 @@
 #! usr/bin/env python 
 import copy, json, os, random, sys
-import common, copy, dungeon, item
+import common, item
 sys.path.append(os.path.abspath("../data/"))
 import playerd
 

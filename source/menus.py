@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import common
+import common, launch
 
 def enchant(item,player):
   """
@@ -299,8 +299,12 @@ def mainmenu():
     print "%s.- Help"               %(9)
     print "%s.- Exit\n->"           %(0)
     menu=common.getch()
-    if menu=="1": crawl(0)
-    if menu=="2": crawl(1)
+    if menu=="1": 
+      launch.setup()
+      launch.crawl()
+    if menu=="2": 
+      launch.setup(1)
+      launch.crawl()
     if menu=="3": cfg.options(0)
     if menu=="4": scroll(15)
     if menu=="5": test.testm()
