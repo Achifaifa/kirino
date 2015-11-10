@@ -95,8 +95,7 @@ class player:
     self.pocket=0      #Money
     self.exp=0         #EXP
     self.lv=1          #Level
-    self.points=40     #Expendable points
-    if randomv: self.points=0
+    self.points=0
     self.race="_"      #Race
     self.charclass="_" #Class
     self.status=0      #Paralyzed, burned, bleeding, etc
@@ -120,6 +119,7 @@ class player:
 
     #Set attributes to 1, set secondary attributes
     self.STR=self.INT=self.CON=self.WIL=self.PER=self.DEX=self.CHA=1
+    self.attrs=["STR", "INT", "DEX", "PER", "CON", "WIL", "CHA"]
 
     #Set attribute boosters to 0
     self.strboost=self.intboost=self.conboost=self.wilboost=self.perboost=self.dexboost=self.chaboost=0
@@ -138,32 +138,41 @@ class player:
     self.xpos=0
     self.zpos=0
 
-    # Name
-    self.name=random.choice(playerd.names.names)
-    # Race
-    self.race=random.choice(playerd.races.stats)
-    self.STR+=stats[self.race]["STR"]
-    self.INT+=stats[self.race]["INT"]
-    self.DEX+=stats[self.race]["DEX"]
-    self.PER+=stats[self.race]["PER"]
-    self.CON+=stats[self.race]["CON"]
-    self.WIL+=stats[self.race]["WIL"]
-    self.CHA+=stats[self.race]["CHA"]
-
     #Random class
     self.charclass=random.choice(playerd.classes.classes) 
 
+    # Name
+    self.name=random.choice(playerd.names.names)
+    # Race
+    self.race=random.choice(playerd.races.stats.keys())
+    self.STR+=playerd.races.stats[self.race]["STR"]
+    self.INT+=playerd.races.stats[self.race]["INT"]
+    self.DEX+=playerd.races.stats[self.race]["DEX"]
+    self.PER+=playerd.races.stats[self.race]["PER"]
+    self.CON+=playerd.races.stats[self.race]["CON"]
+    self.WIL+=playerd.races.stats[self.race]["WIL"]
+    self.CHA+=playerd.races.stats[self.race]["CHA"]
+
     #Random initial attributes
     for i in range(9):
-      randstat=random.randrange(7)
-      if   randstat==0: self.STR+=1
-      elif randstat==1: self.INT+=1
-      elif randstat==2: self.DEX+=1
-      elif randstat==3: self.PER+=1
-      elif randstat==4: self.CON+=1
-      elif randstat==5: self.WIL+=1
-      elif randstat==6: self.CHA+=1
-      else: pass
+      neg=any([1 if i<1 else 0 for i in [self.STR, self.INT, self.DEX, self.PER, self.CON, self.WIL, self.CHA]])
+      if neg:
+        if   self.STR<1: self.STR+=1
+        elif self.INT<1: self.INT+=1
+        elif self.DEX<1: self.DEX+=1
+        elif self.PER<1: self.PER+=1
+        elif self.CON<1: self.CON+=1
+        elif self.WIL<1: self.WIL+=1
+        elif self.CHA<1: self.CHA+=1
+      else:
+        randstat=random.randrange(7)
+        if   randstat==0: self.STR+=1
+        elif randstat==1: self.INT+=1
+        elif randstat==2: self.DEX+=1
+        elif randstat==3: self.PER+=1
+        elif randstat==4: self.CON+=1
+        elif randstat==5: self.WIL+=1
+        elif randstat==6: self.CHA+=1
 
   def enter(self,dungeon,fall=0):
     """

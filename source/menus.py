@@ -333,8 +333,6 @@ def newgame(quick=0):
   Receives an optionanl quick parameter. if 1, it generates a 40x40 dungeon and a random player.
   """
 
-  global xsize
-  global ysize
   cfg=config.config()
 
   #If quick is 1, generate everything randomly
