@@ -4,6 +4,13 @@ scriptpath = "../source/"
 sys.path.append(os.path.abspath(scriptpath))
 import player
 
+class testdungeon:
+  """
+  Mock dungeon for some player functions
+  """
+
+  dungarray=[["#", "#", "#"], ["#", "A", "#"], ["#", ".", "#"], ["#", "#", "#"]]
+
 class TestConsumables(unittest.TestCase):
   """
   Test the player class
@@ -80,8 +87,70 @@ class TestConsumables(unittest.TestCase):
     self.assertGreater(tp.WIL,0)
     self.assertGreater(tp.CHA,0)
 
-    
+  def test_player_enter(self):
+    """
+    Tests if a player can correctly enter a dungeon
+    """
 
+    td=testdungeon
+    tp=player.player()
+
+    # Test normal entering
+    tp.enter(td)
+    self.assertEqual(tp.xpos, 1)
+    self.assertEqual(tp.ypos, 1)
+    tp.xpos=tp.ypos=0
+    self.assertEqual(tp.xpos, 0)
+    self.assertEqual(tp.ypos, 0)
+
+    # Test normal entering specifying the fall
+    tp.enter(td, 0)
+    self.assertEqual(tp.xpos, 1)
+    self.assertEqual(tp.ypos, 1)
+    tp.xpos=tp.ypos=0
+    self.assertEqual(tp.xpos, 0)
+    self.assertEqual(tp.ypos, 0)
+
+    # Test fall entering
+    tp.enter(td, 1)
+    self.assertEqual(tp.xpos, 1)
+    self.assertEqual(tp.ypos, 2)
+
+  def test_pick_itemp(self):
+    pass
+
+  def test_pick_consumable(self):
+    pass
+
+  def test_hunger_processing(self):
+    pass
+
+  def test_player_movement(self):
+    pass
+
+  def test_secondary_attrs(self):
+    pass
+
+  def test_will_test(self):
+    pass
+
+  def test_use_item(self):
+    pass
+
+  def test_add_bonuses(self):
+    pass
+
+  def test_remove_bonuses(self):
+    pass
+
+  def test_levelup(self):
+    pass
+
+  def test_player_attack(self):
+    pass
+
+  def test_player_reset(self):
+    pass
 
 
 if __name__ == "__main__":
