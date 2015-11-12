@@ -14,13 +14,13 @@ class TestConsumables(unittest.TestCase):
     Checks that all the boosters in an item are zero
     """
 
-    self.assertTrue(item.strbst==0)
-    self.assertTrue(item.intbst==0)
-    self.assertTrue(item.chabst==0)
-    self.assertTrue(item.conbst==0)
-    self.assertTrue(item.dexbst==0)
-    self.assertTrue(item.perbst==0)
-    self.assertTrue(item.wilbst==0)
+    self.assertEqual(item.strbst, 0)
+    self.assertEqual(item.intbst, 0)
+    self.assertEqual(item.chabst, 0)
+    self.assertEqual(item.conbst, 0)
+    self.assertEqual(item.dexbst, 0)
+    self.assertEqual(item.perbst, 0)
+    self.assertEqual(item.wilbst, 0)
 
   def test_HP_potions(self):
     """
@@ -29,14 +29,14 @@ class TestConsumables(unittest.TestCase):
     Specific tests: HPR, MPR and subtype
     """
     ti=item.consumable(0,subtype=1)
-    self.assertTrue(ti.type==0)
-    self.assertTrue(ti.price>0)
-    self.assertTrue(ti.name!="--EMPTY--")
+    self.assertEqual(ti.type, 0)
+    self.assertGreater(ti.price, 0)
+    self.assertNotEqual(ti.name, "--EMPTY--")
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.hpr>0)
-    self.assertTrue(ti.mpr==0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==1)
+    self.assertGreater(ti.hpr, 0)
+    self.assertEqual(ti.mpr, 0)
+    self.assertEqual(ti.statusr, 0)
+    self.assertEqual(ti.subtype, 1)
     self.boostzero(ti)
     
 
@@ -47,14 +47,14 @@ class TestConsumables(unittest.TestCase):
     Specific tests: HPR, MPR and subtype
     """
     ti=item.consumable(0,subtype=2)
-    self.assertTrue(ti.type==0)
-    self.assertTrue(ti.price>0)
-    self.assertTrue(ti.name!="--EMPTY--")
+    self.assertEqual(ti.type, 0)
+    self.assertGreater(ti.price, 0)
+    self.assertNotEqual(ti.name, "--EMPTY--")
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.hpr==0)
-    self.assertTrue(ti.mpr>0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==2)
+    self.assertEqual(ti.hpr, 0)
+    self.assertGreater(ti.mpr, 0)
+    self.assertEqual(ti.statusr, 0)
+    self.assertEqual(ti.subtype, 2)
     self.boostzero(ti)
 
   def test_recovery_potions(self):
@@ -64,14 +64,14 @@ class TestConsumables(unittest.TestCase):
     Specific tests: HPR, MPR and subtype
     """
     ti=item.consumable(0,subtype=3)
-    self.assertTrue(ti.type==0)
-    self.assertTrue(ti.price>0)
-    self.assertTrue(ti.name!="--EMPTY--")
+    self.assertEqual(ti.type, 0)
+    self.assertGreater(ti.price, 0)
+    self.assertNotEqual(ti.name, "--EMPTY--")
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.hpr>0)
-    self.assertTrue(ti.mpr>0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==3)
+    self.assertGreater(ti.hpr, 0)
+    self.assertGreater(ti.mpr, 0)
+    self.assertEqual(ti.statusr, 0)
+    self.assertEqual(ti.subtype, 3)
     self.boostzero(ti)
 
   def test_status_potions(self):
@@ -87,14 +87,14 @@ class TestConsumables(unittest.TestCase):
     """
 
     ti=item.consumable(1)
-    self.assertTrue(ti.type==1)
-    self.assertTrue(ti.price>0)
-    self.assertTrue(ti.name!="--EMPTY--")
+    self.assertEqual(ti.type, 1)
+    self.assertGreater(ti.price, 0)
+    self.assertNotEqual(ti.name, "--EMPTY--")
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.hpr==0)
-    self.assertTrue(ti.mpr==0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==0)
+    self.assertEqual(ti.hpr, 0)
+    self.assertEqual(ti.mpr, 0)
+    self.assertEqual(ti.statusr, 0)
+    self.assertEqual(ti.subtype, 0)
     self.assertIsInstance(ti.strbst,int)
     self.assertIsInstance(ti.intbst,int)
     self.assertIsInstance(ti.chabst,int)
@@ -116,9 +116,9 @@ class TestConsumables(unittest.TestCase):
     """
 
     ti=item.consumable(3)
-    self.assertTrue(ti.type==3)
-    self.assertTrue(ti.price>0)
-    self.assertTrue(ti.name!="--EMPTY--")
+    self.assertEqual(ti.type, 3)
+    self.assertGreater(ti.price, 0)
+    self.assertNotEqual(ti.name, "--EMPTY--")
     self.assertIsInstance(ti.name, str)
     self.assertIsInstance(ti.hungrec, int)
     self.assertIsInstance(ti.chance, int)
@@ -132,14 +132,14 @@ class TestConsumables(unittest.TestCase):
     """
 
     ti=item.consumable(4)
-    self.assertTrue(ti.type==4)
-    self.assertTrue(ti.price==0)
-    self.assertTrue(ti.name=="--EMPTY--")
+    self.assertEqual(ti.type, 4)
+    self.assertEqual(ti.price, 0)
+    self.assertEqual(ti.name, "--EMPTY--")
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.hungrec==0)
-    self.assertTrue(ti.chance==0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==0)
+    self.assertEqual(ti.hungrec, 0)
+    self.assertEqual(ti.chance, 0)
+    self.assertEqual(ti.statusr, 0)
+    self.assertEqual(ti.subtype, 0)
     self.boostzero(ti)
 
 class TestItems(unittest.TestCase):
@@ -148,21 +148,21 @@ class TestItems(unittest.TestCase):
   """
 
   def itemtest(self,ti):
-    self.assertTrue(ti.name!=" ")
+    self.assertNotEqual(ti.name, " ")
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.enchantlv==0)
+    self.assertEqual(ti.enchantlv, 0)
     self.assertIsInstance(ti.enchantlv, int)
-    self.assertTrue(ti.equip==0)
+    self.assertEqual(ti.equip, 0)
     self.assertIsInstance(ti.equip, int)
     self.assertIsInstance(ti.atk, int)
     self.assertIsInstance(ti.defn, int)
-    self.assertTrue(ti.price>=0)
+    self.assertGreaterEqual(ti.price, 0)
     self.assertIsInstance(ti.price, int)
-    self.assertTrue(len(ti.bonuses)==7)
+    self.assertEqual(len(ti.bonuses), 7)
     for i in ti.bonuses:
-      self.assertTrue(len(i)==8)
+      self.assertEqual(len(i), 8)
       self.assertIsInstance(i, str)
-      self.assertTrue(getattr(ti,i)>=0)
+      self.assertGreaterEqual(getattr(ti,i), 0)
       self.assertIsInstance(getattr(ti,i), int)
 
   def test_item_generation(self):
@@ -178,7 +178,7 @@ class TestItems(unittest.TestCase):
     for j in range(100):
       for i in range(12):
         ti=item.item(i)
-        self.assertTrue(ti.type==i)
+        self.assertEqual(ti.type, i)
         self.itemtest(ti)
 
 class TestFunctions(unittest.TestCase):
@@ -193,23 +193,23 @@ class TestFunctions(unittest.TestCase):
 
     ti=item.consumable(0)
     ti.reset()
-    self.assertTrue(ti.type==4)
-    self.assertTrue(ti.price==0)
-    self.assertTrue(ti.name=="--EMPTY--")
-    self.assertTrue(ti.hpr==0)
-    self.assertTrue(ti.mpr==0)
+    self.assertEqual(ti.type, 4)
+    self.assertEqual(ti.price, 0)
+    self.assertEqual(ti.name, "--EMPTY--")
+    self.assertEqual(ti.hpr, 0)
+    self.assertEqual(ti.mpr, 0)
     self.assertIsInstance(ti.name, str)
-    self.assertTrue(ti.hungrec==0)
-    self.assertTrue(ti.chance==0)
-    self.assertTrue(ti.statusr==0)
-    self.assertTrue(ti.subtype==0)
-    self.assertTrue(ti.strbst==0)
-    self.assertTrue(ti.intbst==0)
-    self.assertTrue(ti.chabst==0)
-    self.assertTrue(ti.conbst==0)
-    self.assertTrue(ti.dexbst==0)
-    self.assertTrue(ti.perbst==0)
-    self.assertTrue(ti.wilbst==0)
+    self.assertEqual(ti.hungrec, 0)
+    self.assertEqual(ti.chance, 0)
+    self.assertEqual(ti.statusr, 0)
+    self.assertEqual(ti.subtype, 0)
+    self.assertEqual(ti.strbst, 0)
+    self.assertEqual(ti.intbst, 0)
+    self.assertEqual(ti.chabst, 0)
+    self.assertEqual(ti.conbst, 0)
+    self.assertEqual(ti.dexbst, 0)
+    self.assertEqual(ti.perbst, 0)
+    self.assertEqual(ti.wilbst, 0)
 
 
   def test_reset_item(self):
@@ -220,23 +220,23 @@ class TestFunctions(unittest.TestCase):
     for i in range(11):
       ti=item.item(i+1)
       ti.reset()
-      self.assertTrue(ti.name==" ")
+      self.assertEqual(ti.name, " ")
       self.assertIsInstance(ti.name, str)
-      self.assertTrue(ti.enchantlv==0)
+      self.assertEqual(ti.enchantlv, 0)
       self.assertIsInstance(ti.enchantlv, int)
-      self.assertTrue(ti.equip==0)
+      self.assertEqual(ti.equip, 0)
       self.assertIsInstance(ti.equip, int)
-      self.assertTrue(ti.atk==0)
+      self.assertEqual(ti.atk, 0)
       self.assertIsInstance(ti.atk, int)
-      self.assertTrue(ti.defn==0)
+      self.assertEqual(ti.defn, 0)
       self.assertIsInstance(ti.defn, int)
-      self.assertTrue(ti.price==0)
+      self.assertEqual(ti.price, 0)
       self.assertIsInstance(ti.price, int)
-      self.assertTrue(len(ti.bonuses)==7)
+      self.assertEqual(len(ti.bonuses), 7)
       for i in ti.bonuses:
-        self.assertTrue(len(i)==8)
+        self.assertEqual(len(i), 8)
         self.assertIsInstance(i, str)
-        self.assertTrue(getattr(ti,i)==0)
+        self.assertEqual(getattr(ti,i), 0)
         self.assertIsInstance(getattr(ti,i), int)
 
 
@@ -258,7 +258,7 @@ class TestFunctions(unittest.TestCase):
     ti=item.item(1)
     ti.atk=ti.defn=0
     ti.enchant()
-    self.assertTrue(ti.atk+ti.defn>=0)
+    self.assertGreaterEqual(ti.atk+ti.defn, 0)
 
   def test_enchant_pricing_fromzero(self):
     """
@@ -268,7 +268,7 @@ class TestFunctions(unittest.TestCase):
     ti=item.item(1)
     ti.price=0
     ti.enchant()
-    self.assertTrue(ti.price==1)
+    self.assertEqual(ti.price, 1)
 
   def test_enchant_pricing_nonzero(self):
     """
@@ -278,7 +278,7 @@ class TestFunctions(unittest.TestCase):
     ti=item.item(1)
     ti.price=100
     ti.enchant()
-    self.assertTrue(ti.price==200)
+    self.assertEqual(ti.price, 200)
 
   def test_enchant_level(self):
     """
