@@ -9,7 +9,7 @@ class testcommon(unittest.TestCase):
     Test that the version string is actually a string
     """
 
-    self.assertIsInstance(common.vern(), basestring)
+    self.assertIsInstance(common.vern(), str)
  
 if __name__=="__main__":
   unittest.main() 

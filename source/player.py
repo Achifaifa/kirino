@@ -532,10 +532,9 @@ class player:
     If the player's health is bigger than 5, the player automatically passes the test.
     """
 
-    if self.hp2<=5:
+    if 0<self.hp2<=5:
       roll=random.randint(1,20)+self.WIL+self.wilboost
-      if self.hp2>0:
-        if roll<20/self.hp2: return 0,"Your body refuses to move"
+      if roll<20/self.hp2: return 0,"Your body refuses to move"
     return 1,""
 
   def use(self,item):

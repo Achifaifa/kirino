@@ -87,9 +87,9 @@ class TestConsumables(unittest.TestCase):
     self.assertGreater(tp.WIL,0)
     self.assertGreater(tp.CHA,0)
 
-  def test_player_enter(self):
+  def test_player_normal_enter(self):
     """
-    Tests if a player can correctly enter a dungeon
+    Tests if a player can correctly enter a dungeon normally
     """
 
     td=testdungeon
@@ -99,19 +99,26 @@ class TestConsumables(unittest.TestCase):
     tp.enter(td)
     self.assertEqual(tp.xpos, 1)
     self.assertEqual(tp.ypos, 1)
-    tp.xpos=tp.ypos=0
-    self.assertEqual(tp.xpos, 0)
-    self.assertEqual(tp.ypos, 0)
+    
 
-    # Test normal entering specifying the fall
+  def test_player_spec_enter(self):
+    """
+    Tests if a player can correctly enter a dungeon specifying normally
+    """
+
+    td=testdungeon
+    tp=player.player()
     tp.enter(td, 0)
     self.assertEqual(tp.xpos, 1)
     self.assertEqual(tp.ypos, 1)
-    tp.xpos=tp.ypos=0
-    self.assertEqual(tp.xpos, 0)
-    self.assertEqual(tp.ypos, 0)
 
-    # Test fall entering
+  def test_player_fall_enter(self):
+    """
+    Tests if a player can correctly enter a dungeon falling
+    """
+
+    td=testdungeon
+    tp=player.player()
     tp.enter(td, 1)
     self.assertEqual(tp.xpos, 1)
     self.assertEqual(tp.ypos, 2)
@@ -131,8 +138,31 @@ class TestConsumables(unittest.TestCase):
   def test_secondary_attrs(self):
     pass
 
-  def test_will_test(self):
-    pass
+  def test_will_test_pass(self):
+    """
+    Test the player's willpower test (pass)
+    """
+
+    tp=player.player()
+    tp.hp2=6
+    tp.WIL=-20
+    tp.wilboost=-20
+    success,msg=tp.willtest()
+    self.assertEqual(success, 1)
+    self.assertIsInstance(msg, str)
+
+  def test_will_test_fail(self):
+    """
+    Test the player's willpower test (pass)
+    """
+
+    tp=player.player()
+    tp.hp2=1
+    tp.WIL=-20
+    tp.wilboost=-20
+    success,msg=tp.willtest()
+    self.assertEqual(success, 0)
+    self.assertIsInstance(msg, str)
 
   def test_use_item(self):
     pass
@@ -151,7 +181,6 @@ class TestConsumables(unittest.TestCase):
 
   def test_player_reset(self):
     pass
-
 
 if __name__ == "__main__":
   unittest.main()
