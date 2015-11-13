@@ -1,13 +1,16 @@
 import unittest, os, sys
 
-scriptpath = "../source/"
-sys.path.append(os.path.abspath(scriptpath))
+sys.path.append(os.path.abspath("../source/"))
 import player
-# Importing this just to test item instances
+# Importing these just to test item instances
 # Do not use to generate actual items for tests
 # Use the mock classes for that
 from item import consumable as realconsumable
 from item import item as realitem
+
+#
+# Mock classes for testing
+#
 
 class testdungeon:
   """
@@ -21,7 +24,40 @@ class testitem:
   Mock item for player testing
   """
 
-  pass
+  strbonus=1
+  intbonus=1
+  dexbonus=1
+  perbonus=1
+  conbonus=1
+  wilbonus=1
+  chabonus=1
+
+  # Not used in tests, but necessary so it works
+  atk=0
+  defn=0
+
+class testmob:
+  """
+  Mock mob for attack testing
+  """
+
+  zpos=0
+
+  atk=0
+  defn=0
+
+  MP=0
+  HP=0
+
+  hit=0
+  exp=0
+  lv=0
+  pres=0
+  name=""
+
+#
+# Actual tests
+#
 
 class TestConsumables(unittest.TestCase):
   """
@@ -259,14 +295,57 @@ class TestConsumables(unittest.TestCase):
     self.assertEqual(success, 0)
     self.assertIsInstance(msg, str)
 
-  def test_use_item(self):
+  def test_use_item_pass(self):
+    pass
+
+  def test_use_item_fail(self):
     pass
 
   def test_add_bonuses(self):
-    pass
+    """
+    Tests the addition of bonuses from a mock object
+    """
+
+    tp=player.player()
+    ti=testitem
+    tp.strboost=0
+    tp.intboost=0
+    tp.dexboost=0
+    tp.perboost=0
+    tp.conboost=0
+    tp.wilboost=0
+    tp.chaboost=0
+    tp.addbonuses(ti)
+    self.assertEqual(tp.strboost, 1)
+    self.assertEqual(tp.intboost, 1)
+    self.assertEqual(tp.dexboost, 1)
+    self.assertEqual(tp.perboost, 1)
+    self.assertEqual(tp.conboost, 1)
+    self.assertEqual(tp.wilboost, 1)
+    self.assertEqual(tp.chaboost, 1)
 
   def test_remove_bonuses(self):
-    pass
+    """
+    Tests the removal of bonuses from a mock object
+    """
+
+    tp=player.player()
+    ti=testitem
+    tp.strboost=1
+    tp.intboost=1
+    tp.dexboost=1
+    tp.perboost=1
+    tp.conboost=1
+    tp.wilboost=1
+    tp.chaboost=1
+    tp.rembonuses(ti)
+    self.assertEqual(tp.strboost, 0)
+    self.assertEqual(tp.intboost, 0)
+    self.assertEqual(tp.dexboost, 0)
+    self.assertEqual(tp.perboost, 0)
+    self.assertEqual(tp.conboost, 0)
+    self.assertEqual(tp.wilboost, 0)
+    self.assertEqual(tp.chaboost, 0)
 
   def test_levelup_once(self):
     """

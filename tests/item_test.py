@@ -240,7 +240,17 @@ class TestFunctions(unittest.TestCase):
         self.assertIsInstance(getattr(ti,i), int)
 
 
-  def test_enchant_naming(self):
+  def test_enchant_naming_zero(self):
+    """
+    Tests item enchanting name modifier. 
+    """
+    
+    ti=item.item(1)
+    ti.name="test"
+    ti.enchant()
+    self.assertIn(ti.name,["test +1"," "])
+
+  def test_enchant_naming_one(self):
     """
     Tests item enchanting name modifier. 
     """
@@ -255,30 +265,33 @@ class TestFunctions(unittest.TestCase):
     Tests item enchanting attack and bonus raises
     """
 
-    ti=item.item(1)
-    ti.atk=ti.defn=0
-    ti.enchant()
-    self.assertGreaterEqual(ti.atk+ti.defn, 0)
+    for i in range(10):
+      ti=item.item(1)
+      ti.atk=ti.defn=0
+      ti.enchant()
+      self.assertGreaterEqual(ti.atk+ti.defn, 0)
 
   def test_enchant_pricing_fromzero(self):
     """
     Tests item enchanting price raises from 0 to 2
     """
 
-    ti=item.item(1)
-    ti.price=0
-    ti.enchant()
-    self.assertEqual(ti.price, 1)
+    for i in range(10):
+      ti=item.item(1)
+      ti.price=0
+      ti.enchant()
+      self.assertIn(ti.price, [1, 0])
 
   def test_enchant_pricing_nonzero(self):
     """
     Tests item enchanting price raises from non-zero situations
     """
 
-    ti=item.item(1)
-    ti.price=100
-    ti.enchant()
-    self.assertEqual(ti.price, 200)
+    for i in range(10):
+      ti=item.item(1)
+      ti.price=100
+      ti.enchant()
+      self.assertIn(ti.price, [200, 0])
 
   def test_enchant_level(self):
     """
