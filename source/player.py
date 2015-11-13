@@ -659,12 +659,14 @@ class player:
       self.lv+=1
       self.exp-=5
       self.points+=2
+
     if self.lv>1:
-      lvlimit=3*self.lv+(2*(self.lv-1))
+      lvlimit=(3*self.lv)+(2*(self.lv-1))
       while self.exp>=lvlimit:
         self.lv+=1
         self.exp-=lvlimit
         self.points+=2
+        lvlimit=(3*self.lv)+(2*(self.lv-1))
 
   def invmenu(self):
     """

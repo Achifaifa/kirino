@@ -11,6 +11,13 @@ class testdungeon:
 
   dungarray=[["#", "#", "#"], ["#", "A", "#"], ["#", ".", "#"], ["#", "#", "#"]]
 
+class testitem:
+  """
+  Mock item for player testing
+  """
+
+  pass
+
 class TestConsumables(unittest.TestCase):
   """
   Test the player class
@@ -173,8 +180,38 @@ class TestConsumables(unittest.TestCase):
   def test_remove_bonuses(self):
     pass
 
-  def test_levelup(self):
-    pass
+  def test_levelup_once(self):
+    """
+    Tests player increasing levels once
+    """
+
+    tp=player.player()
+    tp.exp=5
+    self.assertEqual(tp.lv, 1)
+    tp.levelup()
+    self.assertEqual(tp.lv, 2)
+
+  def test_levelup_multiple(self):
+    """
+    Tests player increasing levels three times in a single call
+    """
+
+    tp=player.player()
+    tp.exp=67
+    self.assertEqual(tp.lv, 1)
+    tp.levelup()
+    self.assertEqual(tp.lv, 6)
+
+  def test_levelup_none(self):
+    """
+    Tests player increasing zero levels without exp
+    """
+
+    tp=player.player()
+    tp.exp=4
+    self.assertEqual(tp.lv, 1)
+    tp.levelup()
+    self.assertEqual(tp.lv, 1)
 
   def test_player_attack(self):
     pass

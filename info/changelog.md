@@ -7,6 +7,7 @@ Current stable release: 0.1.7
 ####**v0.2** (Progress so far):
 * New features:
 * Bugs Fixed:
+  * Fixed excessive multiple leveling bug
 * Others:
   * Code refactoring
   * Shippable CI integration
