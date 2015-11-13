@@ -234,14 +234,14 @@ class player:
 
     #Update hunger stats
     self.hungsteps+=1
-    if self.hungsteps==10:
+    if self.hungsteps>=10:
       self.hungsteps=0
       self.stomach-=1
-      if self.stomach<10:
+      if 0<=self.stomach<10:
         return "Your stomach growls...\n"
 
     #Act if hungry
-    if not self.stomach:
+    if self.stomach<1:
       self.hp2-=1
       return "You feel hungry and weak\n"
 
@@ -361,7 +361,6 @@ class player:
     It also adds the extra HP and MP gained after adding an attribute point or leveling up.
     """
 
-    #This fails when saving and loading a character
     temp=self.HP-self.hp2
     self.HP=((self.CON+self.conboost+self.STR+self.strboost)*4)+10
     self.hp2=(self.HP-temp)

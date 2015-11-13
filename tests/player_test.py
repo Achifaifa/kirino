@@ -3,6 +3,11 @@ import unittest, os, sys
 scriptpath = "../source/"
 sys.path.append(os.path.abspath(scriptpath))
 import player
+# Importing this just to test item instances
+# Do not use to generate actual items for tests
+# Use the mock classes for that
+from item import consumable as realconsumable
+from item import item as realitem
 
 class testdungeon:
   """
@@ -62,10 +67,16 @@ class TestConsumables(unittest.TestCase):
     self.assertEqual(tp.maxdmg, 0)
     self.assertEqual(tp.maxench, 0)
 
-    # Examine amount of objects (TO-DO: Types)
+    # Examine amount of objects
     self.assertEqual(len(tp.belt), 6)
     self.assertEqual(len(tp.equiparr), 11)
     self.assertEqual(len(tp.inventory), 2)
+    for i in tp.belt:
+      self.assertIsInstance(i, realconsumable)
+    for i in tp.equiparr:
+      self.assertIsInstance(i, realitem)
+    for i in tp.inventory:
+      self.assertIsInstance(i, realitem)
 
     #Set attribute boosters to 0
     self.assertEqual(tp.strboost, 0)
@@ -130,24 +141,100 @@ class TestConsumables(unittest.TestCase):
     self.assertEqual(tp.xpos, 1)
     self.assertEqual(tp.ypos, 2)
 
-  def test_pick_itemp(self):
+  def test_pick_itemp_pass(self):
     pass
 
-  def test_pick_consumable(self):
+  def test_pick_itemp_fail(self):
     pass
 
-  def test_hunger_processing(self):
+  def test_pick_consumable_pass(self):
     pass
+
+  def test_pick_consumable_fail(self):
+    pass
+
+  def test_hunger_processing_pass(self):
+    """
+    Tests the hunger stat modification
+    A new player should not return anything
+    """
+
+    tp=player.player()
+    ans=tp.hunger()
+    tp.hp2=1
+    self.assertIsNone(ans)
+    self.assertEqual(tp.stomach, 100)
+    self.assertEqual(tp.hp2, 1)
+
+  def test_hunger_processing_decrease(self):
+    """
+    Sets the steps to a high value so the stomach decreases
+    """
+
+    tp=player.player()
+    tp.hungsteps=10
+    tp.hp2=1
+    ans=tp.hunger()
+    self.assertIsNone(ans)
+    self.assertEqual(tp.stomach, 99)
+    self.assertEqual(tp.hp2, 1)
+
+  def test_hunger_processing_message(self):
+    """
+    Tests if the hunger processing returns warning messages
+    """
+
+    tp=player.player()
+    tp.hungsteps=10
+    tp.stomach=10
+    tp.hp2=1
+    ans=tp.hunger()
+    self.assertEqual(ans, "Your stomach growls...\n")
+    self.assertEqual(tp.stomach, 9)
+    self.assertEqual(tp.hp2, 1)
+
+  def test_hunger_processing_decrease(self):
+    """
+    Tests if the hunger function decreases HP
+    """
+
+    tp=player.player()
+    tp.hungsteps=10
+    tp.stomach=0
+    tp.hp2=1
+    ans=tp.hunger()
+    self.assertEqual(ans, "You feel hungry and weak\n")
+    self.assertEqual(tp.stomach, -1)
+    self.assertEqual(tp.hp2, 0)
 
   def test_player_movement(self):
     pass
 
   def test_secondary_attrs(self):
-    pass
+    """
+    Sets the player's primary attributes to known values
+    Calls the secondary attribute calculator and checks output
+    """
+
+    tp=player.player()
+    tp.STR=1
+    tp.INT=1
+    tp.DEX=1
+    tp.PER=1
+    tp.CON=1
+    tp.WIL=1
+    tp.CHA=1
+    tp.secondary()
+    self.assertEqual(tp.HP, 18)
+    self.assertEqual(tp.MP, 2)
+    self.assertEqual(tp.END, 14)
+    self.assertEqual(tp.SPD, 6)
 
   def test_will_test_pass(self):
     """
-    Test the player's willpower test (pass)
+    Test the player's willpower test
+    Sets the total will to -40 so it automatically fails rolls
+    HP is over 5, so it should pass despite that
     """
 
     tp=player.player()
@@ -160,7 +247,8 @@ class TestConsumables(unittest.TestCase):
 
   def test_will_test_fail(self):
     """
-    Test the player's willpower test (pass)
+    Same as test_will_test_pass, except the HP is set to 1 
+    The roll must execute and fail
     """
 
     tp=player.player()
@@ -182,7 +270,9 @@ class TestConsumables(unittest.TestCase):
 
   def test_levelup_once(self):
     """
-    Tests player increasing levels once
+    Tests player increasing levels
+    Set the experience to 5 
+    Expects the player to level up just once
     """
 
     tp=player.player()
@@ -193,7 +283,8 @@ class TestConsumables(unittest.TestCase):
 
   def test_levelup_multiple(self):
     """
-    Tests player increasing levels three times in a single call
+    Same as test_levelup_once, except it sets the exp to 67
+    With that exp the player should get to level 6 with a single call
     """
 
     tp=player.player()
@@ -204,7 +295,8 @@ class TestConsumables(unittest.TestCase):
 
   def test_levelup_none(self):
     """
-    Tests player increasing zero levels without exp
+    Same as the other test_levelup functions, except it sets the exp to 4
+    At level 1 with less than 5 exp, the player should not level up at all
     """
 
     tp=player.player()
