@@ -19,6 +19,40 @@ class testdungeon:
 
   dungarray=[["#", "#", "#"], ["#", "A", "#"], ["#", ".", "#"], ["#", "#", "#"]]
 
+class testmob:
+  """
+  Mock mob
+  """
+
+  marker="i"
+
+class walldungeon:
+  """
+  Mock dungeon for testing wall detection
+  """
+
+  dungarray=[["#", "#", "#"], ["#", ".", "#"], ["#", "#", "#"]]
+  filled=dungarray
+  mobarray=[testmob]
+
+class mobdungeon:
+  """
+  Mock dungeon for testing mob detection
+  """
+
+  dungarray=[["i", "i", "i"], ["i", ".", "i"], ["i", "i", "i"]]
+  filled=dungarray
+  mobarray=[testmob]
+
+class emptydungeon:
+  """
+  Mock dungeon for testing movement
+  """
+
+  dungarray=[[".", ".", "."], [".", ".", "."], [".", ".", "."]]
+  filled=dungarray
+  mobarray=[testmob]
+
 class testitem:
   """
   Mock item for player testing
@@ -353,8 +387,58 @@ class TestPlayer(unittest.TestCase):
     self.assertEqual(tp.stomach, -1)
     self.assertEqual(tp.hp2, 0)
 
-  def test_player_movement(self):
-    pass
+  def test_player_movement_detect_walls(self):
+    """
+    Tests wall detection in the player movement
+    """
+
+    tp=player.player()
+    td=walldungeon
+    for i in range(8):
+      tp.xpos=tp.ypos=1
+      ans=tp.move(td, i+1)
+      self.assertEqual(ans, 0)
+      self.assertEqual(tp.xpos, 1)
+      self.assertEqual(tp.ypos, 1)
+
+
+  def test_player_movement_detect_mobs(self):
+    """
+    Tests mob detection in the player movement
+    """
+
+    tp=player.player()
+    td=mobdungeon
+    for i in range(8):
+      tp.xpos=tp.ypos=1
+      ans=tp.move(td, i+1)
+      self.assertEqual(ans, 2)
+      self.assertEqual(tp.xpos, 1)
+      self.assertEqual(tp.ypos, 1)
+
+  def test_player_movement_straight(self):
+    """
+    Tests normal player movement
+    """
+
+    tp=player.player()
+    td=emptydungeon
+    for i in range(1,9):
+      tp.xpos=tp.ypos=1
+      ans=tp.move(td, i)
+      self.assertEqual(ans, 1)
+      if i==1: fxpos, fypos=1, 0
+      if i==2: fxpos, fypos=0, 1
+      if i==3: fxpos, fypos=1, 2
+      if i==4: fxpos, fypos=2, 1
+      
+      if i==5: fxpos, fypos=0, 0
+      if i==6: fxpos, fypos=2, 0
+      if i==7: fxpos, fypos=0, 2
+      if i==8: fxpos, fypos=2, 2
+
+      self.assertEqual(tp.xpos, fxpos)
+      self.assertEqual(tp.ypos, fypos)
 
   def test_secondary_attrs(self):
     """
