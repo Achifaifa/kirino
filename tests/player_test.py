@@ -279,10 +279,25 @@ class TestPlayer(unittest.TestCase):
     self.assertEqual(tp.itemspck, 0)
 
   def test_pick_consumable_pass(self):
-    pass
+    """
+    Tests if the player can pick a consumable
+    """
+
+    tp=player.player()
+    ti=testhppotion
+    ans=tp.pickconsumable(ti)
+    self.assertEqual(ans, (1, "You picked hp."))
 
   def test_pick_consumable_fail(self):
-    pass
+    """
+    Tests if the consumable picking fails when inv is epmty
+    """
+
+    tp=player.player()
+    tp.belt=[testhppotion for i in range(4)]
+    ti=testhppotion
+    ans=tp.pickconsumable(ti)
+    self.assertEqual(ans, (0, "Your belt is full"))
 
   def test_hunger_processing_pass(self):
     """

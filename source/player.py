@@ -253,10 +253,10 @@ class player:
     Returns an interger if it has been picked (0:no, 1:yes) and a message.
     """
     
-    if object.type in [0,3]:
+    if item.type in [0,3]:
       for i in self.belt:
         if i.type==4:
-          i=copy.copy(item)
+          i=copy.deepcopy(item)
           return 1,"You picked %s."%item.name
       return 0,"Your belt is full"
     
