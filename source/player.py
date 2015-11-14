@@ -212,13 +212,12 @@ class player:
     This receives an item and adds it to the inventory if the inventory is not full.
 
     Returns 0 and adds the item to the inventory if the item was correctly picked
-    Returns 0 if it wasn't
+    Returns 1 if it wasn't
     """
 
     
     #If the inventory is full, passes.
     if len(self.inventory)>=9:
-      pass
       return 1, "Your inventory is full!\n"
     
     #If the inventory is not full, it adds it. 
@@ -544,8 +543,8 @@ class player:
     """
 
     if item.type==0:
-      hppool=int(item.hpr)
-      mppool=int(item.mpr)
+      hppool=item.hpr
+      mppool=item.mpr
       mpres=hpres=0
       name=item.name
       self.stomach+=10
@@ -563,7 +562,7 @@ class player:
         mpres+=1
 
       #restore status
-      if item.statusr: self.status=0
+      if item.subtype==3: self.status=0
 
       #Message generation
       msg="You drank "+item.name+". "

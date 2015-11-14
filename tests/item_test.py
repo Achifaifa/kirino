@@ -103,7 +103,7 @@ class TestConsumables(unittest.TestCase):
     self.assertIsInstance(ti.perbst,int)
     self.assertIsInstance(ti.wilbst,int)
 
-  def test_attack(self):
+  def test_attack_item(self):
     """
     Attack consumable class not implemented.
     """

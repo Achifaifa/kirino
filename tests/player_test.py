@@ -32,9 +32,85 @@ class testitem:
   wilbonus=1
   chabonus=1
 
+  name="test_item"
+
   # Not used in tests, but necessary so it works
   atk=0
   defn=0
+
+class testemptypotion:
+  """
+  Empty potion
+  """
+
+  @staticmethod
+  def reset(): pass
+
+  type=0
+  subtype=1
+  name="empty"
+  hpr=0
+  mpr=0
+
+class testhppotion:
+  """
+  Mock HP potion
+  """
+
+  @staticmethod
+  def reset(): pass
+
+  type=0
+  subtype=1
+  name="hp"
+  hpr=1
+  mpr=0
+
+class testmppotion:
+  """
+  Mock HP potion
+  """
+
+  @staticmethod
+  def reset(): pass
+
+  type=0
+  subtype=2
+  name="mp"
+  hpr=0
+  mpr=1
+
+class testrecpotion:
+  """
+  Mock HP potion
+  """
+
+  @staticmethod
+  def reset(): pass
+
+  type=0
+  subtype=3
+  name="rec"
+  hpr=1
+  mpr=1
+
+class testtome:
+  """
+  Mock HP potion
+  """
+
+  @staticmethod
+  def reset(): pass
+
+  type=1
+  name=   "tome"
+  strbst= 1
+  intbst= 1
+  dexbst= 1
+  perbst= 1
+  conbst= 1
+  wilbst= 1
+  chabst= 1
 
 class testmob:
   """
@@ -53,13 +129,14 @@ class testmob:
   exp=0
   lv=0
   pres=0
-  name=""
+  name="test_mob"
+  
 
 #
 # Actual tests
 #
 
-class TestConsumables(unittest.TestCase):
+class TestPlayer(unittest.TestCase):
   """
   Test the player class
   """
@@ -103,7 +180,7 @@ class TestConsumables(unittest.TestCase):
     self.assertEqual(tp.maxdmg, 0)
     self.assertEqual(tp.maxench, 0)
 
-    # Examine amount of objects
+    # Examine amount and types of objects
     self.assertEqual(len(tp.belt), 6)
     self.assertEqual(len(tp.equiparr), 11)
     self.assertEqual(len(tp.inventory), 2)
@@ -178,10 +255,28 @@ class TestConsumables(unittest.TestCase):
     self.assertEqual(tp.ypos, 2)
 
   def test_pick_itemp_pass(self):
-    pass
+    """
+    Tests if the player can successfully pick an item
+    """
+
+    tp=player.player()
+    ti=testitem
+    ans=tp.pickobject(ti)
+    self.assertEqual(ans, (0, "You picked test_item\n"))
+    self.assertEqual(tp.itemspck, 1)
 
   def test_pick_itemp_fail(self):
-    pass
+    """
+    Tests if the player doesn't pick the item with the inventory full
+    """
+
+    tp=player.player()
+    tp.inventory=["item" for i in range(10)]
+    self.assertEqual(len(tp.inventory), 10)
+    ti=testitem
+    ans=tp.pickobject(ti)
+    self.assertEqual(ans, (1, "Your inventory is full!\n"))
+    self.assertEqual(tp.itemspck, 0)
 
   def test_pick_consumable_pass(self):
     pass
@@ -295,11 +390,85 @@ class TestConsumables(unittest.TestCase):
     self.assertEqual(success, 0)
     self.assertIsInstance(msg, str)
 
-  def test_use_item_pass(self):
-    pass
+  def test_use_hp_potion(self):
+    """
+    Tests hp potion usage
+    """
 
-  def test_use_item_fail(self):
-    pass
+    tp=player.player()
+    ti=testhppotion
+    tp.hp2=0
+    tp.mp2=0
+    ans=tp.use(ti)    
+    self.assertEqual(tp.hp2, 1)
+    self.assertEqual(tp.mp2, 0)
+    self.assertEqual(ans, "You drank hp. You recovered 1 HP.")
+
+  def test_use_mp_potion(self):
+    """
+    Tests mp potion usage
+    """
+
+    tp=player.player()
+    ti=testmppotion
+    tp.hp2=0
+    tp.mp2=0
+    ans=tp.use(ti)
+    self.assertEqual(tp.hp2, 0)
+    self.assertEqual(tp.mp2, 1)
+    self.assertEqual(ans, "You drank mp. You recovered 1 MP.")
+
+  def test_use_rec_potion(self):
+    """
+    Tests recovery potions
+    """
+
+    tp=player.player()
+    ti=testrecpotion
+    tp.hp2=0
+    tp.mp2=0
+    ans=tp.use(ti)
+    self.assertEqual(tp.hp2, 1)
+    self.assertEqual(tp.mp2, 1)
+    self.assertEqual(ans, "You drank rec. You recovered 1 HP and 1 MP.")
+
+  def test_use_empty_potion(self):
+    """
+    Tests recovery potions
+    """
+
+    tp=player.player()
+    ti=testemptypotion
+    tp.hp2=0
+    tp.mp2=0
+    ans=tp.use(ti)
+    self.assertEqual(tp.hp2, 0)
+    self.assertEqual(tp.mp2, 0)
+    self.assertEqual(ans, "You drank empty. ")
+
+  def test_use_tome(self):
+    """
+    Tests tome usage
+    """
+
+    tp=player.player()
+    ti=testtome
+    tp.INT=0
+    tp.DEX=0
+    tp.PER=0
+    tp.STR=0
+    tp.CON=0
+    tp.WIL=0
+    tp.CHA=0
+    msg=tp.use(ti)
+    self.assertEqual(tp.INT, 1)
+    self.assertEqual(tp.DEX, 1)
+    self.assertEqual(tp.STR, 1)
+    self.assertEqual(tp.PER, 1)
+    self.assertEqual(tp.CON, 1)
+    self.assertEqual(tp.WIL, 1)
+    self.assertEqual(tp.CHA, 1)
+    self.assertEqual(msg, "You used tome. INT +1 DEX +1 PER +1 CON +1 WIL +1 CHA +1 STR +1 \n")
 
   def test_add_bonuses(self):
     """

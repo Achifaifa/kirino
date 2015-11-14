@@ -71,12 +71,15 @@ class consumable:
   dps=0             #Damage over time
   """
 
-  def __init__(self,newtype,subtype=0):
+  def __init__(self,newtype=4,subtype=0):
     """
     Class constructor. Creates a consumable item of the specified type. Needs a subtype parameter for the potions, which is ignored in the rest of the items.
 
     Consumable items can only be bought from vendors. They can't be found in the ground.
-    Requires a type integer. It also accepts a subtype keyword argument for potions (Defaults to 0 - Random)
+    
+    Optional parameters:
+    Type integer (Defaults to 4 - empty object)
+    Subtype for potions (Defaults to 0 - Random)
     """
 
     self.reset()
