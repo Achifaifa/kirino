@@ -895,7 +895,7 @@ class player:
 
     #Roll for damage. -3 penalty if the enemy is flying
     roll=random.randint(1,10)+self.DEX+self.dexboost
-    if mob.zpos==1: roll-=3
+    if mob.zpos: roll-=3
 
     #Once passed, attack
     if self.willtest() and roll>3:

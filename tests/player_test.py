@@ -431,7 +431,7 @@ class TestPlayer(unittest.TestCase):
       if i==2: fxpos, fypos=0, 1
       if i==3: fxpos, fypos=1, 2
       if i==4: fxpos, fypos=2, 1
-      
+
       if i==5: fxpos, fypos=0, 0
       if i==6: fxpos, fypos=2, 0
       if i==7: fxpos, fypos=0, 2
@@ -652,11 +652,99 @@ class TestPlayer(unittest.TestCase):
     tp.levelup()
     self.assertEqual(tp.lv, 1)
 
-  def test_player_attack(self):
-    pass
+  def test_player_attack_pass_roll_no_prestige(self):
+    """
+    Tests player attack in a mock mob object
+    """
+
+    tp=player.player()
+    tp.DEX=5
+    tm=testmob
+
+  def test_player_attack_pass_roll_prestige(self):
+    """
+    Tests player attack in a mock mob object
+    """
+
+    tp=player.player()
+    tp.DEX=5
+    tm=testmob
+
+  def test_player_attack_fail_roll(self):
+    """
+    Tests player attack in a mock mob object
+    """
+
+    tp=player.player()
+    tp.DEX=-10
+    tm=testmob
+
 
   def test_player_reset(self):
-    pass
+    """
+    Tests if the player resets correctly
+    """
+
+    tp=player.player()
+    tp.reset()
+    
+    self.assertEqual(tp.name, "_")
+    self.assertEqual(tp.pocket, 0)
+    self.assertEqual(tp.exp, 0)
+    self.assertEqual(tp.lv, 1)
+    self.assertEqual(tp.points, 0)
+    self.assertEqual(tp.race, "_")
+    self.assertEqual(tp.charclass, "_")
+    self.assertEqual(tp.stomach, 100)
+    self.assertEqual(tp.inventory, [])
+    self.assertEqual(tp.belt, [])
+    self.assertEqual(len(tp.equiparr), 11)
+    self.assertEqual(tp.totalfl, 0)
+    self.assertEqual(tp.prestige, 0)
+    self.assertEqual(tp.prestigelv, 1)
+    self.assertEqual(tp.totalfl, 0)
+    self.assertEqual(tp.steps, 0)
+    self.assertEqual(tp.totalatks, 0)
+    self.assertEqual(tp.totalhits, 0)
+    self.assertEqual(tp.totaldmg, 0)
+    self.assertEqual(tp.totalhit, 0)
+    self.assertEqual(tp.kills, 0)
+    self.assertEqual(tp.totalgld, 0)
+    self.assertEqual(tp.totaltrp, 0)
+    self.assertEqual(tp.itemspck, 0)
+    self.assertEqual(tp.itemsenc, 0)
+    self.assertEqual(tp.itemsdst, 0)
+    self.assertEqual(tp.totalpot, 0)
+    self.assertEqual(tp.totalsll, 0)
+    self.assertEqual(tp.totalbuy, 0)
+    self.assertEqual(tp.totalspn, 0)
+    self.assertEqual(tp.maxdmg, 0)
+    self.assertEqual(tp.maxench, 0)
+    self.assertEqual(tp.INT, 1)
+    self.assertEqual(tp.DEX, 1)
+    self.assertEqual(tp.PER, 1)
+    self.assertEqual(tp.WIL, 1)
+    self.assertEqual(tp.STR, 1)
+    self.assertEqual(tp.CON, 1)
+    self.assertEqual(tp.CHA, 1)
+    self.assertEqual(tp.intboost, 0)
+    self.assertEqual(tp.dexboost, 0)
+    self.assertEqual(tp.perboost, 0)
+    self.assertEqual(tp.wilboost, 0)
+    self.assertEqual(tp.strboost, 0)
+    self.assertEqual(tp.conboost, 0)
+    self.assertEqual(tp.chaboost, 0)
+    self.assertEqual(tp.totatk, 0)
+    self.assertEqual(tp.totdefn, 0)
+    self.assertEqual(tp.HP, 0)
+    self.assertEqual(tp.hp2, 0)
+    self.assertEqual(tp.MP, 0)
+    self.assertEqual(tp.mp2, 0)
+    self.assertEqual(tp.END, 0)
+    self.assertEqual(tp.SPD, 0)
+    self.assertEqual(tp.xpos, 0)
+    self.assertEqual(tp.ypos, 0)
+    self.assertEqual(tp.zpos, 0)
 
 if __name__ == "__main__":
   unittest.main()
