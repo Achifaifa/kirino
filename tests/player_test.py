@@ -24,7 +24,17 @@ class testmob:
   Mock mob
   """
 
-  marker="i"
+  def __init__(self):
+
+    self.marker="i"
+    self.name="mob"
+    self.defn=0
+    self.zpos=0
+    self.HP=0
+    self.hit=0
+    self.exp=1
+    self.pres=1
+    self.lv=0
 
 class walldungeon:
   """
@@ -33,7 +43,7 @@ class walldungeon:
 
   dungarray=[["#", "#", "#"], ["#", ".", "#"], ["#", "#", "#"]]
   filled=dungarray
-  mobarray=[testmob]
+  mobarray=[testmob()]
 
 class mobdungeon:
   """
@@ -42,7 +52,7 @@ class mobdungeon:
 
   dungarray=[["i", "i", "i"], ["i", ".", "i"], ["i", "i", "i"]]
   filled=dungarray
-  mobarray=[testmob]
+  mobarray=[testmob()]
 
 class emptydungeon:
   """
@@ -51,7 +61,7 @@ class emptydungeon:
 
   dungarray=[[".", ".", "."], [".", ".", "."], [".", ".", "."]]
   filled=dungarray
-  mobarray=[testmob]
+  mobarray=[testmob()]
 
 class testitem:
   """
@@ -145,26 +155,6 @@ class testtome:
   conbst= 1
   wilbst= 1
   chabst= 1
-
-class testmob:
-  """
-  Mock mob for attack testing
-  """
-
-  zpos=0
-
-  atk=0
-  defn=0
-
-  MP=0
-  HP=0
-
-  hit=0
-  exp=0
-  lv=0
-  pres=0
-  name="test_mob"
-  
 
 #
 # Actual tests
@@ -659,7 +649,25 @@ class TestPlayer(unittest.TestCase):
 
     tp=player.player()
     tp.DEX=5
-    tm=testmob
+    tp.STR=1
+    tp.totatk=1
+    tp.lv=5
+    tm=testmob()
+    tm.exp=1
+
+    for i in range(1,101):
+      
+      tp.attack(tm)
+      self.assertEqual(tm.HP, -i)
+      self.assertEqual(tm.hit, 1)
+      self.assertEqual(tp.prestige, 0)
+      self.assertEqual(tp.totalhits, i)
+      self.assertEqual(tp.totalatks, i)
+      self.assertEqual(tp.totaldmg, i)
+      self.assertEqual(tp.maxdmg, 1)
+      self.assertEqual(tp.kills, i)
+      self.assertEqual(tp.exp, i)
+
 
   def test_player_attack_pass_roll_prestige(self):
     """
@@ -668,7 +676,27 @@ class TestPlayer(unittest.TestCase):
 
     tp=player.player()
     tp.DEX=5
-    tm=testmob
+    tp.STR=1
+    tp.totatk=1
+    tp.lv=0
+    tm=testmob()
+    tm.exp=1
+    tm.pres=1
+
+    for i in range(1,101):
+      
+      tp.attack(tm)
+      self.assertEqual(tm.HP, -i)
+      self.assertEqual(tm.hit, 1)
+      self.assertEqual(tp.prestige, i)
+      self.assertEqual(tp.totalhits, i)
+      self.assertEqual(tp.totalatks, i)
+      self.assertEqual(tp.totaldmg, i)
+      self.assertEqual(tp.maxdmg, 1)
+      self.assertEqual(tp.kills, i)
+      self.assertEqual(tp.exp, i)
+
+
 
   def test_player_attack_fail_roll(self):
     """
@@ -677,8 +705,20 @@ class TestPlayer(unittest.TestCase):
 
     tp=player.player()
     tp.DEX=-10
-    tm=testmob
+    tm=testmob()
 
+    for i in range(1,101):
+      
+      tp.attack(tm)
+      self.assertEqual(tm.HP, 0)
+      self.assertEqual(tm.hit, 0)
+      self.assertEqual(tp.prestige, 0)
+      self.assertEqual(tp.totalhits, 0)
+      self.assertEqual(tp.totalatks, i)
+      self.assertEqual(tp.totaldmg, 0)
+      self.assertEqual(tp.maxdmg, 0)
+      self.assertEqual(tp.kills, 0)
+      self.assertEqual(tp.exp, 0)
 
   def test_player_reset(self):
     """
@@ -687,7 +727,7 @@ class TestPlayer(unittest.TestCase):
 
     tp=player.player()
     tp.reset()
-    
+
     self.assertEqual(tp.name, "_")
     self.assertEqual(tp.pocket, 0)
     self.assertEqual(tp.exp, 0)
