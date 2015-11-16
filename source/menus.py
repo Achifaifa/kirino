@@ -430,4 +430,353 @@ def newgame(quick=0):
         if np==cfg.east: selected-=1
   return hero,dung
 
+def charsheet(self):
+    """
+    Character sheet. 
+
+    Main menu to edit, view and configure characters and player options
+    """
+
+    menu=0
+    while 1:
+      self.secondary()
+      common.version()
+      print "%s - Character sheet\n"              %(self.name)
+      print "Level %i %s %s"                      %(self.lv,self.race,self.charclass)
+      if self.lv==1: print "%i/5 xp, %i points"   %(self.exp,self.points)
+      if self.lv>1:  print "%i/%i xp, %i points"  %(self.exp,3*self.lv+(2*(self.lv-1)),self.points)
+      print "%i floors explored"                  %(self.totalfl)
+      print "Stomach is %i%% full\n"              %(self.stomach)
+      self.getatr()
+      print "\n1.- Spend points"
+      print "2.- Inventory"
+      print "3.- Character options"
+      print "4.- Stats"
+      print "5.- Achievements"
+      print "\n8.- Save"
+      print "9.- Load"
+      print "\n0.- Exit"
+      print "->",
+      menu=common.getch()
+      if   menu=="1": self.spend()
+      elif menu=="2": self.invmenu()
+      elif menu=="3": self.optmenu()
+      elif menu=="4": self.statmenu()
+      elif menu=="5": self.achievements()
+      elif menu=="8":
+        print "saving... "+self.save()
+        common.getch()
+      elif menu=="9":
+        print "loading... "+self.load()
+        common.getch()
+      elif menu=="0": break
+      pass
+
+  def spend(self):
+    """
+    Point spending menu.
+    """
+
+    choice=-1
+    while choice!="0": 
+      self.secondary()
+      common.version()
+      print "%s - Character sheet \n"%(self.name)
+      print "Spend points"
+      if self.points==0:  print "No points left! \n"
+      else:               print "%i points left \n"%(self.points)
+
+      #Determining cost of improving attributes (Based on AFMBE rules, sort of)  
+      coststr=5 if self.STR<5 else ((self.STR/5)+1)*5
+      costint=5 if self.INT<5 else ((self.INT/5)+1)*5
+      costdex=5 if self.DEX<5 else ((self.DEX/5)+1)*5
+      costper=5 if self.PER<5 else ((self.PER/5)+1)*5
+      costcon=5 if self.CON<5 else ((self.CON/5)+1)*5
+      costwil=5 if self.WIL<5 else ((self.WIL/5)+1)*5
+      costcha=5 if self.CHA<5 else ((self.CHA/5)+1)*5
+
+      #printing menu
+      print "1.- [%i] STR %i (+%i)"%(coststr,self.STR,self.strboost)
+      print "2.- [%i] INT %i (+%i)"%(costint,self.INT,self.intboost)
+      print "3.- [%i] DEX %i (+%i)"%(costdex,self.DEX,self.dexboost)
+      print "4.- [%i] CON %i (+%i)"%(costcon,self.CON,self.conboost)
+      print "5.- [%i] PER %i (+%i)"%(costper,self.PER,self.perboost)
+      print "6.- [%i] WIL %i (+%i)"%(costwil,self.WIL,self.wilboost)
+      print "7.- [%i] CHA %i (+%i)"%(costcha,self.CHA,self.chaboost)
+      print "\nSecondary attributes:"
+      print 'END:', self.END, '     SPD:', self.SPD
+      print "Max. HP: %i"%(self.HP)
+      print "Max. MP: %i"%(self.MP)
+      print "---"
+      print "0.- Exit"
+      print "\n->",
+      choice=common.getch()
+
+      #Choice cases
+      if self.points==0: pass
+      else:
+        if choice=="1":
+          if self.points>=coststr:
+            self.STR+=1
+            self.points-=coststr
+        elif choice=="2":
+          if self.points>=costint:
+            self.INT+=1
+            self.points-=costint
+        elif choice=="3":
+          if self.points>=costdex:
+            self.DEX+=1
+            self.points-=costdex
+        elif choice=="4":
+          if self.points>=costcon:
+            self.CON+=1
+            self.points-=costcon
+        elif choice=="5":
+          if self.points>=costper:
+            self.PER+=1
+            self.points-=costper
+        elif choice=="6":
+          if self.points>=costwil:
+            self.WIL+=1
+            self.points-=costwil
+        elif choice=="7":
+          if self.points>=costcha:
+            self.CHA+=1
+            self.points-=costcha
+        elif choice=="0": pass
+        else: pass
+
+  def optmenu(self):
+    """
+    Player options menu
+    """
+
+    coptmen=-1
+    while coptmen!="0": 
+      common.version()
+      print "%s - Character sheet \n"%(self.name)
+      print "1.- Change name"
+      print "---"
+      print "0.- Back"
+      print "->",
+      coptmen=common.getch()
+      if coptmen=="1": self.name=raw_input("New name? ")
+      if coptmen=="0": break
+
+def invmenu(self):
+    """
+    Inventory menu and managing. 
+    """
+
+    while 1: 
+      common.version()
+      print "%s - Character sheet"%(self.name)
+
+      #Print equipped items
+      print "\nEquipped"
+      parts=["Head","Face","Neck","Back","Chest","L hand","R hand","Ring","Belt","Legs","Feet"]
+      for i,it in enumerate(parts): print "%02i [+%i/+%i] %s:  %s %s" %(i+1,self.equiparr[i].atk,self.equiparr[i].defn,it,self.equiparr[i].name,self.calcbonus(self.equiparr[i]))
+      print "   [+%i/+%i] Total"                 %(self.totatk,self.totdefn)
+
+      #Print everything in the inventory array
+      print "\nInventory (%i G)" %(self.pocket)
+      for i in range(len(self.inventory)): print "0%i [+%i/+%i] %s (%iG)[%i]" %(i+1,self.inventory[i].atk,self.inventory[i].defn,self.inventory[i].name,self.inventory[i].price,self.inventory[i].type)
+
+      #Print the belt items
+      print "\nBelt"
+      parts=["B1","B2","B3"]
+      for i in range(3): print "%s - %s"%(parts[i],self.belt[i].name)
+
+      #Print the inventory action menu
+      print "\nq - destroy item"
+      print "w - enchant item"
+      print "a - unequip item"
+      print "b - use belt item"
+      print "0 - Back"
+      print "\n->",
+      invmenu=common.getch()
+
+      #Belt using menu
+      if invmenu=="b":
+        try:
+          print "Which item? ",
+          beltmen=common.getch
+          self.use(self.belt[int(beltmen)-1])
+        except IndexError: pass
+
+      #Destroy an item from inventory
+      elif invmenu=="q":
+        print "Which item? "
+        itdst=common.getch()
+        if "0"<itdst<=str(len(self.inventory)):
+          itemdestroyed=self.inventory[int(itdst)-1].name
+          print "Destroy "+itemdestroyed+"? (y/n)"
+          confirm=common.getch()
+          if confirm=="y":
+            self.itemsdst+=1
+            del self.inventory[int(itdst)-1]
+            raw_input(itemdestroyed+" destroyed")
+
+      #Enchanting menu
+      elif invmenu=="w":
+        try:
+          print "Which item? "
+          itech=int(common.getch())
+          if 0<itech<=len(self.inventory):
+            self.inventory[int(itech)-1].enchant(self)
+            if self.inventory[int(itech)-1].name==" ": del self.inventory[int(itech)-1]
+        except ValueError: pass
+
+      #Unequip menu
+      elif invmenu=="a":
+        try:
+          unitem=int(raw_input("which item? "))
+          if 0<int(unitem)<=len(self.equiparr) and self.equiparr[int(unitem)-1].name!=" ":
+            temp=copy.copy(self.equiparr[int(unitem)-1])
+            self.rembonuses(self.equiparr[int(unitem)-1])
+            self.inventory.append(temp)
+            self.equiparr[int(unitem)-1].reset()
+            for i in self.equiparr: 
+              if i.name=="--": i.reset()
+        except ValueError: print "Invalid choice"
+
+      #Exit from inventory menu
+      elif invmenu=="0": break
+
+      #Item flipping
+      else:
+        try:
+          if 0<int(invmenu)<=len(self.inventory):
+            #Flip only if the item is not a weapon
+            if self.inventory[int(invmenu)-1].type not in [6,7]:
+
+              #Transform the menu choice in an actual index
+              invmenu=int(invmenu)-1
+
+              #If swapping to a non-empty slot     
+              if not self.equiparr[self.inventory[invmenu].type-1].name==" ":
+                #Store the item in the equipped array in temp
+                temp=self.equiparr[self.inventory[invmenu].type-1]
+                #Remove bonuses
+                self.rembonuses(temp)
+
+              #If swapping to an empty space, just assign an empty object to temp
+              else: temp=item.item(0)
+
+              #Flip equip variables
+              self.inventory[invmenu].equip=1
+              temp.equip=0
+              #Add bonuses
+              self.addbonuses(self.inventory[invmenu])
+              #Move the item to the equip and delete the inventory reference
+              self.equiparr[self.inventory[invmenu].type-1]=self.inventory[invmenu]
+              del self.inventory[invmenu]
+              #Return the temp item to the inventory if it's not empty
+              if temp.name!=" ": self.inventory.append(temp)
+
+            #If it's a weapon, evaluate cases. 
+            #1H goes to either left or right hand (Unequips left first if both full)
+            elif self.inventory[int(invmenu)-1].type==6:
+              
+              #Case 1: Slot 6 empty
+              if self.equiparr[5].name in [" ","--"]:
+
+                #Flip equip variables
+                self.inventory[int(invmenu)-1].equip=1
+                #Add bonuses
+                self.addbonuses(self.inventory[int(invmenu)-1])
+                #Move the item to the equip and delete the inventory reference
+                self.equiparr[5] = self.inventory[int(invmenu)-1]
+                del self.inventory[int(invmenu)-1]
+
+                #Remove any equipped 2H weapon
+                if self.equiparr[6].name not in [" ","--"]:
+                  self.rembonuses(self.equiparr[6])
+                  self.equiparr[6].equip=0
+                  self.inventory.append(copy.copy(self.equiparr[6]))
+                  self.equiparr[6].reset()
+
+              #Case 2: Slot 7 empty
+              elif self.equiparr[6].name in [" ","--"]:
+
+                #Flip equip variables
+                self.inventory[int(invmenu)-1].equip=1
+                #Add bonuses
+                self.addbonuses(self.inventory[int(invmenu)-1])
+                #Move the item to the equip and delete the inventory reference
+                self.equiparr[6] = self.inventory[int(invmenu)-1]
+                del self.inventory[int(invmenu)-1]
+
+              #Case 3: Both slots used (Input slot)
+              else: 
+                while 1:
+                  print "Where? (6-L hand; 7-R hand; 0-cancel)"
+                  place=common.getch()
+                  if place in ["6","7","0"]: break
+
+                if place=="6":
+                  #Remove equipment in slot 5
+                  self.rembonuses(self.equiparr[5])
+                  self.equiparr[5].equip=0
+                  self.inventory.append(copy.copy(self.equiparr[5]))
+                  self.equiparr[5].reset()
+                  #Flip equip variables
+                  self.inventory[int(invmenu)-1].equip=1
+                  #Add bonuses
+                  self.addbonuses(self.inventory[int(invmenu)-1])
+                  #Move the item to the equip and delete the inventory reference
+                  self.equiparr[5] = self.inventory[int(invmenu)-1]
+                  del self.inventory[int(invmenu)-1]
+
+                elif place=="7":
+                  #Remove equipment in slot 6
+                  self.rembonuses(self.equiparr[6])
+                  self.equiparr[6].equip=0
+                  self.inventory.append(copy.copy(self.equiparr[6]))
+                  self.equiparr[6].reset()
+                  #Flip equip variables
+                  self.inventory[int(invmenu)-1].equip=1
+                  #Add bonuses
+                  self.addbonuses(self.inventory[int(invmenu)-1])
+                  #Move the item to the equip and delete the inventory reference
+                  self.equiparr[6] = self.inventory[int(invmenu)-1]
+                  del self.inventory[int(invmenu)-1]
+
+                elif place=="0": pass
+              
+            #2H unequips both hands first
+            elif self.inventory[int(invmenu)-1].type==7:
+
+              #Return elements 5 and 6 to inventory
+              for i in [5,6]:
+
+                #If swapping to a non-empty slot     
+                if not self.equiparr[i].name in [" ","--"]:
+                  #Store the item in the equipped array in temp
+                  temp=self.equiparr[i]
+                  #Remove bonuses
+                  self.rembonuses(temp)
+
+                #If swapping to an empty space, just assign an empty object to temp
+                else: temp=item.item(0)
+                #Flip equip variables
+                temp.equip=0                
+                #Return the temp item to the inventory if it's not empty
+                if temp.name!=" ": self.inventory.append(copy.copy(temp))
+
+              invmenu=int(invmenu)-1
+              #Flip equip
+              self.inventory[invmenu].equip=1
+              #Add bonuses
+              self.addbonuses(self.inventory[invmenu])
+              #Move the item to the equip and delete the inventory reference
+              self.equiparr[6]=copy.copy(self.inventory[invmenu])
+              del self.inventory[invmenu]
+              #Remove weapon bonus indicators in slot 5
+              self.equiparr[5].reset()
+              #Show that the weapon is 2H
+              self.equiparr[5].name="--"
+
+        except: pass
+
 if __name__=="__main__": pass

@@ -656,7 +656,6 @@ class TestPlayer(unittest.TestCase):
     tm.exp=1
 
     for i in range(1,101):
-      
       tp.attack(tm)
       self.assertEqual(tm.HP, -i)
       self.assertEqual(tm.hit, 1)
@@ -684,7 +683,6 @@ class TestPlayer(unittest.TestCase):
     tm.pres=1
 
     for i in range(1,101):
-      
       tp.attack(tm)
       self.assertEqual(tm.HP, -i)
       self.assertEqual(tm.hit, 1)
@@ -696,8 +694,6 @@ class TestPlayer(unittest.TestCase):
       self.assertEqual(tp.kills, i)
       self.assertEqual(tp.exp, i)
 
-
-
   def test_player_attack_fail_roll(self):
     """
     Tests player attack in a mock mob object
@@ -708,7 +704,6 @@ class TestPlayer(unittest.TestCase):
     tm=testmob()
 
     for i in range(1,101):
-      
       tp.attack(tm)
       self.assertEqual(tm.HP, 0)
       self.assertEqual(tm.hit, 0)
