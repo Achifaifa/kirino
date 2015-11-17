@@ -2,6 +2,34 @@
 
 import common, config
 
+def mainmenu():
+  """
+  Main menu function. Loads the configuration file and enters the menu loop.
+  """ 
+
+  #Main menu
+  while 1:
+    common.version()
+    print "Main menu\n"
+    print "%i.- Play"               %(1)
+    print "%s.- Quick play"         %(2)
+    print "%s.- Options"            %(3)
+    print "%s.- Credits"            %(4)
+    print "%s.- Help"               %(9)
+    print "%s.- Exit\n->"           %(0)
+    menu=common.getch()
+    if menu in ["1","2"]: 
+      launch.setup(int(menu)-1)
+      launch.crawl()
+    if menu=="3": options(0)
+    if menu=="4": scroll(15)
+    if menu=="9": help()
+    if menu=="0":
+      print "Close kirino (y/n)?"
+      if common.getch()=="y": 
+        os.system('clear')
+        exit()
+
 def enchant(item,player):
   """
   Menu for enchanting items
@@ -57,56 +85,30 @@ def showachievements(player):
   print "%s - Character sheet - Achievements\n" %(player.name)
 
   print "Exploration"
-  if      player.totalfl>=500:    print "Elevator 4/4"
-  elif    player.totalfl>=250:    print "Elevator 3/4"
-  elif    player.totalfl>=100:    print "Elevator 2/4"
-  elif    player.totalfl>=10:     print "Elevator 1/4"
-  elif    player.totalfl<10:      print "????     0/4"
-
-  if      player.steps>=10000:    print "Explorer 4/4"
-  elif    player.steps>=5000:     print "Explorer 3/4"
-  elif    player.steps>=1000:     print "Explorer 2/4"
-  elif    player.steps>=500:      print "Explorer 1/4"
-  elif    player.steps<500:       print "????     0/4"
+  tfl=player.totalfl
+  floors=4 if tfl>=500 else 3 if tfl>=250 else 2 if tfl>=100 else 1 if tfl>=10 else 0
+  print "Elevator",["0/4", "1/4", "2/4", "3/4", "4/4"][floors]
+  tst=player.steps
+  steps=4 if tst>=10000 else 3 if tst>=5000 else 2 if tst>=1000 else 1 if tst>=500 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][steps]
 
   print "\nCombat"
-  if      player.kills>=500:      print "Warrior  4/4"
-  elif    player.kills>=250:      print "Warrior  3/4"
-  elif    player.kills>=100:      print "Warrior  2/4"
-  elif    player.kills>=10:       print "Warrior  1/4"
-  elif    player.kills<10:        print "????     0/4"
-
-  if      player.totaltrp>=100:   print "Bad luck 4/4"
-  elif    player.totaltrp>=50:    print "Bad luck 3/4"
-  elif    player.totaltrp>=20:    print "Bad luck 2/4"
-  elif    player.totaltrp>=5:     print "Bad luck 1/4"
-  elif    player.totaltrp<5:      print "????     0/4"
+  kills=4 if tst>=500 else 3 if tst>=250 else 2 if tst>=100 else 1 if tst>=10 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][kills]
+  traps=4 if tst>=100 else 3 if tst>=50 else 2 if tst>=20 else 1 if tst>=5 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][traps]
 
   print "\nItems"
-  if      player.itemspck>=100:   print "Hoarder  4/4"
-  elif    player.itemspck>=50:    print "Hoarder  3/4"
-  elif    player.itemspck>=20:    print "Hoarder  2/4"
-  elif    player.itemspck>=5:     print "Hoarder  1/4"
-  elif    player.itemspck<5:      print "????     0/4"
-
-  if      player.itemsdst>=100:   print "Cleaning 4/4"
-  elif    player.itemsdst>=50:    print "Cleaning 3/4"
-  elif    player.itemsdst>=20:    print "Cleaning 2/4"
-  elif    player.itemsdst>=5:     print "Cleaning 1/4"
-  elif    player.itemsdst<5:      print "????     0/4"
-
-  if      player.itemsenc>=100:   print "Wizard   4/4"
-  elif    player.itemsenc>=50:    print "Wizard   3/4"
-  elif    player.itemsenc>=20:    print "Wizard   2/4"
-  elif    player.itemsenc>=5:     print "Wizard   1/4"
-  elif    player.itemsenc<5:      print "????     0/4"
+  picks=4 if tst>=100 else 3 if tst>=50 else 2 if tst>=20 else 1 if tst>=5 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][picks]
+  destroys=4 if tst>=100 else 3 if tst>=50 else 2 if tst>=20 else 1 if tst>=5 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][destroys]
+  enchants=4 if tst>=100 else 3 if tst>=50 else 2 if tst>=20 else 1 if tst>=5 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][enchants]
 
   print "\nEconomy"
-  if      player.totalgld>=10000: print "Gold!!   4/4"
-  elif    player.totalgld>=5000:  print "Gold!!   3/4"
-  elif    player.totalgld>=2500:  print "Gold!!   2/4"
-  elif    player.totalgld>=1000:  print "Gold!!   1/4"
-  elif    player.totalgld<1000:   print "????     0/4"
+  gold=4 if tst>=10000 else 3 if tst>=5000 else 2 if tst>=2500 else 1 if tst>=1000 else 0
+  print ["0/4", "1/4", "2/4", "3/4", "4/4"][gold]
 
   common.getch()
 
@@ -168,14 +170,16 @@ def buyitem(vendor,player):
         common.getch()
         break
 
-      itemprice=round(vendor.pricecalc(player)*vendor.forsale[int(buymenuc)-1].price)
+      try: choice=int(buymenuc)
+      except: pass
+      itemprice=round(vendor.pricecalc(player)*vendor.forsale[choice-1].price)
       if player.pocket>itemprice:
         player.pocket-=itemprice
         player.totalspn+=itemprice
-        if player.pickobject(vendor.forsale[int(buymenuc)-1]):
+        if player.pickobject(vendor.forsale[choice-1]):
           print random.choice(msg.okay)
           vendor.keeper.rel+=1
-          del vendor.forsale[int(buymenuc)-1]
+          del vendor.forsale[choice-1]
           player.totalbuy+=1
           common.getch()
         else:
@@ -199,19 +203,23 @@ def sell(vendor,player):
     print "--\n0.- Back\n->",
 
     try:
-        sellmenuc=common.getch()
-        if sellmenuc=="0":
-          print "Nothing else? I can pay you with roaches!"
-          common.getch()
-          break
-        player.pocket+=round(player.inventory[int(sellmenuc)-1].price/vendor.pricecalc(player))
-        player.totalgld+=round(player.inventory[int(sellmenuc)-1].price/vendor.pricecalc(player))
-        player.totalsll+=1
-        vendor.forsale.append(copy.copy(player.inventory[int(sellmenuc)-1]))
-        del player.inventory[int(sellmenuc)-1]
-        vendor.keeper.rel+=1
-        print random.choice(msg.okay)
+      sellmenuc=common.getch()
+      if sellmenuc=="0":
+        print "Nothing else? I can pay you with roaches!"
         common.getch()
+        break
+
+      try: choice=int(sellmenuc)
+      except: pass
+
+      player.pocket+=round(player.inventory[choice-1].price/vendor.pricecalc(player))
+      player.totalgld+=round(player.inventory[choice-1].price/vendor.pricecalc(player))
+      player.totalsll+=1
+      vendor.forsale.append(copy.copy(player.inventory[choice-1]))
+      del player.inventory[choice-1]
+      vendor.keeper.rel+=1
+      print random.choice(msg.okay)
+      common.getch()
     except (ValueError, IndexError): pass
 
 def buypot(self,player):
@@ -235,15 +243,14 @@ def buypot(self,player):
       break
 
     try:
-     
-      if len(self.potforsale)!=0:
+      if len(self.potforsale):
         if player.pocket>=round(self.pricecalc(player)*self.potforsale[int(buypotmenu)-1].price):
-          if player.belt[0].name=="--EMPTY--": player.belt[0]=copy.copy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[1].name=="--EMPTY--": player.belt[1]=copy.copy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[2].name=="--EMPTY--": player.belt[2]=copy.copy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.copy(self.potforsale[int(buypotmenu)-1])
+          if player.belt[0].name=="--EMPTY--": player.belt[0]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[1].name=="--EMPTY--": player.belt[1]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[2].name=="--EMPTY--": player.belt[2]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
           player.pocket-=self.potforsale[int(buypotmenu)-1].price
           player.totalspn+=self.potforsale[int(buypotmenu)-1].price
           del self.potforsale[int(buypotmenu)-1]
@@ -281,39 +288,6 @@ def commerce(self,player):
       common.getch()
       break
     else: pass
-
-def mainmenu():
-  """
-  Main menu function. Loads the configuration file and enters the menu loop.
-  """ 
-
-  #Main menu
-  while 1:
-    common.version()
-    print "Main menu\n"
-    print "%i.- Play"               %(1)
-    print "%s.- Quick play"         %(2)
-    print "%s.- Options"            %(3)
-    print "%s.- Credits"            %(4)
-    print "%s.- Test utilities\n--" %(5)
-    print "%s.- Help"               %(9)
-    print "%s.- Exit\n->"           %(0)
-    menu=common.getch()
-    if menu=="1": 
-      launch.setup()
-      launch.crawl()
-    if menu=="2": 
-      launch.setup(1)
-      launch.crawl()
-    if menu=="3": cfg.options(0)
-    if menu=="4": scroll(15)
-    if menu=="5": test.testm()
-    if menu=="9": help.help()
-    if menu=="0":
-      print "Close kirino (y/n)?"
-      if common.getch()=="y": 
-        os.system('clear')
-        exit()
 
 def printpldata(player):
   """
@@ -458,11 +432,11 @@ def charsheet(self):
       print "\n0.- Exit"
       print "->",
       menu=common.getch()
-      if   menu=="1": self.spend()
-      elif menu=="2": self.invmenu()
-      elif menu=="3": self.optmenu()
-      elif menu=="4": self.statmenu()
-      elif menu=="5": self.achievements()
+      if   menu=="1": spend()
+      elif menu=="2": invmenu()
+      elif menu=="3": optmenu()
+      elif menu=="4": statmenu()
+      elif menu=="5": achievements()
       elif menu=="8":
         print "saving... "+self.save()
         common.getch()
