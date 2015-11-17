@@ -117,37 +117,38 @@ def showstats(player):
   Displays character stats on screen
   """
 
+  avgdmg=round(player.totaldmg/player.totalhits)) if player.totalhits else 0
+  hitrate=str(int(round((100*player.totalhits)/player.totalatks))) if player.totalatks else "--"
+
   common.version()
   print "%s - Character sheet - Stats\n"  %(player.name)
 
   print "Exploration"
-  print "Floors explored:     %i"       %(player.totalfl)
-  print "Steps:               %i"       %(player.steps)
+  print "Floors explored:     %i"       %player.totalfl
+  print "Steps:               %i"       %player.steps
 
   print "\nCombat"
-  print "Attacks launched:    %i"       %(player.totalatks)
-  try:     print "Hits:                %i (%i%%)"   %(player.totalhits,int(round((100*player.totalhits)/player.totalatks)))
-  except : print "Hits:                %i (--%%)"   %(player.totalhits)
-  print "Total damage:        %i"       %(player.totaldmg)
-  try:     print "Average damage:      %i"          %(round(player.totaldmg/player.totalhits))
-  except : print "Average damage:      0"
-  print "Total damage taken:  %i"       %(player.totalrcv)
-  print "Traps stepped on:    %i"       %(player.totaltrp)
-  print "Mobs killed:         %i"       %(player.kills)
-  print "Max hit damage:      %i"       %(player.maxdmg)
+  print "Attacks launched:    %i"       %player.totalatks
+  print "Hits:                %i (%i%%)"%(player.totalhits, hitrate)
+  print "Total damage:        %i"       %(layer.totaldmg
+  print "Average damage:      %i"       %avgdmg
+  print "Total damage taken:  %i"       %player.totalrcv
+  print "Traps stepped on:    %i"       %player.totaltrp
+  print "Mobs killed:         %i"       %player.kills
+  print "Max hit damage:      %i"       %player.maxdmg
 
   print "\nItems"
-  print "Items picked:        %i"       %(player.itemspck)
-  print "Items destroyed:     %i"       %(player.itemsdst)
-  print "Items enchanted:     %i"       %(player.itemsenc)
-  print "Maximum enchant lv:  %i"       %(player.maxench)    
-  print "Potions taken:       %i"       %(player.totalpot)
+  print "Items picked:        %i"       %player.itemspck
+  print "Items destroyed:     %i"       %player.itemsdst
+  print "Items enchanted:     %i"       %player.itemsenc
+  print "Maximum enchant lv:  %i"       %player.maxench
+  print "Potions taken:       %i"       %player.totalpot
 
   print "\nEconomy"
-  print "Gold earned:         %i"       %(player.totalgld)
-  print "Gold spent:          %i"       %(player.totalspn)
-  print "Items sold:          %i"       %(player.totalsll)
-  print "Items bought:        %i"       %(player.totalbuy)
+  print "Gold earned:         %i"       %player.totalgld
+  print "Gold spent:          %i"       %player.totalspn
+  print "Items sold:          %i"       %player.totalsll
+  print "Items bought:        %i"       %player.totalbuy
   common.getch()
 
 def buyitem(vendor,player):
