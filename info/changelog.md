@@ -10,6 +10,7 @@ Current stable release: 0.1.7
   * Fixed excessive multiple leveling bug
   * Fixed wrong message when hunger decreases HP
   * Fixed item pricing bug
+  * Fixed bought consumables not going to the last 2 belt positions
 * Others:
   * Code refactoring
   * Shippable CI integration

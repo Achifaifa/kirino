@@ -246,12 +246,12 @@ def buypot(self,player):
     try:
       if len(self.potforsale):
         if player.pocket>=round(self.pricecalc(player)*self.potforsale[int(buypotmenu)-1].price):
-          if player.belt[0].name=="--EMPTY--": player.belt[0]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          if   player.belt[0].name=="--EMPTY--": player.belt[0]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
           elif player.belt[1].name=="--EMPTY--": player.belt[1]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
           elif player.belt[2].name=="--EMPTY--": player.belt[2]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
           elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
-          elif player.belt[3].name=="--EMPTY--": player.belt[3]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[4].name=="--EMPTY--": player.belt[4]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
+          elif player.belt[5].name=="--EMPTY--": player.belt[5]=copy.deepcopy(self.potforsale[int(buypotmenu)-1])
           player.pocket-=self.potforsale[int(buypotmenu)-1].price
           player.totalspn+=self.potforsale[int(buypotmenu)-1].price
           del self.potforsale[int(buypotmenu)-1]
