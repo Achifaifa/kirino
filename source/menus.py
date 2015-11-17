@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import common, launch
+import common, config
 
 def enchant(item,player):
   """
@@ -48,7 +48,7 @@ def playerattrs(player):
   print "CHA: %i(+%i)              "  %(player.CHA,player.chaboost)
   print "END: %i SPD: %i           "  %(player.END,player.SPD)
 
-def achievements(player):
+def showachievements(player):
   """
   Shows a list of completed achievements.
   """
@@ -168,7 +168,7 @@ def buyitem(vendor,player):
         common.getch()
         break
 
-      itemprice==round(vendor.pricecalc(player)*vendor.forsale[int(buymenuc)-1].price)
+      itemprice=round(vendor.pricecalc(player)*vendor.forsale[int(buymenuc)-1].price)
       if player.pocket>itemprice:
         player.pocket-=itemprice
         player.totalspn+=itemprice
@@ -472,96 +472,96 @@ def charsheet(self):
       elif menu=="0": break
       pass
 
-  def spend(self):
-    """
-    Point spending menu.
-    """
+def spend(self):
+  """
+  Point spending menu.
+  """
 
-    choice=-1
-    while choice!="0": 
-      self.secondary()
-      common.version()
-      print "%s - Character sheet \n"%(self.name)
-      print "Spend points"
-      if self.points==0:  print "No points left! \n"
-      else:               print "%i points left \n"%(self.points)
+  choice=-1
+  while choice!="0": 
+    self.secondary()
+    common.version()
+    print "%s - Character sheet \n"%(self.name)
+    print "Spend points"
+    if self.points==0:  print "No points left! \n"
+    else:               print "%i points left \n"%(self.points)
 
-      #Determining cost of improving attributes (Based on AFMBE rules, sort of)  
-      coststr=5 if self.STR<5 else ((self.STR/5)+1)*5
-      costint=5 if self.INT<5 else ((self.INT/5)+1)*5
-      costdex=5 if self.DEX<5 else ((self.DEX/5)+1)*5
-      costper=5 if self.PER<5 else ((self.PER/5)+1)*5
-      costcon=5 if self.CON<5 else ((self.CON/5)+1)*5
-      costwil=5 if self.WIL<5 else ((self.WIL/5)+1)*5
-      costcha=5 if self.CHA<5 else ((self.CHA/5)+1)*5
+    #Determining cost of improving attributes (Based on AFMBE rules, sort of)  
+    coststr=5 if self.STR<5 else ((self.STR/5)+1)*5
+    costint=5 if self.INT<5 else ((self.INT/5)+1)*5
+    costdex=5 if self.DEX<5 else ((self.DEX/5)+1)*5
+    costper=5 if self.PER<5 else ((self.PER/5)+1)*5
+    costcon=5 if self.CON<5 else ((self.CON/5)+1)*5
+    costwil=5 if self.WIL<5 else ((self.WIL/5)+1)*5
+    costcha=5 if self.CHA<5 else ((self.CHA/5)+1)*5
 
-      #printing menu
-      print "1.- [%i] STR %i (+%i)"%(coststr,self.STR,self.strboost)
-      print "2.- [%i] INT %i (+%i)"%(costint,self.INT,self.intboost)
-      print "3.- [%i] DEX %i (+%i)"%(costdex,self.DEX,self.dexboost)
-      print "4.- [%i] CON %i (+%i)"%(costcon,self.CON,self.conboost)
-      print "5.- [%i] PER %i (+%i)"%(costper,self.PER,self.perboost)
-      print "6.- [%i] WIL %i (+%i)"%(costwil,self.WIL,self.wilboost)
-      print "7.- [%i] CHA %i (+%i)"%(costcha,self.CHA,self.chaboost)
-      print "\nSecondary attributes:"
-      print 'END:', self.END, '     SPD:', self.SPD
-      print "Max. HP: %i"%(self.HP)
-      print "Max. MP: %i"%(self.MP)
-      print "---"
-      print "0.- Exit"
-      print "\n->",
-      choice=common.getch()
+    #printing menu
+    print "1.- [%i] STR %i (+%i)"%(coststr,self.STR,self.strboost)
+    print "2.- [%i] INT %i (+%i)"%(costint,self.INT,self.intboost)
+    print "3.- [%i] DEX %i (+%i)"%(costdex,self.DEX,self.dexboost)
+    print "4.- [%i] CON %i (+%i)"%(costcon,self.CON,self.conboost)
+    print "5.- [%i] PER %i (+%i)"%(costper,self.PER,self.perboost)
+    print "6.- [%i] WIL %i (+%i)"%(costwil,self.WIL,self.wilboost)
+    print "7.- [%i] CHA %i (+%i)"%(costcha,self.CHA,self.chaboost)
+    print "\nSecondary attributes:"
+    print 'END:', self.END, '     SPD:', self.SPD
+    print "Max. HP: %i"%(self.HP)
+    print "Max. MP: %i"%(self.MP)
+    print "---"
+    print "0.- Exit"
+    print "\n->",
+    choice=common.getch()
 
-      #Choice cases
-      if self.points==0: pass
-      else:
-        if choice=="1":
-          if self.points>=coststr:
-            self.STR+=1
-            self.points-=coststr
-        elif choice=="2":
-          if self.points>=costint:
-            self.INT+=1
-            self.points-=costint
-        elif choice=="3":
-          if self.points>=costdex:
-            self.DEX+=1
-            self.points-=costdex
-        elif choice=="4":
-          if self.points>=costcon:
-            self.CON+=1
-            self.points-=costcon
-        elif choice=="5":
-          if self.points>=costper:
-            self.PER+=1
-            self.points-=costper
-        elif choice=="6":
-          if self.points>=costwil:
-            self.WIL+=1
-            self.points-=costwil
-        elif choice=="7":
-          if self.points>=costcha:
-            self.CHA+=1
-            self.points-=costcha
-        elif choice=="0": pass
-        else: pass
+    #Choice cases
+    if self.points==0: pass
+    else:
+      if choice=="1":
+        if self.points>=coststr:
+          self.STR+=1
+          self.points-=coststr
+      elif choice=="2":
+        if self.points>=costint:
+          self.INT+=1
+          self.points-=costint
+      elif choice=="3":
+        if self.points>=costdex:
+          self.DEX+=1
+          self.points-=costdex
+      elif choice=="4":
+        if self.points>=costcon:
+          self.CON+=1
+          self.points-=costcon
+      elif choice=="5":
+        if self.points>=costper:
+          self.PER+=1
+          self.points-=costper
+      elif choice=="6":
+        if self.points>=costwil:
+          self.WIL+=1
+          self.points-=costwil
+      elif choice=="7":
+        if self.points>=costcha:
+          self.CHA+=1
+          self.points-=costcha
+      elif choice=="0": pass
+      else: pass
 
-  def optmenu(self):
-    """
-    Player options menu
-    """
+def optmenu(self):
+  """
+  Player options menu
+  """
 
-    coptmen=-1
-    while coptmen!="0": 
-      common.version()
-      print "%s - Character sheet \n"%(self.name)
-      print "1.- Change name"
-      print "---"
-      print "0.- Back"
-      print "->",
-      coptmen=common.getch()
-      if coptmen=="1": self.name=raw_input("New name? ")
-      if coptmen=="0": break
+  coptmen=-1
+  while coptmen!="0": 
+    common.version()
+    print "%s - Character sheet \n"%(self.name)
+    print "1.- Change name"
+    print "---"
+    print "0.- Back"
+    print "->",
+    coptmen=common.getch()
+    if coptmen=="1": self.name=raw_input("New name? ")
+    if coptmen=="0": break
 
 def invmenu(self):
     """
