@@ -117,7 +117,7 @@ def showstats(player):
   Displays character stats on screen
   """
 
-  avgdmg=round(player.totaldmg/player.totalhits)) if player.totalhits else 0
+  avgdmg=round(player.totaldmg/player.totalhits) if player.totalhits else 0
   hitrate=str(int(round((100*player.totalhits)/player.totalatks))) if player.totalatks else "--"
 
   common.version()
@@ -130,7 +130,7 @@ def showstats(player):
   print "\nCombat"
   print "Attacks launched:    %i"       %player.totalatks
   print "Hits:                %i (%i%%)"%(player.totalhits, hitrate)
-  print "Total damage:        %i"       %(layer.totaldmg
+  print "Total damage:        %i"       %(layer.totaldmg)
   print "Average damage:      %i"       %avgdmg
   print "Total damage taken:  %i"       %player.totalrcv
   print "Traps stepped on:    %i"       %player.totaltrp
@@ -334,8 +334,8 @@ def newgame(quick=0):
 
     os.system('clear')
     dung=dungeon.dungeon(xsize,ysize,1)
-    hero=player.player(0)
-    hero.enter(dung,0)
+    hero=player.player()
+    hero.enter(dung)
     common.version()
     print "New game [2/5] Name\n"
     hero.name=raw_input("What is your name? ")
