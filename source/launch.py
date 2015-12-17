@@ -25,9 +25,6 @@ class gl():
   tempinventory=[]
   tempequiparr=[]
   xsize=ysize=0
-  
-  
-  
 
 class w():
   """
@@ -46,8 +43,6 @@ class w():
   hero=None
   cfg=None
 
-
-
 def setup(quickvar=0):
   """
   Creates dungeons, mobs, worlds, etc to be used in game
@@ -58,17 +53,15 @@ def setup(quickvar=0):
   w.resetmsg()
   gl.hungsteps=0
   quick=[w.cfg.quick1,w.cfg.quick2,w.cfg.quick3,w.cfg.quick4,w.cfg.quick5,w.cfg.quick6]
-  hero,dung=copy.copy(menus.newgame(quickvar))
+  w.hero,w.dung=copy.copy(menus.newgame(quickvar))
 
   #If there is no fog, load the map
-  if not cfg.fog:
-    for i in range(len(dung.dungarray)):
-      for j in range(len(dung.dungarray[0])):
-        dung.explored[i][j]=dung.dungarray[i][j]
+  if not w.cfg.fog:
+    for i in range(len(w.dung.dungarray)):
+      for j in range(len(w.dung.dungarray[0])):
+        w.dung.explored[i][j]=w.dung.dungarray[i][j]
 
   w.cfg=config.config()
-  w.dung=dung
-  w.hero=hero
 
 def pickthings(dungeon,player):
   """
@@ -76,6 +69,7 @@ def pickthings(dungeon,player):
   """
 
   tile=dungeon.dungarray[player.ypos][player.xpos]
+  pickmsg=""
 
   #Action if player has reached a money loot tile
   if tile=="$":
@@ -105,17 +99,17 @@ def atrap(dungeon, player):
   """
 
   #Action if player stepped on a trap
-  for i in dung.traps:
-    if (i[0],i[1])==(hero.ypos,hero.xpos):      
-      hero.totaltrp+=1
+  for i in w.dung.traps:
+    if (i[0],i[1])==(w.hero.ypos,w.hero.xpos):      
+      w.hero.totaltrp+=1
 
       trapdmg=1+random.randrange(1,5)
 
       # Normal trap
       if i[2]==1:
-        hero.hp2-=trapdmg
-        hero.totalrcv+=trapdmg
-        dung.dungarray[hero.ypos][hero.xpos]="_"
+        w.hero.hp2-=trapdmg
+        w.hero.totalrcv+=trapdmg
+        w.dung.dungarray[w.hero.ypos][w.hero.xpos]="_"
         return "You stepped on a trap! Lost %i HP\n"%(trapdmg)
 
       # Mana trap
@@ -154,40 +148,40 @@ def crawl(quickvar=0):
   while 1:
 
     # Process hunger
-    hungmsg=hero.hunger()
+    hungmsg=w.hero.hunger()
 
     #Reset message strings
     w.resetmsg()
 
     #Move all the mobs, delete dead mobs from array
-    dung.mobarray=[i for i in dung.mobarray if i.HP>0]
-    for i in dung.mobarray: i.search(dung,hero)
+    w.dung.mobarray=[i for i in w.dung.mobarray if i.HP>0]
+    for i in w.dung.mobarray: i.search(w.hero)
 
     #Level the player up
-    hero.levelup()
+    w.hero.levelup()
 
     #Attack with all the mobs. Range/conditoins check in mob.attack()
-    w.atkmsg="".join([j.attack(hero,dung) for j in dung.mobarray])
+    w.atkmsg="".join([j.attack(w.hero) for j in w.dung.mobarray])
 
     #After attacking, reset the hit parameter
     #If any of the mobs are near the player, lock them
-    for i in dung.mobarray: 
+    for i in w.dung.mobarray: 
       i.hit=0
-      i.lock()
+      i.flock(w.hero)
         
     # Pick things from floor
-    pickthings(dung,hero)
+    pickthings(w.dung,w.hero)
 
     # Check if the player has stepped on a trap
-    w.trapmsg=atrap(dung,hero)
+    w.trapmsg=atrap(w.dung,w.hero)
 
     #Print header and map
     common.version()
-    dung.fill(hero,cfg.fog)
-    dung.minimap(hero,cfg.fog)
-    menus.printpldata(hero)
+    w.dung.fill(w.hero,w.cfg.fog)
+    w.dung.minimap(w.hero,w.cfg.fog)
+    menus.printpldata(w.hero)
 
-    print "\n%c: key mapping help"%(cfg.showkeys)
+    print "\n%c: key mapping help"%(w.cfg.showkeys)
     print w.hungmsg+w.atkmsg+w.hitmsg+w.pickmsg+w.parsemsg+w.trapmsg+w.wilmsg+w.usemsg
     print "->",
 
@@ -197,12 +191,12 @@ def crawl(quickvar=0):
     crawlmen=common.getch()
 
     #Willpower test
-    wils,w.wilmsg=hero.willtest()
+    wils,w.wilmsg=w.hero.willtest()
     
     #Action choice block
     #Input mode
-    if crawlmen==cfg.console:
-      try: action,w.parsemsg=parser.parse(raw_input(">>>"),hero,dung,cfg)
+    if crawlmen==w.cfg.console:
+      try: action,w.parsemsg=parser.parse(raw_input(">>>"),w.hero,w.dung,w.cfg)
       except: pass
 
     #Explored map
@@ -300,7 +294,7 @@ def crawl(quickvar=0):
       print "Exit to menu (y/n)?\nAll unsaved progress will be lost"
       confv=common.getch()
       if confv=="y":
-        purge()
+        #purge()
         break
 
     #Report dungeon

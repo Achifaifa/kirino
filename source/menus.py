@@ -1,6 +1,6 @@
 #! /usr/bin/env python
 
-import common, config
+import common, config, dungeon, launch, player
 
 def mainmenu():
   """
@@ -313,13 +313,13 @@ def newgame(quick=0):
   #If quick is 1, generate everything randomly
   if quick:
     dung=dungeon.dungeon(50,50,1)
-    hero=player.player(1)
+    hero=player.player()
     hero.enter(dung)
 
   #If not, go through the usual process
   elif not quick:
     while 1:
-      purge()
+      #purge()
       try:
         common.version()
         print "New game [1/5] Dungeon size\n~40x40 recommended\n"
