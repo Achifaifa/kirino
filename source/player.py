@@ -244,6 +244,8 @@ class player:
       self.hp2-=1
       return "You feel hungry and weak\n"
 
+    return ""
+
   def pickconsumable(self,item):
     """
     Picks a consumable item from the floor.

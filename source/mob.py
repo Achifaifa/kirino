@@ -168,6 +168,7 @@ class mob:
       return ("%s attacks %s for %i damage!\n"%(self.name,player.name,attackpow))
     elif roll<=3:
       return ("%s tries to hit %s, but it misses\n"%(self.name, player.name))
+    return ""
 
   def flock(self,player):
     """

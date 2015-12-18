@@ -37,8 +37,9 @@ class w():
     Resets all the feedback strings
     """
 
-    parsemsg=hitmsg=usemsg=wilmsg=hungmsg=""
+    parsemsg=hitmsg=usemsg=atkmsg=wilmsg=""
 
+  parsemsg=hitmsg=usemsg=atkmsg=wilmsg=""
   dung=None
   hero=None
   cfg=None
@@ -138,6 +139,7 @@ def atrap(dungeon, player):
         if not cfg.fog: world.dung.explored=world.dung.dungarray
         hero.enter(world.dung,1)
         return "A trap door opens under you. \nYou fall to the next floor and lose 5HP"
+  return ""
 
 def crawl(quickvar=0):
   """
@@ -147,11 +149,11 @@ def crawl(quickvar=0):
   crawlmen=-1
   while 1:
 
-    # Process hunger
-    hungmsg=w.hero.hunger()
-
     #Reset message strings
     w.resetmsg()
+
+    # Process hunger
+    hungmsg=w.hero.hunger()
 
     #Move all the mobs, delete dead mobs from array
     w.dung.mobarray=[i for i in w.dung.mobarray if i.HP>0]
@@ -161,7 +163,7 @@ def crawl(quickvar=0):
     w.hero.levelup()
 
     #Attack with all the mobs. Range/conditoins check in mob.attack()
-    w.atkmsg="".join([j.attack(w.hero) for j in w.dung.mobarray])
+    atkmsg="".join([j.attack(w.hero) for j in w.dung.mobarray])
 
     #After attacking, reset the hit parameter
     #If any of the mobs are near the player, lock them
@@ -170,19 +172,19 @@ def crawl(quickvar=0):
       i.flock(w.hero)
         
     # Pick things from floor
-    pickthings(w.dung,w.hero)
+    pickmsg=pickthings(w.dung,w.hero)
 
     # Check if the player has stepped on a trap
-    w.trapmsg=atrap(w.dung,w.hero)
+    trapmsg=atrap(w.dung,w.hero)
 
     #Print header and map
     common.version()
     w.dung.fill(w.hero,w.cfg.fog)
     w.dung.minimap(w.hero,w.cfg.fog)
-    menus.printpldata(w.hero)
+    menus.printpldata(w,gl)
 
     print "\n%c: key mapping help"%(w.cfg.showkeys)
-    print w.hungmsg+w.atkmsg+w.hitmsg+w.pickmsg+w.parsemsg+w.trapmsg+w.wilmsg+w.usemsg
+    print hungmsg+atkmsg+w.hitmsg+pickmsg+w.parsemsg+trapmsg+w.wilmsg+w.usemsg
     print "->",
 
     #Reset message strings after display

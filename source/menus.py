@@ -290,16 +290,16 @@ def commerce(self,player):
       break
     else: pass
 
-def printpldata(player):
+def printpldata(w,gl):
   """
   Displays the player data on screen
   """
 
-  print "HP: %i/%i, MP: %i/%i"%(player.hp2,player.HP,player.mp2,player.MP)
-  print "FL %i Lv %i"%(fl,player.lv),
-  if player.lv==1: print "(%i/5 xp)"%(player.exp)
-  if player.lv>1:  print "%i/%i xp"%(player.exp,3*player.lv+(2*(player.lv-1)))
-  for i in range(6): print "(%c) %s" %(quick[i],player.belt[i].name)
+  print "HP: %i/%i, MP: %i/%i"%(w.hero.hp2,w.hero.HP,w.hero.mp2,w.hero.MP)
+  print "FL %i Lv %i"%(gl.fl,w.hero.lv),
+  if w.hero.lv==1: print "(%i/5 xp)"%(w.hero.exp)
+  if w.hero.lv>1:  print "%i/%i xp"%(w.hero.exp,3*w.hero.lv+(2*(w.hero.lv-1)))
+  for i in range(6): print "(%s) %s" %(eval("w.cfg.quick%i"%(i+1)),w.hero.belt[i].name)
 
 def newgame(quick=0):
   """
