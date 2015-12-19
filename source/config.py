@@ -62,6 +62,7 @@ class config:
     self.quick4="t"
     self.quick5="d"
     self.quick6="h"
+    self.quick=[self.quick1,self.quick2,self.quick3,self.quick4,self.quick5,self.quick6]
 
     #Checks if there is a config file. If it exists, loads the option variables from it
     if os.path.isfile("../player/config"):

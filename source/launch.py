@@ -202,97 +202,97 @@ def crawl(quickvar=0):
       except: pass
 
     #Explored map
-    elif crawlmen==cfg.showmap:
+    elif crawlmen==w.cfg.showmap:
       # Update map only now to avoid doing it in every step
-      if cfg.fog: dung.remember(hero)
+      if w.cfg.fog: w.dung.remember(hero)
       # Show the updated map
       common.version()
       print "Map"
-      for i in dung.explored: print "".join(i)
+      for i in w.dung.explored: print "".join(i)
       common.getch()
 
     #Character sheet menu
-    elif crawlmen==cfg.charsh: hero.charsheet()
+    elif crawlmen==w.cfg.charsh: w.hero.charsheet()
 
     #Show key help
-    elif (crawlmen==cfg.showkeys or action==61): help.keyhelp() 
+    elif (crawlmen==w.cfg.showkeys or action==61): help.keyhelp() 
 
     #Using belt items
-    elif crawlmen in cfg.quick:
-      w.usemsg=hero.use(hero.belt[cfg.quick.index(crawlmen)])
+    elif crawlmen in w.cfg.quick:
+      w.usemsg=w.hero.use(w.hero.belt[w.cfg.quick.index(crawlmen)])
 
     if wils:
       #Movement
       #Check if there are mobs. 
       #If there are attack them, if there are not move.
-      if (crawlmen==cfg.north or action==11):
-        if hero.move(dung,1)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos and a.ypos==hero.ypos-1):
-              hitmsg=hero.attack(a)
+      if (crawlmen==w.cfg.north or action==11):
+        if w.hero.move(w.dung,1)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos and a.ypos==w.hero.ypos-1):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.south or action==12):
-        if hero.move(dung,3)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos and a.ypos==hero.ypos+1):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.south or action==12):
+        if w.hero.move(w.dung,3)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos and a.ypos==w.hero.ypos+1):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.east or action==13):
-        if hero.move(dung,4)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos+1 and a.ypos==hero.ypos):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.east or action==13):
+        if w.hero.move(w.dung,4)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos+1 and a.ypos==w.hero.ypos):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.west or action==14):
-        if hero.move(dung,2)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.west or action==14):
+        if w.hero.move(w.dung,2)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos-1 and a.ypos==w.hero.ypos):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.northeast or action==15):
-        if hero.move(dung,6)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos+1 and a.ypos==hero.ypos-1):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.northeast or action==15):
+        if w.hero.move(w.dung,6)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos+1 and a.ypos==w.hero.ypos-1):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.northwest or action==16):
-        if hero.move(dung,5)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos-1):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.northwest or action==16):
+        if w.hero.move(w.dung,5)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos-1 and a.ypos==w.hero.ypos-1):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.southeast or action==17):
-        if hero.move(dung,8)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos+1 and a.ypos==hero.ypos+1):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.southeast or action==17):
+        if w.hero.move(w.dung,8)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos+1 and a.ypos==w.hero.ypos+1):
+              hitmsg=w.hero.attack(a)
 
-      elif (crawlmen==cfg.southwest or action==18):
-        if hero.move(dung,7)==2:
-          for a in dung.mobarray:
-            if (a.xpos==hero.xpos-1 and a.ypos==hero.ypos+1):
-              hitmsg=hero.attack(a)
+      elif (crawlmen==w.cfg.southwest or action==18):
+        if w.hero.move(w.dung,7)==2:
+          for a in w.dung.mobarray:
+            if (a.xpos==w.hero.xpos-1 and a.ypos==w.hero.ypos+1):
+              hitmsg=w.hero.attack(a)
 
     
 
       #Next floor
-      elif (crawlmen==cfg.nextf or action==19 or action==31): 
+      elif (crawlmen==w.cfg.nextf or action==19 or action==31): 
         #Double check if the player is in the exit tile
-        if dung.dungarray[hero.ypos][hero.xpos]=="X":
+        if w.dung.dungarray[w.hero.ypos][w.hero.xpos]=="X":
           # Increase floor counters
-          flcounter,hero.totalfl,fl=(i+1 for i in (flcounter,hero.totalfl,fl))
-          if cfg.autosave==1: hero.save()
+          gl.flcounter,w.hero.totalfl,fl=(i+1 for i in (gl.flcounter,w.hero.totalfl,gl.fl))
+          if w.cfg.autosave==1: w.hero.save()
           # Generate new dungeon
-          allowvendor=1 if not hero.totalfl%random.randrange(5,9) else 0
-          dung=dungeon.dungeon(len(dung.dungarray[0]),len(dung.dungarray),allowvendor)
+          allowvendor=1 if not w.hero.totalfl%random.randrange(5,9) else 0
+          w.dung=dungeon.dungeon(len(w.dung.dungarray[0]),len(w.dung.dungarray),allowvendor)
           # Enter new dungeon
-          hero.enter(dung)
+          w.hero.enter(dung)
 
     #Game option menu
-    elif crawlmen==cfg.opt or action==5: cfg.options(1)
+    elif crawlmen==w.cfg.opt or action==5: w.cfg.options(1)
 
     #quit to menu
-    elif crawlmen==cfg.quit or action==9:
+    elif crawlmen==w.cfg.quit or action==9:
       print "Exit to menu (y/n)?\nAll unsaved progress will be lost"
       confv=common.getch()
       if confv=="y":
@@ -300,7 +300,7 @@ def crawl(quickvar=0):
         break
 
     #Report dungeon
-    elif crawlmen==cfg.report:
+    elif crawlmen==w.cfg.report:
       rc=-1
       print "Report dungeon? (y/[n])"
       print "This will add the current floor to the ./logs/report file"
@@ -312,9 +312,9 @@ def crawl(quickvar=0):
         raw_input("Dungeon saved in log file")
 
     #If the player health is EL0, game over
-    if hero.hp2<=0:
-      hero.bury()
-      raw_input(cfg.gomsg)
+    if w.hero.hp2<=0:
+      w.hero.bury()
+      raw_input(w.cfg.gomsg)
       break
 
 def scroll(lines):
