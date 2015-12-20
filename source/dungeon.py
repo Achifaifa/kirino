@@ -371,10 +371,10 @@ class dungeon:
     y=self.ysize-ymapsize if y+ymapsize>=self.ysize else 0 if y<=0 else y
 
     # Assigning
-    mapstring=[i[x:x+xmapsize] for i in self.dungarray[y:y+ymapsize]]
+    mapstring=[i[x:x+xmapsize] for i in self.filled[y:y+ymapsize]]
     
     #Print loop
-    for i in mapstring: print ''.join(map(str,i))
+    for i in mapstring: print ''.join(i)
 
   def minimap(self,player,fog):
     """
@@ -449,9 +449,6 @@ class dungeon:
     Does not return anything, but modifies the filled array
     if the parameter fog is 1 (Defaults to 0), it displays a fogged minimap. 
     """
-
-    #Initialize filled array with fog
-    self.filled=[["~" for i in range(self.xsize)] for i in range(self.ysize)]
 
     #Calculate how many tiles the player is allowed to see
     totper=player.PER+player.perboost   

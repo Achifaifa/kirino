@@ -179,7 +179,6 @@ def crawl(quickvar=0):
 
     #Print header and map
     common.version()
-    w.dung.fill(w.hero,w.cfg.fog)
     w.dung.minimap(w.hero,w.cfg.fog)
     menus.printpldata(w,gl)
 
