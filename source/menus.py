@@ -12,8 +12,7 @@ def mainmenu():
     common.version()
     print "Main menu\n"
     print "%i.- Play"               %(1)
-    print "%s.- Quick play"         %(2)
-    print "%s.- Options"            %(3)
+    print "%s.- Quick play\n"       %(2)
     print "%s.- Credits"            %(4)
     print "%s.- Help"               %(9)
     print "%s.- Exit\n->"           %(0)
@@ -21,7 +20,6 @@ def mainmenu():
     if menu in ["1","2"]: 
       launch.setup(int(menu)-1)
       launch.crawl()
-    if menu=="3": options(0)
     if menu=="4": scroll(15)
     if menu=="9": help()
     if menu=="0":

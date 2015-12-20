@@ -9,7 +9,7 @@ import copy, os, random, sys, time
 import dungeon, item, mob, menus, npc, parser, player
 import common, config, help, test
 
-class gl():
+class gl:
   """
   Class that stores global variables
   """
@@ -26,7 +26,7 @@ class gl():
   tempequiparr=[]
   xsize=ysize=0
 
-class w():
+class w:
   """
   Class that stores the current state of the world
   """
