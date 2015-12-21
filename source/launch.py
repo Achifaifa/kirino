@@ -211,7 +211,7 @@ def crawl(quickvar=0):
       common.getch()
 
     #Character sheet menu
-    elif crawlmen==w.cfg.charsh: w.hero.charsheet()
+    elif crawlmen==w.cfg.charsh: menus.charsheet(w.hero)
 
     #Show key help
     elif (crawlmen==w.cfg.showkeys or action==61): help.keyhelp() 
