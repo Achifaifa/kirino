@@ -332,7 +332,7 @@ class TestPlayer(unittest.TestCase):
     tp=player.player()
     ans=tp.hunger()
     tp.hp2=1
-    self.assertIsNone(ans)
+    self.assertEqual(ans,"")
     self.assertEqual(tp.stomach, 100)
     self.assertEqual(tp.hp2, 1)
 
