@@ -1,7 +1,10 @@
 #! /usr/bin/env python
 
+import os, sys
 import common, config, dungeon, launch, player
-
+sys.path.append(os.path.abspath("../data/"))
+import playerd
+from playerd.races import stats
 def mainmenu():
   """
   Main menu function. Loads the configuration file and enters the menu loop.
@@ -350,8 +353,6 @@ def newgame(quick=0):
     perarray=[]
     conarray=[]
     chaarray=[]
-    sys.path.insert(0, "../data/player")
-    from races import stats
     for race in stats: racesarray.append(race)
     
     selected=0
@@ -381,8 +382,7 @@ def newgame(quick=0):
         if np==cfg.west: selected+=1
         if np==cfg.east: selected-=1
     
-    with open("../data/player/classes","r") as file:
-      classesarray=[i.rstrip() for i in file]
+    classesarray=playerd.classes.classes
     selected=0
     
     while 1:
