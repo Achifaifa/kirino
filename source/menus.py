@@ -420,7 +420,7 @@ def charsheet(self):
       if self.lv>1:  print "%i/%i xp, %i points"  %(self.exp,3*self.lv+(2*(self.lv-1)),self.points)
       print "%i floors explored"                  %(self.totalfl)
       print "Stomach is %i%% full\n"              %(self.stomach)
-      self.getatr()
+      playerattrs(self)
       print "\n1.- Spend points"
       print "2.- Inventory"
       print "3.- Character options"
